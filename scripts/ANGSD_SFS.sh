@@ -2,6 +2,10 @@
 
 set -e
 set -u
+
+# load utils functions
+source utils.sh
+
 #Defaults
 DO_SAF=2
 UNIQUE_ONLY=1
@@ -31,6 +35,12 @@ N_IND=`wc -l < ${TAXON_LIST}`
 #   each individual has two chromosomes. The individual inbreeding coefficents
 #   take care of the mismatch between these two numbers
 N_CHROM=`expr 2 \* ${N_IND}`
+
+# if directories don't exist, create them 
+if [! check_directory ./results ]; then
+    bash init.sh
+fi
+
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
 ${ANGSD_DIR}/angsd \
