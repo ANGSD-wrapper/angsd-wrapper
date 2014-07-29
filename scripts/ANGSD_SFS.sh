@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+set -u
 #Defaults
 DO_SAF=2
 UNIQUE_ONLY=1
@@ -11,8 +13,6 @@ MIN_MAPQ=30
 N_CORES=32
 DO_MAJORMINOR=1
 DO_MAF=1
-TAXON_LIST=data/${TAXON}_samples.txt
-TAXON_INBREEDING=data/${TAXON}_F.txt
 REGIONS="1:"
 
 # load variables from supplied config file
@@ -24,6 +24,8 @@ source $1
 #   ( wc -l < FILE will return just the line count of FILE,
 #   rather than the line count and the filename. More efficient than piping
 #   to a separate 'cut' process!)
+TAXON_LIST=data/${TAXON}_samples.txt
+TAXON_INBREEDING=data/${TAXON}_F.txt
 N_IND=`wc -l < ${TAXON_LIST}`
 #   For ANGSD, the actual sample size is twice the number of individuals, since
 #   each individual has two chromosomes. The individual inbreeding coefficents
@@ -33,7 +35,7 @@ N_CHROM=`expr 2 \* ${N_IND}`
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
 ${ANGSD_DIR}/angsd \
     -bam ${TAXON_LIST}\
-    -out ${TAXON}_SFSOut\
+    -out results/${TAXON}_SFSOut\
     -indF ${TAXON_INBREEDING}\
     -doSaf ${DO_SAF}\
     -uniqueOnly ${UNIQUE_ONLY}\
@@ -51,7 +53,7 @@ ${ANGSD_DIR}/angsd \
     -r ${REGIONS}
 
 ${ANGSD_DIR}/misc/emOptim2\
-    ${TAXON}_SFSOut.saf\
+    results/${TAXON}_SFSOut.saf\
     ${N_CHROM}\
     -P ${N_CORES}\
-    > ${TAXON}_DerivedSFS
+    > results/${TAXON}_DerivedSFS
