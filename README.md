@@ -12,6 +12,11 @@ Table of Contents:
 ##1. <a name="overview"></a>Overview
 The scripts contained in this directory have been created to make the ANGSD workflow easier to use. It contains scripts from the [Ross-Ibarra](https://github.com/rossibarra/angsbigd) and [Morrell](https://github.com/MorrellLAB/angsbigd) labs. 
 
+[ANGSD](https://github.com/ANGSD/angsd) is included in this repository as a [git subtree](https://hpc.uni.lu/blog/2014/understanding-git-subtree/). This allows the repository to keep up with the latest changes to ANGSD, and ensures a consistent version of ANGSD. If you need to pull the latest changes to angsd, use the following git command:
+
+    git subtree pull --prefix=angsd --squash angsd master
+ 
+
 
 ##2. <a name="config"></a>Configuration file guide
 ###Config syntax 
