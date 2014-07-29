@@ -21,7 +21,7 @@ The scripts contained in this directory have been created to make the ANGSD work
 
     git subtree pull --prefix=angsd --squash angsd master
 
-
+Note, you will have to run `make` in the angsd directory to make the executables. 
 
 ##2. <a name="config"></a>Configuration file guide
 ###Config syntax 
