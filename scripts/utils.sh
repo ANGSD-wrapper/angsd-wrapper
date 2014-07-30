@@ -19,3 +19,9 @@ check_directory() {
     echo $1"  does not exist!"
   fi
 }
+
+load_config() {
+
+  source $1
+
+}

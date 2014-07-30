@@ -20,7 +20,7 @@ DO_MAF=1
 REGIONS="1:"
 
 # load variables from supplied config file
-source $1
+load_config $1
 
 # Variables created from transforming other variables
 #   The number of individuals in the taxon we are analyzing
