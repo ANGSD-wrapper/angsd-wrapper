@@ -17,6 +17,7 @@ MIN_MAPQ=30
 N_CORES=32
 DO_MAJORMINOR=1
 DO_MAF=1
+DO_THETAS=1
 REGIONS="1:"
 NO_OVERRIDE=0
 
@@ -45,28 +46,34 @@ else
     bash ./scripts/init.sh; 
 fi
 
-#   Now we actually run the command, this creates a binary file that contains the prior SFS
-${ANGSD_DIR}/angsd \
-    -bam ${TAXON_LIST}\
-    -out results/${TAXON}_SFSOut\
-    -indF ${TAXON_INBREEDING}\
-    -doSaf ${DO_SAF}\
-    -uniqueOnly ${UNIQUE_ONLY}\
-    -anc ${ANC_SEQ}\
-    -minMapQ ${MIN_MAPQ}\
-    -minQ ${MIN_BASEQUAL}\
-    -nInd ${N_IND}\
-    -minInd ${MIN_IND}\
-    -baq ${BAQ}\
-    -ref ${REF_SEQ}\
-    -GL ${GT_LIKELIHOOD}\
-    -P ${N_CORES}\
-    -doMajorMinor $DO_MAJORMINOR\
-    -doMaf $DO_MAF\
-    -r ${REGIONS}
 
-${ANGSD_DIR}/misc/emOptim2\
-    results/${TAXON}_SFSOut.saf\
-    ${N_CHROM}\
-    -P ${N_CORES}\
-    > results/${TAXON}_DerivedSFS
+if file_exists "${TAXON}_Diversity" && NO_OVERRIDE; then 
+    echo "saf already exists and NO_OVERRIDE=0, skipping angsd -bam...";
+else
+    #   Now we actually run the command, this creates a binary file that contains the prior SFS
+    ${ANGSD_DIR}/angsd \
+        -bam ${TAXON_LIST}\
+        -out results/${TAXON}_Diversity\
+        -indF ${TAXON_INBREEDING}\
+        -doSaf ${DO_SAF}\
+        -doThetas ${DO_THETAS}\
+        -uniqueOnly ${UNIQUE_ONLY}\
+        -anc ${ANC_SEQ}\
+        -minMapQ ${MIN_MAPQ}\
+        -minQ ${MIN_BASEQUAL}\
+        -nInd ${N_IND}\
+        -minInd ${MIN_IND}\
+        -baq ${BAQ}\
+        -ref ${REF_SEQ}\
+        -GL ${GT_LIKELIHOOD}\
+        -P ${N_CORES}\
+        -doMajorMinor $DO_MAJORMINOR\
+        -doMaf $DO_MAF\
+        -pest ${PEST}\
+        -r ${REGIONS}
+fi
+
+
+${ANGSD_DIR}/misc/thetaStat make_bed\
+    results/${TAXON}_Diversity.thetas.gz\
+    results/${TAXON}_Tajimas

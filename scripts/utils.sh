@@ -1,4 +1,4 @@
-check_file() {
+file_exists() {
   if [[ -f "$1" ]]
   then
     return 0
@@ -9,7 +9,7 @@ check_file() {
   fi
 }
 
-check_directory() {
+directory_exists() {
   if [[ -d "$1" ]]
   then
     return 0
