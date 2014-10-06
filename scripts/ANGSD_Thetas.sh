@@ -19,7 +19,7 @@ DO_MAJORMINOR=1
 DO_MAF=1
 DO_THETAS=1
 REGIONS="1:"
-NO_OVERRIDE=0
+OVERRIDE=false
 
 # load variables from supplied config file
 load_config $1
@@ -47,8 +47,8 @@ else
 fi
 
 
-if file_exists "${TAXON}_Diversity" && NO_OVERRIDE; then 
-    echo "saf already exists and NO_OVERRIDE=0, skipping angsd -bam...";
+if file_exists "./results/${TAXON}_Diversity.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
+    echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     #   Now we actually run the command, this creates a binary file that contains the prior SFS
     ${ANGSD_DIR}/angsd \
