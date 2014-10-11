@@ -12,7 +12,9 @@ Table of Contents:
 
 ##0. <a name="usage"></a>Usage
 
-    $ bash scripts/ANGSD_SFS.sh scripts/example.conf
+    $ bash scripts/ANGSD_SFS.sh scripts/SFS_example.conf
+
+Scripts should be invoked with `bash` and executed from the toplevel directory so the paths are correct. 
 
 ##1. <a name="overview"></a>Overview
 The scripts contained in this directory have been created to make the ANGSD workflow easier to use. It contains scripts from the [Ross-Ibarra](https://github.com/rossibarra/angsbigd) and [Morrell](https://github.com/MorrellLAB/angsbigd) labs. 
