@@ -50,6 +50,9 @@ These variables can be included and will override the default values.
 - `DO_MAJORMINOR` estimate major/minor alleles (default=1)
 - `DO_MAF` calculate per site frequencies (default=1)
 - `REGIONS` chromosome and region to use (default="1:")
-
+- `OVERRIDE` this variable will redo analyses. Set to `false` if you want to skip 
+- `SLIDING_WINDOW` this variable, when set to `true` will enable sliding window analysis
+- `WIN` window size for sliding window analysis
+- `STEP` step size for sliding window analysis
 ##3. <a name="angsd"></a>ANGSD guide
 Coming soon!

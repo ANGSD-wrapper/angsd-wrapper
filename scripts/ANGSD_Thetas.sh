@@ -20,6 +20,9 @@ DO_MAF=1
 DO_THETAS=1
 REGIONS="1:"
 OVERRIDE=false
+SLIDING_WINDOW=false
+WIN=50000
+STEP=10000
 
 # load variables from supplied config file
 load_config $1
@@ -78,7 +81,14 @@ ${ANGSD_DIR}/misc/thetaStat make_bed\
     results/${TAXON}_Diversity.thetas.gz
 #    results/${TAXON}_Tajimas
 
-${ANGSD_DIR}/misc/thetaStat do_stat\
-    results/${TAXON}_Diversity.thetas.gz\
-    -nChr ${N_CHROM}
-
+if [ "$SLIDING_WINDOW" = "false" ]; then
+    ${ANGSD_DIR}/misc/thetaStat do_stat\
+        results/${TAXON}_Diversity.thetas.gz\
+        -nChr ${N_CHROM}
+else
+    ${ANGSD_DIR}/misc/thetaStat do_stat\
+        results/${TAXON}_Diversity.thetas.gz\
+        -nChr ${N_CHROM}\
+        -win ${WIN}\
+        -step ${STEP}
+fi
