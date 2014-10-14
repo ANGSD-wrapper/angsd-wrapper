@@ -75,5 +75,10 @@ fi
 
 
 ${ANGSD_DIR}/misc/thetaStat make_bed\
+    results/${TAXON}_Diversity.thetas.gz
+#    results/${TAXON}_Tajimas
+
+${ANGSD_DIR}/misc/thetaStat do_stat\
     results/${TAXON}_Diversity.thetas.gz\
-    results/${TAXON}_Tajimas
+    -nChr ${N_CHROM}
+
