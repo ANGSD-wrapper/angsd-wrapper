@@ -54,7 +54,29 @@ if file_exists "./results/${TAXON}_Diversity.mafs.gz" && [ "$OVERRIDE" = "false"
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     #   Now we actually run the command, this creates a binary file that contains the prior SFS
-    ${ANGSD_DIR}/angsd \
+    if [[ ${REGIONS} == */* ]]; then #if regions contains a / (is a path) then it's probably a region file. Therefore, use -rf
+	${ANGSD_DIR}/angsd \
+        -bam ${TAXON_LIST}\
+        -out results/${TAXON}_Diversity\
+        -indF ${TAXON_INBREEDING}\
+        -doSaf ${DO_SAF}\
+        -doThetas ${DO_THETAS}\
+        -uniqueOnly ${UNIQUE_ONLY}\
+        -anc ${ANC_SEQ}\
+        -minMapQ ${MIN_MAPQ}\
+        -minQ ${MIN_BASEQUAL}\
+        -nInd ${N_IND}\
+        -minInd ${MIN_IND}\
+        -baq ${BAQ}\
+        -ref ${REF_SEQ}\
+        -GL ${GT_LIKELIHOOD}\
+        -P ${N_CORES}\
+        -doMajorMinor $DO_MAJORMINOR\
+        -doMaf $DO_MAF\
+        -pest ${PEST}\
+        -rf ${REGIONS}
+    else
+        ${ANGSD_DIR}/angsd \
         -bam ${TAXON_LIST}\
         -out results/${TAXON}_Diversity\
         -indF ${TAXON_INBREEDING}\
@@ -74,6 +96,7 @@ else
         -doMaf $DO_MAF\
         -pest ${PEST}\
         -r ${REGIONS}
+    fi
 fi
 
 
