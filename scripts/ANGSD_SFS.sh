@@ -65,7 +65,7 @@ ${ANGSD_DIR}/angsd \
     -doMaf $DO_MAF\
     -r ${REGIONS}
 
-${ANGSD_DIR}/misc/emOptim2\
+${ANGSD_DIR}/misc/realSFS\
     results/${TAXON}_SFSOut.saf\
     ${N_CHROM}\
     -P ${N_CORES}\
