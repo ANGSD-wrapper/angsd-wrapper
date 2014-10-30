@@ -3,6 +3,9 @@
 
 Wrapper scripts and documentation to make angsd more usable
 
+*Updated documentation added in wiki.*
+
+
 Table of Contents:
 
 0. [Usage](#usage)
