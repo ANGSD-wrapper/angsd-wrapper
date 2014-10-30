@@ -1,0 +1,3 @@
+[submodule "ngsPopGen"]
+	path = ngsPopGen
+	url = https://github.com/mfumagalli/ngsPopGen
