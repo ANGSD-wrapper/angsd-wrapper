@@ -1,6 +1,5 @@
 library(shiny)
 
-# Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
   # Application title
@@ -15,15 +14,18 @@ shinyUI(fluidPage(
 #                                         "tH" = 3,
 #                                         "tL" = 4),
 #                          selected = 1)
+      
       selectInput("thetaChoice",
                   label = h6("Choose estimator of theta to graph"), 
                   choices = c("tW", "tP", "tH", "tL"),
                   selected = "tW"
-                  )
+                  ),
+      fileInput('userThetas',
+                label= h6('Choose thetas File')
+      )
       ),
     
-    
-    # Show a plot of the generated distribution
+    # Show a plot of the thetas
       mainPanel(
         plotOutput("thetaPlot")
       )
