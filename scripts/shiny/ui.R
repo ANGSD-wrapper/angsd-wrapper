@@ -15,14 +15,19 @@ shinyUI(fluidPage(
 #                                         "tL" = 4),
 #                          selected = 1)
       
-      selectInput("thetaChoice",
-                  label = h6("Choose estimator of theta to graph"), 
-                  choices = c("tW", "tP", "tH", "tL"),
-                  selected = "tW"
-                  ),
-      fileInput('userThetas',
-                label= h6('Choose thetas File')
-      )
+
+        fileInput('userThetas',
+                  label= 'Choose thetas File'
+        ),
+        
+        selectInput("thetaChoice",
+                    label = "Choose estimator of theta to graph", 
+                    choices = c("tW", "tP", "tH", "tL"),
+                    selected = "tW"
+        ),
+        checkboxInput("subset","Subset data?", value=FALSE),
+        numericInput("WinCenterLow", "Base Start Position", value=0),
+        numericInput("WinCenterHigh", "Base End Position", value=10000)
       ),
     
     # Show a plot of the thetas
