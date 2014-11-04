@@ -3,36 +3,32 @@ library(shiny)
 shinyUI(fluidPage(
   
   # Application title
-  titlePanel("angsd-wrapper theta graph"),
+  titlePanel("angsd-wrapper graph"),
 
   sidebarLayout(
     sidebarPanel(
-#       checkboxGroupInput("thetaChoice", 
-#                          label = h3("Choose estimators of theta to graph"), 
-#                          choices = list("tW" = 1, 
-#                                         "tP" = 2,
-#                                         "tH" = 3,
-#                                         "tL" = 4),
-#                          selected = 1)
-      
-
         fileInput('userThetas',
                   label= 'Choose thetas File'
         ),
         
         selectInput("thetaChoice",
                     label = "Choose estimator of theta to graph", 
-                    choices = c("tW", "tP", "tH", "tL"),
-                    selected = "tW"
+                    choices = c("Watterson's Theta", "Pairwise Theta", "Fu and Li's Theta", "Fay's Theta", "Maximum likelihood (L) Theta"),
+                    selected = "Watterson's Theta"
+        ),
+        selectInput("selectionChoice",
+                    label = "Choose a neutrality test statistic to graph", 
+                    choices = c("Tajima's D", "Fi and Li's D", "Fu and Li's F", "Fay and Wu's H", "Zeng's E"),
+                    selected = "Tajima's D"
         ),
         checkboxInput("subset","Subset data?", value=FALSE),
         numericInput("WinCenterLow", "Base Start Position", value=0),
         numericInput("WinCenterHigh", "Base End Position", value=10000)
       ),
-    
     # Show a plot of the thetas
       mainPanel(
-        plotOutput("thetaPlot")
+        plotOutput("thetaPlot"),
+        plotOutput("selectionPlot")
       )
     )
   )
