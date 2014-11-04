@@ -21,9 +21,15 @@ shinyUI(fluidPage(
                     choices = c("Tajima's D", "Fi and Li's D", "Fu and Li's F", "Fay and Wu's H", "Zeng's E"),
                     selected = "Tajima's D"
         ),
+        hr(),
         checkboxInput("subset","Subset data?", value=FALSE),
         numericInput("WinCenterLow", "Base Start Position", value=0),
-        numericInput("WinCenterHigh", "Base End Position", value=10000)
+        numericInput("WinCenterHigh", "Base End Position", value=10000),
+        hr(),
+        checkboxInput("annotations","GFF annotations?", value=FALSE),
+        fileInput('userAnnotations',
+                  label= 'Choose GFF File'
+        )
       ),
     # Show a plot of the thetas
       mainPanel(

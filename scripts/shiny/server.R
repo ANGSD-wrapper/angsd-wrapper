@@ -1,6 +1,13 @@
 library(shiny)
-library(ggplot2)
-thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG", sep="\t", col.names=c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites"))
+library(genomeIntervals)
+thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
+
+not.loaded <- TRUE
+# thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG",
+#                      sep="\t", 
+#                      col.names=thetas.headers
+#                      )
+#gff <- readGff3("Zea_mays.AGPv3.23.chromosome.10.gff3.gz")
 
 # Define server logic required to draw a histogram
 shinyServer(
@@ -9,25 +16,53 @@ shinyServer(
   dataInput = reactive({
     data <- input$userThetas
     path <- as.character(data$datapath)
-    thetas <- read.table(file=path, sep="\t", col.names=c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites"))
+    thetas <- read.table(file=path, 
+                         sep="\t", 
+                         col.names=thetas.headers
+                         )
     return(thetas)
+  })
+  
+  gffInput = reactive({
+    data <- input$userAnnotations
+    path <- as.character(data$datapath)
+    gff <- readGff3(path)
+    
+    return(gff)
+    
   })
     
   output$thetaPlot <- renderPlot({
     # error handling code to provide a default dataset to graph
     thetas <- tryCatch({
-      dataInput()
-    }, error = function(err) {
-      thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG", sep="\t", col.names=c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites"))
-    }
+        dataInput()
+      }, error = function(err) {
+        thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG", 
+                             sep="\t", 
+                             col.names=thetas.headers
+                             )
+      }
       )
+    if(input$annotations){
+      gff <- tryCatch({
+        gffInput()
+      }, error = function(err) {
+        gff <- readGff3("Zea_mays.AGPv3.23.chromosome.10.gff3.gz")
+      }
+      )
+      gff.gene <- subset(gff, type="gene")
+    }
 
     if(input$subset) {
       thetas.plot <- subset(thetas, WinCenter > input$WinCenterLow & WinCenter < input$WinCenterHigh)
-    }
-    else {
-      thetas.plot <- thetas
-    }
+      }
+      else {
+        thetas.plot <- thetas
+      }
+    
+#     if(input$annotations) {
+#       gff.plot <- subset(gff.gene, gff.gene[,1] > input$WinCenterLow & gff.gene[,1] < input$WinCenterHigh)
+#     }
     
     data <- switch(input$thetaChoice,
                    "Watterson's Theta" = thetas.plot$tW,
@@ -36,16 +71,35 @@ shinyServer(
                    "Fay's Theta" = thetas.plot$tH,
                    "Maximum likelihood (L) Theta" = thetas.plot$tL
     )
-    plot(thetas.plot$WinCenter, data, t="l", xlab="Position (bp)", ylab=paste(input$thetaChoice,"Estimator Value"), main=paste("Estimators of theta along chromosome", thetas$Chr[1]))
+    if(input$annotations) {
+      plot(thetas.plot$WinCenter, 
+           data, t="l", 
+           xlab="Position (bp)", 
+           ylab=paste(input$thetaChoice,"Estimator Value"), 
+           main=paste("Estimators of theta along chromosome", thetas$Chr[1]),
+           panel.first=rect(gff.gene[,1], -1e6, gff.gene[,2], 1e6, col=rgb(0,1,0,0.1), border=NA)
+           )
+    }
+    else {
+      plot(thetas.plot$WinCenter, 
+           data, t="l", 
+           xlab="Position (bp)", 
+           ylab=paste(input$thetaChoice,"Estimator Value"), 
+           main=paste("Estimators of theta along chromosome", thetas$Chr[1])
+      )
+    }
   })
   
   output$selectionPlot <- renderPlot({
     # error handling code to provide a default dataset to graph
     thetas <- tryCatch({
-      dataInput()
-    }, error = function(err) {
-      thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG", sep="\t", col.names=c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites"))
-    }
+        dataInput()
+      }, error = function(err) {
+        thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG", 
+                             sep="\t", 
+                             col.names=thetas.headers
+                             )
+      }
     )
     
     if(input$subset) {
@@ -63,6 +117,11 @@ shinyServer(
                    "Zeng's E" = thetas.plot$zengE
     )
     
-    plot(thetas.plot$WinCenter, data, t="l", xlab="Position (bp)", ylab=input$selectionChoice, main=paste("Neutrality test statistics along chromosome", thetas$Chr[1]))
+    plot(thetas.plot$WinCenter, 
+         data, t="l", 
+         xlab="Position (bp)", 
+         ylab=input$selectionChoice, 
+         main=paste("Neutrality test statistics along chromosome", thetas$Chr[1])
+         )
   })
 })
