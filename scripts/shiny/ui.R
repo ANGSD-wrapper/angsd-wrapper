@@ -8,7 +8,7 @@ shinyUI(fluidPage(
   sidebarLayout(
     sidebarPanel(
         fileInput('userThetas',
-                  label= 'Choose thetas File'
+                  label= 'Choose Thetas File'
         ),
         
         selectInput("thetaChoice",
@@ -22,9 +22,9 @@ shinyUI(fluidPage(
                     selected = "Tajima's D"
         ),
         hr(),
-        checkboxInput("subset","Subset data?", value=FALSE),
         numericInput("WinCenterLow", "Base Start Position", value=0),
         numericInput("WinCenterHigh", "Base End Position", value=10000),
+        checkboxInput("subset","Toggle subset data", value=FALSE),
         hr(),
         fileInput('userAnnotations',
                   label= 'Choose GFF File'
