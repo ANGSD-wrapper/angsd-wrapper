@@ -26,10 +26,10 @@ shinyUI(fluidPage(
         numericInput("WinCenterLow", "Base Start Position", value=0),
         numericInput("WinCenterHigh", "Base End Position", value=10000),
         hr(),
-        checkboxInput("annotations","GFF annotations?", value=FALSE),
         fileInput('userAnnotations',
                   label= 'Choose GFF File'
-        )
+        ),
+        checkboxInput("annotations","Toggle GFF annotations", value=FALSE)
       ),
     # Show a plot of the thetas
       mainPanel(
