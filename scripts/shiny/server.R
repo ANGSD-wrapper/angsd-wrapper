@@ -1,5 +1,6 @@
 library(shiny)
 library(genomeIntervals)
+options(shiny.maxRequestSize = -1)
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
 
 not.loaded <- TRUE
@@ -44,12 +45,15 @@ shinyServer(
       }
       )
     if(input$annotations){
-      gff <- tryCatch({
-        gffInput()
-      }, error = function(err) {
-        gff <- readGff3("Zea_mays.AGPv3.23.chromosome.10.gff3.gz")
-      }
-      )
+      validate(need(input$userAnnotations, 'Need GFF file before clicking checkbox!'))
+      gff <- gffInput()
+#       tryCatch({
+#         gffInput()
+#       }, error = function(err) {
+#         #gff <- readGff3("Zea_mays.AGPv3.23.chromosome.10.gff3.gz")
+#         print("Need to provide a GFF file!")
+#       }
+#       )
       gff.gene <- subset(gff, type="gene")
     }
 
