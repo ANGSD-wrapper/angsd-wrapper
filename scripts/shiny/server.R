@@ -83,7 +83,7 @@ shinyServer(
            main=paste("Estimators of theta along chromosome", thetas$Chr[1])#,
            #panel.first=rect(gff.gene[,1], -1e6, gff.gene[,2], 1e6, col=rgb(0,1,0,0.1), border=NA)
            )
-      rug(rect(gff.gene[,1], -1e2, gff.gene[,2], 0, col=rgb(0,1,0,0.2), border=NA))
+      rug(rect(gff.gene[,1], -1e2, gff.gene[,2], 0, col=rgb(0.18,0.55,0.8,0.3), border=NA))
     }
     else {
       plot(thetas.plot$WinCenter, 
