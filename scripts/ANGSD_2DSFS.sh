@@ -62,7 +62,7 @@ fi
 
 ${ANGSD_DIR}/misc/realSFS\
     results/${TAXON1}_Intergenic.saf\
-    ${N_CHROM1}
+    ${N_CHROM1}\
     -P ${N_CORES}\
     > results/${TAXON1}_Intergenic.sfs 
 
@@ -93,7 +93,7 @@ fi
 
 ${ANGSD_DIR}/misc/realSFS\
     results/${TAXON2}_Intergenic.saf\
-    ${N_CHROM2}
+    ${N_CHROM2}\
     -P ${N_CORES}\
     > results/${TAXON2}_Intergenic.sfs
 
