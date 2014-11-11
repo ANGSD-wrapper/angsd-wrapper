@@ -18,7 +18,7 @@ N_CORES=32
 DO_MAJORMINOR=1
 DO_MAF=1
 REGIONS="1:"
-NO_OVERRIDE=0
+OVERRIDE=false
 
 # load variables from supplied config file
 load_config $1
@@ -46,24 +46,49 @@ else
 fi
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
-${ANGSD_DIR}/angsd \
-    -bam ${TAXON_LIST}\
-    -out results/${TAXON}_SFSOut\
-    -indF ${TAXON_INBREEDING}\
-    -doSaf ${DO_SAF}\
-    -uniqueOnly ${UNIQUE_ONLY}\
-    -anc ${ANC_SEQ}\
-    -minMapQ ${MIN_MAPQ}\
-    -minQ ${MIN_BASEQUAL}\
-    -nInd ${N_IND}\
-    -minInd ${MIN_IND}\
-    -baq ${BAQ}\
-    -ref ${REF_SEQ}\
-    -GL ${GT_LIKELIHOOD}\
-    -P ${N_CORES}\
-    -doMajorMinor $DO_MAJORMINOR\
-    -doMaf $DO_MAF\
-    -r ${REGIONS}
+if file_exists "./results/${TAXON}_Diversity.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
+    echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
+else
+    if [[ ${REGIONS} == */* ]]; then
+	${ANGSD_DIR}/angsd \
+        -bam ${TAXON_LIST}\
+        -out results/${TAXON}_SFSOut\
+        -indF ${TAXON_INBREEDING}\
+        -doSaf ${DO_SAF}\
+        -uniqueOnly ${UNIQUE_ONLY}\
+        -anc ${ANC_SEQ}\
+        -minMapQ ${MIN_MAPQ}\
+        -minQ ${MIN_BASEQUAL}\
+        -nInd ${N_IND}\
+        -minInd ${MIN_IND}\
+        -baq ${BAQ}\
+        -ref ${REF_SEQ}\
+        -GL ${GT_LIKELIHOOD}\
+        -P ${N_CORES}\
+        -doMajorMinor $DO_MAJORMINOR\
+        -doMaf $DO_MAF\
+        -rf ${REGIONS}
+    else
+        ${ANGSD_DIR}/angsd \
+        -bam ${TAXON_LIST}\
+        -out results/${TAXON}_SFSOut\
+        -indF ${TAXON_INBREEDING}\
+        -doSaf ${DO_SAF}\
+        -uniqueOnly ${UNIQUE_ONLY}\
+        -anc ${ANC_SEQ}\
+        -minMapQ ${MIN_MAPQ}\
+        -minQ ${MIN_BASEQUAL}\
+        -nInd ${N_IND}\
+        -minInd ${MIN_IND}\
+        -baq ${BAQ}\
+        -ref ${REF_SEQ}\
+        -GL ${GT_LIKELIHOOD}\
+        -P ${N_CORES}\
+        -doMajorMinor $DO_MAJORMINOR\
+        -doMaf $DO_MAF\
+        -r ${REGIONS}
+	fi
+fi
 
 ${ANGSD_DIR}/misc/realSFS\
     results/${TAXON}_SFSOut.saf\
