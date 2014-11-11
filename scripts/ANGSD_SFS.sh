@@ -46,7 +46,7 @@ else
 fi
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
-if file_exists "./results/${TAXON}_Diversity.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
+if file_exists "./results/${TAXON}_SFSOut.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     if [[ ${REGIONS} == */* ]]; then
