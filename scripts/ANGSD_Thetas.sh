@@ -8,7 +8,7 @@ source ./scripts/utils.sh
 
 #Defaults
 DO_SAF=2
-UNIQUE_ONLY=1
+UNIQUE_ONLY=0
 MIN_BASEQUAL=20
 BAQ=1
 MIN_IND=1
