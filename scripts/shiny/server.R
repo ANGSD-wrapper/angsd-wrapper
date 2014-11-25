@@ -55,6 +55,8 @@ shinyServer(
 #       }
 #       )
       gff.gene <- subset(gff, type="gene")
+      gff.df <- data.frame(gff.gene,annotation(gff))
+      gff.df.gene <- subset(gff.df, type=="gene")
     }
 
     if(input$subset) {
@@ -83,7 +85,7 @@ shinyServer(
            main=paste("Estimators of theta along chromosome", thetas$Chr[1])#,
            #panel.first=rect(gff.gene[,1], -1e6, gff.gene[,2], 1e6, col=rgb(0,1,0,0.1), border=NA)
            )
-      rug(rect(gff.gene[,1], -1e2, gff.gene[,2], 0, col=rgb(0.18,0.55,0.8,0.3), border=NA))
+      rug(rect(gff.df.gene$X1, -1e2, gff.df.gene$X2, 0, col=rgb(0.18,0.55,0.8,0.75), border=NA))
     }
     else {
       plot(thetas.plot$WinCenter, 
