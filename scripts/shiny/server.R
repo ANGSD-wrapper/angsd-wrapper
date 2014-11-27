@@ -79,7 +79,7 @@ shinyServer(
     )
     if(input$annotations) {
       plot(thetas.plot$WinCenter, 
-           data, t="p", col=rgb(0,0,0,0.5), 
+           data, t="p", pch=19,col=rgb(0,0,0,0.5), 
            xlab="Position (bp)", 
            ylab=paste(input$thetaChoice,"Estimator Value"), 
            main=paste("Estimators of theta along chromosome", thetas$Chr[1])#,
@@ -89,7 +89,7 @@ shinyServer(
     }
     else {
       plot(thetas.plot$WinCenter, 
-           data, t="p", col=rgb(0,0,0,0.5),
+           data, t="p", pch=19,col=rgb(0,0,0,0.5),
            xlab="Position (bp)", 
            ylab=paste(input$thetaChoice,"Estimator Value"), 
            main=paste("Estimators of theta along chromosome", thetas$Chr[1])
@@ -125,7 +125,7 @@ shinyServer(
     )
     
     plot(thetas.plot$WinCenter, 
-         data, t="p", col=rgb(0,0,0,0.5), 
+         data, t="p", pch=19,col=rgb(0,0,0,0.5), 
          xlab="Position (bp)", 
          ylab=input$selectionChoice, 
          main=paste("Neutrality test statistics along chromosome", thetas$Chr[1])
