@@ -81,6 +81,7 @@ shinyServer(
            main=paste("Estimators of theta along chromosome", thetas$Chr[1])
       )
       rug(rect(gff.df.gene$X1, -1e2, gff.df.gene$X2, 0, col=rgb(0.18,0.55,0.8,0.75), border=NA))
+      if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
     }
     else {
       plot(thetas.plot$WinCenter, 
@@ -89,6 +90,7 @@ shinyServer(
            ylab=paste(input$thetaChoice,"Estimator Value"), 
            main=paste("Estimators of theta along chromosome", thetas$Chr[1])
       )
+      if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
     }
   })
   
@@ -125,5 +127,6 @@ shinyServer(
          ylab=input$selectionChoice, 
          main=paste("Neutrality test statistics along chromosome", thetas$Chr[1])
          )
+    if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
   })
 })

@@ -22,9 +22,13 @@ shinyUI(fluidPage(
                     selected = "Tajima's D"
         ),
         hr(),
+        checkboxInput("thetaLowess","Theta Lowess", value=FALSE),
+        checkboxInput("selectionLowess","Neutrality Test Statistic Lowess", value=FALSE),
+        hr(),
         numericInput("WinCenterLow", "Base Start Position", value=0),
         numericInput("WinCenterHigh", "Base End Position", value=10000),
         checkboxInput("subset","Toggle subset data", value=FALSE),
+        
         hr(),
         fileInput('userAnnotations',
                   label= 'Choose GFF File'
