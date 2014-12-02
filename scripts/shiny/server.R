@@ -4,14 +4,11 @@ options(shiny.maxRequestSize = -1)
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
 
 not.loaded <- TRUE
-# thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG",
-#                      sep="\t", 
-#                      col.names=thetas.headers
-#                      )
-#gff <- readGff3("Zea_mays.AGPv3.23.chromosome.10.gff3.gz")
 
 # Define server logic required to draw a histogram
 shinyServer(
+  
+  
   function(input, output) {
   
   dataInput = reactive({
@@ -40,20 +37,12 @@ shinyServer(
       }, error = function(err) {
         thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG", 
                              sep="\t", 
-                             col.names=thetas.headers
-                             )
+                             col.names=thetas.headers)
       }
       )
     if(input$annotations){
       validate(need(input$userAnnotations, 'Need GFF file before clicking checkbox!'))
       gff <- gffInput()
-#       tryCatch({
-#         gffInput()
-#       }, error = function(err) {
-#         #gff <- readGff3("Zea_mays.AGPv3.23.chromosome.10.gff3.gz")
-#         print("Need to provide a GFF file!")
-#       }
-#       )
       gff.gene <- subset(gff, type="gene")
       gff.df <- data.frame(gff.gene,annotation(gff))
       gff.df.gene <- subset(gff.df, type=="gene")
@@ -66,9 +55,16 @@ shinyServer(
         thetas.plot <- thetas
       }
     
-#     if(input$annotations) {
-#       gff.plot <- subset(gff.gene, gff.gene[,1] > input$WinCenterLow & gff.gene[,1] < input$WinCenterHigh)
-#     }
+    # remove nsites=0
+    thetas.plot <- subset(thetas.plot, nSites != 0)
+    # remove data points with less than 50 sites. Calculate minimum from data?
+    #thetas.plot <- subset(thetas.plot, nsites > 50) 
+    #divide thetas by the number of sites in each window
+    thetas.plot$tW <- thetas.plot$tW/thetas.plot$nSites
+    thetas.plot$tP <- thetas.plot$tP/thetas.plot$nSites
+    thetas.plot$tF <- thetas.plot$tF/thetas.plot$nSites
+    thetas.plot$tH <- thetas.plot$tH/thetas.plot$nSites
+    thetas.plot$tL <- thetas.plot$tW/thetas.plot$nSites
     
     data <- switch(input$thetaChoice,
                    "Watterson's Theta" = thetas.plot$tW,
@@ -82,14 +78,13 @@ shinyServer(
            data, t="p", pch=19,col=rgb(0,0,0,0.5), 
            xlab="Position (bp)", 
            ylab=paste(input$thetaChoice,"Estimator Value"), 
-           main=paste("Estimators of theta along chromosome", thetas$Chr[1])#,
-           #panel.first=rect(gff.gene[,1], -1e6, gff.gene[,2], 1e6, col=rgb(0,1,0,0.1), border=NA)
-           )
+           main=paste("Estimators of theta along chromosome", thetas$Chr[1])
+      )
       rug(rect(gff.df.gene$X1, -1e2, gff.df.gene$X2, 0, col=rgb(0.18,0.55,0.8,0.75), border=NA))
     }
     else {
       plot(thetas.plot$WinCenter, 
-           data, t="p", pch=19,col=rgb(0,0,0,0.5),
+           data, t="p", pch=19,col=rgb(0,0,0,0.5), 
            xlab="Position (bp)", 
            ylab=paste(input$thetaChoice,"Estimator Value"), 
            main=paste("Estimators of theta along chromosome", thetas$Chr[1])
