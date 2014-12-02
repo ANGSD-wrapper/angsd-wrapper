@@ -113,6 +113,9 @@ shinyServer(
       thetas.plot <- thetas
     }
     
+    # remove nsites=0
+    thetas.plot <- subset(thetas.plot, nSites != 0)
+    
     data <- switch(input$selectionChoice,
                    "Tajima's D" = thetas.plot$Tajima,
                    "Fu and Li's F" = thetas.plot$fuf,
@@ -120,9 +123,6 @@ shinyServer(
                    "Fay and Wu's H" = thetas.plot$fayh,
                    "Zeng's E" = thetas.plot$zengE
     )
-    
-    # remove nsites=0
-    thetas.plot <- subset(thetas.plot, nSites != 0)
     
     plot(thetas.plot$WinCenter, 
          data, t="p", pch=19,col=rgb(0,0,0,0.5), 
