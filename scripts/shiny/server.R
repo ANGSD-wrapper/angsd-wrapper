@@ -121,6 +121,9 @@ shinyServer(
                    "Zeng's E" = thetas.plot$zengE
     )
     
+    # remove nsites=0
+    thetas.plot <- subset(thetas.plot, nSites != 0)
+    
     plot(thetas.plot$WinCenter, 
          data, t="p", pch=19,col=rgb(0,0,0,0.5), 
          xlab="Position (bp)", 
