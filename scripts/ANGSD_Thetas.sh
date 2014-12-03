@@ -3,8 +3,10 @@
 set -e
 set -u
 
+#   source the common config file
+source common.conf
 # load utils functions
-source ./scripts/utils.sh
+source ${SCRIPTS_DIR}/utils.sh
 
 #Defaults
 DO_SAF=2
@@ -18,7 +20,6 @@ N_CORES=32
 DO_MAJORMINOR=1
 DO_MAF=1
 DO_THETAS=1
-REGIONS="1:"
 OVERRIDE=false
 SLIDING_WINDOW=false
 WIN=50000
@@ -33,8 +34,6 @@ load_config $1
 #   ( wc -l < FILE will return just the line count of FILE,
 #   rather than the line count and the filename. More efficient than piping
 #   to a separate 'cut' process!)
-TAXON_LIST=data/${TAXON}_samples.txt
-TAXON_INBREEDING=data/${TAXON}_F.txt
 N_IND=`wc -l < ${TAXON_LIST}`
 #   For ANGSD, the actual sample size is twice the number of individuals, since
 #   each individual has two chromosomes. The individual inbreeding coefficents
@@ -42,22 +41,22 @@ N_IND=`wc -l < ${TAXON_LIST}`
 N_CHROM=`expr 2 \* ${N_IND}`
 
 # if directories don't exist, create them 
-if directory_exists "./results"; then 
+if directory_exists "${RESULTS_DIR}"; then 
     echo "directories exist, skipping init.sh"; 
 else 
     echo "creating directories..."; 
-    bash ./scripts/init.sh; 
+    bash ${SCRIPTS_DIR}/init.sh; 
 fi
 
 
-if file_exists "./results/${TAXON}_Diversity.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
+if file_exists "${RESULTS_DIR}/${TAXON}_Diversity.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     #   Now we actually run the command, this creates a binary file that contains the prior SFS
     if [[ ${REGIONS} == */* ]]; then #if regions contains a / (is a path) then it's probably a region file. Therefore, use -rf
 	${ANGSD_DIR}/angsd \
         -bam ${TAXON_LIST}\
-        -out results/${TAXON}_Diversity\
+        -out ${RESULTS_DIR}/${TAXON}_Diversity\
         -indF ${TAXON_INBREEDING}\
         -doSaf ${DO_SAF}\
         -doThetas ${DO_THETAS}\
@@ -78,7 +77,7 @@ else
     else
         ${ANGSD_DIR}/angsd \
         -bam ${TAXON_LIST}\
-        -out results/${TAXON}_Diversity\
+        -out ${RESULTS_DIR}/${TAXON}_Diversity\
         -indF ${TAXON_INBREEDING}\
         -doSaf ${DO_SAF}\
         -doThetas ${DO_THETAS}\
@@ -101,16 +100,16 @@ fi
 
 
 ${ANGSD_DIR}/misc/thetaStat make_bed\
-    results/${TAXON}_Diversity.thetas.gz
-#    results/${TAXON}_Tajimas
+    ${RESULTS_DIR}/${TAXON}_Diversity.thetas.gz
+#    ${RESULTS_DIR}/${TAXON}_Tajimas
 
 if [ "$SLIDING_WINDOW" = "false" ]; then
     ${ANGSD_DIR}/misc/thetaStat do_stat\
-        results/${TAXON}_Diversity.thetas.gz\
+        ${RESULTS_DIR}/${TAXON}_Diversity.thetas.gz\
         -nChr ${N_CHROM}
 else
     ${ANGSD_DIR}/misc/thetaStat do_stat\
-        results/${TAXON}_Diversity.thetas.gz\
+        ${RESULTS_DIR}/${TAXON}_Diversity.thetas.gz\
         -nChr ${N_CHROM}\
         -win ${WIN}\
         -step ${STEP}
