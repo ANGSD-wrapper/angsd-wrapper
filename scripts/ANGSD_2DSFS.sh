@@ -3,8 +3,10 @@
 set -e
 set -u
 
+#   Source the common configuration file
+source common.conf
 # load utils functions
-source ./scripts/utils.sh
+source ${SCRIPTS_DIR}/utils.sh
 
 #Defaults
 DO_SAF=2
@@ -17,32 +19,24 @@ MIN_MAPQ=30
 N_CORES=32
 DO_MAJORMINOR=1
 DO_MAF=1
-REGIONS="1:"
 OVERRIDE=false
 
 # load variables from supplied config file
 load_config $1
 
 # calculated variables
-TAXON_LIST1=data/${TAXON1}_samples.txt
-TAXON_INBREEDING1=data/${TAXON1}_F.txt
 N_IND1=`wc -l < ${TAXON_LIST1}`
-
 N_CHROM1=`expr 2 \* ${N_IND1}`
-
-TAXON_LIST2=data/${TAXON2}_samples.txt
-TAXON_INBREEDING2=data/${TAXON2}_F.txt
 N_IND2=`wc -l < ${TAXON_LIST2}`
-
 N_CHROM2=`expr 2 \* ${N_IND2}`
 
 # For 1st taxon
-if file_exists "./results/${TAXON1}_Intergenic.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
+if file_exists "${RESULTS_DIR}/${TAXON1}_Intergenic.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     ${ANGSD_DIR}/angsd\
-        -bam {$TAXON_LIST1}\
-        -out results/${TAXON1}_Intergenic\
+        -bam ${TAXON_LIST1}\
+        -out ${RESULTS_DIR}/${TAXON1}_Intergenic\
         -doMajorMinor ${DO_MAJORMINOR}\
         -doMaf ${DO_MAF}\
         -indF ${TAXON_INBREEDING1}\
@@ -61,19 +55,19 @@ else
 fi
 
 ${ANGSD_DIR}/misc/realSFS\
-    results/${TAXON1}_Intergenic.saf\
+    ${RESULTS_DIR}/${TAXON1}_Intergenic.saf\
     ${N_CHROM1}\
     -P ${N_CORES}\
-    > results/${TAXON1}_Intergenic.sfs 
+    > ${RESULTS_DIR}/${TAXON1}_Intergenic.sfs 
 
 # For 2nd taxon:
-if file_exists "./results/${TAXON2}_Intergenic.mafs.gz" && [ "$OVERRIDE" = "fal\
+if file_exists "${RESULTS_DIR}/${TAXON2}_Intergenic.mafs.gz" && [ "$OVERRIDE" = "fal\
 se" ]; then
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     ${ANGSD_DIR}/angsd\
-        -bam {$TAXON_LIST2}\
-        -out results/${TAXON2}_Intergenic\
+        -bam ${TAXON_LIST2}\
+        -out ${RESULTS_DIR}/${TAXON2}_Intergenic\
         -doMajorMinor ${DO_MAJORMINOR}\
         -doMaf ${DO_MAF}\
         -indF ${TAXON_INBREEDING2}\
@@ -92,22 +86,22 @@ else
 fi
 
 ${ANGSD_DIR}/misc/realSFS\
-    results/${TAXON2}_Intergenic.saf\
+    ${RESULTS_DIR}/${TAXON2}_Intergenic.saf\
     ${N_CHROM2}\
     -P ${N_CORES}\
-    > results/${TAXON2}_Intergenic.sfs
+    > ${RESULTS_DIR}/${TAXON2}_Intergenic.sfs
 
 # extract compressed files
-gunzip -k results/${TAXON1}_Intergenic.saf.pos.gz
-gunzip -k results/${TAXON2}_Intergenic.saf.pos.gz
+gunzip -k ${RESULTS_DIR}/${TAXON1}_Intergenic.saf.pos.gz
+gunzip -k ${RESULTS_DIR}/${TAXON2}_Intergenic.saf.pos.gz
 
 # find positions that occur in both taxa with uniq
-cat results/${TAXON1}_Intergenic.saf.pos results/${TAXON2}_Intergenic.saf.pos | sort | uniq -d > results/intersect.${TAXON1}.${TAXON2}_intergenic.txt
+cat ${RESULTS_DIR}/${TAXON1}_Intergenic.saf.pos ${RESULTS_DIR}/${TAXON2}_Intergenic.saf.pos | sort | uniq -d > ${RESULTS_DIR}/intersect.${TAXON1}.${TAXON2}_intergenic.txt
 
 # calculate allele frequencies only on sites in both populations
     ${ANGSD_DIR}/angsd\
-        -bam {$TAXON_LIST1}\
-        -out results/${TAXON1}_Intergenic_Conditioned\
+        -bam ${TAXON_LIST1}\
+        -out ${RESULTS_DIR}/${TAXON1}_Intergenic_Conditioned\
         -doMajorMinor ${DO_MAJORMINOR}\
         -doMaf ${DO_MAF}\
         -indF ${TAXON_INBREEDING1}\
@@ -123,11 +117,11 @@ cat results/${TAXON1}_Intergenic.saf.pos results/${TAXON2}_Intergenic.saf.pos | 
         -GL ${GT_LIKELIHOOD}\
         -P ${N_CORES}\
         -rf ${REGIONS}\
-        -sites results/intersect.${TAXON1}.${TAXON2}_intergenic.txt
+        -sites ${RESULTS_DIR}/intersect.${TAXON1}.${TAXON2}_intergenic.txt
 
     ${ANGSD_DIR}/angsd\
-        -bam {$TAXON_LIST2}\
-        -out results/${TAXON2}_Intergenic_Conditioned\
+        -bam ${TAXON_LIST2}\
+        -out ${RESULTS_DIR}/${TAXON2}_Intergenic_Conditioned\
         -doMajorMinor ${DO_MAJORMINOR}\
         -doMaf ${DO_MAF}\
         -indF ${TAXON_INBREEDING2}\
@@ -143,12 +137,12 @@ cat results/${TAXON1}_Intergenic.saf.pos results/${TAXON2}_Intergenic.saf.pos | 
         -GL ${GT_LIKELIHOOD}\
         -P ${N_CORES}\
         -rf ${REGIONS}\
-        -sites results/intersect.${TAXON1}.${TAXON2}_intergenic.txt
+        -sites ${RESULTS_DIR}/intersect.${TAXON1}.${TAXON2}_intergenic.txt
 
 # estimate joint SFS using realSFS
 ${ANGSD_DIR}/misc/realSFS 2dsfs\
-    results/${TAXON1}_Intergenic_Conditioned.saf results/${TAXON2}_Intergenic_Conditioned.saf\
+    ${RESULTS_DIR}/${TAXON1}_Intergenic_Conditioned.saf ${RESULTS_DIR}/${TAXON2}_Intergenic_Conditioned.saf\
     ${N_IND1}\
     ${N_IND2}\
     -P ${N_CORES}\
-    > results/2DSFS_Intergenic.${TAXON1}.${TAXON2}.sfs
+    > ${RESULTS_DIR}/2DSFS_Intergenic.${TAXON1}.${TAXON2}.sfs
