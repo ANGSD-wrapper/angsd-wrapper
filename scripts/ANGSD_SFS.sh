@@ -1,10 +1,12 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 set -e
 set -u
 
+#   Source the common configuration file
+source common.conf
 # load utils functions
-source ./scripts/utils.sh
+source ${SCRIPTS_DIR}/utils.sh
 
 #Defaults
 DO_SAF=2
@@ -17,7 +19,6 @@ MIN_MAPQ=30
 N_CORES=32
 DO_MAJORMINOR=1
 DO_MAF=1
-REGIONS="1:"
 OVERRIDE=false
 
 # load variables from supplied config file
@@ -29,30 +30,36 @@ load_config $1
 #   ( wc -l < FILE will return just the line count of FILE,
 #   rather than the line count and the filename. More efficient than piping
 #   to a separate 'cut' process!)
-TAXON_LIST=data/${TAXON}_samples.txt
-TAXON_INBREEDING=data/${TAXON}_F.txt
 N_IND=`wc -l < ${TAXON_LIST}`
+#   How many inbreeding coefficients are supplied?
+N_F=`wc -l < ${TAXON_INBREEDING}`
 #   For ANGSD, the actual sample size is twice the number of individuals, since
 #   each individual has two chromosomes. The individual inbreeding coefficents
 #   take care of the mismatch between these two numbers
 N_CHROM=`expr 2 \* ${N_IND}`
 
+#   Perform a little check - if the length of the inbreeding coefficients
+#   does not match the number of individuals, then exit with an error
+if [ "${N_IND}" -ne "${N_F}" ]
+    then echo "Mismatch between number of samples in ${TAXON_LIST} and ${TAXON_INBREEDING}"; exit 1
+fi
+
 # if directories don't exist, create them 
-if directory_exists "./results"; then 
+if directory_exists "${RESULTS_DIR}"; then 
     echo "directories exist, skipping init.sh"; 
 else 
     echo "creating directories..."; 
-    bash ./scripts/init.sh; 
+    bash ${SCRIPTS_DIR}/init.sh; 
 fi
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
-if file_exists "./results/${TAXON}_SFSOut.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
+if file_exists "${RESULTS_DIR}/${TAXON}_SFSOut.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     if [[ ${REGIONS} == */* ]]; then
 	${ANGSD_DIR}/angsd \
         -bam ${TAXON_LIST}\
-        -out results/${TAXON}_SFSOut\
+        -out ${RESULTS_DIR}/${TAXON}_SFSOut\
         -indF ${TAXON_INBREEDING}\
         -doSaf ${DO_SAF}\
         -uniqueOnly ${UNIQUE_ONLY}\
@@ -91,7 +98,7 @@ else
 fi
 
 ${ANGSD_DIR}/misc/realSFS\
-    results/${TAXON}_SFSOut.saf\
+    ${RESULTS_DIR}/${TAXON}_SFSOut.saf\
     ${N_CHROM}\
     -P ${N_CORES}\
-    > results/${TAXON}_DerivedSFS
+    > ${RESULTS_DIR}/${TAXON}_DerivedSFS

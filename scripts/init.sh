@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #   Script to create the directory structure for angsd-wrapper
 source common.conf
 #   test if our directory is writable (it should be!)
