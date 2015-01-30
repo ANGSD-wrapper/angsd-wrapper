@@ -27,7 +27,7 @@ STEP=10000
 
 # load variables from supplied config file
 load_config $1
-source scripts/common.conf
+#source scripts/common.conf
 
 # Variables created from transforming other variables
 #   The number of individuals in the taxon we are analyzing
