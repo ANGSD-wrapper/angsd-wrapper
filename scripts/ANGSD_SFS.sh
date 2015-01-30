@@ -15,6 +15,7 @@ MIN_BASEQUAL=20
 BAQ=1
 MIN_IND=1
 GT_LIKELIHOOD=2
+DO_GLF=2
 MIN_MAPQ=30
 N_CORES=32
 DO_MAJORMINOR=1
@@ -73,6 +74,7 @@ else
         -baq ${BAQ}\
         -ref ${REF_SEQ}\
         -GL ${GT_LIKELIHOOD}\
+        -doGlf ${DO_GLF}\
         -P ${N_CORES}\
         -doMajorMinor $DO_MAJORMINOR\
         -doMaf $DO_MAF\
@@ -92,6 +94,7 @@ else
         -baq ${BAQ}\
         -ref ${REF_SEQ}\
         -GL ${GT_LIKELIHOOD}\
+        -doGlf ${DO_GLF}\
         -P ${N_CORES}\
         -doMajorMinor $DO_MAJORMINOR\
         -doMaf $DO_MAF\
