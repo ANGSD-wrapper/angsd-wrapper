@@ -4,7 +4,7 @@ set -e
 set -u
 
 #   source the common config file
-source common.conf
+source scripts/common.conf
 # load utils functions
 source ${SCRIPTS_DIR}/utils.sh
 
@@ -27,6 +27,7 @@ STEP=10000
 
 # load variables from supplied config file
 load_config $1
+#source scripts/common.conf
 
 # Variables created from transforming other variables
 #   The number of individuals in the taxon we are analyzing
@@ -41,12 +42,12 @@ N_IND=`wc -l < ${TAXON_LIST}`
 N_CHROM=`expr 2 \* ${N_IND}`
 
 # if directories don't exist, create them 
-if directory_exists "${RESULTS_DIR}"; then 
-    echo "directories exist, skipping init.sh"; 
-else 
-    echo "creating directories..."; 
-    bash ${SCRIPTS_DIR}/init.sh; 
-fi
+#if directory_exists "${RESULTS_DIR}"; then 
+#    echo "directories exist, skipping init.sh"; 
+#else 
+#    echo "creating directories..."; 
+#    bash ${SCRIPTS_DIR}/init.sh; 
+#fi
 
 
 if file_exists "${RESULTS_DIR}/${TAXON}_Diversity.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
