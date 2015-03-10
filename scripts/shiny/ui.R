@@ -98,10 +98,13 @@ shinyUI(fluidPage(
       "Admixture",
       sidebarLayout(
         sidebarPanel(
-          
+          fileInput('userAdmix',
+                    label= 'Choose admixture File'
+          )
           
         ),
         mainPanel(
+          plotOutput("admixPlot")
           
         )
       )

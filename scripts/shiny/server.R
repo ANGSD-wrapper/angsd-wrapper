@@ -29,6 +29,14 @@ shinyServer(
     
   })
   
+  dataInputAdmix = reactive({
+    data <- input$userAdmix
+    path <- as.character(data$datapath)
+    admix <- t(as.matrix(read.table(path)))
+    return(admix)
+    
+  })
+  
   gffInput = reactive({
     data <- input$userAnnotations
     path <- as.character(data$datapath)
@@ -150,6 +158,17 @@ shinyServer(
     })
     subsfs <- sfs[-c(1,length(sfs))]/sum(sfs[-c(1,length(sfs))])
     barplot(subsfs, xlab="Chromosomes", ylab="Proportion", main="Site Frequency Spectrum",names=1:length(sfs[-c(1,length(sfs))]), col="#A2C8EC", border=NA)
+    
+  })
+  
+  output$admixPlot <- renderPlot({
+    admix <- tryCatch({
+      dataInputAdmix()
+      
+    },error = function(err) {
+      admix<-t(as.matrix(read.table("ngsadmix_example.txt")))
+    })
+    barplot(admix,col=c("#006BA4","#FF800E","#A2C8EC","#898989","#ABABAB","#595959","#5F9ED1","#CFCFCF","#FFBC79","#C85200"),space=0,border=NA,xlab="Individuals",ylab="admixture proportion")
     
   })
 })
