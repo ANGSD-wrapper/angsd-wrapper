@@ -146,7 +146,7 @@ shinyServer(
       dataInputSFS()
       
     },error = function(err) {
-        # need to provide a default file
+      sfs <- exp(scan("sfs_example.txt"))
     })
     subsfs <- sfs[-c(1,length(sfs))]/sum(sfs[-c(1,length(sfs))])
     barplot(subsfs, xlab="Chromosomes", ylab="Proportion", main="Site Frequency Spectrum",names=1:length(sfs[-c(1,length(sfs))]), col="#A2C8EC", border=NA)
