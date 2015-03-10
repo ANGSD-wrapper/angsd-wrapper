@@ -11,7 +11,7 @@ shinyServer(
   
   function(input, output) {
   
-  dataInput = reactive({
+  dataInputThetas = reactive({
     data <- input$userThetas
     path <- as.character(data$datapath)
     thetas <- read.table(file=path, 
@@ -19,6 +19,14 @@ shinyServer(
                          col.names=thetas.headers
                          )
     return(thetas)
+  })
+  
+  dataInputSFS = reactive({
+    data <- input$userSFS
+    path <- as.character(data$datapath)
+    sfs <- exp(scan(path))
+    return(sfs)
+    
   })
   
   gffInput = reactive({
@@ -33,7 +41,7 @@ shinyServer(
   output$thetaPlot <- renderPlot({
     # error handling code to provide a default dataset to graph
     thetas <- tryCatch({
-        dataInput()
+        dataInputThetas()
       }, error = function(err) {
         thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG", 
                              sep="\t", 
@@ -97,7 +105,7 @@ shinyServer(
   output$selectionPlot <- renderPlot({
     # error handling code to provide a default dataset to graph
     thetas <- tryCatch({
-        dataInput()
+        dataInputThetas()
       }, error = function(err) {
         thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG", 
                              sep="\t", 
@@ -131,5 +139,16 @@ shinyServer(
          main=paste("Neutrality test statistics along chromosome", thetas$Chr[1])
          )
     if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
+  })
+  
+  output$SFSPlot <- renderPlot({
+    sfs <- tryCatch({
+      dataInputSFS()
+      
+    },error = function(err) {
+        # need to provide a default file
+    })
+    barplot(sfs[-c(1,length(sfs))], xlab="Chromosomes", ylab="Proportion", main="Site Frequency Spectrum",names=1:length(sfs[-c(1,length(sfs))]), col="#A2C8EC")
+    
   })
 })
