@@ -148,7 +148,8 @@ shinyServer(
     },error = function(err) {
         # need to provide a default file
     })
-    barplot(sfs[-c(1,length(sfs))], xlab="Chromosomes", ylab="Proportion", main="Site Frequency Spectrum",names=1:length(sfs[-c(1,length(sfs))]), col="#A2C8EC")
+    subsfs <- sfs[-c(1,length(sfs))]/sum(sfs[-c(1,length(sfs))])
+    barplot(subsfs, xlab="Chromosomes", ylab="Proportion", main="Site Frequency Spectrum",names=1:length(sfs[-c(1,length(sfs))]), col="#A2C8EC", border=NA)
     
   })
 })
