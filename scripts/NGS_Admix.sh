@@ -19,6 +19,6 @@ for k in {2..$K}
 		-likes ${LIKELIHOOD}\
 		-K ${k}\
 		-P ${N_CORES}\
-		-o ${TAXON}\
+		-o ${TAXON}.$k\
 		-minMaf ${MIN_MAF}
 done
