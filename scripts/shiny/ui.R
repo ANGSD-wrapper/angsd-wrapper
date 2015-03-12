@@ -98,6 +98,8 @@ shinyUI(fluidPage(
       "Admixture",
       sidebarLayout(
         sidebarPanel(
+          numericInput("k", "Number of K ancestral populations to graph:", 1,
+                       min = 1, max = 10),
           fileInput('userAdmix',
                     label= 'Choose admixture File'
           )
