@@ -19,6 +19,7 @@ DO_GLF=2
 MIN_MAPQ=30
 N_CORES=32
 DO_MAJORMINOR=1
+DO_GENO=32
 DO_MAF=1
 OVERRIDE=false
 
@@ -78,6 +79,7 @@ else
         -P ${N_CORES}\
         -doMajorMinor $DO_MAJORMINOR\
         -doMaf $DO_MAF\
+        -doGeno ${DO_GENO}\
         -rf ${REGIONS}
     else
         ${ANGSD_DIR}/angsd \
