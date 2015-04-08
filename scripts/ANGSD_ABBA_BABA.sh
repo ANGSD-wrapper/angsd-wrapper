@@ -24,11 +24,13 @@ load_config $1
 
 # extract consensus sequence of Tripsacum to be treated as outgroup
 #angsd -doFasta 2 -doCounts 1 -i Tripsacum.bam -out Tripsacum
-${ANGSD_DIR}/angsd \
+if [[ ${DO_CONSENSUS} == 1 ]]; then
+    ${ANGSD_DIR}/angsd \
 	-doFasta ${DO_FASTA}\
 	-doCounts ${DO_COUNTS}\
 	-i ${OUTGROUP}\
 	-out ${RESULTS_DIR}/${TAXON}
+fi
 
 #-checkBamHeaders 0 -rf scaffoldNamesWithData.txt 
 #Those two flags are important, as in Tripsacum some small scaffolds have no reads mapped on. In that case, the consensus sequence file of Tripsacum (Tripsacum.fa) will have no sequence for those scaffolds. 
@@ -69,6 +71,6 @@ fi
 
 #jackKnife.R is provided with angsd.
 Rscript ${ANGSD_DIR}/R/jackKnife.R \
-	file=${RESULTS_DIR}/${TAXON}.D\
+	file=${RESULTS_DIR}/${TAXON}.D.abbababa\
 	indNames=${TAXON_LIST}\
 	outfile=${TAXON}
