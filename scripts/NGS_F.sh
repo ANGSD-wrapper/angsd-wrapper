@@ -57,7 +57,7 @@ else
 		-nThreads ${N_CORES}
 fi
 
-N_SITES=$((`zcat ${TAXON}.HWE.mafs.gz | wc -l`-1))
+N_SITES=$((`zcat ${TAXON}.mafs.gz | wc -l`-1))
 
 
 zcat ${RESULTS_DIR}/${TAXON}.glf.gz | ./ngsF/ngsF \
