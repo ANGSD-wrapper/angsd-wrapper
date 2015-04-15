@@ -73,4 +73,4 @@ fi
 Rscript ${ANGSD_DIR}/R/jackKnife.R \
 	file=${RESULTS_DIR}/${TAXON}.D.abbababa\
 	indNames=${TAXON_LIST}\
-	outfile=${TAXON}
+	outfile=${RESULTS_DIR}/${TAXON}.abbababa
