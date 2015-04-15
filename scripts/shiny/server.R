@@ -1,5 +1,7 @@
 library(shiny)
 library(genomeIntervals)
+library(lattice)
+library(Hmisc)
 options(shiny.maxRequestSize = -1)
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
 
@@ -34,6 +36,14 @@ shinyServer(
     path <- as.character(data$datapath)
     admix <- t(as.matrix(read.table(path)))
     return(admix)
+    
+  })
+  
+  dataInputABBABABA = reactive({
+    data <- input$userABBABABA
+    path <- as.character(data$datapath)
+    ABBABABA <- read.table(path, sep="\t", header=T)
+    return(ABBABABA)
     
   })
   
@@ -169,6 +179,28 @@ shinyServer(
       admix<-t(as.matrix(read.table("ngsadmix_example.txt")))
     })
     barplot(admix,col=c("#006BA4","#FF800E","#A2C8EC","#898989","#ABABAB","#595959","#5F9ED1","#CFCFCF","#FFBC79","#C85200"),space=0,border=NA,xlab="Individuals",ylab="admixture proportion")
+    
+  })
+  
+  output$ABBABABAPlot <- renderPlot({
+    ABBABABA <- tryCatch({
+      dataInputABBABABA()
+    }, error = function(err){
+      ABBABABA <- read.table("abbababa.test", sep="\t", header=T)
+    })
+    d.current <- subset(ABBABABA, H2 == input$h2 & H3 == input$h3)
+    mypanel.Dotplot <- function(x, y, ...) {
+      panel.Dotplot(x,y,...)
+      tips <- attr(x, "other")
+      panel.abline(v=0, lty=3)
+      trellis.par.set(mfrow=c(2,1))
+      panel.arrows(x0 = tips[,1], y0 = y, 
+                   x1 = tips[,2], y1 = y, 
+                   length = 0.05, unit = "native",
+                   angle = 90, code = 3)
+    }
+    Dotplot(factor(d.current$H1) ~ Cbind(d.current$Dstat,d.current$Dstat-d.current$SE,d.current$Dstat+d.current$SE), col="blue", pch=20, panel = mypanel.Dotplot,
+            xlab="D",ylab="Taxon")
     
   })
 })

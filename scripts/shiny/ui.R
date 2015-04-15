@@ -62,11 +62,15 @@ shinyUI(fluidPage(
       "ABBA BABA",
       sidebarLayout(
         sidebarPanel(
-          
+          fileInput('userABBABABA',
+                    label= 'Choose ABBABABA File'
+          ),
+          textInput('h2', label="H2", value='NA11993'),
+          textInput('h3', label="H3", value='NA12763')
           
         ),
         mainPanel(
-          
+          plotOutput("ABBABABAPlot")
         )
       )
     ),
