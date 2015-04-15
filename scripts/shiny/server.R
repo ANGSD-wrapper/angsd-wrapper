@@ -190,7 +190,7 @@ shinyServer(
       ABBABABA <- read.table("abbababa.test", sep="\t", header=T)
     })
     d.current <- subset(ABBABABA, H2 == input$h2 & H3 == input$h3)
-    tree <- read.tree(text=paste("(Outgroup,(", input$h2, ",(", input$h3, ",Taxon)));", sep=""))
+    tree <- read.tree(text=paste("(Outgroup,(", input$h3, ",(", input$h2, ",Taxon)));", sep=""))
     plot(tree, type = "cladogram", edge.width = 2, direction='downwards')
     
   })
