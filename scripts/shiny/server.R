@@ -2,6 +2,7 @@ library(shiny)
 library(genomeIntervals)
 library(lattice)
 library(Hmisc)
+library(ape)
 options(shiny.maxRequestSize = -1)
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
 
@@ -182,6 +183,17 @@ shinyServer(
     
   })
   
+  output$ABBABABATree <- renderPlot({
+    ABBABABA <- tryCatch({
+      dataInputABBABABA()
+    }, error = function(err){
+      ABBABABA <- read.table("abbababa.test", sep="\t", header=T)
+    })
+    d.current <- subset(ABBABABA, H2 == input$h2 & H3 == input$h3)
+    tree <- read.tree(text=paste("(Outgroup,(", input$h2, ",(", input$h3, ",Taxon)));", sep=""))
+    plot(tree, type = "cladogram", edge.width = 2, direction='downwards')
+    
+  })
   output$ABBABABAPlot <- renderPlot({
     ABBABABA <- tryCatch({
       dataInputABBABABA()
@@ -200,7 +212,7 @@ shinyServer(
                    angle = 90, code = 3)
     }
     Dotplot(factor(d.current$H1) ~ Cbind(d.current$Dstat,d.current$Dstat-d.current$SE,d.current$Dstat+d.current$SE), col="blue", pch=20, panel = mypanel.Dotplot,
-            xlab="D",ylab="Taxon")
+            xlab="D",ylab="Taxon", title=paste("D statistic comparison where H2=", input$h2, " and H3=", input$h3, sep=""))
     
   })
 })

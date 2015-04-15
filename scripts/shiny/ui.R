@@ -70,6 +70,7 @@ shinyUI(fluidPage(
           
         ),
         mainPanel(
+          plotOutput("ABBABABATree"),
           plotOutput("ABBABABAPlot")
         )
       )
