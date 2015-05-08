@@ -148,7 +148,7 @@ shinyServer(
                    "Fu and Li's F" = thetas.plot$fuf,
                    "Fu and Li's D" = thetas.plot$fud,
                    "Fay and Wu's H" = thetas.plot$fayh,
-                   "Zeng's E" = thetas.plot$zengE
+                   "Zeng's E" = thetas.plot$zeng
     )
     
     plot(thetas.plot$WinCenter, 
