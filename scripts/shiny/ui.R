@@ -71,7 +71,8 @@ shinyUI(fluidPage(
         ),
         mainPanel(
           plotOutput("ABBABABATree"),
-          plotOutput("ABBABABAPlot")
+          plotOutput("ABBABABAPlot"),
+          helpText(a("https://youtu.be/unfzfe8f9NI", href="https://youtu.be/unfzfe8f9NI"))
         )
       )
     ),
