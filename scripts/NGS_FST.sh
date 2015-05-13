@@ -45,7 +45,7 @@ ${ANGSD}/angsd
     -doSaf ${DO_SAF} 
     -sites ${RESULTS_DIR}/${TAXON}_intersect.txt
 
-N_SITES=`wc -l ${RESULTS_DIR}/intersect.txt | cut -f 1 -d " "`
+N_SITES=`wc -l ${RESULTS_DIR}/${TAXON}_intersect.txt | cut -f 1 -d " "`
 NIND1=`wc -l ${TAXON1_LIST} | cut -f 1 -d " "`
 NIND2=`wc -l ${TAXON2_LIST} | cut -f 1 -d " "`
 
