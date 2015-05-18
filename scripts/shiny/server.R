@@ -85,7 +85,9 @@ shinyServer(
     # remove nsites=0
     thetas.plot <- subset(thetas.plot, nSites != 0)
     # remove data points with less than 50 sites. Calculate minimum from data?
-    #thetas.plot <- subset(thetas.plot, nsites > 50) 
+    if(input$rm.nsites) {
+      thetas.plot <- subset(thetas.plot, nSites > input$nsites)
+    }
     #divide thetas by the number of sites in each window
     thetas.plot$tW <- thetas.plot$tW/thetas.plot$nSites
     thetas.plot$tP <- thetas.plot$tP/thetas.plot$nSites
