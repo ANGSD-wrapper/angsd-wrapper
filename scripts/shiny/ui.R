@@ -95,11 +95,13 @@ shinyUI(fluidPage(
       "PCA",
       sidebarLayout(
         sidebarPanel(
-          
-          
+          fileInput('userPCA',
+                    label= 'Choose a .covar File'
+          )
         ),
         mainPanel(
-          
+          plotOutput("PCAPlot"), 
+          width=4
         )
       )
     ),
