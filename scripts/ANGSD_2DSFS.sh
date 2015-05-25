@@ -123,7 +123,7 @@ fi
 
 #find intersecting regions
 >&2 echo "WRAPPER: making intersect file..."
-gunzip -c ${RESULTS_DIR}/${TAXON1}_Intergenic.saf.pos ${RESULTS_DIR}/${TAXON2}_Intergenic.saf.pos | sort | uniq -d > ${RESULTS_DIR}/intersect.${TAXON1}.${TAXON2}_intergenic.txt
+gunzip -c ${RESULTS_DIR}/${TAXON1}_Intergenic.saf.pos ${RESULTS_DIR}/${TAXON2}_Intergenic.saf.pos | sort | uniq -d | sort -k1,1 > ${RESULTS_DIR}/intersect.${TAXON1}.${TAXON2}_intergenic.txt
 
 # calculate allele frequencies only on sites in both populations
 if [[ ${REGIONS} == */* ]]; then
