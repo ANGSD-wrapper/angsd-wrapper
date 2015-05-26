@@ -79,7 +79,11 @@ shinyServer(
       gff <- gffInput()
       gff.gene <- subset(gff, type="gene")
       gff.df <- data.frame(gff.gene,annotation(gff))
-      gff.df.gene <- subset(gff.df, type=="gene")
+      gff.df.chr <- subset(gff.df, seq_name==thetas$Chr[1])
+      if(length(gff.df.chr$seq_name)==0){
+        stop("Annotation does not match graphed region. Please make sure the first column of your GFF file matches the Chr column of the .pestPG file.")
+      }
+      gff.df.gene <- subset(gff.df.chr, type=="gene")
     }
 
     if(input$subset) {
@@ -116,6 +120,7 @@ shinyServer(
            ylab=paste(input$thetaChoice,"Estimator Value"), 
            main=paste("Estimators of theta along chromosome", thetas$Chr[1])
       )
+      
       rug(rect(gff.df.gene$X1, -1e2, gff.df.gene$X2, 0, col=rgb(0.18,0.55,0.8,0.75), border=NA))
       if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
     }
