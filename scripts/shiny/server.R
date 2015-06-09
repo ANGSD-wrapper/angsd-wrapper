@@ -48,6 +48,13 @@ shinyServer(
     
   })
   
+  dataInputPCA = reactive({
+    data <- input$userPCA
+    path <- as.character(data$datapath)
+    PCA <- read.table(path, header=F)
+    return(PCA)
+  })
+  
   gffInput = reactive({
     data <- input$userAnnotations
     path <- as.character(data$datapath)
@@ -72,7 +79,11 @@ shinyServer(
       gff <- gffInput()
       gff.gene <- subset(gff, type="gene")
       gff.df <- data.frame(gff.gene,annotation(gff))
-      gff.df.gene <- subset(gff.df, type=="gene")
+      gff.df.chr <- subset(gff.df, seq_name==thetas$Chr[1])
+      if(length(gff.df.chr$seq_name)==0){
+        stop("Annotation does not match graphed region. Please make sure the first column of your GFF file matches the Chr column of the .pestPG file.")
+      }
+      gff.df.gene <- subset(gff.df.chr, type=="gene")
     }
 
     if(input$subset) {
@@ -85,7 +96,9 @@ shinyServer(
     # remove nsites=0
     thetas.plot <- subset(thetas.plot, nSites != 0)
     # remove data points with less than 50 sites. Calculate minimum from data?
-    #thetas.plot <- subset(thetas.plot, nsites > 50) 
+    if(input$rm.nsites) {
+      thetas.plot <- subset(thetas.plot, nSites > input$nsites)
+    }
     #divide thetas by the number of sites in each window
     thetas.plot$tW <- thetas.plot$tW/thetas.plot$nSites
     thetas.plot$tP <- thetas.plot$tP/thetas.plot$nSites
@@ -107,6 +120,7 @@ shinyServer(
            ylab=paste(input$thetaChoice,"Estimator Value"), 
            main=paste("Estimators of theta along chromosome", thetas$Chr[1])
       )
+      
       rug(rect(gff.df.gene$X1, -1e2, gff.df.gene$X2, 0, col=rgb(0.18,0.55,0.8,0.75), border=NA))
       if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
     }
@@ -214,5 +228,18 @@ shinyServer(
     Dotplot(factor(d.current$H1) ~ Cbind(d.current$Dstat,d.current$Dstat-d.current$SE,d.current$Dstat+d.current$SE), col="blue", pch=20, panel = mypanel.Dotplot,
             xlab="D",ylab="Taxon", title=paste("D statistic comparison where H2=", input$h2, " and H3=", input$h3, sep=""))
     
+  })
+  
+  output$PCAPlot <- renderPlot({
+    PCA <- tryCatch({
+      dataInputPCA()
+      
+    },error = function(err) {
+      PCA <- read.table("all.pop.covar", header=F)
+    })
+    eig <- eigen(PCA, symm=TRUE);
+    eig$val <- eig$val/sum(eig$val);
+    PC <- as.data.frame(eig$vectors)
+    plot(PC$V1, PC$V2, pch=19, col=rgb(0,0,0,0.4),xlab="PC1", ylab="PC2", main="ngsCovar Results",asp=1)
   })
 })

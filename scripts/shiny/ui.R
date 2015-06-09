@@ -30,6 +30,9 @@ shinyUI(fluidPage(
             numericInput("WinCenterLow", "Base Start Position", value=0),
             numericInput("WinCenterHigh", "Base End Position", value=10000),
             checkboxInput("subset","Toggle subset data", value=FALSE),
+            hr(),
+            checkboxInput("rm.nsites", "Remove data where nSites < x", value=FALSE),
+            numericInput("nsites", "x:",value=0),
             
             hr(),
             fileInput('userAnnotations',
@@ -92,11 +95,13 @@ shinyUI(fluidPage(
       "PCA",
       sidebarLayout(
         sidebarPanel(
-          
-          
+          fileInput('userPCA',
+                    label= 'Choose a .covar File'
+          )
         ),
         mainPanel(
-          
+          plotOutput("PCAPlot"), 
+          width=4
         )
       )
     ),
