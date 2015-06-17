@@ -106,7 +106,7 @@ else
         -out ${RESULTS_DIR}/${TAXON2}_Intergenic\
         -doMajorMinor ${DO_MAJORMINOR}\
         -doMaf ${DO_MAF}\
-        -indF ${TAXON_INBREEDING1}\
+        -indF ${TAXON_INBREEDING2}\
         -doSaf ${DO_SAF}\
         -uniqueOnly ${UNIQUE_ONLY}\
         -anc ${ANC_SEQ}\
