@@ -31,7 +31,7 @@ if [[ -f "${OUTDIR}/${PROJECT}_SFSOut.mafs.gz" ]] && [ "$OVERRIDE" = "false" ]
 then 
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam..."
 else
-    touch "${OUTDIR}"/"${PROJECT}"_SFSOut.saf
+    #touch "${OUTDIR}"/"${PROJECT}"_SFSOut.saf
     if [[ "${REGIONS}" == */* ]]
     then
         "${ANGSD_DIR}"/angsd \
