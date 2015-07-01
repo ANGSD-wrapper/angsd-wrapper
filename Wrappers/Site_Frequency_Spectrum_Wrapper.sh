@@ -7,9 +7,6 @@ set -o pipefail
 # Load variables from supplied config file
 source $1
 
-
-
-
 #   Variables created from transforming other variables
 #       The number of individuals in the taxon we are analyzing
 N_IND=`wc -l < "${SAMPLE_LIST}"`
@@ -26,12 +23,13 @@ then
     exit 1
 fi
 
-#   Create outdirectories
+#   Create outdirectory
 mkdir -p ${OUTDIR}
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
-if file_exists "./results/${PROJECT}_SFSOut.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
-    echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
+if [[ -f "${OUTDIR}/${PROJECT}_SFSOut.mafs.gz" ]] && [ "$OVERRIDE" = "false" ]
+then 
+    echo "maf already exists and OVERRIDE=false, skipping angsd -bam..."
 else
     if [[ "${REGIONS}" == */* ]]
     then
@@ -79,7 +77,7 @@ else
 fi
 
 "${ANGSD_DIR}"/misc/realSFS \
-    "${RESULTS_DIR}"/"${PROJECT}"_SFSOut.saf \
+    "${OUTDIR}"/"${PROJECT}"_SFSOut.saf \
     "${N_CHROM}" \
     -P "${N_CORES}"\
-    > "${RESULTS_DIR}"/"${PROJECT}"_DerivedSFS
+    > "${OUTDIR}"/"${PROJECT}"_DerivedSFS
