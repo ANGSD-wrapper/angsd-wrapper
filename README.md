@@ -3,8 +3,6 @@
 
 Wrapper scripts and documentation to make angsd easier to use.
 
-### Documentation available on  the [wiki](https://github.com/arundurvasula/angsd-wrapper/wiki).
-
 Forked from [Arun Durvasula](https://github.com/arundurvasula/angsd-wrapper) in an attempt to simplify the angsd-wrapper package
 
 ### Supported methods
