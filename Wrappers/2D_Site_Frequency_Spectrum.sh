@@ -222,8 +222,8 @@ fi
 #   Estimate joint SFS using realSFS
 echo "WRAPPER: realSFS 2dsfs..." >&2
 "${ANGSD_DIR}"/misc/realSFS 2dsfs \
-    "${OUTDIR}"/"${GROUP_1}"_Intergenic_Conditioned.saf \
-    "${OUTDIR}"/"${GROUP_2}"_Intergenic_Conditioned.saf \
+    "${OUTDIR}"/"${GROUP_1}"_Intergenic_Conditioned.saf.idx \
+    "${OUTDIR}"/"${GROUP_2}"_Intergenic_Conditioned.saf.idx \
     "${N_CHROM1}" \
     "${N_CHROM2}" \
     -P "${N_CORES}" \

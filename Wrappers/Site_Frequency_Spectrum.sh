@@ -78,6 +78,6 @@ fi
 
 "${ANGSD_DIR}"/misc/realSFS \
     "${OUTDIR}"/"${PROJECT}"_SFSOut.saf.idx \
-    "${N_CHROM}" \
+    #"${N_CHROM}" \
     -P "${N_CORES}"\
     > "${OUTDIR}"/"${PROJECT}"_DerivedSFS
