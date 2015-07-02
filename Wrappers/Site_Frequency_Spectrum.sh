@@ -73,7 +73,8 @@ else
             -P "${N_CORES}" \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
-            -doGeno "${DO_GENO}"
+            -doGeno "${DO_GENO}" \
+            -doPost "${DO_POST}"
     else
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
