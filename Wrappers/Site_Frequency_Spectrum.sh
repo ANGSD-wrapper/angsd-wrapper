@@ -52,8 +52,28 @@ else
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -doGeno "${DO_GENO}" \
-            -rf "${REGIONS}" \
-            -doPost 0
+            -rf "${REGIONS}"
+    elif [[ -z "${REGIONS}" ]]
+    then
+        "${ANGSD_DIR}"/angsd \
+            -bam "${SAMPLE_LIST}" \
+            -out "${OUTDIR}"/"${PROJECT}"_SFSOut \
+            -indF "${SAMPLE_INBREEDING}" \
+            -doSaf "${DO_SAF}" \
+            -uniqueOnly "${UNIQUE_ONLY}" \
+            -anc "${ANC_SEQ}" \
+            -minMapQ "${MIN_MAPQ}" \
+            -minQ "${MIN_BASEQUAL}" \
+            -nInd "${N_IND}" \
+            -minInd "${MIN_IND}"\
+            -baq "${BAQ}" \
+            -ref "${REF_SEQ}" \
+            -GL "${GT_LIKELIHOOD}" \
+            -doGlf "${DO_GLF}" \
+            -P "${N_CORES}" \
+            -doMajorMinor "${DO_MAJORMINOR}" \
+            -doMaf "${DO_MAF}" \
+            -doGeno "${DO_GENO}"
     else
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
