@@ -35,7 +35,7 @@ else
     then
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
-            -out "${OUTDIR}"/"${PROJECT}"_SFSOut.saf \
+            -out "${OUTDIR}"/"${PROJECT}"_SFSOut \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
             -uniqueOnly "${UNIQUE_ONLY}" \
@@ -56,7 +56,7 @@ else
     else
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
-            -out "${OUTDIR}"/"${PROJECT}"_SFSOut.saf \
+            -out "${OUTDIR}"/"${PROJECT}"_SFSOut \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
             -uniqueOnly "${UNIQUE_ONLY}" \
@@ -77,7 +77,7 @@ else
 fi
 
 "${ANGSD_DIR}"/misc/realSFS \
-    "${OUTDIR}"/"${PROJECT}"_SFSOut.saf \
+    "${OUTDIR}"/"${PROJECT}"_SFSOut.saf.gz \
     "${N_CHROM}" \
     -P "${N_CORES}"\
     > "${OUTDIR}"/"${PROJECT}"_DerivedSFS
