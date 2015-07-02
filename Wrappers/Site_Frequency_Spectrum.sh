@@ -53,7 +53,7 @@ else
             -doMaf "${DO_MAF}" \
             -doGeno "${DO_GENO}" \
             -rf "${REGIONS}" \
-            -doPost
+            -doPost 0
     else
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
