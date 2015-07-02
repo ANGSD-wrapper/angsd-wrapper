@@ -29,7 +29,8 @@ fi
 #   Create the out directory
 mkdir -p ${OUTDIR}
 
-#   For 1st group
+#   Now we actually run the command, this creates a binary file that contains the prior SFS
+#       For 1st group
 if [[ -f "${OUTDIR}/${GROUP_1}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
 then 
     echo "WRAPPER: saf already exists and OVERRIDE=false, skipping angsd -bam..." >&2
@@ -76,7 +77,7 @@ else
         -r "${REGIONS}"
 fi
 
-# For 2nd taxon:
+#   For 2nd group:
 if [[ -f "${OUTDIR}/${GROUP_2}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
 then
     echo "WRAPPER: saf already exists and OVERRIDE=false, skipping angsd -bam..." >&2
@@ -123,11 +124,11 @@ else
         -r "${REGIONS}"
 fi
 
-#find intersecting regions
+#   Find intersecting regions
 echo "WRAPPER: making intersect file..." >&2
 gunzip -c "${OUTDIR}"/"${GROUP_1}"_Intergenic.saf.pos "${OUTDIR}"/"${GROUP_2}"_Intergenic.saf.pos | sort | uniq -d | sort -k1,1 > "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 
-# calculate allele frequencies only on sites in both populations
+#   Calculate allele frequencies only on sites in both populations
 if [[ "${REGIONS}" == */* ]]
 then
     echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
@@ -218,7 +219,7 @@ else
         -sites "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 fi
 
-# estimate joint SFS using realSFS
+#   Estimate joint SFS using realSFS
 echo "WRAPPER: realSFS 2dsfs..." >&2
 "${ANGSD_DIR}"/misc/realSFS 2dsfs \
     "${OUTDIR}"/"${GROUP_1}"_Intergenic_Conditioned.saf \
