@@ -77,7 +77,7 @@ else
 fi
 
 "${ANGSD_DIR}"/misc/realSFS \
-    "${OUTDIR}"/"${PROJECT}"_SFSOut.saf.gz \
+    "${OUTDIR}"/"${PROJECT}"_SFSOut.saf.idx \
     "${N_CHROM}" \
     -P "${N_CORES}"\
     > "${OUTDIR}"/"${PROJECT}"_DerivedSFS
