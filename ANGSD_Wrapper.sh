@@ -32,6 +32,7 @@ case "${WRAPPER}" in
     "2DSFS" )
         #   Run the 2D site frequency spectrum wrapper script
         bash Wrappers/2D_Site_Frequency_Spectrum.sh "${CONFIG}"
+        ;;
     * )
         usage
         ;;
