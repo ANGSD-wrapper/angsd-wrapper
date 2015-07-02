@@ -30,7 +30,7 @@ ANGSD_DIR=
 
 #   Site Frequency Spectrum Parameters
 #       Listed below are the defaults, please modify for your samples
-DO_SAF=1
+DO_SAF=2
 UNIQUE_ONLY=0
 MIN_BASEQUAL=20
 BAQ=1

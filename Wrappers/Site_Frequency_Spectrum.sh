@@ -12,8 +12,8 @@ source $1
 N_IND=`wc -l < "${SAMPLE_LIST}"`
 #       How many inbreeding coefficients are supplied?
 N_F=`wc -l < "${SAMPLE_INBREEDING}"`
-#   For ANGSD, the actual sample size is twice the number of individuals, since each individual has two chromosomes.
-#   The individual inbreeding coefficents take care of the mismatch between these two numbers
+#       For ANGSD, the actual sample size is twice the number of individuals, since each individual has two chromosomes.
+#       The individual inbreeding coefficents take care of the mismatch between these two numbers
 N_CHROM=`expr 2 \* ${N_IND}`
 
 #   Perform a check to see if number of individuals matches number of inbreeding coefficients
@@ -31,7 +31,6 @@ if [[ -f "${OUTDIR}/${PROJECT}_SFSOut.mafs.gz" ]] && [ "$OVERRIDE" = "false" ]
 then 
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam..."
 else
-    #touch "${OUTDIR}"/"${PROJECT}"_SFSOut.saf
     if [[ "${REGIONS}" == */* ]]
     then
         "${ANGSD_DIR}"/angsd \
