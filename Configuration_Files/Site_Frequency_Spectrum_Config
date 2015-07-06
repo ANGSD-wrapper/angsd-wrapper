@@ -23,6 +23,7 @@ REF_SEQ=
 OUTDIR=
 
 #   Define the region being looked at
+#       Optional, but ANGSD is expensive to run without specifying regions to look at
 REGIONS=
 
 #   Where is ANGSD?

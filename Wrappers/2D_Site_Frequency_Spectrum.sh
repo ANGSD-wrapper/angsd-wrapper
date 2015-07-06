@@ -34,94 +34,142 @@ mkdir -p ${OUTDIR}
 if [[ -f "${OUTDIR}/${GROUP_1}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
 then 
     echo "WRAPPER: saf already exists and OVERRIDE=false, skipping angsd -bam..." >&2
-elif [[ "${REGIONS}" == */* ]]
-then
-    echo "WRAPPER: $GROUP_1 sfs starting..." >&2
-    "${ANGSD_DIR}"/angsd \
-        -bam "${G1_SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${GROUP_1}"_Intergenic \
-        -doMajorMinor "${DO_MAJORMINOR}" \
-        -doMaf "${DO_MAF}" \
-        -indF "${G1_INBREEDING}" \
-        -doSaf "${DO_SAF}" \
-        -uniqueOnly "${UNIQUE_ONLY}" \
-        -anc "${ANC_SEQ}" \
-        -minMapQ "${MIN_MAPQ}" \
-        -minQ "${MIN_BASEQUAL}" \
-        -nInd "${N_IND1}" \
-        -minInd "${MIN_IND1}" \
-        -baq "${BAQ}" \
-        -ref "${REF_SEQ}" \
-        -GL "${GT_LIKELIHOOD}" \
-        -P "${N_CORES}" \
-        -rf "${REGIONS}"
 else
-    echo "WRAPPER: $GROUP_1 sfs starting" >&2
-    "${ANGSD_DIR}"/angsd \
-        -bam "${G1_SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${GROUP_1}"_Intergenic \
-        -doMajorMinor "${DO_MAJORMINOR}" \
-        -doMaf "${DO_MAF}" \
-        -indF "${G1_INBREEDING}" \
-        -doSaf "${DO_SAF}" \
-        -uniqueOnly "${UNIQUE_ONLY}" \
-        -anc "${ANC_SEQ}" \
-        -minMapQ "${MIN_MAPQ}" \
-        -minQ "${MIN_BASEQUAL}" \
-        -nInd "${N_IND1}" \
-        -minInd "${MIN_IND1}" \
-        -baq "${BAQ}" \
-        -ref "${REF_SEQ}" \
-        -GL "${GT_LIKELIHOOD}" \
-        -P "${N_CORES}" \
-        -r "${REGIONS}"
+    if [[ "${REGIONS}" == */* ]]
+    then
+        echo "WRAPPER: $GROUP_1 sfs starting..." >&2
+        "${ANGSD_DIR}"/angsd \
+            -bam "${G1_SAMPLE_LIST}" \
+            -out "${OUTDIR}"/"${GROUP_1}"_Intergenic \
+            -doMajorMinor "${DO_MAJORMINOR}" \
+            -doMaf "${DO_MAF}" \
+            -indF "${G1_INBREEDING}" \
+            -doSaf "${DO_SAF}" \
+            -uniqueOnly "${UNIQUE_ONLY}" \
+            -anc "${ANC_SEQ}" \
+            -minMapQ "${MIN_MAPQ}" \
+            -minQ "${MIN_BASEQUAL}" \
+            -nInd "${N_IND1}" \
+            -minInd "${MIN_IND1}" \
+            -baq "${BAQ}" \
+            -ref "${REF_SEQ}" \
+            -GL "${GT_LIKELIHOOD}" \
+            -P "${N_CORES}" \
+            -rf "${REGIONS}" \
+            -doPost "${DO_POST}"
+    elif [[ -z "${REGIONS}" ]]
+    then
+        echo "WRAPPER: $GROUP_1 sfs starting" >&2
+        "${ANGSD_DIR}"/angsd \
+            -bam "${G1_SAMPLE_LIST}" \
+            -out "${OUTDIR}"/"${GROUP_1}"_Intergenic \
+            -doMajorMinor "${DO_MAJORMINOR}" \
+            -doMaf "${DO_MAF}" \
+            -indF "${G1_INBREEDING}" \
+            -doSaf "${DO_SAF}" \
+            -uniqueOnly "${UNIQUE_ONLY}" \
+            -anc "${ANC_SEQ}" \
+            -minMapQ "${MIN_MAPQ}" \
+            -minQ "${MIN_BASEQUAL}" \
+            -nInd "${N_IND1}" \
+            -minInd "${MIN_IND1}" \
+            -baq "${BAQ}" \
+            -ref "${REF_SEQ}" \
+            -GL "${GT_LIKELIHOOD}" \
+            -P "${N_CORES}" \
+            -doPost "${DO_POST}"
+    else
+        echo "WRAPPER: $GROUP_1 sfs starting" >&2
+        "${ANGSD_DIR}"/angsd \
+            -bam "${G1_SAMPLE_LIST}" \
+            -out "${OUTDIR}"/"${GROUP_1}"_Intergenic \
+            -doMajorMinor "${DO_MAJORMINOR}" \
+            -doMaf "${DO_MAF}" \
+            -indF "${G1_INBREEDING}" \
+            -doSaf "${DO_SAF}" \
+            -uniqueOnly "${UNIQUE_ONLY}" \
+            -anc "${ANC_SEQ}" \
+            -minMapQ "${MIN_MAPQ}" \
+            -minQ "${MIN_BASEQUAL}" \
+            -nInd "${N_IND1}" \
+            -minInd "${MIN_IND1}" \
+            -baq "${BAQ}" \
+            -ref "${REF_SEQ}" \
+            -GL "${GT_LIKELIHOOD}" \
+            -P "${N_CORES}" \
+            -r "${REGIONS}"
+    fi
 fi
 
 #   For 2nd group:
 if [[ -f "${OUTDIR}/${GROUP_2}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
 then
     echo "WRAPPER: saf already exists and OVERRIDE=false, skipping angsd -bam..." >&2
-elif [[ "${REGIONS}" == */* ]]
-then
-    echo "WRAPPER: $GROUP_2 sfs starting..." >&2
-    "${ANGSD_DIR}"/angsd \
-        -bam "${G2_SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${GROUP_2}"_Intergenic \
-        -doMajorMinor "${DO_MAJORMINOR}" \
-        -doMaf "${DO_MAF}" \
-        -indF "${G2_INBREEDING}" \
-        -doSaf "${DO_SAF}" \
-        -uniqueOnly "${UNIQUE_ONLY}" \
-        -anc "${ANC_SEQ}" \
-        -minMapQ "${MIN_MAPQ}" \
-        -minQ "${MIN_BASEQUAL}" \
-        -nInd "${N_IND2}" \
-        -minInd "${MIN_IND2}" \
-        -baq "${BAQ}" \
-        -ref "${REF_SEQ}" \
-        -GL "${GT_LIKELIHOOD}" \
-        -P "${N_CORES}" \
-        -rf "${REGIONS}"
 else
-    echo "WRAPPER: $GROUP_2 sfs starting..." >&2
-    "${ANGSD_DIR}"/angsd \
-        -bam "${G2_SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${GROUP_2}"_Intergenic \
-        -doMajorMinor "${DO_MAJORMINOR}" \
-        -doMaf "${DO_MAF}" \
-        -indF "${G2_INBREEDING}" \
-        -doSaf "${DO_SAF}" \
-        -uniqueOnly "${UNIQUE_ONLY}" \
-        -anc "${ANC_SEQ}" \
-        -minMapQ "${MIN_MAPQ}" \
-        -minQ "${MIN_BASEQUAL}" \
-        -nInd "${N_IND2}" \
-        -minInd "${MIN_IND2}" \
-        -baq "${BAQ}" \
-        -ref "${REF_SEQ}" \
-        -GL "${GT_LIKELIHOOD}" \
-        -P "${N_CORES}" \
-        -r "${REGIONS}"
+    if [[ "${REGIONS}" == */* ]]
+    then
+        echo "WRAPPER: $GROUP_2 sfs starting..." >&2
+        "${ANGSD_DIR}"/angsd \
+            -bam "${G2_SAMPLE_LIST}" \
+            -out "${OUTDIR}"/"${GROUP_2}"_Intergenic \
+            -doMajorMinor "${DO_MAJORMINOR}" \
+            -doMaf "${DO_MAF}" \
+            -indF "${G2_INBREEDING}" \
+            -doSaf "${DO_SAF}" \
+            -uniqueOnly "${UNIQUE_ONLY}" \
+            -anc "${ANC_SEQ}" \
+            -minMapQ "${MIN_MAPQ}" \
+            -minQ "${MIN_BASEQUAL}" \
+            -nInd "${N_IND2}" \
+            -minInd "${MIN_IND2}" \
+            -baq "${BAQ}" \
+            -ref "${REF_SEQ}" \
+            -GL "${GT_LIKELIHOOD}" \
+            -P "${N_CORES}" \
+            -rf "${REGIONS}" \
+            -doPost "${DO_POST}"
+    elif [[ -z "${REGIONS}" ]]
+    then
+        echo "WRAPPER: $GROUP_2 sfs starting..." >&2
+        "${ANGSD_DIR}"/angsd \
+            -bam "${G2_SAMPLE_LIST}" \
+            -out "${OUTDIR}"/"${GROUP_2}"_Intergenic \
+            -doMajorMinor "${DO_MAJORMINOR}" \
+            -doMaf "${DO_MAF}" \
+            -indF "${G2_INBREEDING}" \
+            -doSaf "${DO_SAF}" \
+            -uniqueOnly "${UNIQUE_ONLY}" \
+            -anc "${ANC_SEQ}" \
+            -minMapQ "${MIN_MAPQ}" \
+            -minQ "${MIN_BASEQUAL}" \
+            -nInd "${N_IND2}" \
+            -minInd "${MIN_IND2}" \
+            -baq "${BAQ}" \
+            -ref "${REF_SEQ}" \
+            -GL "${GT_LIKELIHOOD}" \
+            -P "${N_CORES}" \
+            -doPost "${DO_POST}"
+    else
+        echo "WRAPPER: $GROUP_2 sfs starting..." >&2
+        "${ANGSD_DIR}"/angsd \
+            -bam "${G2_SAMPLE_LIST}" \
+            -out "${OUTDIR}"/"${GROUP_2}"_Intergenic \
+            -doMajorMinor "${DO_MAJORMINOR}" \
+            -doMaf "${DO_MAF}" \
+            -indF "${G2_INBREEDING}" \
+            -doSaf "${DO_SAF}" \
+            -uniqueOnly "${UNIQUE_ONLY}" \
+            -anc "${ANC_SEQ}" \
+            -minMapQ "${MIN_MAPQ}" \
+            -minQ "${MIN_BASEQUAL}" \
+            -nInd "${N_IND2}" \
+            -minInd "${MIN_IND2}" \
+            -baq "${BAQ}" \
+            -ref "${REF_SEQ}" \
+            -GL "${GT_LIKELIHOOD}" \
+            -P "${N_CORES}" \
+            -r "${REGIONS}"
+    fi
 fi
 
 #   Find intersecting regions
@@ -150,6 +198,29 @@ then
         -GL "${GT_LIKELIHOOD}" \
         -P "${N_CORES}" \
         -rf "${REGIONS}" \
+        -doPost "${DO_POST}" \
+        -sites "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+elif [[ -z "${REGIONS}" ]]
+then
+    echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
+    "${ANGSD_DIR}"/angsd \
+        -bam "${G1_SAMPLE_LIST}" \
+        -out "${OUTDIR}"/"${GROUP_1}"_Intergenic_Conditioned \
+        -doMajorMinor "${DO_MAJORMINOR}" \
+        -doMaf "${DO_MAF}" \
+        -indF "${G1_INBREEDING}" \
+        -doSaf "${DO_SAF}" \
+        -uniqueOnly "${UNIQUE_ONLY}" \
+        -anc "${ANC_SEQ}" \
+        -minMapQ "${MIN_MAPQ}" \
+        -minQ "${MIN_BASEQUAL}" \
+        -nInd "${N_IND1}" \
+        -minInd "${MIN_IND1}" \
+        -baq "${BAQ}" \
+        -ref "${REF_SEQ}" \
+        -GL "${GT_LIKELIHOOD}" \
+        -P "${N_CORES}" \
+        -doPost "${DO_POST}" \
         -sites "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 else
     echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
@@ -195,6 +266,29 @@ then
         -GL "${GT_LIKELIHOOD}" \
         -P "${N_CORES}" \
         -rf "${REGIONS}" \
+        -doPost "${DO_POST}" \
+        -sites "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+elif [[ -z "${REGIONS}" ]]
+then
+    echo "WRAPPER: $GROUP_2 sfs round 2..." >&2
+    "${ANGSD_DIR}"/angsd \
+        -bam "${G2_SAMPLE_LIST}" \
+        -out "${OUTDIR}"/"${GROUP_2}"_Intergenic_Conditioned \
+        -doMajorMinor "${DO_MAJORMINOR}" \
+        -doMaf "${DO_MAF}" \
+        -indF "${G2_INBREEDING}" \
+        -doSaf "${DO_SAF}" \
+        -uniqueOnly "${UNIQUE_ONLY}" \
+        -anc "${ANC_SEQ}" \
+        -minMapQ "${MIN_MAPQ}" \
+        -minQ "${MIN_BASEQUAL}" \
+        -nInd "${N_IND2}" \
+        -minInd "${MIN_IND2}" \
+        -baq "${BAQ}" \
+        -ref "${REF_SEQ}" \
+        -GL "${GT_LIKELIHOOD}" \
+        -P "${N_CORES}" \
+        -doPost "${DO_POST}" \
         -sites "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 else
     echo "WRAPPER: $GROUP_2 sfs round 2..." >&2
@@ -224,7 +318,5 @@ echo "WRAPPER: realSFS 2dsfs..." >&2
 "${ANGSD_DIR}"/misc/realSFS 2dsfs \
     "${OUTDIR}"/"${GROUP_1}"_Intergenic_Conditioned.saf.idx \
     "${OUTDIR}"/"${GROUP_2}"_Intergenic_Conditioned.saf.idx \
-    "${N_CHROM1}" \
-    "${N_CHROM2}" \
     -P "${N_CORES}" \
     > "${OUTDIR}"/2DSFS_Intergenic."${GROUP_1}"."${GROUP_2}".sfs
