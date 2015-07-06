@@ -52,7 +52,8 @@ else
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -doGeno "${DO_GENO}" \
-            -rf "${REGIONS}"
+            -rf "${REGIONS}" \
+            -doPost "${DO_POST}"
     elif [[ -z "${REGIONS}" ]]
     then
         "${ANGSD_DIR}"/angsd \
