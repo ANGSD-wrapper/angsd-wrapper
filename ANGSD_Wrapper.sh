@@ -36,6 +36,7 @@ case "${WRAPPER}" in
     "ABBA_BABA" )
         #   Run the ABBA-BABA wrapper script
         bash Wrappers/ABBA_BABA.sh "${CONFIG}"
+        ;;
     * )
         usage
         ;;
