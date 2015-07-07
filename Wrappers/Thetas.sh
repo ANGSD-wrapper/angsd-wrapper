@@ -33,67 +33,67 @@ else
     if [[ "${REGIONS}" == */* ]]
     then
         "${ANGSD_DIR}"/angsd \
-            -bam "${SAMPLE_LIST}"\
-            -out "${OUTDIR}"/"${PROJECT}"_Diversity\
-            -indF "${SAMPLE_INBREEDING}"\
-            -doSaf "${DO_SAF}"\
-            -doThetas "${DO_THETAS}"\
-            -uniqueOnly "${UNIQUE_ONLY}"\
-            -anc "${ANC_SEQ}"\
-            -minMapQ "${MIN_MAPQ}"\
-            -minQ "${MIN_BASEQUAL}"\
-            -nInd "${N_IND}"\
-            -minInd "${MIN_IND}"\
-            -baq "${BAQ}"\
-            -ref "${REF_SEQ}"\
-            -GL "${GT_LIKELIHOOD}"\
-            -P "${N_CORES}"\
-            -doMajorMinor "${DO_MAJORMINOR}"\
-            -doMaf "${DO_MAF}"\
-            -pest "${PEST}"\
+            -bam "${SAMPLE_LIST}" \
+            -out "${OUTDIR}"/"${PROJECT}"_Diversity \
+            -indF "${SAMPLE_INBREEDING}" \
+            -doSaf "${DO_SAF}" \
+            -doThetas "${DO_THETAS}" \
+            -uniqueOnly "${UNIQUE_ONLY}" \
+            -anc "${ANC_SEQ}" \
+            -minMapQ "${MIN_MAPQ}" \
+            -minQ "${MIN_BASEQUAL}" \
+            -nInd "${N_IND}" \
+            -minInd "${MIN_IND}" \
+            -baq "${BAQ}" \
+            -ref "${REF_SEQ}" \
+            -GL "${GT_LIKELIHOOD}" \
+            -P "${N_CORES}" \
+            -doMajorMinor "${DO_MAJORMINOR}" \
+            -doMaf "${DO_MAF}" \
+            -pest "${PEST}" \
             -rf "${REGIONS}" \
             -doPost "${DO POST}"
     elif [[ -z "${REGIONS}" ]]
     then
         "${ANGSD_DIR}"/angsd \
-            -bam "${SAMPLE_LIST}"\
-            -out "${OUTDIR}"/"${PROJECT}"_Diversity\
-            -indF "${SAMPLE_INBREEDING}"\
-            -doSaf "${DO_SAF}"\
-            -doThetas "${DO_THETAS}"\
-            -uniqueOnly "${UNIQUE_ONLY}"\
-            -anc "${ANC_SEQ}"\
-            -minMapQ "${MIN_MAPQ}"\
-            -minQ "${MIN_BASEQUAL}"\
-            -nInd "${N_IND}"\
-            -minInd "${MIN_IND}"\
-            -baq "${BAQ}"\
-            -ref "${REF_SEQ}"\
-            -GL "${GT_LIKELIHOOD}"\
-            -P "${N_CORES}"\
-            -doMajorMinor "${DO_MAJORMINOR}"\
-            -doMaf "${DO_MAF}"\
-            -pest "${PEST}"\
+            -bam "${SAMPLE_LIST}" \
+            -out "${OUTDIR}"/"${PROJECT}"_Diversity \
+            -indF "${SAMPLE_INBREEDING}" \
+            -doSaf "${DO_SAF}" \
+            -doThetas "${DO_THETAS}" \
+            -uniqueOnly "${UNIQUE_ONLY}" \
+            -anc "${ANC_SEQ}" \
+            -minMapQ "${MIN_MAPQ}" \
+            -minQ "${MIN_BASEQUAL}" \
+            -nInd "${N_IND}" \
+            -minInd "${MIN_IND}" \
+            -baq "${BAQ}" \
+            -ref "${REF_SEQ}" \
+            -GL "${GT_LIKELIHOOD}" \
+            -P "${N_CORES}" \
+            -doMajorMinor "${DO_MAJORMINOR}" \
+            -doMaf "${DO_MAF}" \
+            -pest "${PEST}" \
             -doPost "${DO POST}"
     else
         "${ANGSD_DIR}"/angsd \
-        -bam "${SAMPLE_LIST}"\
-        -out "${OUTDIR}"/"${PROJECT}"_Diversity\
-        -indF "${SAMPLE_INBREEDING}"\
-        -doSaf "${DO_SAF}"\
-        -doThetas "${DO_THETAS}"\
-        -uniqueOnly "${UNIQUE_ONLY}"\
-        -anc "${ANC_SEQ}"\
-        -minMapQ "${MIN_MAPQ}"\
-        -minQ "${MIN_BASEQUAL}"\
-        -nInd "${N_IND}"\
-        -minInd "${MIN_IND}"\
-        -baq "${BAQ}"\
-        -ref "${REF_SEQ}"\
-        -GL "${GT_LIKELIHOOD}"\
-        -P "${N_CORES}"\
-        -doMajorMinor "${DO_MAJORMINOR}"\
-        -doMaf "${DO_MAF}"\
+        -bam "${SAMPLE_LIST}" \
+        -out "${OUTDIR}"/"${PROJECT}"_Diversity \
+        -indF "${SAMPLE_INBREEDING}" \
+        -doSaf "${DO_SAF}" \
+        -doThetas "${DO_THETAS}" \
+        -uniqueOnly "${UNIQUE_ONLY}" \
+        -anc "${ANC_SEQ}" \
+        -minMapQ "${MIN_MAPQ}" \
+        -minQ "${MIN_BASEQUAL}" \
+        -nInd "${N_IND}" \
+        -minInd "${MIN_IND}" \
+        -baq "${BAQ}" \
+        -ref "${REF_SEQ}" \
+        -GL "${GT_LIKELIHOOD}" \
+        -P "${N_CORES}" \
+        -doMajorMinor "${DO_MAJORMINOR}" \
+        -doMaf "${DO_MAF}" \
         -pest "${PEST}" \
         -r "${REGIONS}"
     fi
