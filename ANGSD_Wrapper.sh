@@ -9,7 +9,7 @@ set -o pipefail
 function usage() {
     echo -e "\
 Usage:  ./ANGSD_Wrapper.sh <wrapper> <config> \n\
-where:  <wrapper> is one of SFS, 2DSFS, ABBA_BABA
+where:  <wrapper> is one of SFS, 2DSFS, ABBA_BABA, ANC_SEQ
 and:    <config> is the corresponding configuration file \n\
 " >&2
     exit 1
@@ -36,6 +36,12 @@ case "${WRAPPER}" in
     "ABBA_BABA" )
         #   Run the ABBA-BABA wrapper script
         bash Wrappers/ABBA_BABA.sh "${CONFIG}"
+        ;;
+    "ANC_SEQ" )
+        #   Run the ancestral sequence wrapper script
+        bash Wrappers/Ancestral_Sequence.sh "${CONFIG}"
+    "help" )
+        usage
         ;;
     * )
         usage
