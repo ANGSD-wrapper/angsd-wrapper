@@ -4,7 +4,7 @@ set -e
 set -u
 set -o pipefail
 
-# Load variables from supplied config file
+#   Load variables from supplied config file
 source $1
 
 #   Variables created from transforming other variables
@@ -28,7 +28,7 @@ mkdir -p ${OUTDIR}
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
 if [[ -f "${OUTDIR}/${PROJECT}_SFSOut.mafs.gz" ]] && [ "$OVERRIDE" = "false" ]
-then 
+then
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam..."
 else
     if [[ "${REGIONS}" == */* ]]
