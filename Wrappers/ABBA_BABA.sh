@@ -16,6 +16,15 @@ then
         -out "${OUTDIR}"/"${PROJECT}"
 fi
 
+#   Check for local R installation
+if `command -v Rscript > /dev/null 2> /dev/null`
+then
+    echo "R is insalled"
+else
+    echo "R is not installed or not in your PATH"
+    exit 1
+fi
+
 #   Create outdirectory
 mkdir -p ${OUTDIR}
 
