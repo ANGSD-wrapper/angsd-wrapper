@@ -9,7 +9,7 @@ set -o pipefail
 function usage() {
     echo -e "\
 Usage:  ./ANGSD_Wrapper.sh <wrapper> <config> \n\
-where:  <wrapper> is one of SFS, 2DSFS
+where:  <wrapper> is one of SFS, 2DSFS, ABBA_BABA
 and:    <config> is the corresponding configuration file \n\
 " >&2
     exit 1
@@ -33,6 +33,9 @@ case "${WRAPPER}" in
         #   Run the 2D site frequency spectrum wrapper script
         bash Wrappers/2D_Site_Frequency_Spectrum.sh "${CONFIG}"
         ;;
+    "ABBA_BABA" )
+        #   Run the ABBA-BABA wrapper script
+        bash Wrappers/ABBA_BABA.sh "${CONFIG}"
     * )
         usage
         ;;
