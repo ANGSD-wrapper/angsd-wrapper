@@ -19,7 +19,7 @@ SAMPLE_INBREEDING=
 ANC_SEQ=
 REF_SEQ=
 
-#   WHere do we put the outfiles?
+#   Where do we put the outfiles?
 OUTDIR=
 
 #   Define the region being looked at

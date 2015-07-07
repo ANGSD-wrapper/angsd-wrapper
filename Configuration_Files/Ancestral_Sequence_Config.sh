@@ -9,5 +9,5 @@ set -o pipefail
 #   Where is the ancestral BAM file?
 ANC_BAM=
 
-#   ANGSD Direcotry
+#   Where is ANGSD?
 ANGSD_DIR=

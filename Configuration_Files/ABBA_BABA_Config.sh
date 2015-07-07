@@ -17,7 +17,7 @@ OUTGROUP=nope
 #   Ancestral sequence
 ANC_SEQ=
 
-#   WHere do we put the outfiles?
+#   Where do we put the outfiles?
 OUTDIR=
 
 #   Define the region being looked at

@@ -28,7 +28,7 @@ G2_INBREEDING=
 ANC_SEQ=
 REF_SEQ=
 
-#   WHere do we put the outfiles?
+#   Where do we put the outfiles?
 OUTDIR=
 
 #   Region being looked at?
