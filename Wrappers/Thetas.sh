@@ -52,7 +52,7 @@ else
             -doMaf "${DO_MAF}" \
             -pest "${PEST}" \
             -rf "${REGIONS}" \
-            -doPost "${DO POST}"
+            -doPost "${DO_POST}"
     elif [[ -z "${REGIONS}" ]]
     then
         "${ANGSD_DIR}"/angsd \
@@ -74,7 +74,7 @@ else
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -pest "${PEST}" \
-            -doPost "${DO POST}"
+            -doPost "${DO_POST}"
     else
         "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \
