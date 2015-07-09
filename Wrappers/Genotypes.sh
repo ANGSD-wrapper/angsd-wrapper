@@ -9,9 +9,9 @@ source $1
 
 #   Variables created from transforming other variables
 #       The number of individuals in the taxon we are analyzing
-N_IND = `wc -l < "${SAMPLE_LIST}"`
+N_IND=`wc -l < "${SAMPLE_LIST}"`
 #       How many inbreeding coefficients are supplied?
-N_F = `wc -l < "${SAMPLE_INBREEDING}"`
+N_F=`wc -l < "${SAMPLE_INBREEDING}"`
 
 #   Perform a check to see if number of individuals matches number of inbreeding coefficients
 if [ "${N_IND}" -ne "${N_F}" ]
