@@ -50,6 +50,7 @@ else
             -P "${N_CORES}" \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
+            -pest "${PEST}" \
             -rf "${REGIONS}" \
             -doPost "${DO_POST}"
     elif [[ -z "${REGIONS}" ]]
