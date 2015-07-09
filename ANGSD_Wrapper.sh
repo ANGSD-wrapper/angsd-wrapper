@@ -15,6 +15,13 @@ and:    <config> is the corresponding configuration file \n\
     exit 1
 }
 
+#   Check to see if Wrappers directory is one level below this
+if ! [[ -d 'Wrappers' ]]
+then
+    echo "Cannot find 'Wrappers' directory, exiting" >&2
+    exit 1
+fi
+
 #   Check to see if there are the correct number of arguments
 if [ "$#" -lt 2 ]
 then
