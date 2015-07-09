@@ -40,6 +40,7 @@ case "${WRAPPER}" in
     "ANC_SEQ" )
         #   Run the ancestral sequence wrapper script
         bash Wrappers/Ancestral_Sequence.sh "${CONFIG}"
+        ;;
     "Genotypes" )
         #   Run the genotypes wrapper script
         bash Wrappers/Genotypes.sh "${CONFIG}"
