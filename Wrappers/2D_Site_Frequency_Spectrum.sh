@@ -180,7 +180,8 @@ echo "WRAPPER: making intersect file..." >&2
 gunzip -c "${OUTDIR}"/"${GROUP_1}"_Intergenic.saf.pos "${OUTDIR}"/"${GROUP_2}"_Intergenic.saf.pos | sort | uniq -d | sort -k1,1 > "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 
 #   Calculate allele frequencies only on sites in both populations
-if [[ "${REGIONS}" == */* ]]
+#   Do we have a regions file?
+if [[ -f "${REGIONS}" ]]
 then
     echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
     "${ANGSD_DIR}"/angsd \
@@ -203,6 +204,7 @@ then
         -rf "${REGIONS}" \
         -doPost "${DO_POST}" \
         -sites "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+#   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
     echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
@@ -225,6 +227,7 @@ then
         -P "${N_CORES}" \
         -doPost "${DO_POST}" \
         -sites "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+#   Assuming a single reigon was defined in config file
 else
     echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
     "${ANGSD_DIR}"/angsd \
@@ -248,7 +251,8 @@ else
         -sites "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 fi
 
-if [[ "${REGIONS}" == */* ]]
+#   Do we have a regions file?
+if [[ -f "${REGIONS}" ]]
 then
     echo "WRAPPER: $GROUP_2 sfs round 2..." >&2
     "${ANGSD_DIR}"/angsd \
@@ -271,6 +275,7 @@ then
         -rf "${REGIONS}" \
         -doPost "${DO_POST}" \
         -sites "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+#   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
     echo "WRAPPER: $GROUP_2 sfs round 2..." >&2
@@ -293,6 +298,7 @@ then
         -P "${N_CORES}" \
         -doPost "${DO_POST}" \
         -sites "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+#   Assuming a single reigon was defined in config file
 else
     echo "WRAPPER: $GROUP_2 sfs round 2..." >&2
     "${ANGSD_DIR}"/angsd \

@@ -4,7 +4,7 @@ set -e
 set -u
 set -o pipefail
 
-#   A simple script to hold variables for the Site Frequency Spectrum
+#   A simple script to hold variables for the Estimation of Thetas
 
 #   Name the project
 PROJECT=
