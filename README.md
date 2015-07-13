@@ -7,7 +7,7 @@ Forked from [Arun Durvasula](https://github.com/arundurvasula/angsd-wrapper) in 
 
 To read about why I'm doing this, look no further than this [Gist](https://gist.github.com/mojaveazure/ce8c41440805be16c09c).
 
-**NOTE: The SFS method requires BAM files to have the "@HD" header line. If your BAM files do not have this line, this [Gist](https://gist.github.com/mojaveazure/d194c4705642eecf8437) will add one.**
+**NOTE: [ANGSD](https://github.com/angsd/angsd) requires BAM files to have the "@HD" header line. If your BAM files do not have this line, this [Gist](https://gist.github.com/mojaveazure/d194c4705642eecf8437) will add one.**
 
 ### Supported methods
 
