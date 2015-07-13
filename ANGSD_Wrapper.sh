@@ -9,7 +9,7 @@ set -o pipefail
 function usage() {
     echo -e "\
 Usage:  ./ANGSD_Wrapper.sh <wrapper> <config> \n\
-where:  <wrapper> is one of SFS, 2DSFS, ABBA_BABA, ANC_SEQ, Genotypes, Thetas
+where:  <wrapper> is one of SFS, 2DSFS, ABBA_BABA, ANC_SEQ, Genotypes, Thetas, ngsF
 and:    <config> is the corresponding configuration file \n\
 \n\
 The following is a list of calls and what they do: \n\
@@ -19,6 +19,7 @@ The following is a list of calls and what they do: \n\
     ANC_SEQ     Extract Ancestral Sequence from BAM file \n\
     Genotypes   Genotype Calling \n\
     Thetas      Estimate thetas and perform neutrality test statistics \n\
+    ngsF        Use ngsF to calculate per-individual inbreeding coefficients \n\
 \n\
 For an interactive help, type 'help me' without the quotes \n\
 " >&2
@@ -65,6 +66,10 @@ case "${WRAPPER}" in
     "Thetas" )
         #   Run the thetas wrapper script
         bash Wrappers/Thetas.sh "${CONFIG}"
+        ;;
+    "ngsF" )
+        #   Run the ngsF wrapper script
+        bash Wrappers/ngsF.sh "${CONFIG}"
         ;;
     "help" )
         bash Wrappers/Help.sh
