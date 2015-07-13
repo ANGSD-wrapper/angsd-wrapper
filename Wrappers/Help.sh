@@ -37,6 +37,7 @@ function variableDefinitions() {
         echo
         echo "Please select the argument you are interested in"
         echo "type 'fin' without quotes when finished"
+        echo
         read argument
         case "$argument" in
             "bam" )

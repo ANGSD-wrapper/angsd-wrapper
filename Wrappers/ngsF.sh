@@ -18,7 +18,7 @@ then
         -rf "${REGIONS}" \
         -doGLF "${DO_GLF}" \
         -GL "${GT_LIKELIHOOD}" \
-        -out "${OUTDIR}"/"${PROJECT}" \
+        -out "${OUTDIR}"/"${PROJECT}"/"${PROJECT}" \
         -ref "${REF_SEQ}" \
         -anc "${ANC_SEQ}" \
         -doMaf "${DO_MAF}" \
@@ -34,7 +34,7 @@ then
         -bam "${SAMPLE_LIST}" \
         -doGLF "${DO_GLF}" \
         -GL "${GT_LIKELIHOOD}" \
-        -out "${OUTDIR}"/"${PROJECT}" \
+        -out "${OUTDIR}"/"${PROJECT}"/"${PROJECT}" \
         -ref "${REF_SEQ}" \
         -anc "${ANC_SEQ}" \
         -doMaf "${DO_MAF}" \
@@ -50,7 +50,7 @@ else
         -r "${REGIONS}" \
         -doGLF "${DO_GLF}" \
         -GL "${GT_LIKELIHOOD}" \
-        -out "${OUTDIR}"/"${PROJECT}" \
+        -out "${OUTDIR}"/"${PROJECT}/"${PROJECT}"" \
         -ref "${REF_SEQ}" \
         -anc "${ANC_SEQ}" \
         -doMaf "${DO_MAF}" \
@@ -69,7 +69,7 @@ zcat "${OUTDIR}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
     -n_sites "${N_SITES}" \
     -min_epsilon "${MIN_EPSILON}" \
     -glf - \
-    -out "${OUTDIR}"/"${PROJECT}".approx_indF \
+    -out "${OUTDIR}"/"${PROJECT}"/"${PROJECT}".approx_indF \
     -approx_EM \
     -seed "${SEED}" \
     -init_values r \
@@ -81,6 +81,5 @@ zcat "${OUTDIR}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
     -min_epsilon "${MIN_EPSILON}" \
     -glf - \
     -out "${OUTDIR}"/"${PROJECT}".indF \
-    -init_values "${OUTDIR}"/"${PROJECT}".approx_indF.pars \
+    -init_values "${OUTDIR}"/"${PROJECT}"/"${PROJECT}".approx_indF.pars \
     -n_threads "${N_CORES}"
-
