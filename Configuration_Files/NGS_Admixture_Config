@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+set -u
+set -o pipefail
+
+#   A simple script to hold the varialbes for the NGS Admixture
+
+#   Name the project
+PROJECT=
+
+#   The Likelihood file
+#       This is the .beagle.gz file from the Site Frequency Spectrum
+LIKELIHOOD=
+
+#   Where is NGS PopGen?
+NGS_DIR=
+
+
+K=5
