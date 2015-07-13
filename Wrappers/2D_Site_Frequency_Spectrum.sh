@@ -32,7 +32,7 @@ mkdir -p ${OUTDIR}
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
 #       For 1st group
 if [[ -f "${OUTDIR}/${GROUP_1}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
-then 
+then
     echo "WRAPPER: saf already exists and OVERRIDE=false, skipping angsd -bam..." >&2
 else
     if [[ "${REGIONS}" == */* ]]
@@ -106,7 +106,8 @@ if [[ -f "${OUTDIR}/${GROUP_2}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
 then
     echo "WRAPPER: saf already exists and OVERRIDE=false, skipping angsd -bam..." >&2
 else
-    if [[ "${REGIONS}" == */* ]]
+    #   Do we have a regions file?
+    if [[ -f "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
         "${ANGSD_DIR}"/angsd \
@@ -128,6 +129,7 @@ else
             -P "${N_CORES}" \
             -rf "${REGIONS}" \
             -doPost "${DO_POST}"
+    #   Are we missing a definiton for regions?
     elif [[ -z "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
@@ -149,6 +151,7 @@ else
             -GL "${GT_LIKELIHOOD}" \
             -P "${N_CORES}" \
             -doPost "${DO_POST}"
+    #   Assuming a single reigon was defined in config file
     else
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
         "${ANGSD_DIR}"/angsd \

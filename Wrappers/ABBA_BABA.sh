@@ -29,7 +29,8 @@ fi
 mkdir -p ${OUTDIR}
 
 #   Now we actually run the command
-if [[ "${REGIONS}" == */* ]]
+#   Do we have a regions file?
+if [[ -f "${REGIONS}" ]]
 then
     "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
@@ -45,6 +46,7 @@ then
         -checkBamHeaders "${CHECK_BAM_HEADERS}" \
         -rf "${REGIONS}" \
         -out "${OUTDIR}"/"${PROJECT}".D
+#   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
     "${ANGSD_DIR}"/angsd \
@@ -60,6 +62,7 @@ then
         -P "${N_CORES}" \
         -checkBamHeaders "${CHECK_BAM_HEADERS}" \
         -out "${OUTDIR}"/"${PROJECT}".D
+#   Assuming a single reigon was defined in config file
 else
     "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \

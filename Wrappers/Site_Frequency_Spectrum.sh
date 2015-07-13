@@ -31,7 +31,8 @@ if [[ -f "${OUTDIR}/${PROJECT}_SFSOut.mafs.gz" ]] && [ "$OVERRIDE" = "false" ]
 then
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam..."
 else
-    if [[ "${REGIONS}" == */* ]]
+    #   Do we have a regions file?
+    if [[ -f "${REGIONS}" ]]
     then
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
@@ -54,6 +55,7 @@ else
             -doGeno "${DO_GENO}" \
             -rf "${REGIONS}" \
             -doPost "${DO_POST}"
+    #   Are we missing a definiton for regions?
     elif [[ -z "${REGIONS}" ]]
     then
         "${ANGSD_DIR}"/angsd \
@@ -76,6 +78,7 @@ else
             -doMaf "${DO_MAF}" \
             -doGeno "${DO_GENO}" \
             -doPost "${DO_POST}"
+    #   Assuming a single reigon was defined in config file
     else
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \

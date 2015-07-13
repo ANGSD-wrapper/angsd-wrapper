@@ -30,7 +30,8 @@ if [[  -f "${OUTDIR}/${PROJECT}_Diversity.mafs.gz" ]] && [ "${OVERRIDE}" = "fals
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     #   Now we actually run the command, this creates a binary file that contains the prior SFS
-    if [[ "${REGIONS}" == */* ]]
+    #   Do we have a regions file?
+    if [[ -f "${REGIONS}" ]]
     then
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
@@ -52,6 +53,7 @@ else
             -doMaf "${DO_MAF}" \
             -pest "${PEST}" \
             -rf "${REGIONS}"
+    #   Are we missing a definiton for regions?
     elif [[ -z "${REGIONS}" ]]
     then
         "${ANGSD_DIR}"/angsd \
@@ -73,6 +75,7 @@ else
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -pest "${PEST}"
+    #   Assuming a single reigon was defined in config file
     else
         "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \

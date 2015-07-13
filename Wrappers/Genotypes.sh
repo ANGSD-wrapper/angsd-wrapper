@@ -25,7 +25,8 @@ mkdir -p ${OUTDIR}
 
 
 #   Now we actually run the command
-if [[ "${REGIONS}" == */* ]]
+#   Do we have a regions file?
+if [[ -f "${REGIONS}" ]]
 then
     "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \
@@ -45,6 +46,7 @@ then
         -nInd "${N_IND}" \
         -minInd "${MIN_IND}" \
         -P "${N_CORES}"
+#   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
     "${ANGSD_DIR}"/angsd \
@@ -64,6 +66,7 @@ then
         -nInd "${N_IND}" \
         -minInd "${MIN_IND}" \
         -P "${N_CORES}"
+#   Assuming a single reigon was defined in config file
 else
     "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \
