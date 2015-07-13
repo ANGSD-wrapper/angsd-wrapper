@@ -7,27 +7,27 @@ set -o pipefail
 #   A simple script to hold variables for the NGS_F
 
 #   Name the project
-PROJECT=
+PROJECT=SCN_ngsF
 
 #   Define a list of samples
-SAMPLE_LIST=
+SAMPLE_LIST=${HOME}/sandbox/SCN_Tasks/scratch/real_out/SAMTools_Dedup/No19_BAM.txt
 
 #   Ancestral and Reference sequences
-ANC_SEQ=
-REF_SEQ=
+ANC_SEQ=${HOME}/Shared/References/Reference_Sequences/Soybean_Cyst_Nematode/Heterodera_glycines_OP25_genome.fa
+REF_SEQ=${HOME}/Shared/References/Reference_Sequences/Soybean_Cyst_Nematode/Heterodera_glycines_OP25_genome.fa
 
 #   Where do we put the outfiles?
-OUTDIR=
+OUTDIR=${HOME}/sandbox/SCN_Tasks/scratch/real_out
 
 #   Define the region being looked at
 #       Optional, but ANGSD is expensive to run without specifying regions to look at
-REGIONS=
+REGIONS="${HOME}/sandbox/SCN_Tasks/scratch/real_out/SAMTools_Dedup/regions.txt"
 
 #   Where is ANGSD?
-ANGSD_DIR=
+ANGSD_DIR=${HOME}/software/angsd
 
 #   Where is ngsF?
-NGSF_DIR=
+NGSF_DIR=${HOME}/software/ngsF
 
 #   ngsF Parameters
 #       Listed below are the defaults, please modify for your samples
