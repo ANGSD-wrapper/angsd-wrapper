@@ -11,6 +11,16 @@ function usage() {
 Usage:  ./ANGSD_Wrapper.sh <wrapper> <config> \n\
 where:  <wrapper> is one of SFS, 2DSFS, ABBA_BABA, ANC_SEQ, Genotypes, Thetas
 and:    <config> is the corresponding configuration file \n\
+\n\
+The following is a list of calls and what they do: \n\
+    SFS         Site Frequency Spectrum \n\
+    2D SFS      2D Site Frequency Spectrum \n\
+    ABBA_BABBA  ABBA_BABBA Test \n\
+    ANC_SEQ     Extract Ancestral Sequence from BAM file \n\
+    Genotypes   Genotype Calling \n\
+    Thetas      Estimate thetas and perform neutrality test statistics \n\
+\n\
+For an interactive help, type 'help me' without the quotes \n\
 " >&2
     exit 1
 }
@@ -57,7 +67,7 @@ case "${WRAPPER}" in
         bash Wrappers/Thetas.sh "${CONFIG}"
         ;;
     "help" )
-        usage
+        bash Wrappers/Help.sh
         ;;
     * )
         usage
