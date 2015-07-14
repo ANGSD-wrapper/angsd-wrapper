@@ -24,9 +24,9 @@ then
 fi
 
 #   Create outdirectory
-mkdir -p ${OUTDIR}
+mkdir -p "${SCRATCH}"/"${PROJECT}"
 
-if [[  -f "${OUTDIR}/${PROJECT}_Diversity.mafs.gz" ]] && [ "${OVERRIDE}" = "false" ]; then
+if [[  -f "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity.mafs.gz ]] && [ "${OVERRIDE}" = "false" ]; then
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     #   Now we actually run the command, this creates a binary file that contains the prior SFS
@@ -35,7 +35,7 @@ else
     then
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
-            -out "${OUTDIR}"/"${PROJECT}"_Diversity \
+            -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
             -doThetas "${DO_THETAS}" \
@@ -58,7 +58,7 @@ else
     then
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
-            -out "${OUTDIR}"/"${PROJECT}"_Diversity \
+            -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
             -doThetas "${DO_THETAS}" \
@@ -79,7 +79,7 @@ else
     else
         "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${PROJECT}"_Diversity \
+        -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity \
         -indF "${SAMPLE_INBREEDING}" \
         -doSaf "${DO_SAF}" \
         -doThetas "${DO_THETAS}" \
@@ -102,16 +102,16 @@ fi
 
 
 "${ANGSD_DIR}"/misc/thetaStat make_bed \
-    "${OUTDIR}"/"${PROJECT}"_Diversity.thetas.gz
+    "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity.thetas.gz
 
 if [ "${SLIDING_WINDOW}" = "false" ]
 then
     "${ANGSD_DIR}"/misc/thetaStat do_stat \
-        "${OUTDIR}"/"${PROJECT}"_Diversity.thetas.gz \
+        "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity.thetas.gz \
         -nChr "${N_CHROM}"
 else
     "${ANGSD_DIR}"/misc/thetaStat do_stat \
-        "${OUTDIR}"/"${PROJECT}"_Diversity.thetas.gz \
+        "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity.thetas.gz \
         -nChr "${N_CHROM}" \
         -win "${WIN}" \
         -step "${STEP}"

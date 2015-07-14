@@ -21,7 +21,7 @@ then
 fi
 
 #   Create outdirectory
-mkdir -p ${OUTDIR}
+mkdir -p "${SCRATCH}"/"${PROJECT}"
 
 
 #   Now we actually run the command
@@ -30,7 +30,7 @@ if [[ -f "${REGIONS}" ]]
 then
     "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${PROJECT}"_snps \
+        -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_snps \
         -indF "${SAMPLE_INBREEDING}" \
         -doMajorMinor "${DO_MAJORMINOR}" \
         -uniqueOnly "${UNIQUE_ONLY}" \
@@ -51,7 +51,7 @@ elif [[ -z "${REGIONS}" ]]
 then
     "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${PROJECT}"_snps \
+        -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_snps \
         -indF "${SAMPLE_INBREEDING}" \
         -doMajorMinor "${DO_MAJORMINOR}" \
         -uniqueOnly "${UNIQUE_ONLY}" \
@@ -70,7 +70,7 @@ then
 else
     "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${PROJECT}"_snps \
+        -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_snps \
         -indF "${SAMPLE_INBREEDING}" \
         -doMajorMinor "${DO_MAJORMINOR}" \
         -uniqueOnly "${UNIQUE_ONLY}" \

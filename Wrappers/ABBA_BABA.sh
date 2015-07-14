@@ -13,7 +13,7 @@ then
         -doFasta "${DO_FASTA}" \
         -doCounts "${DO_COUNTS}" \
         -i "${OUTGROUP}" \
-        -out "${OUTDIR}"/"${PROJECT}"
+        -out "${SCRATCH}"/"${PROJECT}"
 fi
 
 #   Check for local R installation
@@ -26,7 +26,7 @@ else
 fi
 
 #   Create outdirectory
-mkdir -p ${OUTDIR}
+mkdir -p "${SCRATCH}"/"${PROJECT}"
 
 #   Now we actually run the command
 #   Do we have a regions file?
@@ -45,7 +45,7 @@ then
         -P "${N_CORES}" \
         -checkBamHeaders "${CHECK_BAM_HEADERS}" \
         -rf "${REGIONS}" \
-        -out "${OUTDIR}"/"${PROJECT}".D
+        -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}".D
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
@@ -61,7 +61,7 @@ then
         -minInd "${MIN_IND}" \
         -P "${N_CORES}" \
         -checkBamHeaders "${CHECK_BAM_HEADERS}" \
-        -out "${OUTDIR}"/"${PROJECT}".D
+        -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}".D
 #   Assuming a single reigon was defined in config file
 else
     "${ANGSD_DIR}"/angsd \
@@ -77,11 +77,11 @@ else
         -P "${N_CORES}" \
         -checkBamHeaders "${CHECK_BAM_HEADERS}" \
         -r "${REGIONS}" \
-        -out "${OUTDIR}"/"${PROJECT}".D
+        -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}".D
 fi
 
 #   jackKnife.R is provided with angsd.
 Rscript "${ANGSD_DIR}"/R/jackKnife.R \
-    file="${OUTDIR}"/"${PROJECT}".D.abbababa \
+    file="${SCRATCH}"/"${PROJECT}"/"${PROJECT}".D.abbababa \
     indNames="${SAMPLE_LIST}" \
-    outfile="${OUTDIR}"/"${PROJECT}".abbababa
+    outfile="${SCRATCH}"/"${PROJECT}"/"${PROJECT}".abbababa

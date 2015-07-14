@@ -6,9 +6,6 @@ set -o pipefail
 
 #   A simple script to hold variables for the 2D Site Frequency Spectrum
 
-#   Name the project
-PROJECT=
-
 #   What is group 1?
 GROUP_1=
 
@@ -31,8 +28,13 @@ G2_INBREEDING=
 ANC_SEQ=
 REF_SEQ=
 
+#   Name the project
+PROJECT=
+
 #   Where do we put the outfiles?
-OUTDIR=
+    #   Note, the final outdirectory will be
+    #   ${SCRATCH}/${PROJECT}
+SCRATCH=
 
 #   Region being looked at?
 REGIONS=

@@ -6,17 +6,19 @@ set -o pipefail
 
 #   A simple script to hold variables for the Site Frequency Spectrum
 
-#   Name the project
-PROJECT=
-
 #   Define a list of samples
 SAMPLE_LIST=
 
 #   Define a list of inbreeding coefficients
 SAMPLE_INBREEDING=
 
+#   Name the project
+PROJECT=
+
 #   Where do we put the outfiles?
-OUTDIR=
+    #   Note, the final outdirectory will be
+    #   ${SCRATCH}/${PROJECT}
+SCRATCH=
 
 #   Define the region being looked at
 #       Optional, but ANGSD is expensive to run without specifying regions to look at

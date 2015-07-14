@@ -6,9 +6,6 @@ set -o pipefail
 
 #   A simple script to hold variables for the Estimation of Thetas
 
-#   Name the project
-PROJECT=
-
 #   Define a list of samples
 SAMPLE_LIST=
 
@@ -19,8 +16,13 @@ SAMPLE_INBREEDING=
 ANC_SEQ=
 REF_SEQ=
 
+#   Name the project
+PROJECT=
+
 #   Where do we put the outfiles?
-OUTDIR=
+    #   Note, the final outdirectory will be
+    #   ${SCRATCH}/${PROJECT}
+SCRATCH=
 
 #   Define the region being looked at
 #       Optional, but ANGSD is expensive to run without specifying regions to look at
