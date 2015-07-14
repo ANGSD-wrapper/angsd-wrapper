@@ -61,10 +61,10 @@ else
         -nThreads "${N_CORES}"
 fi
 
-N_SITES=$(`zcat "${OUTDIR}"/"${PROJECT}".mafs.gz | wc -l`-1)
+N_SITES=$(`zcat "${OUTDIR}"/"${PROJECT}"/"${PROJECT}".mafs.gz | wc -l`-1)
 
 
-zcat "${OUTDIR}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
+zcat "${OUTDIR}"/"${PROJECT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
     -n_ind "${N_IND}" \
     -n_sites "${N_SITES}" \
     -min_epsilon "${MIN_EPSILON}" \
@@ -75,7 +75,7 @@ zcat "${OUTDIR}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
     -init_values r \
     -n_threads "${N_CORES}"
 
-zcat "${OUTDIR}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
+zcat "${OUTDIR}"/"${PROJECT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
     -n_ind "${N_IND}" \
     -n_sites "${N_SITES}" \
     -min_epsilon "${MIN_EPSILON}" \
