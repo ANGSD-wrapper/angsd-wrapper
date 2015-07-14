@@ -27,20 +27,20 @@ then
 fi
 
 #   Create the out directory
-mkdir -p ${OUTDIR}
+mkdir -p ${OUTDIR}/"${PROJECT}"
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
 #       For 1st group
-if [[ -f "${OUTDIR}/${GROUP_1}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
+if [[ -f "${OUTDIR}"/"${PROJECT}"/"${GROUP_1}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
 then
     echo "WRAPPER: saf already exists and OVERRIDE=false, skipping angsd -bam..." >&2
 else
-    if [[ "${REGIONS}" == */* ]]
+    if [[ -f "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_1 sfs starting..." >&2
         "${ANGSD_DIR}"/angsd \
             -bam "${G1_SAMPLE_LIST}" \
-            -out "${OUTDIR}"/"${GROUP_1}"_Intergenic \
+            -out "${OUTDIR}"/"${PROJECT}"/"${GROUP_1}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -indF "${G1_INBREEDING}" \
@@ -62,7 +62,7 @@ else
         echo "WRAPPER: $GROUP_1 sfs starting" >&2
         "${ANGSD_DIR}"/angsd \
             -bam "${G1_SAMPLE_LIST}" \
-            -out "${OUTDIR}"/"${GROUP_1}"_Intergenic \
+            -out "${OUTDIR}"/"${PROJECT}"/"${GROUP_1}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -indF "${G1_INBREEDING}" \
@@ -82,7 +82,7 @@ else
         echo "WRAPPER: $GROUP_1 sfs starting" >&2
         "${ANGSD_DIR}"/angsd \
             -bam "${G1_SAMPLE_LIST}" \
-            -out "${OUTDIR}"/"${GROUP_1}"_Intergenic \
+            -out "${OUTDIR}"/"${PROJECT}"/"${GROUP_1}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -indF "${G1_INBREEDING}" \
@@ -102,7 +102,7 @@ else
 fi
 
 #   For 2nd group:
-if [[ -f "${OUTDIR}/${GROUP_2}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
+if [[ -f "${OUTDIR}"/"${PROJECT}"/"${GROUP_2}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
 then
     echo "WRAPPER: saf already exists and OVERRIDE=false, skipping angsd -bam..." >&2
 else
@@ -112,7 +112,7 @@ else
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
         "${ANGSD_DIR}"/angsd \
             -bam "${G2_SAMPLE_LIST}" \
-            -out "${OUTDIR}"/"${GROUP_2}"_Intergenic \
+            -out "${OUTDIR}"/"${PROJECT}"/"${GROUP_2}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -indF "${G2_INBREEDING}" \
@@ -135,7 +135,7 @@ else
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
         "${ANGSD_DIR}"/angsd \
             -bam "${G2_SAMPLE_LIST}" \
-            -out "${OUTDIR}"/"${GROUP_2}"_Intergenic \
+            -out "${OUTDIR}"/"${PROJECT}"/"${GROUP_2}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -indF "${G2_INBREEDING}" \
@@ -156,7 +156,7 @@ else
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
         "${ANGSD_DIR}"/angsd \
             -bam "${G2_SAMPLE_LIST}" \
-            -out "${OUTDIR}"/"${GROUP_2}"_Intergenic \
+            -out "${OUTDIR}"/"${PROJECT}"/"${GROUP_2}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -indF "${G2_INBREEDING}" \
@@ -177,7 +177,7 @@ fi
 
 #   Find intersecting regions
 echo "WRAPPER: making intersect file..." >&2
-gunzip -c "${OUTDIR}"/"${GROUP_1}"_Intergenic.saf.pos "${OUTDIR}"/"${GROUP_2}"_Intergenic.saf.pos | sort | uniq -d | sort -k1,1 > "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+gunzip -c "${OUTDIR}"/"${PROJECT}"/"${GROUP_1}"_Intergenic.saf.pos "${OUTDIR}"/"${PROJECT}"/"${GROUP_2}"_Intergenic.saf.pos | sort | uniq -d | sort -k1,1 > "${OUTDIR}"/"${PROJECT}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 
 #   Calculate allele frequencies only on sites in both populations
 #   Do we have a regions file?
@@ -186,7 +186,7 @@ then
     echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
     "${ANGSD_DIR}"/angsd \
         -bam "${G1_SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${GROUP_1}"_Intergenic_Conditioned \
+        -out "${OUTDIR}"/"${PROJECT}"/"${GROUP_1}"_Intergenic_Conditioned \
         -doMajorMinor "${DO_MAJORMINOR}" \
         -doMaf "${DO_MAF}" \
         -indF "${G1_INBREEDING}" \
@@ -203,14 +203,14 @@ then
         -P "${N_CORES}" \
         -rf "${REGIONS}" \
         -doPost "${DO_POST}" \
-        -sites "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+        -sites "${OUTDIR}"/"${PROJECT}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
     echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
     "${ANGSD_DIR}"/angsd \
         -bam "${G1_SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${GROUP_1}"_Intergenic_Conditioned \
+        -out "${OUTDIR}"/"${PROJECT}"/"${GROUP_1}"_Intergenic_Conditioned \
         -doMajorMinor "${DO_MAJORMINOR}" \
         -doMaf "${DO_MAF}" \
         -indF "${G1_INBREEDING}" \
@@ -232,7 +232,7 @@ else
     echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
     "${ANGSD_DIR}"/angsd \
         -bam "${G1_SAMPLE_LIST}" \
-        -out "${OUTDIR}/${GROUP_1}"_Intergenic_Conditioned \
+        -out "${OUTDIR}"/"${PROJECT}"/"${GROUP_1}"_Intergenic_Conditioned \
         -doMajorMinor "${DO_MAJORMINOR}" \
         -doMaf "${DO_MAF}" \
         -indF "${G1_INBREEDING}" \
@@ -248,7 +248,7 @@ else
         -GL "${GT_LIKELIHOOD}" \
         -P "${N_CORES}" \
         -r "${REGIONS}" \
-        -sites "${OUTDIR}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+        -sites "${OUTDIR}"/"${PROJECT}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 fi
 
 #   Do we have a regions file?
@@ -257,7 +257,7 @@ then
     echo "WRAPPER: $GROUP_2 sfs round 2..." >&2
     "${ANGSD_DIR}"/angsd \
         -bam "${G2_SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${GROUP_2}"_Intergenic_Conditioned \
+        -out "${OUTDIR}"/"${PROJECT}"/"${GROUP_2}"_Intergenic_Conditioned \
         -doMajorMinor "${DO_MAJORMINOR}" \
         -doMaf "${DO_MAF}" \
         -indF "${G2_INBREEDING}" \
@@ -281,7 +281,7 @@ then
     echo "WRAPPER: $GROUP_2 sfs round 2..." >&2
     "${ANGSD_DIR}"/angsd \
         -bam "${G2_SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${GROUP_2}"_Intergenic_Conditioned \
+        -out "${OUTDIR}"/"${PROJECT}"/"${GROUP_2}"_Intergenic_Conditioned \
         -doMajorMinor "${DO_MAJORMINOR}" \
         -doMaf "${DO_MAF}" \
         -indF "${G2_INBREEDING}" \
@@ -303,7 +303,7 @@ else
     echo "WRAPPER: $GROUP_2 sfs round 2..." >&2
     "${ANGSD_DIR}"/angsd \
         -bam "${G2_SAMPLE_LIST}" \
-        -out "${OUTDIR}"/"${GROUP_2}"_Intergenic_Conditioned \
+        -out "${OUTDIR}"/"${PROJECT}"/"${GROUP_2}"_Intergenic_Conditioned \
         -doMajorMinor "${DO_MAJORMINOR}" \
         -doMaf "${DO_MAF}" \
         -indF "${G2_INBREEDING}" \
@@ -325,7 +325,7 @@ fi
 #   Estimate joint SFS using realSFS
 echo "WRAPPER: realSFS 2dsfs..." >&2
 "${ANGSD_DIR}"/misc/realSFS 2dsfs \
-    "${OUTDIR}"/"${GROUP_1}"_Intergenic_Conditioned.saf.idx \
-    "${OUTDIR}"/"${GROUP_2}"_Intergenic_Conditioned.saf.idx \
+    "${OUTDIR}"/"${PROJECT}"/"${GROUP_1}"_Intergenic_Conditioned.saf.idx \
+    "${OUTDIR}"/"${PROJECT}"/"${GROUP_2}"_Intergenic_Conditioned.saf.idx \
     -P "${N_CORES}" \
-    > "${OUTDIR}"/2DSFS_Intergenic."${GROUP_1}"."${GROUP_2}".sfs
+    > "${OUTDIR}"/"${PROJECT}"/2DSFS_Intergenic."${GROUP_1}"."${GROUP_2}".sfs

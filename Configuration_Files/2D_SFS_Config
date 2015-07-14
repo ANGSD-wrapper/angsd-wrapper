@@ -6,6 +6,9 @@ set -o pipefail
 
 #   A simple script to hold variables for the 2D Site Frequency Spectrum
 
+#   Name the project
+PROJECT=
+
 #   What is group 1?
 GROUP_1=
 

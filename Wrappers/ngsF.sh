@@ -10,58 +10,63 @@ N_IND=`wc -l < "${SAMPLE_LIST}"`
 
 mkdir -p ${OUTDIR}/${PROJECT}
 
-#   Do we have a regions file?
-if [[ -f "${REGIONS}" ]]
+if [[ -f "${OUTDIR}"/"${PROJECT}"/"${PROJECT}"_.mafs.gz ]] && [[ "${OVERRIDE}" = "false" ]]
 then
-    "${ANGSD_DIR}"/angsd \
-        -bam "${SAMPLE_LIST}" \
-        -rf "${REGIONS}" \
-        -doGLF "${DO_GLF}" \
-        -GL "${GT_LIKELIHOOD}" \
-        -out "${OUTDIR}"/"${PROJECT}"/"${PROJECT}" \
-        -ref "${REF_SEQ}" \
-        -anc "${ANC_SEQ}" \
-        -doMaf "${DO_MAF}" \
-        -SNP_pval "${SNP_PVAL}" \
-        -doMajorMinor "${DO_MAJORMINOR}" \
-        -minMapQ "${MIN_MAPQ}" \
-        -minQ "${MIN_BASEQUAL}" \
-        -nThreads "${N_CORES}"
-#   Are we missing a definiton for regions?
-elif [[ -z "${REGIONS}" ]]
-then
-    "${ANGSD_DIR}"/angsd \
-        -bam "${SAMPLE_LIST}" \
-        -doGLF "${DO_GLF}" \
-        -GL "${GT_LIKELIHOOD}" \
-        -out "${OUTDIR}"/"${PROJECT}"/"${PROJECT}" \
-        -ref "${REF_SEQ}" \
-        -anc "${ANC_SEQ}" \
-        -doMaf "${DO_MAF}" \
-        -SNP_pval "${SNP_PVAL}" \
-        -doMajorMinor "${DO_MAJORMINOR}" \
-        -minMapQ "${MIN_MAPQ}" \
-        -minQ "${MIN_BASEQUAL}" \
-        -nThreads "${N_CORES}"
-#   Assuming a single reigon was defined in config file
+    echo "mafs already exists and OVERRIDe=false, skipping angsd -bam..."
 else
-    "${ANGSD_DIR}"/angsd \
-        -bam "${SAMPLE_LIST}" \
-        -r "${REGIONS}" \
-        -doGLF "${DO_GLF}" \
-        -GL "${GT_LIKELIHOOD}" \
-        -out "${OUTDIR}"/"${PROJECT}/"${PROJECT}"" \
-        -ref "${REF_SEQ}" \
-        -anc "${ANC_SEQ}" \
-        -doMaf "${DO_MAF}" \
-        -SNP_pval "${SNP_PVAL}" \
-        -doMajorMinor "${DO_MAJORMINOR}" \
-        -minMapQ "${MIN_MAPQ}" \
-        -minQ "${MIN_BASEQUAL}" \
-        -nThreads "${N_CORES}"
+#   Do we have a regions file?
+    if [[ -f "${REGIONS}" ]]
+    then
+        "${ANGSD_DIR}"/angsd \
+            -bam "${SAMPLE_LIST}" \
+            -rf "${REGIONS}" \
+            -doGLF "${DO_GLF}" \
+            -GL "${GT_LIKELIHOOD}" \
+            -out "${OUTDIR}"/"${PROJECT}"/"${PROJECT}" \
+            -ref "${REF_SEQ}" \
+            -anc "${ANC_SEQ}" \
+            -doMaf "${DO_MAF}" \
+            -SNP_pval "${SNP_PVAL}" \
+            -doMajorMinor "${DO_MAJORMINOR}" \
+            -minMapQ "${MIN_MAPQ}" \
+            -minQ "${MIN_BASEQUAL}" \
+            -nThreads "${N_CORES}"
+    #   Are we missing a definiton for regions?
+    elif [[ -z "${REGIONS}" ]]
+    then
+        "${ANGSD_DIR}"/angsd \
+            -bam "${SAMPLE_LIST}" \
+            -doGLF "${DO_GLF}" \
+            -GL "${GT_LIKELIHOOD}" \
+            -out "${OUTDIR}"/"${PROJECT}"/"${PROJECT}" \
+            -ref "${REF_SEQ}" \
+            -anc "${ANC_SEQ}" \
+            -doMaf "${DO_MAF}" \
+            -SNP_pval "${SNP_PVAL}" \
+            -doMajorMinor "${DO_MAJORMINOR}" \
+            -minMapQ "${MIN_MAPQ}" \
+            -minQ "${MIN_BASEQUAL}" \
+            -nThreads "${N_CORES}"
+    #   Assuming a single reigon was defined in config file
+    else
+        "${ANGSD_DIR}"/angsd \
+            -bam "${SAMPLE_LIST}" \
+            -r "${REGIONS}" \
+            -doGLF "${DO_GLF}" \
+            -GL "${GT_LIKELIHOOD}" \
+            -out "${OUTDIR}"/"${PROJECT}/"${PROJECT}"" \
+            -ref "${REF_SEQ}" \
+            -anc "${ANC_SEQ}" \
+            -doMaf "${DO_MAF}" \
+            -SNP_pval "${SNP_PVAL}" \
+            -doMajorMinor "${DO_MAJORMINOR}" \
+            -minMapQ "${MIN_MAPQ}" \
+            -minQ "${MIN_BASEQUAL}" \
+            -nThreads "${N_CORES}"
+    fi
 fi
 
-N_SITES=$(`zcat "${OUTDIR}"/"${PROJECT}"/"${PROJECT}".mafs.gz | wc -l`-1)
+N_SITES="`expr $(zcat ${OUTDIR}/${PROJECT}/${PROJECT}.mafs.gz | wc -l) - 1`"
 
 
 zcat "${OUTDIR}"/"${PROJECT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
