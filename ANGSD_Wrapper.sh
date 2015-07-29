@@ -14,7 +14,9 @@ and:    <config> is the corresponding configuration file \n\
 \n\
 The following is a list of calls and what they do: \n\
     SFS         Site Frequency Spectrum \n\
-    2D SFS      2D Site Frequency Spectrum \n\
+    2DSFS      2D Site Frequency Spectrum \n\
+    ngsFST      FST calculations, THIS NEEDS TO BE \n\
+                    RUN AFTER 2D SFS
     ABBA_BABBA  ABBA_BABBA Test \n\
     ANC_SEQ     Extract Ancestral Sequence from BAM file \n\
     Genotypes   Genotype Calling \n\
@@ -51,6 +53,10 @@ case "${WRAPPER}" in
     "2DSFS" )
         #   Run the 2D site frequency spectrum wrapper script
         bash Wrappers/2D_Site_Frequency_Spectrum.sh "${CONFIG}"
+        ;;
+    "ngsFST" )
+        #   Run the ngsFST wrapper script
+        bash Wrappers/ngsFST.sh "${CONFIG}"
         ;;
     "ABBA_BABA" )
         #   Run the ABBA-BABA wrapper script
