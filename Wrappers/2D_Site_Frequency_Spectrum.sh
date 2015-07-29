@@ -177,7 +177,7 @@ fi
 
 #   Find intersecting regions
 echo "WRAPPER: making intersect file..." >&2
-gunzip -c "${SCRATCH}"/"${PROJECT}"/"${GROUP_1}"_Intergenic.saf.pos "${SCRATCH}"/"${PROJECT}"/"${GROUP_2}"_Intergenic.saf.pos | sort | uniq -d | sort -k1,1 > "${SCRATCH}"/"${PROJECT}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+gunzip -c "${SCRATCH}"/"${PROJECT}"/"${GROUP_1}"_Intergenic.saf.pos "${SCRATCH}"/"${PROJECT}"/"${GROUP_2}"_Intergenic.saf.pos | sort | uniq -d | sort -k1,1 > "${SCRATCH}"/"${PROJECT}"/Intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 
 #   Calculate allele frequencies only on sites in both populations
 #   Do we have a regions file?
@@ -203,7 +203,7 @@ then
         -P "${N_CORES}" \
         -rf "${REGIONS}" \
         -doPost "${DO_POST}" \
-        -sites "${SCRATCH}"/"${PROJECT}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+        -sites "${SCRATCH}"/"${PROJECT}"/Intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
@@ -226,7 +226,7 @@ then
         -GL "${GT_LIKELIHOOD}" \
         -P "${N_CORES}" \
         -doPost "${DO_POST}" \
-        -sites "${SCRATCH}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+        -sites "${SCRATCH}"/"${PROJECT}"/Intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 #   Assuming a single reigon was defined in config file
 else
     echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
@@ -248,7 +248,7 @@ else
         -GL "${GT_LIKELIHOOD}" \
         -P "${N_CORES}" \
         -r "${REGIONS}" \
-        -sites "${SCRATCH}"/"${PROJECT}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+        -sites "${SCRATCH}"/"${PROJECT}"/Intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 fi
 
 #   Do we have a regions file?
@@ -274,7 +274,7 @@ then
         -P "${N_CORES}" \
         -rf "${REGIONS}" \
         -doPost "${DO_POST}" \
-        -sites "${SCRATCH}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+        -sites "${SCRATCH}"/"${PROJECT}"/Intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
@@ -297,7 +297,7 @@ then
         -GL "${GT_LIKELIHOOD}" \
         -P "${N_CORES}" \
         -doPost "${DO_POST}" \
-        -sites "${SCRATCH}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+        -sites "${SCRATCH}"/"${PROJECT}"/Intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 #   Assuming a single reigon was defined in config file
 else
     echo "WRAPPER: $GROUP_2 sfs round 2..." >&2
@@ -319,7 +319,7 @@ else
         -GL "${GT_LIKELIHOOD}" \
         -P "${N_CORES}" \
         -r "${REGIONS}" \
-        -sites "${SCRATCH}"/intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+        -sites "${SCRATCH}"/"${PROJECT}"/Intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 fi
 
 #   Estimate joint SFS using realSFS
