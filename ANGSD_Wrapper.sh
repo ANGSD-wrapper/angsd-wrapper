@@ -20,6 +20,7 @@ The following is a list of calls and what they do: \n\
     Genotypes   Genotype Calling \n\
     Thetas      Estimate thetas and perform neutrality test statistics \n\
     ngsF        Use ngsF to calculate per-individual inbreeding coefficients \n\
+    ngsAdmix    Run ngsAdmix
 \n\
 For an interactive help, type 'help me' without the quotes \n\
 " >&2
@@ -71,6 +72,9 @@ case "${WRAPPER}" in
         #   Run the ngsF wrapper script
         bash Wrappers/ngsF.sh "${CONFIG}"
         ;;
+    "ngsAdmix" )
+        #   Run the ngsAdmix wrapper script
+        bash Wrappers/ngsAdmix.sh "${CONFIG}"
     "help" )
         bash Wrappers/Help.sh
         ;;
