@@ -16,7 +16,8 @@ LIKELIHOOD=
 #   Where is ngsAdmix?
 ADMIX_DIR=
 
-
+#   ngsAdmix Parameters
+#       Listed below are the defaults, please modify for your samples
 K=5
 N_CORES=32
 MIN_MAF=0.05
