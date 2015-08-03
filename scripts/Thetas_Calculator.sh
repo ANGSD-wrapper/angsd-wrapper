@@ -4,7 +4,7 @@ set -e
 set -u
 
 #   source the common config file
-source scripts/common.conf
+source scripts/Common_Variables.conf
 # load utils functions
 source ${SCRIPTS_DIR}/utils.sh
 
@@ -41,16 +41,16 @@ N_IND=`wc -l < ${TAXON_LIST}`
 #   take care of the mismatch between these two numbers
 N_CHROM=`expr 2 \* ${N_IND}`
 
-# if directories don't exist, create them 
-#if directory_exists "${RESULTS_DIR}"; then 
-#    echo "directories exist, skipping init.sh"; 
-#else 
-#    echo "creating directories..."; 
-#    bash ${SCRIPTS_DIR}/init.sh; 
+# if directories don't exist, create them
+#if directory_exists "${RESULTS_DIR}"; then
+#    echo "directories exist, skipping init.sh";
+#else
+#    echo "creating directories...";
+#    bash ${SCRIPTS_DIR}/init.sh;
 #fi
 
 
-if file_exists "${RESULTS_DIR}/${TAXON}_Diversity.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
+if file_exists "${RESULTS_DIR}/${TAXON}_Diversity.mafs.gz" && [ "$OVERRIDE" = "false" ]; then
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     #   Now we actually run the command, this creates a binary file that contains the prior SFS

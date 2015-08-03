@@ -4,7 +4,7 @@ set -e
 set -u
 
 #   Source the common configuration file
-source scripts/common.conf
+source scripts/Common_Variables.conf
 # load utils functions
 source ${SCRIPTS_DIR}/utils.sh
 
@@ -47,17 +47,17 @@ if [ "${N_IND}" -ne "${N_F}" ]
     then echo "Mismatch between number of samples in ${TAXON_LIST} and ${TAXON_INBREEDING}"; exit 1
 fi
 
-# if directories don't exist, create them 
+# if directories don't exist, create them
 #if directory_exists ./results; then #if comparison doesn't like the ${RESLTS_DIR} var being used
-#    echo "directories exist, skipping init.sh"; 
-#else 
-#    echo "creating directories..."; 
+#    echo "directories exist, skipping init.sh";
+#else
+#    echo "creating directories...";
     #bash ${SCRIPTS_DIR}/init.sh; #init.sh throws an error. skip this script and just exit
 #    exit 1
 #fi
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
-if file_exists "./results/${TAXON}_SFSOut.mafs.gz" && [ "$OVERRIDE" = "false" ]; then 
+if file_exists "./results/${TAXON}_SFSOut.mafs.gz" && [ "$OVERRIDE" = "false" ]; then
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     if [[ ${REGIONS} == */* ]]; then
