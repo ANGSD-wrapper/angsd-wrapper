@@ -4,7 +4,7 @@ set -e
 set -u
 
 #   Source the common configuration file
-source scripts/common.conf
+source scripts/Common_Variables.conf
 # load utils functions
 source ${SCRIPTS_DIR}/utils.sh
 
@@ -32,7 +32,7 @@ N_IND2=`wc -l < ${TAXON_LIST2}`
 N_CHROM2=`expr 2 \* ${N_IND2}`
 
 # For 1st taxon
-if file_exists "${RESULTS_DIR}/${TAXON1}_Intergenic.saf" && [ "$OVERRIDE" = "false" ]; then 
+if file_exists "${RESULTS_DIR}/${TAXON1}_Intergenic.saf" && [ "$OVERRIDE" = "false" ]; then
     >&2 echo "WRAPPER: saf already exists and OVERRIDE=false, skipping angsd -bam..."
 elif [[ ${REGIONS} == */* ]]; then
     >&2 echo "WRAPPER: $TAXON1 sfs starting..."

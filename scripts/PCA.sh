@@ -4,16 +4,16 @@ set -e
 set -u
 
 #   Source the common configuration file
-source scripts/common.conf
+source scripts/Common_Variables.conf
 # load utils functions
 source ${SCRIPTS_DIR}/utils.sh
 
-DO_MAF=2 
-DO_MAJORMINOR=1 
-DO_GENO=32 
-DO_POST=1 
+DO_MAF=2
+DO_MAJORMINOR=1
+DO_GENO=32
+DO_POST=1
 N_IND=`wc -l < ${TAXON_LIST}`
-N_CORES=8 
+N_CORES=8
 CALL=0
 N_SITES=100000
 
@@ -48,10 +48,10 @@ fi
 gunzip ${RESULTS_DIR}/${TAXON}_PCA.geno.gz
 
 ngsPopGen/ngsCovar
- -probfile results/all.test.geno 
- -outfile pop.covar 
- -nind 21 
- -nsites 100000 
+ -probfile results/all.test.geno
+ -outfile pop.covar
+ -nind 21
+ -nsites 100000
  -call 0
 
 ${NGS_POPGEN_DIR}/ngsCovar \

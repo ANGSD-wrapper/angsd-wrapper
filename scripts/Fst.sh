@@ -4,7 +4,7 @@ set -e
 set -u
 
 #   source common config file
-source scripts/common.conf
+source scripts/Common_Variables.conf
 # load utils functions
 source ${SCRIPTS_DIR}/utils.sh
 
@@ -37,22 +37,22 @@ N_IND_2=`wc -l < ${TAXON2_LIST}`
 
 #check for sfs, intersect file, and 2dsfs from ANGSD_2DSFS
 #exit with error if any don't exist
-if file_exists "${POP1_SFS}"; then 
+if file_exists "${POP1_SFS}"; then
     >&2 echo "WRAPPER: saf for ${TAXON1} exists, continuing to check for ${TAXON2} saf..."
 else >&2 echo "WRAPPER: saf for ${TAXON1} does not exist, exiting..." >&2; exit 1
 fi
 
-if file_exists "${POP2_SFS}"; then 
+if file_exists "${POP2_SFS}"; then
     >&2 echo "WRAPPER: saf for ${TAXON2} exists, continuing to check for intersect..."
-else >&2 echo "WRAPPER: saf for ${TAXON2} does not exist, exiting..." >&2; exit 1 
+else >&2 echo "WRAPPER: saf for ${TAXON2} does not exist, exiting..." >&2; exit 1
 fi
 
-if file_exists "${INTERSECT}"; then 
+if file_exists "${INTERSECT}"; then
     >&2 echo "WRAPPER: intersect exists, continuing to check for 2dsfs..."
 else >&2 echo "WRAPPER: intersect does not exist, exiting..." >&2; exit 1
 fi
 
-if file_exists "${TWODSFS}"; then 
+if file_exists "${TWODSFS}"; then
     >&2 echo "WRAPPER: 2dsfs exists, continuing to check for intersect..."
 else >&2 echo "WRAPPER: 2dsfs does not exist, exiting..." >&2; exit 1
 fi
@@ -67,7 +67,7 @@ fi
 N_SITES=`wc -l ${INTERSECT} | cut -f 1 -d " "`
 
 # convert ANGSD 2DSFS for ngsPopGen use
-Rscript ${SCRIPTS_DIR}/convertSFS.R ${TWODSFS}\
+Rscript ${SCRIPTS_DIR}/SFS_to_FST.R ${TWODSFS}\
     > ${RESULTS_DIR}/2DSFS_Intergenic.${TAXON1}.${TAXON2}.converted.sfs
 
 # get FST
