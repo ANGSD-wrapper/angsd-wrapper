@@ -23,9 +23,9 @@ Then you need to install the requisite R packages for using the R graphing appli
 3. `> install.packages("ape")`
 4. `> install.packages("Hmisc")`
 5. `> install.packages("lattice")`
-5. `> source("http://bioconductor.org/biocLite.R")`
-6. `> biocLite("genomeIntervals")`
-
+6. `> source("http://bioconductor.org/biocLite.R")`
+7. `> biocLite("genomeIntervals")`
+8. `> install.packages("data.table")`
 
 ### Documentation available on the [wiki](https://github.com/arundurvasula/angsd-wrapper/wiki).
 
