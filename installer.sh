@@ -5,11 +5,11 @@ set -u
 set -o pipefail
 
 
-if `command -v git > /dev/null 2> /dev/null` || `command -v wget > /dev/null 2> /dev/null`
+if `command -v git > /dev/null 2> /dev/null` && `command -v wget > /dev/null 2> /dev/null`
 then
-    continue
+    echo "Git and Wget found"
 else
-    echo "Cannot find either git or wget, please install and place in your PATH"
+    echo "Cannot find either Git or Wget, please install and place in your PATH"
     exit 1
 fi
 
