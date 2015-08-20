@@ -11,7 +11,7 @@ To read about why I'm doing this, look no further than this [Gist](https://gist.
 
 ### To Use
 
-Basic usage is to run the `ANGSD_Wrapper.sh` script, specify a wrapper, and tell it where the config file is. Default config files are found in the [`Configuration_Files`](https://github.com/mojaveazure/angsd-wrapper/tree/master/Configuration_Files) directory; please modify to suit your samples. Running `ANGSD_Wrapper.sh` without any arguments will spit out a usage message.
+Basic usage is to run the `angsd-wrapper.sh` script, specify a wrapper, and tell it where the config file is. Default config files are found in the [`Configuration_Files`](https://github.com/mojaveazure/angsd-wrapper/tree/master/Configuration_Files) directory; please modify to suit your samples. Running `angsd-wrapper.sh` without any arguments will spit out a usage message.
 
 ### Dependencies
 
