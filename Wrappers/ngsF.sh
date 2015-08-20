@@ -6,6 +6,22 @@ set -o pipefail
 
 #   Load variables from supplied config file
 source $1
+
+#   Are we using Common_Config? If so, source it
+if [[ -f "${COMMON}" ]]
+then
+    source "${COMMON}"
+fi
+
+#   Where is angsd-wrapper located?
+SOURCE=$2
+
+#   Where is ANGSD?
+ANGSD_DIR="${SOURCE}"/dependencies/angsd
+
+#   Where is ngsF?
+NGSF_DIR="${SOURCE}"/dependencies/ngsF
+
 N_IND=`wc -l < "${SAMPLE_LIST}"`
 
 mkdir -p ${SCRATCH}/${PROJECT}

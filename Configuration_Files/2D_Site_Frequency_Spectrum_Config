@@ -39,8 +39,8 @@ SCRATCH=
 #   Region being looked at?
 REGIONS=
 
-#   Where is ANGSD?
-ANGSD_DIR=
+#   Are you using the Common_Config file?
+COMMON=
 
 #   2D Site Frequency Spectrum Parameters
 #       Listed below are the defaults, please modify for your samples

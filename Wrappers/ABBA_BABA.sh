@@ -4,7 +4,17 @@ set -e
 set -u
 set -o pipefail
 
+#   Load variables from supplied config file
 source $1
+
+#   Are we using Common_Config? If so, source it
+if [[ -f "${COMMON}" ]]
+then
+    source "${COMMON}"
+fi
+
+#   Where is angsd-wrapper located?
+SOURCE=$2
 
 #   Extract consensus sequence to be treated as outgroup
 if [[ "${DO_CONSENSUS}" == 1 ]]
@@ -32,7 +42,7 @@ mkdir -p "${SCRATCH}"/"${PROJECT}"
 #   Do we have a regions file?
 if [[ -f "${REGIONS}" ]]
 then
-    "${ANGSD_DIR}"/angsd \
+    "${SOURCE}"/dependencies/angsd/angsd \
         -doAbbababa "${DO_ABBABABA}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
@@ -49,7 +59,7 @@ then
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
-    "${ANGSD_DIR}"/angsd \
+    "${SOURCE}"/dependencies/angsd/angsd \
         -doAbbababa "${DO_ABBABABA}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
@@ -64,7 +74,7 @@ then
         -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}".D
 #   Assuming a single reigon was defined in config file
 else
-    "${ANGSD_DIR}"/angsd \
+    "${SOURCE}"/dependencies/angsd/angsd \
         -doAbbababa "${DO_ABBABABA}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
@@ -81,7 +91,7 @@ else
 fi
 
 #   jackKnife.R is provided with angsd.
-Rscript "${ANGSD_DIR}"/R/jackKnife.R \
+Rscript "${SOURCE}"/dependencies/angsd/R/jackKnife.R \
     file="${SCRATCH}"/"${PROJECT}"/"${PROJECT}".D.abbababa \
     indNames="${SAMPLE_LIST}" \
     outfile="${SCRATCH}"/"${PROJECT}"/"${PROJECT}".abbababa

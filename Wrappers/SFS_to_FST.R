@@ -1,3 +1,4 @@
+#!/usr/bin/env Rscript
 
 options(scipen=20)
 

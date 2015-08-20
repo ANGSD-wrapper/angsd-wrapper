@@ -7,6 +7,18 @@ set -o pipefail
 #   Load variables from supplied config file
 source $1
 
+#   Are we using Common_Config? If so, source it
+if [[ -f "${COMMON}" ]]
+then
+    source "${COMMON}"
+fi
+
+#   Where is angsd-wrapper located?
+SOURCE=$2
+
+#   Where is ngsFST?
+NGS_POPGEN="${SOURCE}"/dependencies/ngsPopGen
+
 #   Variables created from transforming other variables
 #       The number of individuals in the groups we are analyzing
 N_IND_1=`wc -l < "${G1_SAMPLE_LIST}"`
@@ -50,13 +62,13 @@ fi
 N_SITES=`wc -l < "${INTERSECT}"`
 
 #   Convert 2DSFS file for ngsPopGen use
-Rscript ${ANGSD_WRAPPER}/Wrappers/SFS_to_FST.R ${2DSFS} \
+Rscript ${SOURCE}/Wrappers/SFS_to_FST.R ${2DSFS} \
     > ${SCRATCH}/${PROJECT}/2DSFS_Intergenic.${GROUP_1}.${GROUP_2}.converted.sfs
 
 #   Get the FST
 #       This is what needs the new ngsPopGen
 #       Make sure to change this path when wrapper is updated
-${NGS_POPGEN}/ngsPopGen/ngsFST \
+${NGS_POPGEN}/ngsFST \
     -postfiles ${G1_SFS} ${POP2_SFS} \
     -priorfile ${RESULTS_DIR}/2DSFS_Intergenic.${GROUP_1}.${GROUP_2}.converted.sfs \
     -nind ${N_IND_1} ${N_IND_2} \

@@ -9,5 +9,5 @@ set -o pipefail
 #   Where is the ancestral BAM file?
 ANC_BAM=
 
-#   Where is ANGSD?
-ANGSD_DIR=
+#   Are you using the Common_Config file?
+COMMON=

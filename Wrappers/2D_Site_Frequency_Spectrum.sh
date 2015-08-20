@@ -7,6 +7,15 @@ set -o pipefail
 #   Load variables from supplied config file
 source $1
 
+#   Are we using Common_Config? If so, source it
+if [[ -f "${COMMON}" ]]
+then
+    source "${COMMON}"
+fi
+
+#   Where is angsd-wrapper located?
+SOURCE=$2
+
 #   Variables created from transforming other variables
 #       The number of individuals in the groups we are analyzing
 N_IND1=`wc -l < "${G1_SAMPLE_LIST}"`
@@ -38,7 +47,7 @@ else
     if [[ -f "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_1 sfs starting..." >&2
-        "${ANGSD_DIR}"/angsd \
+        "${SOURCE}"/dependencies/angsd/angsd \
             -bam "${G1_SAMPLE_LIST}" \
             -out "${SCRATCH}"/"${PROJECT}"/"${GROUP_1}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
@@ -60,7 +69,7 @@ else
     elif [[ -z "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_1 sfs starting" >&2
-        "${ANGSD_DIR}"/angsd \
+        "${SOURCE}"/dependencies/angsd/angsd \
             -bam "${G1_SAMPLE_LIST}" \
             -out "${SCRATCH}"/"${PROJECT}"/"${GROUP_1}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
@@ -80,7 +89,7 @@ else
             -doPost "${DO_POST}"
     else
         echo "WRAPPER: $GROUP_1 sfs starting" >&2
-        "${ANGSD_DIR}"/angsd \
+        "${SOURCE}"/dependencies/angsd/angsd \
             -bam "${G1_SAMPLE_LIST}" \
             -out "${SCRATCH}"/"${PROJECT}"/"${GROUP_1}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
@@ -110,7 +119,7 @@ else
     if [[ -f "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
-        "${ANGSD_DIR}"/angsd \
+        "${SOURCE}"/dependencies/angsd/angsd \
             -bam "${G2_SAMPLE_LIST}" \
             -out "${SCRATCH}"/"${PROJECT}"/"${GROUP_2}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
@@ -133,7 +142,7 @@ else
     elif [[ -z "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
-        "${ANGSD_DIR}"/angsd \
+        "${SOURCE}"/dependencies/angsd/angsd \
             -bam "${G2_SAMPLE_LIST}" \
             -out "${SCRATCH}"/"${PROJECT}"/"${GROUP_2}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
@@ -154,7 +163,7 @@ else
     #   Assuming a single reigon was defined in config file
     else
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
-        "${ANGSD_DIR}"/angsd \
+        "${SOURCE}"/dependencies/angsd/angsd \
             -bam "${G2_SAMPLE_LIST}" \
             -out "${SCRATCH}"/"${PROJECT}"/"${GROUP_2}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
@@ -184,7 +193,7 @@ gunzip -c "${SCRATCH}"/"${PROJECT}"/"${GROUP_1}"_Intergenic.saf.pos "${SCRATCH}"
 if [[ -f "${REGIONS}" ]]
 then
     echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
-    "${ANGSD_DIR}"/angsd \
+    "${SOURCE}"/dependencies/angsd/angsd \
         -bam "${G1_SAMPLE_LIST}" \
         -out "${SCRATCH}"/"${PROJECT}"/"${GROUP_1}"_Intergenic_Conditioned \
         -doMajorMinor "${DO_MAJORMINOR}" \
@@ -208,7 +217,7 @@ then
 elif [[ -z "${REGIONS}" ]]
 then
     echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
-    "${ANGSD_DIR}"/angsd \
+    "${SOURCE}"/dependencies/angsd/angsd \
         -bam "${G1_SAMPLE_LIST}" \
         -out "${SCRATCH}"/"${PROJECT}"/"${GROUP_1}"_Intergenic_Conditioned \
         -doMajorMinor "${DO_MAJORMINOR}" \
@@ -230,7 +239,7 @@ then
 #   Assuming a single reigon was defined in config file
 else
     echo "WRAPPER: $GROUP_1 sfs round 2..." >&2
-    "${ANGSD_DIR}"/angsd \
+    "${SOURCE}"/dependencies/angsd/angsd \
         -bam "${G1_SAMPLE_LIST}" \
         -out "${SCRATCH}"/"${PROJECT}"/"${GROUP_1}"_Intergenic_Conditioned \
         -doMajorMinor "${DO_MAJORMINOR}" \
@@ -255,7 +264,7 @@ fi
 if [[ -f "${REGIONS}" ]]
 then
     echo "WRAPPER: $GROUP_2 sfs round 2..." >&2
-    "${ANGSD_DIR}"/angsd \
+    "${SOURCE}"/dependencies/angsd/angsd \
         -bam "${G2_SAMPLE_LIST}" \
         -out "${SCRATCH}"/"${PROJECT}"/"${GROUP_2}"_Intergenic_Conditioned \
         -doMajorMinor "${DO_MAJORMINOR}" \
@@ -279,7 +288,7 @@ then
 elif [[ -z "${REGIONS}" ]]
 then
     echo "WRAPPER: $GROUP_2 sfs round 2..." >&2
-    "${ANGSD_DIR}"/angsd \
+    "${SOURCE}"/dependencies/angsd/angsd \
         -bam "${G2_SAMPLE_LIST}" \
         -out "${SCRATCH}"/"${PROJECT}"/"${GROUP_2}"_Intergenic_Conditioned \
         -doMajorMinor "${DO_MAJORMINOR}" \
@@ -301,7 +310,7 @@ then
 #   Assuming a single reigon was defined in config file
 else
     echo "WRAPPER: $GROUP_2 sfs round 2..." >&2
-    "${ANGSD_DIR}"/angsd \
+    "${SOURCE}"/dependencies/angsd/angsd \
         -bam "${G2_SAMPLE_LIST}" \
         -out "${SCRATCH}"/"${PROJECT}"/"${GROUP_2}"_Intergenic_Conditioned \
         -doMajorMinor "${DO_MAJORMINOR}" \
@@ -324,7 +333,7 @@ fi
 
 #   Estimate joint SFS using realSFS
 echo "WRAPPER: realSFS 2dsfs..." >&2
-"${ANGSD_DIR}"/misc/realSFS 2dsfs \
+"${SOURCE}"/dependencies/angsd/misc/realSFS 2dsfs \
     "${SCRATCH}"/"${PROJECT}"/"${GROUP_1}"_Intergenic_Conditioned.saf.idx \
     "${SCRATCH}"/"${PROJECT}"/"${GROUP_2}"_Intergenic_Conditioned.saf.idx \
     -P "${N_CORES}" \
