@@ -16,6 +16,9 @@ fi
 #   Where is angsd-wrapper located?
 SOURCE=$2
 
+#   Where is ANGSD located?
+ANGSD_DIR=${SOURCE}/dependencies/angsd
+
 #   Extract consensus sequence to be treated as outgroup
 if [[ "${DO_CONSENSUS}" == 1 ]]
 then
@@ -43,7 +46,7 @@ mkdir -p ${OUT}
 #   Do we have a regions file?
 if [[ -f "${REGIONS}" ]]
 then
-    "${SOURCE}"/dependencies/angsd/angsd \
+    "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
@@ -60,7 +63,7 @@ then
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
-    "${SOURCE}"/dependencies/angsd/angsd \
+    "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
@@ -75,7 +78,7 @@ then
         -out "${OUT}"/"${PROJECT}".D
 #   Assuming a single reigon was defined in config file
 else
-    "${SOURCE}"/dependencies/angsd/angsd \
+    "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
@@ -92,7 +95,7 @@ else
 fi
 
 #   jackKnife.R is provided with angsd.
-Rscript "${SOURCE}"/dependencies/angsd/R/jackKnife.R \
+Rscript "${ANGSD_DIR}"/R/jackKnife.R \
     file="${OUT}"/"${PROJECT}".D.abbababa \
     indNames="${SAMPLE_LIST}" \
     outfile="${OUT}"/"${PROJECT}".abbababa
