@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-#set -u
 set -o pipefail
 
 #   A script that runs loads a config file and runs a wrapper script for ANGSD
