@@ -37,7 +37,7 @@ then
         echo -e "\
 Welcome to angsd-wrapper! \n\
 To set up, please run \n\
-n\
+\n\
 angsd-wrapper setup please \n\
 " >&2
         exit 1
