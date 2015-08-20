@@ -8,7 +8,7 @@ set -o pipefail
 #   Define a usage message
 function usage() {
     echo -e "\
-Usage:  ./angsd-wrapper.sh <wrapper> <config> \n\
+Usage:  ./angsd-wrapper <wrapper> <config> \n\
 where:  <wrapper> is one of SFS, 2DSFS, ABBA_BABA, ANC_SEQ, Genotypes, Thetas, ngsF
 and:    <config> is the corresponding configuration file \n\
 \n\
@@ -38,7 +38,7 @@ then
 Welcome to angsd-wrapper! \n\
 To set up, please run \n\
 n\
-angsd-wrapper.sh setup please \n\
+angsd-wrapper setup please \n\
 " >&2
         exit 1
     fi

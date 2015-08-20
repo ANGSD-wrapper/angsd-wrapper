@@ -11,13 +11,11 @@ To read about why I'm doing this, look no further than this [Gist](https://gist.
 
 ### To Use
 
-Basic usage is to run the `angsd-wrapper.sh` script, specify a wrapper, and tell it where the config file is. Default config files are found in the [`Configuration_Files`](https://github.com/mojaveazure/angsd-wrapper/tree/master/Configuration_Files) directory; please modify to suit your samples. Running `angsd-wrapper.sh` without any arguments will spit out a usage message.
+Basic usage is to run the `angsd-wrapper` script, specify a wrapper, and tell it where the config file is. Default config files are found in the [`Configuration_Files`](https://github.com/mojaveazure/angsd-wrapper/tree/master/Configuration_Files) directory; please modify to suit your samples. Running `angsd-wrapper` without any arguments will spit out a usage message.
 
 ### Dependencies
 
-This pacakge requires [ANGSD](https://github.com/angsd/angsd), [ngsPopGen](https://github.com/mfumagalli/ngsPopGen), and [ngsF](https://github.com/fgvieira/ngsF) for various methods. Please download and install before use. Note, it is not necessary to put these in your `PATH` as long as the directories to each of these programs is specified in the configuration files.
-
-Please see the configuration file for your desired method to see which of these dependencies are required for that specific method.
+This pacakge requires [ANGSD](https://github.com/angsd/angsd), [ngsPopGen](https://github.com/mfumagalli/ngsPopGen), and [ngsF](https://github.com/fgvieira/ngsF) for various methods. Please run `angsd-wrapper setup please` to download and install supported versions of these dependencies.
 
 ### Supported methods
 
