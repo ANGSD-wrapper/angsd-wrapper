@@ -1,4 +1,4 @@
-#!/usr/bin/env Rscript
+#!/usr/bin/env Rscript --interactive
 
 #   Start the Shiny graphics interface
 args <- commandArgs(trailingOnly = TRUE)
@@ -26,10 +26,10 @@ batchInstall <- function(pkgList) {
 bioInstall <- function() {
     if("biocLite" %in% rownames(installed.packages()) == FALSE) {
         source("http://bioconductor.org/biocLite.R")
-    } else {
-        if("genomeIntervals" %in% rownames(installed.packages()) == FALSE) {
-            biocLite("genomeIntervals")
-        }
+    }
+    library(BiocInstaller)
+    if("genomeIntervals" %in% rownames(installed.packages()) == FALSE) {
+        biocLite("genomeIntervals")
     }
     library(genomeIntervals)
 }
@@ -42,3 +42,5 @@ main <- function() {
     setwd(angsdwrapper)
     runApp("shinyGraphing")
 }
+
+main()
