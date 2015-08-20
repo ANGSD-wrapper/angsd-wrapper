@@ -30,13 +30,6 @@ For an interactive help, type 'help me' without the quotes \n\
 }
 
 
-#   Check to see if Wrappers directory is one level below this
-if ! [[ -d 'Wrappers' ]]
-then
-    echo "Cannot find 'Wrappers' directory, exiting" >&2
-    exit 1
-fi
-
 #   First use, look for 'dependencies' directory
 if ! [[ -d 'dependencies' ]] && [[ -z "$1" || "$1" -ne 'setup' ]]
 then
@@ -51,7 +44,7 @@ To set up, please run \n\
 fi
 
 #   Check to see if there are the correct number of arguments
-if [ "$#" -lt 2 ]
+if [ "$#" -lt 2  || "$1" -ne 'setup' ]
 then
     usage
 fi
@@ -66,7 +59,7 @@ case "${WRAPPER}" in
             echo "Ask nicely"
             exit 1
         fi
-        bash Wrappers/Setup.sh
+        bash "${SOURCE}"/Wrappers/Setup.sh
         ;;
     "SFS" )
         #   Run the site frequency spectrum wrapper script
@@ -75,7 +68,7 @@ case "${WRAPPER}" in
             echo "Please specify a valid config file"
             exit 1
         fi
-        bash Wrappers/Site_Frequency_Spectrum.sh "${CONFIG}"
+        bash "${SOURCE}"/Wrappers/Site_Frequency_Spectrum.sh "${CONFIG}"
         ;;
     "2DSFS" )
         #   Run the 2D site frequency spectrum wrapper script
@@ -84,7 +77,7 @@ case "${WRAPPER}" in
             echo "Please specify a valid config file"
             exit 1
         fi
-        bash Wrappers/2D_Site_Frequency_Spectrum.sh "${CONFIG}"
+        bash "${SOURCE}"/Wrappers/2D_Site_Frequency_Spectrum.sh "${CONFIG}"
         ;;
     "ngsFST" )
         #   Run the ngsFST wrapper script
@@ -93,7 +86,7 @@ case "${WRAPPER}" in
             echo "Please specify a valid config file"
             exit 1
         fi
-        bash Wrappers/ngsFST.sh "${CONFIG}"
+        bash "${SOURCE}"/Wrappers/ngsFST.sh "${CONFIG}"
         ;;
     "ABBA_BABA" )
         #   Run the ABBA-BABA wrapper script
@@ -102,7 +95,7 @@ case "${WRAPPER}" in
             echo "Please specify a valid config file"
             exit 1
         fi
-        bash Wrappers/ABBA_BABA.sh "${CONFIG}"
+        bash "${SOURCE}"/Wrappers/ABBA_BABA.sh "${CONFIG}"
         ;;
     "ANC_SEQ" )
         #   Run the ancestral sequence wrapper script
@@ -111,7 +104,7 @@ case "${WRAPPER}" in
             echo "Please specify a valid config file"
             exit 1
         fi
-        bash Wrappers/Ancestral_Sequence.sh "${CONFIG}"
+        bash "${SOURCE}"/Wrappers/Ancestral_Sequence.sh "${CONFIG}"
         ;;
     "Genotypes" )
         #   Run the genotypes wrapper script
@@ -120,7 +113,7 @@ case "${WRAPPER}" in
             echo "Please specify a valid config file"
             exit 1
         fi
-        bash Wrappers/Genotypes.sh "${CONFIG}"
+        bash "${SOURCE}"/Wrappers/Genotypes.sh "${CONFIG}"
         ;;
     "Thetas" )
         #   Run the thetas wrapper script
@@ -129,7 +122,7 @@ case "${WRAPPER}" in
             echo "Please specify a valid config file"
             exit 1
         fi
-        bash Wrappers/Thetas.sh "${CONFIG}"
+        bash "${SOURCE}"/Wrappers/Thetas.sh "${CONFIG}"
         ;;
     "ngsF" )
         #   Run the ngsF wrapper script
@@ -138,7 +131,7 @@ case "${WRAPPER}" in
             echo "Please specify a valid config file"
             exit 1
         fi
-        bash Wrappers/ngsF.sh "${CONFIG}"
+        bash "${SOURCE}"/Wrappers/ngsF.sh "${CONFIG}"
         ;;
     "ngsAdmix" )
         #   Run the ngsAdmix wrapper script
@@ -147,13 +140,13 @@ case "${WRAPPER}" in
             echo "Please specify a valid config file"
             exit 1
         fi
-        bash Wrappers/ngsAdmix.sh "${CONFIG}"
+        bash "${SOURCE}"/Wrappers/ngsAdmix.sh "${CONFIG}"
         ;;
     "help" )
-        bash Wrappers/Help.sh
+        bash "${SOURCE}"/Wrappers/Help.sh
         ;;
     "test" )
-        bash Wrappers/test.sh
+        bash "${SOURCE}"/Wrappers/test.sh
         ;;
     * )
         usage
