@@ -170,6 +170,7 @@ case "${WRAPPER}" in
         ;;
     "shiny" )
         Rscript "${SOURCE}"/Wrappers/startShiny.R "${SOURCE}"
+        ;;
     * )
         usage
         ;;
