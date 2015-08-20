@@ -31,16 +31,31 @@ For an interactive help, type 'help me' without the quotes \n\
 
 
 #   First use, look for 'dependencies' directory
-if ! [[ -d 'dependencies' ]] && [[ -z "$1" || "$1" -ne 'setup' ]]
+if [[ -z "${SOURCE}" ]]
 then
-    echo $1
-    echo -e "\
-        Welcome to angsd-wrapper! \n\
+    if ! [[ -d 'dependencies' ]] && [[ -z "$1" || "$1" -ne 'setup' ]]
+    then
+        echo $1
+        echo -e "\
+Welcome to angsd-wrapper! \n\
 To set up, please run \n\
-\n\
-    ./angsd-wrapper.sh setup please \n\
+n\
+angsd-wrapper.sh setup please \n\
 " >&2
-    exit 1
+        exit 1
+    fi
+else
+    if ! [[ -d "${SOURCE}"/'dependencies' ]] && [[ -z "$1" || "$1" -ne 'setup' ]]
+    then
+        echo $1
+        echo -e "\
+Welcome to angsd-wrapper! \n\
+To set up, please run \n\
+n\
+angsd-wrapper.sh setup please \n\
+" >&2
+        exit 1
+    fi
 fi
 
 #   Check to see if there are the correct number of arguments
