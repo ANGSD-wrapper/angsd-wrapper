@@ -4,7 +4,7 @@ set -e
 set -u
 set -o pipefail
 
-#   A simple script to hold variables for the 2D Site Frequency Spectrum
+#   A simple script to hold variables for the 2D Site Frequency Spectrum and Fst estimations
 
 #   What is group 1?
 GROUP_1=
@@ -56,4 +56,5 @@ N_CORES=16
 DO_MAJORMINOR=1
 DO_MAF=1
 DO_POST=1
+BLOCK_SIZE=20000
 OVERRIDE=false
