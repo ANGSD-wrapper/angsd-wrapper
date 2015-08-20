@@ -1,14 +1,15 @@
 #!/bin/bash
 
 set -e
-set -u
+#set -u
 set -o pipefail
 
 #   A script that runs loads a config file and runs a wrapper script for ANGSD
 
+#   Define a usage message
 function usage() {
     echo -e "\
-Usage:  ./ANGSD_Wrapper.sh <wrapper> <config> \n\
+Usage:  ./angsd-wrapper.sh <wrapper> <config> \n\
 where:  <wrapper> is one of SFS, 2DSFS, ABBA_BABA, ANC_SEQ, Genotypes, Thetas, ngsF
 and:    <config> is the corresponding configuration file \n\
 \n\
@@ -36,50 +37,116 @@ then
     exit 1
 fi
 
-#   Check to see if there are the correct number of arguments
-if [ "$#" -lt 2 ]
+#   First use, look for 'dependencies' directory
+if ! [[ -d 'dependencies' ]] && [[ -z "$1" || "$1" -ne 'setup' ]]
 then
-    usage
+    echo $1
+    echo -e "\
+        Welcome to angsd-wrapper! \n\
+To set up, please run \n\
+\n\
+    ./angsd-wrapper.sh setup please \n\
+" >&2
+    exit 1
 fi
+
+#   Check to see if there are the correct number of arguments
+#if [ "$#" -lt 2 ]
+#then
+#    usage
+#fi
 
 WRAPPER="$1"
 CONFIG="$2"
 
 case "${WRAPPER}" in
+    "setup" )
+        if ! [ "${CONFIG}" == "please" ]
+        then
+            echo "Ask nicely"
+            exit 1
+        fi
+        bash Wrappers/Setup.sh
+        ;;
     "SFS" )
         #   Run the site frequency spectrum wrapper script
+        if ! [[ -f "${CONFIG}" ]]
+        then
+            echo "Please specify a valid config file"
+            exit 1
+        fi
         bash Wrappers/Site_Frequency_Spectrum.sh "${CONFIG}"
         ;;
     "2DSFS" )
         #   Run the 2D site frequency spectrum wrapper script
+        if ! [[ -f "${CONFIG}" ]]
+        then
+            echo "Please specify a valid config file"
+            exit 1
+        fi
         bash Wrappers/2D_Site_Frequency_Spectrum.sh "${CONFIG}"
         ;;
     "ngsFST" )
         #   Run the ngsFST wrapper script
+        if ! [[ -f "${CONFIG}" ]]
+        then
+            echo "Please specify a valid config file"
+            exit 1
+        fi
         bash Wrappers/ngsFST.sh "${CONFIG}"
         ;;
     "ABBA_BABA" )
         #   Run the ABBA-BABA wrapper script
+        if ! [[ -f "${CONFIG}" ]]
+        then
+            echo "Please specify a valid config file"
+            exit 1
+        fi
         bash Wrappers/ABBA_BABA.sh "${CONFIG}"
         ;;
     "ANC_SEQ" )
         #   Run the ancestral sequence wrapper script
+        if ! [[ -f "${CONFIG}" ]]
+        then
+            echo "Please specify a valid config file"
+            exit 1
+        fi
         bash Wrappers/Ancestral_Sequence.sh "${CONFIG}"
         ;;
     "Genotypes" )
         #   Run the genotypes wrapper script
+        if ! [[ -f "${CONFIG}" ]]
+        then
+            echo "Please specify a valid config file"
+            exit 1
+        fi
         bash Wrappers/Genotypes.sh "${CONFIG}"
         ;;
     "Thetas" )
         #   Run the thetas wrapper script
+        if ! [[ -f "${CONFIG}" ]]
+        then
+            echo "Please specify a valid config file"
+            exit 1
+        fi
         bash Wrappers/Thetas.sh "${CONFIG}"
         ;;
     "ngsF" )
         #   Run the ngsF wrapper script
+        if ! [[ -f "${CONFIG}" ]]
+        then
+            echo "Please specify a valid config file"
+            exit 1
+        fi
         bash Wrappers/ngsF.sh "${CONFIG}"
         ;;
     "ngsAdmix" )
         #   Run the ngsAdmix wrapper script
+        if ! [[ -f "${CONFIG}" ]]
+        then
+            echo "Please specify a valid config file"
+            exit 1
+        fi
         bash Wrappers/ngsAdmix.sh "${CONFIG}"
         ;;
     "help" )
