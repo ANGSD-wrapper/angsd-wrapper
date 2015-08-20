@@ -29,6 +29,8 @@ For an interactive help, type 'help me' without the quotes \n\
     exit 1
 }
 
+SOURCE=/Users/hoffmanp/Dropbox/angsd-wrapper
+
 #   Check to see if Wrappers directory is one level below this
 if ! [[ -d 'Wrappers' ]]
 then
@@ -150,6 +152,9 @@ case "${WRAPPER}" in
         ;;
     "help" )
         bash Wrappers/Help.sh
+        ;;
+    "test" )
+        bash Wrappers/test.sh
         ;;
     * )
         usage

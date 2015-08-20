@@ -13,10 +13,19 @@ else
     exit 1
 fi
 
+#   Append to the angsd-wrapper file
+sed -i '' '32i\
+SOURCE='`pwd`'
+' angsd-wrapper
+
 #   Make the 'dependencies' directory
 mkdir dependencies
 cd dependencies
 ROOT=`pwd`
+
+#   Create a file giving the path to angsd-wrapper
+cd "${ROOT}"
+echo "SOURCE=${SOURCE}" >> ./.source.sh
 
 #   Install HTSLIB
 cd "${ROOT}"
