@@ -50,10 +50,10 @@ To set up, please run \n\
 fi
 
 #   Check to see if there are the correct number of arguments
-#if [ "$#" -lt 2 ]
-#then
-#    usage
-#fi
+if [ "$#" -lt 2 ]
+then
+    usage
+fi
 
 WRAPPER="$1"
 CONFIG="$2"
