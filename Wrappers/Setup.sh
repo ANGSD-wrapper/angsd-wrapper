@@ -17,12 +17,12 @@ fi
 OS=`uname -s`
 if [[ "$OS" == "Darwin" ]]
 then
-    sed -i '' '34i\
+    sed -i '' '37i\
     SOURCE='`pwd`'
     ' angsd-wrapper
 elif [[ "$OS" == "Linux" ]]
 then
-    sed -i '34iSOURCE='`pwd`'' angsd-wrapper
+    sed -i '37iSOURCE='`pwd`'' angsd-wrapper
 else
     echo "Unknown operating system"
     exit 1
