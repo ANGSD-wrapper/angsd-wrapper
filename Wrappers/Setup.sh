@@ -14,9 +14,19 @@ else
 fi
 
 #   Append to the angsd-wrapper file
-sed -i '' '32i\
-SOURCE='`pwd`'
-' angsd-wrapper
+OS=`uname -s`
+if [[ "$OS" == "Darwin" ]]
+then
+    sed -i '' '32i\
+    SOURCE='`pwd`'
+    ' angsd-wrapper
+elif [[ "$OS" == "Linux" ]]
+then
+    sed -i '32iSOURCE='`pwd`'' angsd-wrapper
+else
+    echo "Unknown operating system"
+    exit 1
+fi
 
 #   Make the 'dependencies' directory
 mkdir dependencies
