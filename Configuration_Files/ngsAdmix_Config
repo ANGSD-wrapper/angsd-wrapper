@@ -9,6 +9,11 @@ set -o pipefail
 #   Name the project
 PROJECT=
 
+#   Where do we put the outfiles?
+    #   Note, the final outdirectory will be
+    #   ${SCRATCH}/${PROJECT}/ngsAdmix
+SCRATCH=
+
 #   The Likelihood file
 #       This is the .beagle.gz file from the Site Frequency Spectrum
 LIKELIHOOD=

@@ -19,6 +19,10 @@ SOURCE=$2
 #   Where is ngsAdmix
 ADMIX_DIR="${SOURCE}"/dependencies/ngsAdmix
 
+#   Make the outdirectory
+OUT=${SCRATCH}/${PROJECT}/ngsAdmix
+mkdir -p ${OUT}
+
 for ((k=2; k<=K; k++))
 do
     echo "Calculating for K=$k"
@@ -26,6 +30,6 @@ do
         -likes "${LIKELIHOOD}" \
         -K "${k}" \
         -P "${N_CORES}" \
-        -o "${PROJECT}"."${k}" \
+        -o "${OUT}"/"${PROJECT}"."${k}" \
         -minMaf "${MIN_MAF}"
 done
