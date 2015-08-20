@@ -81,6 +81,7 @@ case "${WRAPPER}" in
     "ngsAdmix" )
         #   Run the ngsAdmix wrapper script
         bash Wrappers/ngsAdmix.sh "${CONFIG}"
+        ;;
     "help" )
         bash Wrappers/Help.sh
         ;;
