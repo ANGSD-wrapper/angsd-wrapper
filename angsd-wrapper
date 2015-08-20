@@ -42,7 +42,7 @@ then
 Welcome to angsd-wrapper! \n\
 To set up, please run \n\
 \n\
-angsd-wrapper setup please \n\
+    angsd-wrapper setup please \n\
 " >&2
         exit 1
     fi
@@ -54,7 +54,7 @@ else
 Welcome to angsd-wrapper! \n\
 To set up, please run \n\
 n\
-angsd-wrapper.sh setup please \n\
+    angsd-wrapper.sh setup please \n\
 " >&2
         exit 1
     fi
