@@ -20,7 +20,11 @@ The following is a list of calls and what they do: \n\
     Genotypes   Genotype Likelihood Estimations \n\
     Thetas      Estimate thetas and calculate neutrality test statistics \n\
     ngsF        Use ngsF to calculate per-individual inbreeding coefficients \n\
-    ngsAdmix    Run ngsAdmix
+    ngsAdmix    Run ngsAdmix \n\
+\n\
+To upgrade the dependencies, please run \n\
+\n\
+    angsd-wrapper upgrade dependencies \n\
 \n\
 For an interactive help, type 'help me' without the quotes \n\
 " >&2
@@ -158,8 +162,8 @@ case "${WRAPPER}" in
     "help" )
         bash "${SOURCE}"/Wrappers/Help.sh
         ;;
-    "test" )
-        bash "${SOURCE}"/Wrappers/test.sh
+    "upgrade" )
+        bash "${SOURCE}"/Wrappers/Upgrade.sh "${SOURCE}"
         ;;
     * )
         usage
