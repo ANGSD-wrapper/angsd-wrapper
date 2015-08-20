@@ -59,7 +59,7 @@ case "${WRAPPER}" in
             echo "Ask nicely"
             exit 1
         fi
-        bash "${SOURCE}"/Wrappers/Setup.sh
+        bash Wrappers/Setup.sh
         ;;
     "SFS" )
         #   Run the site frequency spectrum wrapper script
