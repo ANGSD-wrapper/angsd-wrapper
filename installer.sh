@@ -50,7 +50,7 @@ function i_ngsAdmix() {
     cd "${ROOT}"
     mkdir ngsAdmix
     cd ngsAdmix
-    wget popgen.dk/software/NGSadmix/ngsadmix32.cpp
+    wget http://popgen.dk/software/NGSadmix/ngsadmix32.cpp
     g++ ngsadmix32.cpp -O3 -lpthread -lz -o NGSadmix
     echo "Path to ngsAdmix is `pwd`"
     echo "export PATH=$PATH:`pwd`" >> ~/.bash_profile
