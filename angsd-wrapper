@@ -26,6 +26,9 @@ To upgrade the dependencies, please run \n\
 \n\
     angsd-wrapper upgrade dependencies \n\
 \n\
+To start the Shiny graphing interface, please run \n\
+    angsd-wrapper shiny graphing \n\
+\n\
 For an interactive help, type 'help me' without the quotes \n\
 " >&2
     exit 1
@@ -165,6 +168,8 @@ case "${WRAPPER}" in
     "upgrade" )
         bash "${SOURCE}"/Wrappers/Upgrade.sh "${SOURCE}"
         ;;
+    "shiny" )
+        Rscript "${SOURCE}"/Wrappers/startShiny.R "${SOURCE}"
     * )
         usage
         ;;
