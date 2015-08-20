@@ -27,6 +27,8 @@ else
     echo "Unknown operating system"
     exit 1
 fi
+echo export PATH='$PATH':`pwd` >> ~/.bash_profile
+source ~/.bash_profile
 
 #   Make the 'dependencies' directory
 mkdir dependencies
