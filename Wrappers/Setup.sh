@@ -33,10 +33,6 @@ mkdir dependencies
 cd dependencies
 ROOT=`pwd`
 
-#   Create a file giving the path to angsd-wrapper
-cd "${ROOT}"
-echo "SOURCE=${SOURCE}" >> ./.source.sh
-
 #   Install HTSLIB
 cd "${ROOT}"
 git clone https://github.com/samtools/htslib.git
