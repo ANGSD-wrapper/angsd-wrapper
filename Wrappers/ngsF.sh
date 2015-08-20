@@ -24,9 +24,11 @@ NGSF_DIR="${SOURCE}"/dependencies/ngsF
 
 N_IND=`wc -l < "${SAMPLE_LIST}"`
 
-mkdir -p ${SCRATCH}/${PROJECT}
+#   Make the outdirectory
+OUT=${SCRATCH}/${PROJECT}/ngsF
+mkdir -p ${OUT}
 
-if [[ -f "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_.mafs.gz ]] && [[ "${OVERRIDE}" = "false" ]]
+if [[ -f "${OUT}"/"${PROJECT}"_.mafs.gz ]] && [[ "${OVERRIDE}" = "false" ]]
 then
     echo "mafs already exists and OVERRIDe=false, skipping angsd -bam..."
 else
@@ -38,7 +40,7 @@ else
             -rf "${REGIONS}" \
             -doGLF "${DO_GLF}" \
             -GL "${GT_LIKELIHOOD}" \
-            -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}" \
+            -out "${OUT}"/"${PROJECT}" \
             -ref "${REF_SEQ}" \
             -anc "${ANC_SEQ}" \
             -doMaf "${DO_MAF}" \
@@ -54,7 +56,7 @@ else
             -bam "${SAMPLE_LIST}" \
             -doGLF "${DO_GLF}" \
             -GL "${GT_LIKELIHOOD}" \
-            -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}" \
+            -out "${OUT}"/"${PROJECT}" \
             -ref "${REF_SEQ}" \
             -anc "${ANC_SEQ}" \
             -doMaf "${DO_MAF}" \
@@ -70,7 +72,7 @@ else
             -r "${REGIONS}" \
             -doGLF "${DO_GLF}" \
             -GL "${GT_LIKELIHOOD}" \
-            -out "${SCRATCH}"/"${PROJECT}/"${PROJECT}"" \
+            -out "${OUT}"/"${PROJECT}" \
             -ref "${REF_SEQ}" \
             -anc "${ANC_SEQ}" \
             -doMaf "${DO_MAF}" \
@@ -82,25 +84,25 @@ else
     fi
 fi
 
-N_SITES="`expr $(zcat ${SCRATCH}/${PROJECT}/${PROJECT}.mafs.gz | wc -l) - 1`"
+N_SITES="`expr $(zcat "${OUT}"/${PROJECT}.mafs.gz | wc -l) - 1`"
 
 
-zcat "${SCRATCH}"/"${PROJECT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
+zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
     -n_ind "${N_IND}" \
     -n_sites "${N_SITES}" \
     -min_epsilon "${MIN_EPSILON}" \
     -glf - \
-    -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}".approx_indF \
+    -out "${OUT}"/"${PROJECT}".approx_indF \
     -approx_EM \
     -seed "${SEED}" \
     -init_values r \
     -n_threads "${N_CORES}"
 
-zcat "${SCRATCH}"/"${PROJECT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
+zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
     -n_ind "${N_IND}" \
     -n_sites "${N_SITES}" \
     -min_epsilon "${MIN_EPSILON}" \
     -glf - \
-    -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}".indF \
-    -init_values "${SCRATCH}"/"${PROJECT}"/"${PROJECT}".approx_indF.pars \
+    -out "${OUT}"/"${PROJECT}".indF \
+    -init_values "${OUT}"/"${PROJECT}".approx_indF.pars \
     -n_threads "${N_CORES}"

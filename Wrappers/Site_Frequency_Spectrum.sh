@@ -36,10 +36,11 @@ then
 fi
 
 #   Create outdirectory
-mkdir -p "${SCRATCH}"/"${PROJECT}"
+OUT="${SCRATCH}"/"${PROJECT}"/SFS
+mkdir -p ${OUT}
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
-if [[ -f "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_SFSOut.mafs.gz ]] && [ "$OVERRIDE" = "false" ]
+if [[ -f "${OUT}"/"${PROJECT}"_SFSOut.mafs.gz ]] && [ "$OVERRIDE" = "false" ]
 then
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam..."
 else
@@ -48,7 +49,7 @@ else
     then
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
-            -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_SFSOut \
+            -out "${OUT}"/"${PROJECT}"_SFSOut \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
             -uniqueOnly "${UNIQUE_ONLY}" \
@@ -72,7 +73,7 @@ else
     then
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
-            -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_SFSOut \
+            -out "${OUT}"/"${PROJECT}"_SFSOut \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
             -uniqueOnly "${UNIQUE_ONLY}" \
@@ -94,7 +95,7 @@ else
     else
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
-            -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_SFSOut \
+            -out "${OUT}"/"${PROJECT}"_SFSOut \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
             -uniqueOnly "${UNIQUE_ONLY}" \
@@ -115,6 +116,6 @@ else
 fi
 
 "${ANGSD_DIR}"/misc/realSFS \
-    "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_SFSOut.saf.idx \
+    "${OUT}"/"${PROJECT}"_SFSOut.saf.idx \
     -P "${N_CORES}"\
-    > "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_DerivedSFS
+    > "${OUT}"/"${PROJECT}"_DerivedSFS

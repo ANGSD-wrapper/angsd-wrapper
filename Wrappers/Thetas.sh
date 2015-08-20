@@ -36,9 +36,10 @@ then
 fi
 
 #   Create outdirectory
-mkdir -p "${SCRATCH}"/"${PROJECT}"
+OUT=${SCRATCH}/${PROJECT}/Thetas
+mkdir -p "${OUT}"
 
-if [[  -f "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity.mafs.gz ]] && [ "${OVERRIDE}" = "false" ]; then
+if [[  -f "${OUT}"_Diversity.mafs.gz ]] && [ "${OVERRIDE}" = "false" ]; then
     echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     #   Now we actually run the command, this creates a binary file that contains the prior SFS
@@ -47,7 +48,7 @@ else
     then
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
-            -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity \
+            -out "${OUT}"_Diversity \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
             -doThetas "${DO_THETAS}" \
@@ -70,7 +71,7 @@ else
     then
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
-            -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity \
+            -out "${OUT}"_Diversity \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
             -doThetas "${DO_THETAS}" \
@@ -91,7 +92,7 @@ else
     else
         "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \
-        -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity \
+        -out "${OUT}"_Diversity \
         -indF "${SAMPLE_INBREEDING}" \
         -doSaf "${DO_SAF}" \
         -doThetas "${DO_THETAS}" \
@@ -114,16 +115,16 @@ fi
 
 
 "${ANGSD_DIR}"/misc/thetaStat make_bed \
-    "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity.thetas.gz
+    "${OUT}"/"${PROJECT}"_Diversity.thetas.gz
 
 if [ "${SLIDING_WINDOW}" = "false" ]
 then
     "${ANGSD_DIR}"/misc/thetaStat do_stat \
-        "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity.thetas.gz \
+        "${OUT}"/"${PROJECT}"_Diversity.thetas.gz \
         -nChr "${N_CHROM}"
 else
     "${ANGSD_DIR}"/misc/thetaStat do_stat \
-        "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_Diversity.thetas.gz \
+        "${OUT}"/"${PROJECT}"_Diversity.thetas.gz \
         -nChr "${N_CHROM}" \
         -win "${WIN}" \
         -step "${STEP}"

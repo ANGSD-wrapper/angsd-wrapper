@@ -30,7 +30,7 @@ then
 fi
 
 #   Create outdirectory
-mkdir -p "${SCRATCH}"/"${PROJECT}"
+mkdir -p "${SCRATCH}"/"${PROJECT}"/GenotypeLikelihoods
 
 #   Where is ANGSD?
 ANGSD_DIR="${SOURCE}"/dependencies/angsd

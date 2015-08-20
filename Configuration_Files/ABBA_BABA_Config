@@ -19,7 +19,7 @@ PROJECT=
 
 #   Where do we put the outfiles?
     #   Note, the final outdirectory will be
-    #   ${SCRATCH}/${PROJECT}
+    #   ${SCRATCH}/${PROJECT}/ABBABABA
 SCRATCH=
 
 #   Define the region being looked at
