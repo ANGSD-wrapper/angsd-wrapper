@@ -26,6 +26,7 @@ SCRATCH=
 REGIONS=
 
 #   Are you using the Common_Config file?
+#       If so, where is it?
 COMMON=
 
 #   ngsF Parameters
