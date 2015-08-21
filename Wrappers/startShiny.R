@@ -1,4 +1,4 @@
-#!/usr/bin/env Rscript --interactive
+#!/usr/bin/env Rscript
 
 #   Start the Shiny graphics interface
 args <- commandArgs(trailingOnly = TRUE)
@@ -40,7 +40,7 @@ main <- function() {
     batchInstall(pkgList)
     bioInstall()
     setwd(angsdwrapper)
-    runApp("shinyGraphing")
+    runApp("shinyGraphing", launch.browser = TRUE)
 }
 
 main()
