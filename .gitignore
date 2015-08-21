@@ -1,3 +1,11 @@
 # Ignore the 'dependencies' directory' #
 ########################################
 dependencies/
+
+# Ignore the 'iplant' test data directory #
+###########################################
+iplant/
+
+# Ignore ZIP files #
+####################
+*.zip
