@@ -2,7 +2,6 @@
 
 set -e
 set -u
-set -o pipefail
 
 #   Check to see if Git and Wget are installed
 if `command -v git > /dev/null 2> /dev/null` && `command -v wget > /dev/null 2> /dev/null` && `command -v samtools > /dev/null 2> /dev/null`
