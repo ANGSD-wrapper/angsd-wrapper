@@ -48,7 +48,7 @@ else
     then
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
-            -out "${OUT}"_Diversity \
+            -out "${OUT}"/"${PROJECT}"_Diversity \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
             -doThetas "${DO_THETAS}" \
@@ -71,7 +71,7 @@ else
     then
         "${ANGSD_DIR}"/angsd \
             -bam "${SAMPLE_LIST}" \
-            -out "${OUT}"_Diversity \
+            -out "${OUT}"/"${PROJECT}"_Diversity \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
             -doThetas "${DO_THETAS}" \
@@ -92,7 +92,7 @@ else
     else
         "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \
-        -out "${OUT}"_Diversity \
+        -out "${OUT}"/"${PROJECT}"_Diversity \
         -indF "${SAMPLE_INBREEDING}" \
         -doSaf "${DO_SAF}" \
         -doThetas "${DO_THETAS}" \
