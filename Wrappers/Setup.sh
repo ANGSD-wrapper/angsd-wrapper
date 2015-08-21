@@ -5,11 +5,11 @@ set -u
 set -o pipefail
 
 #   Check to see if Git and Wget are installed
-if `command -v git > /dev/null 2> /dev/null` && `command -v wget > /dev/null 2> /dev/null`
+if `command -v git > /dev/null 2> /dev/null` && `command -v wget > /dev/null 2> /dev/null` && `command -v samtools > /dev/null 2> /dev/null`
 then
-    echo "Git and Wget found"
+    echo "Git, Wget, and SAMTools found"
 else
-    echo "Cannot find either Git or Wget, please install and place in your PATH"
+    echo "Cannot find either Git, Wget, or SAMTools, please install and place in your PATH"
     exit 1
 fi
 
@@ -90,3 +90,30 @@ echo "Path to ngsF is `pwd`"
 echo export PATH='$PATH':`pwd` >> ~/.bash_profile
 source ~/.bash_profile
 cd "${ROOT}"
+
+#   Download and set up the test data
+cd ${ROOT}
+cd ..
+wget http://de.iplantcollaborative.org/dl/d/3A541C91-A66A-4651-949D-4E65028C4A2F/iplant.zip
+unzip iplant.zip
+cd iplant
+#       Create a list of sample names
+rm test_samples.txt
+find `pwd` -name "*.bam" | sort > SampleNames.txt
+#       Index the BAM files
+for i in `cat SampleNames.txt`
+do
+    samtools index "$i"
+done
+#       Index the reference and ancestral sequences
+find `pwd` -name "*.fa.gz" -exec gzip -d {} \;
+find `pwd` -name "*.fa" -exec samtools faidx {} \;
+#       Rename the inbreeding coefficients file
+mv test_F.txt InbreedingCoefficients.txt
+#       Create a regions file
+for i in `seq 12`
+do
+    echo "$i": >> regions.txt
+done
+
+echo "Test data can be found at `pwd`"
