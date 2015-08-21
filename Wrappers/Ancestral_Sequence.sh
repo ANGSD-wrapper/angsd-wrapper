@@ -18,4 +18,5 @@ SOURCE=$2
 
  "${SOURCE}"/dependencies/angsd/angsd \
     -i "${ANC_BAM}"\
-    -doFasta 1
+    -out "${OUT}" \
+    -doFasta "${DO_FASTA}"

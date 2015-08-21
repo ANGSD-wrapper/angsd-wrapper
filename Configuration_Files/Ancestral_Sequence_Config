@@ -9,5 +9,12 @@ set -o pipefail
 #   Where is the ancestral BAM file?
 ANC_BAM=
 
+#   What should we call the output file?
+OUT=`basename "${ANC_BAM}" .bam`
+
 #   Are you using the Common_Config file?
 COMMON=
+
+#   Ancestral Sequence Parameters
+#       Listed below are the defaults, please modify for your samples
+DO_FASTA=1
