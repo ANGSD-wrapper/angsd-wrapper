@@ -95,6 +95,9 @@ cd ${ROOT}
 cd ..
 wget http://de.iplantcollaborative.org/dl/d/3A541C91-A66A-4651-949D-4E65028C4A2F/iplant.zip
 unzip iplant.zip
+#       Get rid of the zip file
+rm iplant.zip
+#       Change into the iplant directory
 cd iplant
 #       Create a list of sample names
 rm test_samples.txt
