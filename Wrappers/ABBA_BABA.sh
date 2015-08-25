@@ -48,6 +48,7 @@ if [[ -f "${REGIONS}" ]]
 then
     "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
+        -rmTrans "${REMOVE_TRANS}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
         -anc "${ANC_SEQ}" \
@@ -56,7 +57,7 @@ then
         -minMapQ "${MIN_MAPQ}" \
         -minQ "${MIN_BASEQUAL}" \
         -minInd "${MIN_IND}" \
-        -P "${N_CORES}" \
+        -nThreads "${N_CORES}" \
         -checkBamHeaders "${CHECK_BAM_HEADERS}" \
         -rf "${REGIONS}" \
         -out "${OUT}"/"${PROJECT}".D
@@ -65,6 +66,7 @@ elif [[ -z "${REGIONS}" ]]
 then
     "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
+        -rmTrans "${REMOVE_TRANS}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
         -anc "${ANC_SEQ}" \
@@ -80,6 +82,7 @@ then
 else
     "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
+        -rmTrans "${REMOVE_TRANS}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
         -anc "${ANC_SEQ}" \

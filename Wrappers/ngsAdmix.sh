@@ -23,7 +23,7 @@ ADMIX_DIR="${SOURCE}"/dependencies/ngsAdmix
 OUT=${SCRATCH}/${PROJECT}/ngsAdmix
 mkdir -p ${OUT}
 
-for ((k=2; k<=K; k++))
+for k in `seq 2 "${K}"`
 do
     echo "Calculating for K=$k"
     "${ADMIX_DIR}"/NGSadmix \
