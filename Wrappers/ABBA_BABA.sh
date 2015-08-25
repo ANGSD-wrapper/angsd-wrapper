@@ -19,6 +19,10 @@ SOURCE=$2
 #   Where is ANGSD located?
 ANGSD_DIR=${SOURCE}/dependencies/angsd
 
+#   Create outdirectory
+OUT=${SCRATCH}/${PROJECT}/ABBABABA
+mkdir -p ${OUT}
+
 #   Extract consensus sequence to be treated as outgroup
 if [[ "${DO_CONSENSUS}" == 1 ]]
 then
@@ -26,7 +30,7 @@ then
         -doFasta "${DO_FASTA}" \
         -doCounts "${DO_COUNTS}" \
         -i "${OUTGROUP}" \
-        -out "${SCRATCH}"/"${PROJECT}"
+        -out "${OUT}"
 fi
 
 #   Check for local R installation
@@ -37,10 +41,6 @@ else
     echo "R is not installed or not in your PATH"
     exit 1
 fi
-
-#   Create outdirectory
-OUT=${SCRATCH}/${PROJECT}/ABBABABA
-mkdir -p ${OUT}
 
 #   Now we actually run the command
 #   Do we have a regions file?
