@@ -30,7 +30,7 @@ then
         -doFasta "${DO_FASTA}" \
         -doCounts "${DO_COUNTS}" \
         -i "${OUTGROUP}" \
-        -out "${OUT}"
+        -out "${OUT}"/"${PROJECT}"
 fi
 
 #   Check for local R installation
