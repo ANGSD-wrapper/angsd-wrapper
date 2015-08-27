@@ -38,7 +38,7 @@ ROOT=`pwd`
 cd "${ROOT}"
 git clone https://github.com/samtools/htslib.git
 cd htslib
-git reset --hard c50bfe05663020c2d8f73ef2c862ee74078d578e
+git reset --hard 306664a776435a1c86d7263f16deb43b30db55fd
 make
 make prefix=`pwd` install
 echo export PATH='$PATH':`pwd` >> ~/.bash_profile
@@ -50,7 +50,7 @@ cd "${ROOT}"
 cd "${ROOT}"
 git clone https://github.com/ANGSD/angsd.git
 cd angsd
-git reset --hard 6d9f209fd33898f9a5520232e726f852c3dee1c5
+git reset --hard 8b89ba421e97c125f474b2217b710f178c27a51e
 make HTSDIR="${HTSLIB_DIR}"
 echo "Path to ANGSD is `pwd`"
 echo export PATH='$PATH':`pwd` >> ~/.bash_profile
