@@ -31,6 +31,10 @@ then
         -doCounts "${DO_COUNTS}" \
         -i "${OUTGROUP}" \
         -out "${OUT}"/"${PROJECT}"
+    #   Unzip the extracted sequence
+    gzip -d "${OUT}"/"${PROJECT}".fa.gz
+    #   Make this sequence the outgroup.
+    ANC_SEQ="${OUT}"/"${PROJECT}".fa
 fi
 
 #   Check for local R installation
