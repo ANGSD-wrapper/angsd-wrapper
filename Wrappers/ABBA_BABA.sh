@@ -26,15 +26,16 @@ mkdir -p ${OUT}
 #   Extract consensus sequence to be treated as outgroup
 if [[ "${DO_CONSENSUS}" == 1 ]]
 then
+    OUTNAME=`basename "${OUTGROUP}" .bam`
     "${ANGSD_DIR}"/angsd \
         -doFasta "${DO_FASTA}" \
         -doCounts "${DO_COUNTS}" \
         -i "${OUTGROUP}" \
-        -out "${OUT}"/"${PROJECT}"
+        -out "${OUT}"/"${OUTNAME}"
     #   Unzip the extracted sequence
-    gzip -d "${OUT}"/"${PROJECT}".fa.gz
+    gzip -d "${OUT}"/"${OUTNAME}".fa.gz
     #   Make this sequence the outgroup.
-    ANC_SEQ="${OUT}"/"${PROJECT}".fa
+    ANC_SEQ="${OUT}"/"${OUTNAME}".fa
 fi
 
 #   Check for local R installation
