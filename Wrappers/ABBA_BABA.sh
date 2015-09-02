@@ -23,21 +23,6 @@ ANGSD_DIR=${SOURCE}/dependencies/angsd
 OUT=${SCRATCH}/${PROJECT}/ABBABABA
 mkdir -p ${OUT}
 
-#   Extract consensus sequence to be treated as outgroup
-if [[ "${DO_CONSENSUS}" == 1 ]]
-then
-    OUTNAME=`basename "${OUTGROUP}" .bam`
-    "${ANGSD_DIR}"/angsd \
-        -doFasta "${DO_FASTA}" \
-        -doCounts "${DO_COUNTS}" \
-        -i "${OUTGROUP}" \
-        -out "${OUT}"/"${OUTNAME}"
-    #   Unzip the extracted sequence
-    gzip -d "${OUT}"/"${OUTNAME}".fa.gz
-    #   Make this sequence the outgroup.
-    ANC_SEQ="${OUT}"/"${OUTNAME}".fa
-fi
-
 #   Check for local R installation
 if `command -v Rscript > /dev/null 2> /dev/null`
 then
@@ -56,7 +41,7 @@ then
         -rmTrans "${REMOVE_TRANS}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
-        -anc "${ANC_SEQ}" \
+        -anc "${OUTGROUP}" \
         -bam "${SAMPLE_LIST}" \
         -uniqueOnly "${UNIQUE_ONLY}" \
         -minMapQ "${MIN_MAPQ}" \
@@ -74,7 +59,7 @@ then
         -rmTrans "${REMOVE_TRANS}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
-        -anc "${ANC_SEQ}" \
+        -anc "${OUTGROUP}" \
         -bam "${SAMPLE_LIST}" \
         -uniqueOnly "${UNIQUE_ONLY}" \
         -minMapQ "${MIN_MAPQ}" \
@@ -90,7 +75,7 @@ else
         -rmTrans "${REMOVE_TRANS}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
-        -anc "${ANC_SEQ}" \
+        -anc "${OUTGROUP}" \
         -bam "${SAMPLE_LIST}" \
         -uniqueOnly "${UNIQUE_ONLY}" \
         -minMapQ "${MIN_MAPQ}" \
