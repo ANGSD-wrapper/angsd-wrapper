@@ -5,6 +5,9 @@ set -u
 set -o pipefail
 
 #   A simple script to hold variables for the 2D Site Frequency Spectrum and Fst estimations
+#   Are you using the Common_Config file?
+#       If so, where is it?
+COMMON=
 
 #   What is group 1?
 GROUP_1=
@@ -38,10 +41,6 @@ SCRATCH=
 
 #   Region being looked at?
 REGIONS=
-
-#   Are you using the Common_Config file?
-#       If so, where is it?
-COMMON=
 
 #   2D Site Frequency Spectrum and ngsFST Parameters
 #       Listed below are the defaults, please modify for your samples

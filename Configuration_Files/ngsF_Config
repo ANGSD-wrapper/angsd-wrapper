@@ -5,6 +5,9 @@ set -u
 set -o pipefail
 
 #   A simple script to hold variables for the NGS_F
+#   Are you using the Common_Config file?
+#       If so, where is it?
+COMMON=
 
 #   Define a list of samples
 SAMPLE_LIST=
@@ -24,10 +27,6 @@ SCRATCH=
 #   Define the region being looked at
 #       Optional, but ANGSD is expensive to run without specifying regions to look at
 REGIONS=
-
-#   Are you using the Common_Config file?
-#       If so, where is it?
-COMMON=
 
 #   ngsF Parameters
 #       Listed below are the defaults, please modify for your samples

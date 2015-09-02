@@ -5,6 +5,9 @@ set -u
 set -o pipefail
 
 #   A simple script to hold the varialbes for the NGS Admixture
+#   Are you using the Common_Config file?
+#       If so, where is it?
+COMMON=
 
 #   Name the project
 PROJECT=
@@ -17,10 +20,6 @@ SCRATCH=
 #   The Likelihood file
 #       This is the .beagle.gz file from the Site Frequency Spectrum
 LIKELIHOOD=
-
-#   Are you using the Common_Config file?
-#       If so, where is it?
-COMMON=
 
 #   ngsAdmix Parameters
 #       Listed below are the defaults, please modify for your samples
