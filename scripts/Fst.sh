@@ -57,12 +57,6 @@ if file_exists "${TWODSFS}"; then
 else >&2 echo "WRAPPER: 2dsfs does not exist, exiting..." >&2; exit 1
 fi
 
-#make sure intersect exists
-if file_exists "${INTERSECT}"; then
-    >&2 echo "WRAPPER: Intersect exists, continuing to analysis..."
-else >&2 echo "WRAPPER: Intersect does not exist, exiting..." >&2; exit 1
-fi
-
 # get number of sites and individuals
 N_SITES=`wc -l ${INTERSECT} | cut -f 1 -d " "`
 
