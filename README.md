@@ -58,7 +58,7 @@ The default config files can be found in the `Configuration_Files` directory. Yo
 This package requires the following dependencies to work: [ANGSD](https://github.com/angsd/angsd), [ngsPopGen](https://github.com/mfumagalli/ngsPopGen), and [ngsF](https://github.com/fgvieira/ngsF) for various methods. In other words, angsd-wrapper depends on using the packages listed above to work.
 
 ### Download and install supported versions of dependencies
-Please run `angsd-wrapper setup please` to donwload and install the supported versions of dependencies.
+Please run `./angsd-wrapper setup please` to donwload and install the supported versions of dependencies.
 
 ## Supported methods
 
