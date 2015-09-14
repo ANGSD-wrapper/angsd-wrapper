@@ -49,4 +49,4 @@ else
     echo "Can't find SAMTools, we aren't indexing for you"
     echo "If you'd like to index yourself,"
     echo "Then install SAMTools and run the following command:"
-    echo "samtools faidx ${OUT}/${OUTNAME}.fa
+    echo "samtools faidx ${OUT}/${OUTNAME}.fa"
