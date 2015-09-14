@@ -8,7 +8,7 @@ set -o pipefail
 #   Define a usage message
 function usage() {
     echo -e "\
-Usage:  ./angsd-wrapper <wrapper> <config> \n\
+Usage:  angsd-wrapper <wrapper> <config> \n\
 where:  <wrapper> is one of SFS, 2DSFS, ABBA_BABA, ANC_SEQ, Genotypes, Thetas, ngsF
 and:    <config> is the corresponding configuration file \n\
 \n\
@@ -28,8 +28,6 @@ To upgrade the dependencies, please run \n\
 \n\
 To start the Shiny graphing interface, please run \n\
     angsd-wrapper shiny graphing \n\
-\n\
-For an interactive help, type 'help me' without the quotes \n\
 " >&2
     exit 1
 }
