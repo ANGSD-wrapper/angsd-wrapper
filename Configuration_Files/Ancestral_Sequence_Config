@@ -5,9 +5,8 @@ set -u
 set -o pipefail
 
 #   A simple script to hold variables for generating an ancestral fasta file
-#   Are you using the Common_Config file?
-#       If so, where is it?
-COMMON=
+
+#   This script does NOT utilize the Common_Config file
 
 #   Where is the ancestral BAM file?
 ANC_BAM=

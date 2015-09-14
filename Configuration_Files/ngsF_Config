@@ -9,6 +9,9 @@ set -o pipefail
 #       If so, where is it?
 COMMON=
 
+##############################################################################################
+#   If we aren't using the Common_Config file, specify these variables
+#   If Common_Config is specified, leave these blank
 #   Define a list of samples
 SAMPLE_LIST=
 
@@ -27,6 +30,7 @@ SCRATCH=
 #   Define the region being looked at
 #       Optional, but ANGSD is expensive to run without specifying regions to look at
 REGIONS=
+##############################################################################################
 
 #   ngsF Parameters
 #       Listed below are the defaults, please modify for your samples

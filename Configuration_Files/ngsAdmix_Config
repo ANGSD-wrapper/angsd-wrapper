@@ -9,6 +9,9 @@ set -o pipefail
 #       If so, where is it?
 COMMON=
 
+##############################################################################################
+#   If we aren't using the Common_Config file, specify these variables
+#   If Common_Config is specified, leave these blank
 #   Name the project
 PROJECT=
 
@@ -16,6 +19,7 @@ PROJECT=
     #   Note, the final outdirectory will be
     #   ${SCRATCH}/${PROJECT}/ngsAdmix
 SCRATCH=
+##############################################################################################
 
 #   The Likelihood file
 #       This is the .beagle.gz file from the Site Frequency Spectrum

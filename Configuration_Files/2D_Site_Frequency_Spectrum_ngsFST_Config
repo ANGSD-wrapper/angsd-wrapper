@@ -9,6 +9,25 @@ set -o pipefail
 #       If so, where is it?
 COMMON=
 
+##############################################################################################
+#   If we aren't using the Common_Config file, specify these variables
+#   If Common_Config is specified, leave these blank
+#   Ancestral and Reference sequences
+ANC_SEQ=
+REF_SEQ=
+
+#   Name the project
+PROJECT=
+
+#   Where do we put the outfiles?
+    #   Note, the final outdirectory will be
+    #   ${SCRATCH}/${PROJECT}/2DSFS
+SCRATCH=
+
+#   Region being looked at?
+REGIONS=
+##############################################################################################
+
 #   What is group 1?
 GROUP_1=
 
@@ -26,21 +45,6 @@ G2_SAMPLE_LIST=
 
 #   Inbreeding coefficients for group 2
 G2_INBREEDING=
-
-#   Ancestral and Reference sequences
-ANC_SEQ=
-REF_SEQ=
-
-#   Name the project
-PROJECT=
-
-#   Where do we put the outfiles?
-    #   Note, the final outdirectory will be
-    #   ${SCRATCH}/${PROJECT}/2DSFS
-SCRATCH=
-
-#   Region being looked at?
-REGIONS=
 
 #   2D Site Frequency Spectrum and ngsFST Parameters
 #       Listed below are the defaults, please modify for your samples
