@@ -27,4 +27,4 @@ OUT=${OUT_DIR}/${OUT_NAME}
 DO_FASTA=1
 #       If DO_FASTA is 2, DO_COUNTS must be 1
 #       Otherwise, DO_COUNTS can be any other legal value or empty
-DO_COUNTS
+DO_COUNTS=
