@@ -2,7 +2,7 @@
 =============
 
 
-ngsd-wrapper is a utility developed to aid in the analysis of next generation sequencing data. Users can calculate the following with this tool: 
+Angsd-wrapper is a utility developed to aid in the analysis of next generation sequencing data. Users can calculate the following with this tool: 
 - site frequency spectrum
 - 2D site frequency spectrum and Fst estimations
 - ABBA BABBA tests
