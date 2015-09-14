@@ -44,7 +44,7 @@ then
     then
         gzip -d "${OUT}".fa.gz
     fi
-    samtools index "${OUT}".fa
+    samtools faidx "${OUT}".fa
 else
     echo "Can't find SAMTools, we aren't indexing for you"
     echo "If you'd like to index yourself,"
