@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-set -u
 set -o pipefail
 
 #   A script to serve as an interactive help

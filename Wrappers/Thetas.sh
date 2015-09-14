@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -e
-set -u
 set -o pipefail
 
 #   Load variables from supplied config file
