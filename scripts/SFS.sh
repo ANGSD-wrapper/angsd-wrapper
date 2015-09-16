@@ -27,6 +27,16 @@ OVERRIDE=false
 load_config $1
 #load_config ${SCRIPTS_DIR}/common.conf
 
+#check if regions exist
+if [[ ${REGIONS} == */*]]; then
+    if file_exists "${REGIONS}" && file_not_empty "${REGIONS}"; then
+        >&2 echo "WRAPPER: regions file exists and not empty, starting analysis..."
+elif variable_exists "${REGIONS}"; then
+    >&2 echo "WRAPPER: regions variable set, starting analysis..."
+else
+    >&2 echo "WRAPPER: regions not set, file does not exist, or file is empty. Exiting..." >&2; exit 1
+fi
+
 # Variables created from transforming other variables
 #   The number of individuals in the taxon we are analyzing
 #   We use an embedded command to do this
