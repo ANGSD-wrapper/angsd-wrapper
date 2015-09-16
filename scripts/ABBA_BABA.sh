@@ -22,6 +22,16 @@ BLOCKSIZE=1000
 
 load_config $1
 
+#check if regions exist
+if [[ ${REGIONS} == */*]]; then
+    if file_exists "${REGIONS}" && file_not_empty "${REGIONS}"; then
+        >&2 echo "WRAPPER: regions file exists and not empty, starting analysis..."
+elif variable_exists "${REGIONS}"; then
+    >&2 echo "WRAPPER: regions variable set, starting analysis..."
+else
+    >&2 echo "WRAPPER: regions not set, file does not exist, or file is empty. Exiting..." >&2; exit 1
+fi
+
 # extract consensus sequence of Tripsacum to be treated as outgroup
 #angsd -doFasta 2 -doCounts 1 -i Tripsacum.bam -out Tripsacum
 if [[ ${DO_CONSENSUS} == 1 ]]; then
