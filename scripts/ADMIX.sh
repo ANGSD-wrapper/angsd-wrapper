@@ -4,7 +4,7 @@ set -e
 set -u
 
 #   source the common config file
-source scripts/Common_Variables.conf
+source scripts/common.conf
 # load utils functions
 source ${SCRIPTS_DIR}/utils.sh
 
