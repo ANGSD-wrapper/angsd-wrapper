@@ -61,7 +61,7 @@ fi
 N_SITES=`wc -l ${INTERSECT} | cut -f 1 -d " "`
 
 # convert ANGSD 2DSFS for ngsPopGen use
-Rscript ${SCRIPTS_DIR}/SFS_to_FST.R ${TWODSFS}\
+Rscript ${SCRIPTS_DIR}/convertSFS.R ${TWODSFS}\
     > ${RESULTS_DIR}/2DSFS_Intergenic.${TAXON1}.${TAXON2}.converted.sfs
 
 # get FST
