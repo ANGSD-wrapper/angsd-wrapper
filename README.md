@@ -8,24 +8,28 @@ In order to install angsd-wrapper fully, you need to follow a few steps:
 
 First, you need to make the ANGSD executable and the associated programs:
 
-1. `$ git clone https://github.com/arundurvasula/angsd-wrapper.git`
-2. `$ cd angsd-wrapper/angsd`
-3. `$ make`
-4. `$ cd ../ngsPopGen`
-5. `$ make`
-6. `$ cd ../ngsF`
-7. `$ make`
+```
+$ git clone https://github.com/arundurvasula/angsd-wrapper.git
+$ cd angsd-wrapper/angsd
+$ make
+$ cd ../ngsPopGen
+$ make
+$ cd ../ngsF
+$ make
+```
 
 Then you need to install the requisite R packages for using the R graphing application:
 
-1. `$ R`
-2. `> install.packages("shiny")`
-3. `> install.packages("ape")`
-4. `> install.packages("Hmisc")`
-5. `> install.packages("lattice")`
-6. `> source("http://bioconductor.org/biocLite.R")`
-7. `> biocLite("genomeIntervals")`
-8. `> install.packages("data.table")`
+```
+R
+install.packages("shiny")
+install.packages("ape")
+install.packages("Hmisc")
+install.packages("lattice")
+source("http://bioconductor.org/biocLite.R")
+biocLite("genomeIntervals")
+install.packages("data.table")
+```
 
 ### Documentation available on the [wiki](https://github.com/arundurvasula/angsd-wrapper/wiki).
 
