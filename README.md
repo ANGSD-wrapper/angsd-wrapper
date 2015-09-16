@@ -72,7 +72,7 @@ Please run `./angsd-wrapper setup please` to donwload and install the supported 
 
 ## To Do
 
- - Define requiements for BAM files (@HD/index)
+ - Define requirements for BAM files (@HD/index)
  - Fix segfaults
  - Define variables in configuration files
  - Fix issue with `git pull`
