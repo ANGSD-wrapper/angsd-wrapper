@@ -37,6 +37,13 @@ else
     >&2 echo "WRAPPER: regions not set, file does not exist, or file is empty. Exiting..." >&2; exit 1
 fi
 
+#check if inbreeding coefficients file exists
+if file_exists "${TAXON_INBREEDING}" && file_not_empty "${TAXON_INBREEDING}"; then
+    >&2 echo "WRAPPER: Inbreeding file for taxon exists and is not empty, continuing..."
+else
+    >&2 echo "WRAPPER: Inbreeding file for taxon does not exist or is empty. Exiting..." >&2; exit 1
+fi
+
 # Variables created from transforming other variables
 #   The number of individuals in the taxon we are analyzing
 #   We use an embedded command to do this
