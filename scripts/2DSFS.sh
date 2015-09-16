@@ -35,6 +35,19 @@ else
     >&2 echo "WRAPPER: regions not set, file does not exist, or file is empty. Exiting..." >&2; exit 1
 fi
 
+#check if inbreeding coefficients fileS exist
+if file_exists "${TAXON_INBREEDING1}" && file_not_empty "${TAXON_INBREEDING1}"; then
+    >&2 echo "WRAPPER: Inbreeding file for taxon 1 exists and is not empty, continuing..."
+else
+    >&2 echo "WRAPPER: Inbreeding file for taxon 1 does not exist or is empty. Exiting..." >&2; exit 1
+fi
+
+if file_exists "${TAXON_INBREEDING2}" && file_not_empty "${TAXON_INBREEDING2}"; then
+    >&2 echo "WRAPPER: Inbreeding file for taxon 2 exists and is not empty, continuing..."
+else
+    >&2 echo "WRAPPER: Inbreeding file for taxon 2 does not exist or is empty. Exiting..." >&2; exit 1
+fi
+
 # calculated variables
 N_IND1=`wc -l < ${TAXON_LIST1}`
 N_CHROM1=`expr 2 \* ${N_IND1}`
