@@ -50,7 +50,7 @@ To see a list of available wrappers, run
 
 ### Configuration files
 
-For each of the methods `angsd-wrapper` has, there is a config file for it. The configuration files hold variables used by the `wrappers`. This is where you need to modify and save the variables (i.e. specify filepaths of BAM files, FASTA files, sample lists, etc.) to suit your samples before running angsd-wrapper with a specified method.
+For each of the methods `angsd-wrapper` has, there is a config file for it. The configuration files hold variables used by the `wrappers`. This is where you need to modify and save the variables (i.e. specify filepaths of indexed BAM files/CRAM files,  FASTA files, sample lists, etc.) to suit your samples before running angsd-wrapper with a specified method.
 
 The default config files can be found in the `Configuration_Files` directory. You will need to modify them to suit your samples. Please refer to the config files or the [wiki](https://github.com/arundurvasula/angsd-wrapper/wiki) to see what each variable is used for and how they should be specified. If you run `angsd-wrapper` without any arguments, it will spit out a usage message.
 
