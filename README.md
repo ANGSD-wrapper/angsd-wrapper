@@ -38,10 +38,24 @@ Finish the installation
 
 ### A few requirements
 
-- indexed BAM (.bai) or CRAM (.cram) file formats
 - @HD header lines
+- indexed BAM (.bai) or CRAM (.cram) file formats
 
-`angsd-wrapper` does not work for BAM files and has specific header line requirements, so please index the BAM files being used and add the @HD header lines before running `angsd-wrapper`.
+`angsd-wrapper` does not work for BAM files and has specific header line requirements. Most BAM files have @SQ as header lines, this will not work for `angsd-wrapper`. So please add the @HD header lines to the BAM files and index the BAM files being used before running `angsd-wrapper`.
+
+##### Add @HD header lines
+Before getting started on adding, check and see what the header lines of the BAM files are with:
+
+`samtools view -H sample_name.bam | head`
+
+If the lines start with `@SQ`, go to this [Gist](https://gist.github.com/mojaveazure/d194c4705642eecf8437) to find a script that will add `@HD` header lines to your BAM files. 
+
+##### Index BAM files
+Next, to index the BAM files with the `@HD` header added, run the following in the working directory:
+
+`module load parallel && module load samtools && module load samtools && cat /full_path/to/BAM_files_sample_list.txt | parallel "samtools index {}"`
+
+Now we are all set to run `angsd-wrapper`!
 
 ### Basic usage
 
@@ -66,6 +80,9 @@ This package requires the following dependencies to work: [ANGSD](https://github
 
 ### Download and install supported versions of dependencies
 Please run `./angsd-wrapper setup please` to donwload and install the supported versions of dependencies.
+
+### Fixing Issues
+In the case that there is an issue that needs to be fixed,
 
 ## Supported methods
 
