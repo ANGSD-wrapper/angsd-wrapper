@@ -22,23 +22,53 @@ N_CORES=32
 
 load_config $1
 
+#check if regions exist
+if [[ ${REGIONS} == */*]]; then
+    if file_exists "${REGIONS}" && file_not_empty "${REGIONS}"; then
+        >&2 echo "WRAPPER: regions file exists and not empty, starting analysis..."
+elif variable_exists "${REGIONS}"; then
+    >&2 echo "WRAPPER: regions variable set, starting analysis..."
+else
+    >&2 echo "WRAPPER: regions not set, file does not exist, or file is empty. Exiting..." >&2; exit 1
+fi
+
 N_IND=`wc -l < ${TAXON_LIST}`
 
-
-${ANGSD_DIR}/angsd\
-  -bam ${TAXON_LIST}\
-  -out ./results/${TAXON}_snps\
-  -doMajorMinor ${DO_MAJORMINOR}\
-  -uniqueOnly ${UNIQUE_ONLY}\
-  -minMapQ ${MIN_MAPQ}\
-  -minQ ${MIN_BASEQUAL}\
-  -GL ${GT_LIKELIHOOD}\
-  -r ${REGIONS}\
-  -doGeno ${DO_GENO}\
-  -doPost ${DO_POST}\
-  -postCutoff ${POST_CUTOFF}\
-  -doMaf ${DO_MAF}\
-  -SNP_pval ${SNP_PVAL}\
-  -nInd ${N_IND}\
-  -minInd ${MIN_IND}\
-  -P ${N_CORES}
+if [[ ${REGIONS} == */* ]]; then
+  >&2 echo "WRAPPER: $TAXON GL starting..."
+  ${ANGSD_DIR}/angsd\
+    -bam ${TAXON_LIST}\
+    -out ./results/${TAXON}_snps\
+    -doMajorMinor ${DO_MAJORMINOR}\
+    -uniqueOnly ${UNIQUE_ONLY}\
+    -minMapQ ${MIN_MAPQ}\
+    -minQ ${MIN_BASEQUAL}\
+    -GL ${GT_LIKELIHOOD}\
+    -rf ${REGIONS}\
+    -doGeno ${DO_GENO}\
+    -doPost ${DO_POST}\
+    -postCutoff ${POST_CUTOFF}\
+    -doMaf ${DO_MAF}\
+    -SNP_pval ${SNP_PVAL}\
+    -nInd ${N_IND}\
+    -minInd ${MIN_IND}\
+    -P ${N_CORES}
+else
+  >&2 echo "WRAPPER: $TAXON GL starting"
+  ${ANGSD_DIR}/angsd\
+    -bam ${TAXON_LIST}\
+    -out ./results/${TAXON}_snps\
+    -doMajorMinor ${DO_MAJORMINOR}\
+    -uniqueOnly ${UNIQUE_ONLY}\
+    -minMapQ ${MIN_MAPQ}\
+    -minQ ${MIN_BASEQUAL}\
+    -GL ${GT_LIKELIHOOD}\
+    -r ${REGIONS}\
+    -doGeno ${DO_GENO}\
+    -doPost ${DO_POST}\
+    -postCutoff ${POST_CUTOFF}\
+    -doMaf ${DO_MAF}\
+    -SNP_pval ${SNP_PVAL}\
+    -nInd ${N_IND}\
+    -minInd ${MIN_IND}\
+    -P ${N_CORES}
