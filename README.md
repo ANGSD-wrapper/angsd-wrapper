@@ -36,6 +36,13 @@ Finish the installation
 
 ## To Use
 
+### A few requirements
+
+- indexed BAM (.bai) or CRAM (.cram) file formats
+- @HD header lines
+
+`angsd-wrapper` does not work for BAM files and has specific header line requirements, so please index the BAM files being used and add the @HD header lines before running `angsd-wrapper`.
+
 ### Basic usage
 
 To run angsd-wrapper, run
