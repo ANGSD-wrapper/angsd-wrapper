@@ -31,14 +31,14 @@ directory_exists() {
   fi
 }
 
-variable_doesnt_exist() {
-  if [[ -z "$1"]]
+variable_exists() {
+  if [[ -n "$1"]]
   then
     return 0
-    echo $1" does not exist!"
+    echo $1" exists!"
   else
     return 1
-    echo $1" exists!"
+    echo $1" does not exist!"
   fi
 }
 
