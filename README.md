@@ -42,7 +42,7 @@ To run angsd-wrapper, run
 
 > `angsd-wrapper <wrapper> <config>`
 
-Where < wrapper > is one of the available routines that angsd-wrapper can run and < config > is the relative path to the corresponding configuraiton file.
+Where < wrapper > is one of the available routines that angsd-wrapper can run and < config > is the relative path to the corresponding configuration file.
 
 To see a list of available wrappers, run
 
