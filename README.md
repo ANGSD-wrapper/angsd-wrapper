@@ -70,3 +70,10 @@ Please run `./angsd-wrapper setup please` to donwload and install the supported 
 - [Genotypes](https://github.com/mojaveazure/angsd-wrapper/blob/master/Wrappers/Genotypes.sh)
 - [ngsF](https://github.com/fgvieira/ngsF)
 
+## To Do
+
+ - Define requiements for BAM files (@HD/index)
+ - Fix segfaults
+ - Define variables in configuration files
+ - Fix issue with `git pull`
+
