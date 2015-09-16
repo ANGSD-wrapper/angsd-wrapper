@@ -23,6 +23,6 @@ do
 		-likes ${LIKELIHOOD}\
 		-K ${k}\
 		-P ${N_CORES}\
-		-o ${TAXON}.${k}\
+		-o ${RESULTS_DIR}/${TAXON}.${k}\
 		-minMaf ${MIN_MAF}
 done
