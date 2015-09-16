@@ -9,6 +9,17 @@ file_exists() {
   fi
 }
 
+file_not_empty() {
+  if [[ -s "$1"]]
+  then
+    return 0
+    echo $1" not empty!"
+  else
+    return 1
+    echo $1" empty!"
+  fi
+}
+
 directory_exists() {
   if [[ -d "$1" ]]
   then
