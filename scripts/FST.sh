@@ -4,11 +4,11 @@ set -e
 set -u
 
 #   source common config file
-source scripts/Common_Variables.conf
+source scripts/common.conf
 # load utils functions
 source ${SCRIPTS_DIR}/utils.sh
 
-#Need to have run ANGSD_2DSFS or have files in correct name format
+#Need to have run 2DSFS or have files in correct name format
 
 DO_SAF=2
 UNIQUE_ONLY=0
@@ -35,7 +35,7 @@ TWODSFS=${RESULTS_DIR}/2DSFS_Intergenic.${TAXON1}.${TAXON2}.sfs
 N_IND_1=`wc -l < ${TAXON1_LIST}`
 N_IND_2=`wc -l < ${TAXON2_LIST}`
 
-#check for sfs, intersect file, and 2dsfs from ANGSD_2DSFS
+#check for sfs, intersect file, and 2dsfs from 2DSFS.sh
 #exit with error if any don't exist
 if file_exists "${POP1_SFS}"; then
     >&2 echo "WRAPPER: saf for ${TAXON1} exists, continuing to check for ${TAXON2} saf..."
