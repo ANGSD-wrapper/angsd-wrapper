@@ -6,16 +6,16 @@ Wrapper scripts and documentation to make angsd easier to use.
 ### Installation
 In order to install angsd-wrapper fully, you need to follow a few steps:
 
-First, you need to make the ANGSD executable and the associated programs:
+First, you need to make the ANGSD executable and the associated programs by copying this in your command line:
 
 ```
-$ git clone https://github.com/arundurvasula/angsd-wrapper.git
-$ cd angsd-wrapper/angsd
-$ make
-$ cd ../ngsPopGen
-$ make
-$ cd ../ngsF
-$ make
+git clone https://github.com/arundurvasula/angsd-wrapper.git
+cd angsd-wrapper/angsd
+make
+cd ../ngsPopGen
+make
+cd ../ngsF
+make
 ```
 
 Then you need to install the requisite R packages for using the R graphing application:
