@@ -57,13 +57,6 @@ fi
 
 gunzip ${RESULTS_DIR}/${TAXON}_PCA.geno.gz
 
-ngsPopGen/ngsCovar
- -probfile results/all.test.geno
- -outfile pop.covar
- -nind 21
- -nsites 100000
- -call 0
-
 ${NGS_POPGEN_DIR}/ngsCovar \
 	-probfile ${RESULTS_DIR}/${TAXON}_PCA.geno\
 	-outfile ${RESULTS_DIR}/${TAXON}_PCA.covar\
