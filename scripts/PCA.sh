@@ -12,12 +12,14 @@ DO_MAF=2
 DO_MAJORMINOR=1
 DO_GENO=32
 DO_POST=1
-N_IND=`wc -l < ${TAXON_LIST}`
 N_CORES=8
 CALL=0
+GT_LIKELIHOOD=1
 N_SITES=100000
 
 load_config $1
+
+N_IND=`wc -l < ${TAXON_LIST}`
 
 #check if regions exist
 if [[ ${REGIONS} == */*]]; then
@@ -52,7 +54,7 @@ else
         -doPost ${DO_POST}\
         -nInd ${N_IND}\
         -P ${N_CORES}\
-        -rf ${REGIONS}
+        -r ${REGIONS}
 fi
 
 gunzip ${RESULTS_DIR}/${TAXON}_PCA.geno.gz
