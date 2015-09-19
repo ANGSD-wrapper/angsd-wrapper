@@ -77,13 +77,17 @@ cat ~/path/to/sample_list.txt | parallel samtools index {}
 
 To run angsd-wrapper, run
 
-> `angsd-wrapper <wrapper> <config>`
+```shell
+angsd-wrapper <wrapper> <config>
+```
 
 Where < wrapper > is one of the available routines that angsd-wrapper can run and < config > is the relative path to the corresponding configuration file.
 
 To see a list of available wrappers, run
 
-> `angsd-wrapper`
+```shell
+angsd-wrapper
+```
 
 ### Configuration files
 
