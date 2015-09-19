@@ -31,6 +31,12 @@ else
     exit 1
 fi
 
+#   What's our outgroup?
+if [[ -z "${OUTGROUP}" ]]
+then
+    OUTGROUP="${ANC_SEQ}"
+fi
+
 #   Now we actually run the command
 #   Do we have a regions file?
 if [[ -f "${REGIONS}" ]]

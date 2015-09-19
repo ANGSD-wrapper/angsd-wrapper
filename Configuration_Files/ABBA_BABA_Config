@@ -15,10 +15,6 @@ COMMON=
 #   Define a list of samples
 SAMPLE_LIST=
 
-#   Fasta file to be used as an outgroup
-#       This can be generated using the ANC_SEQ function of angsd-wrapper
-OUTGROUP=
-
 #   Name of the project
 PROJECT=
 
@@ -31,6 +27,10 @@ SCRATCH=
 #       Optional, but ANGSD is expensive to run without specifying regions to look at
 REGIONS=
 ##############################################################################################
+
+#   Fasta file to be used as an outgroup
+#       This can be generated using the ANC_SEQ function of angsd-wrapper
+OUTGROUP=
 
 #   ABBA BABA Parameters
 #       Listed below are the defaults, please modify for your samples
