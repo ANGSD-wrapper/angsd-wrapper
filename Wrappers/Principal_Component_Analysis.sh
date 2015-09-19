@@ -40,6 +40,7 @@ then
         -rf "${REGIONS}"
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
+then
     "${ANGSD_DIR}"/angsd \
         -bam "${TAXON_LIST}" \
         -GL "${GT_LIKELIHOOD}" \
