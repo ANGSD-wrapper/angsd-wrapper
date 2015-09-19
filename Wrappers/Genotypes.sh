@@ -29,7 +29,8 @@ then
 fi
 
 #   Create outdirectory
-mkdir -p "${SCRATCH}"/"${PROJECT}"/GenotypeLikelihoods
+OUT="${SCRATCH}"/"${PROJECT}"/GenotypeLikelihoods
+mkdir -p ${OUT}
 
 #   Where is ANGSD?
 ANGSD_DIR="${SOURCE}"/dependencies/angsd
@@ -40,7 +41,7 @@ if [[ -f "${REGIONS}" ]]
 then
     "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \
-        -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_snps \
+        -out "${OUT}"/"${PROJECT}"_snps \
         -indF "${SAMPLE_INBREEDING}" \
         -doMajorMinor "${DO_MAJORMINOR}" \
         -uniqueOnly "${UNIQUE_ONLY}" \
@@ -61,7 +62,7 @@ elif [[ -z "${REGIONS}" ]]
 then
     "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \
-        -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_snps \
+        -out "${OUT}"/"${PROJECT}"_snps \
         -indF "${SAMPLE_INBREEDING}" \
         -doMajorMinor "${DO_MAJORMINOR}" \
         -uniqueOnly "${UNIQUE_ONLY}" \
@@ -80,7 +81,7 @@ then
 else
     "${ANGSD_DIR}"/angsd \
         -bam "${SAMPLE_LIST}" \
-        -out "${SCRATCH}"/"${PROJECT}"/"${PROJECT}"_snps \
+        -out "${OUT}"/"${PROJECT}"_snps \
         -indF "${SAMPLE_INBREEDING}" \
         -doMajorMinor "${DO_MAJORMINOR}" \
         -uniqueOnly "${UNIQUE_ONLY}" \
