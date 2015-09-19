@@ -14,25 +14,31 @@ Angsd-wrapper is a utility developed to aid in the analysis of next generation s
 
 Likelihood based approaches are used in ANGSD to calculate summary statistics for next generation sequencing data. The wrapper scripts and documentation aim to make angsd user friendly.
 
-This is forked from [Arun Durvasula](https://github.com/arundurvasula/angsd-wrapper) in an attempt to simplify the angsd-wrapper package. To read about why I'm doing this, look no further than this [Gist](https://gist.github.com/mojaveazure/ce8c41440805be16c09c).
-
 ## Installing angsd-wrapper
 
 To install angsd-wrapper, download from GitHub
 
-> `git clone https://github.com/mojaveazure/angsd-wrapper.git`
+```shell
+git clone https://github.com/mojaveazure/angsd-wrapper.git
+```
 
 Go into the angsd-wrapper directory
 
-> `cd angsd-wrapper/`
+```shell
+cd angsd-wrapper/
+```
 
 Run the setup command
 
-> `./angsd-wrapper setup please`
+```shell
+./angsd-wrapper setup please
+```
 
 Finish the installation
 
-> `source ~/.bash_profile`
+```shell
+source ~/.bash_profile
+```
 
 ## A note about BAM files
 
