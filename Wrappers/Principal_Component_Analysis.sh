@@ -19,7 +19,7 @@ SOURCE=$2
 ANGSD_DIR="${SOURCE}"/dependencies/angsd
 
 #   Make the outdirectory
-OUT=${SRATCH}/${PROJECT}/PCA
+OUT=${SCRATCH}/${PROJECT}/PCA
 
 #   Find number of individuals
 N_IND=`wc -l < "${SAMPLE_LIST}"`
