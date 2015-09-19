@@ -15,9 +15,10 @@ and:    <config> is the corresponding configuration file \n\
 The following is a list of calls and what they do: \n\
     SFS         Site Frequency Spectrum \n\
     2DSFS       2D Site Frequency Spectrum and Fst Estimations \n\
-    ABBA_BABA  ABBA BABBA Test \n\
+    ABBA_BABA   ABBA BABBA Test \n\
     ANC_SEQ     Extract Ancestral Sequence from BAM file \n\
     Genotypes   Genotype Likelihood Estimations \n\
+    PCA         Principal Component Analysis \n\
     Thetas      Estimate thetas and calculate neutrality test statistics \n\
     ngsF        Use ngsF to calculate per-individual inbreeding coefficients \n\
     ngsAdmix    Run ngsAdmix \n\
@@ -135,6 +136,15 @@ case "${WRAPPER}" in
             exit 1
         fi
         bash "${SOURCE}"/Wrappers/Genotypes.sh "${CONFIG}" "${SOURCE}"
+        ;;
+    "PCA" )
+        #   Run the PCA wrapper script
+        if ! [[ -f "${CONFIG}" ]]
+        then
+            echo "Please specify a valid config file"
+            exit 1
+        fi
+        bash "${SOURCE}"/Wrappers/Principal_Component_Analysis.sh "${CONFIG}" "${SOURCE}"
         ;;
     "Thetas" )
         #   Run the thetas wrapper script
