@@ -33,6 +33,8 @@ To start the Shiny graphing interface, please run \n\
     exit 1
 }
 
+#   Where is angsd-wrapper located?
+SOURCE=`dirname "$0"`
 
 #   First use, look for 'dependencies' directory
 if [[ -z "${SOURCE}" ]]
@@ -67,6 +69,7 @@ if [[ "$1" -ne "setup" ]]
 then
     if [ "$#" -lt 2 ]
     then
+        echo $SOURCE
         usage
     fi
 fi
@@ -177,12 +180,17 @@ case "${WRAPPER}" in
         bash "${SOURCE}"/Wrappers/Help.sh
         ;;
     "upgrade" )
+        git pull
         bash "${SOURCE}"/Wrappers/Upgrade.sh "${SOURCE}"
         ;;
     "shiny" )
         Rscript "${SOURCE}"/Wrappers/startShiny.R "${SOURCE}"
         ;;
+    "test" )
+        bash "${SOURCE}"/Wrappers/test.sh
+        ;;
     * )
+        echo $SOURCE
         usage
         ;;
 esac

@@ -70,7 +70,7 @@ then
         -minMapQ "${MIN_MAPQ}" \
         -minQ "${MIN_BASEQUAL}" \
         -minInd "${MIN_IND}" \
-        -P "${N_CORES}" \
+        -nThreads "${N_CORES}" \
         -checkBamHeaders "${CHECK_BAM_HEADERS}" \
         -out "${OUT}"/"${PROJECT}".D
 #   Assuming a single reigon was defined in config file
@@ -86,7 +86,7 @@ else
         -minMapQ "${MIN_MAPQ}" \
         -minQ "${MIN_BASEQUAL}" \
         -minInd "${MIN_IND}" \
-        -P "${N_CORES}" \
+        -nThreads "${N_CORES}" \
         -checkBamHeaders "${CHECK_BAM_HEADERS}" \
         -r "${REGIONS}" \
         -out "${OUT}"/"${PROJECT}".D
