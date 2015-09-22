@@ -47,7 +47,6 @@ To set up, please run \n\
     angsd-wrapper.sh setup please \n\
 " >&2
         exit 1
-    fi
 fi
 
 #   Check to see if there are the correct number of arguments
