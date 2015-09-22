@@ -164,7 +164,6 @@ case "${WRAPPER}" in
         bash "${SOURCE}"/Wrappers/Help.sh
         ;;
     "upgrade" )
-        git pull
         bash "${SOURCE}"/Wrappers/Upgrade.sh "${SOURCE}"
         ;;
     "shiny" )
