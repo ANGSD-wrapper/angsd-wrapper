@@ -36,29 +36,14 @@ To start the Shiny graphing interface, please run \n\
 #   Where is angsd-wrapper located?
 SOURCE=`dirname "$0"`
 
-SOURCE=/Users/chaochihliu/angsd-wrapper
 #   First use, look for 'dependencies' directory
-if [[ -z "${SOURCE}" ]]
+if ! [[ -d "${SOURCE}"/'dependencies' ]] && [[ -z "$1" || "$1" -ne 'setup' ]]
 then
-    if ! [[ -d 'dependencies' ]] && [[ -z "$1" || "$1" -ne 'setup' ]]
-    then
-        echo $1
-        echo -e "\
+    echo $1
+    echo -e "\
 Welcome to angsd-wrapper! \n\
 To set up, please run \n\
 \n\
-    angsd-wrapper setup please \n\
-" >&2
-        exit 1
-    fi
-else
-    if ! [[ -d "${SOURCE}"/'dependencies' ]] && [[ -z "$1" || "$1" -ne 'setup' ]]
-    then
-        echo $1
-        echo -e "\
-Welcome to angsd-wrapper! \n\
-To set up, please run \n\
-n\
     angsd-wrapper.sh setup please \n\
 " >&2
         exit 1
