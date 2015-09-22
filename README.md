@@ -118,7 +118,7 @@ These are downloaded and installed automatically when angsd-wrapper is [installe
 ## To Do
 
  - ~~Define requirements for BAM files (@HD/index)~~ DONE!
- - Fix segfaults
+ - Fix segfaults (In progress with the `ANGSD` team)
  - Define variables in configuration files
  - Fix issue with `git pull`
 

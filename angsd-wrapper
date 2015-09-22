@@ -36,6 +36,7 @@ To start the Shiny graphing interface, please run \n\
 #   Where is angsd-wrapper located?
 SOURCE=`dirname "$0"`
 
+SOURCE=/Users/chaochihliu/angsd-wrapper
 #   First use, look for 'dependencies' directory
 if [[ -z "${SOURCE}" ]]
 then
