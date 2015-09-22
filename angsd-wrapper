@@ -34,6 +34,7 @@ To start the Shiny graphing interface, please run \n\
 }
 
 
+SOURCE=/Users/chaochihliu/angsd-wrapper
 #   First use, look for 'dependencies' directory
 if [[ -z "${SOURCE}" ]]
 then
