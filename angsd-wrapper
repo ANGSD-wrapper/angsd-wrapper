@@ -8,7 +8,7 @@ set -o pipefail
 #   Define a usage message
 function usage() {
     echo -e "\
-Usage:  angsd-wrapper <wrapper> <config> \n\
+Usage:  `basename $0` <wrapper> <config> \n\
 where:  <wrapper> is one of SFS, 2DSFS, ABBA_BABA, ANC_SEQ, Genotypes, Thetas, ngsF
 and:    <config> is the corresponding configuration file \n\
 \n\
@@ -25,10 +25,10 @@ The following is a list of calls and what they do: \n\
 \n\
 To upgrade the dependencies, please run \n\
 \n\
-    angsd-wrapper upgrade dependencies \n\
+    `basename $0` upgrade dependencies \n\
 \n\
 To start the Shiny graphing interface, please run \n\
-    angsd-wrapper shiny graphing \n\
+    `basename $0` shiny graphing \n\
 " >&2
     exit 1
 }
@@ -36,26 +36,22 @@ To start the Shiny graphing interface, please run \n\
 #   Where is angsd-wrapper located?
 SOURCE=`dirname "$0"`
 
-#   First use, look for 'dependencies' directory
-if ! [[ -d "${SOURCE}"/'dependencies' ]] && [[ -z "$1" || "$1" -ne 'setup' ]]
+#   Run some checks
+if [[ ! -d "${SOURCE}"/dependencies ]] # Are we missing the dependencies directory?
 then
-    echo $1
-    echo -e "\
-Welcome to angsd-wrapper! \n\
+    if [[ ! "$1" == 'setup' ]] # If we're not running the setup routine
+    then
+        echo -e "\
+Welcome to `basename $0`! \n\
 To set up, please run \n\
 \n\
-    angsd-wrapper.sh setup please \n\
+    ./`basename $0` setup please \n\
 " >&2
         exit 1
-fi
-
-#   Check to see if there are the correct number of arguments
-if [[ "$1" -ne "setup" ]]
-then
-    if [ "$#" -lt 2 ]
-    then
-        usage
     fi
+elif [[ "$#" -lt 2 ]] # Otherwise, are we missing our two arguments
+then
+    usage # If so, display the usage message
 fi
 
 WRAPPER="$1"
