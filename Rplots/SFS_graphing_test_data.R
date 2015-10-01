@@ -10,16 +10,16 @@ names(Derived) <- c("Allele_frequency")   #   assign column name to dataframe
 
 #   Creating SFS graphs
 #   Bar plot
-barplot(Derived_test[2:24,], xlab = "Sites", ylab = "Allele frequency", main = "Site Frequency Spectrum",
+barplot(Derived_test[2:24,], xlab = "# of variants at site", ylab = "Proportion of SNPs", main = "Site Frequency Spectrum",
         col = "purple4")
 
 #   Histogram
 #   Make histogram excluding row 1 and 25, this needs to be fixed in the wrapper script later on
-hist(Derived_test[2:24,], right = FALSE, xlab = "Sites", 
-     ylab = "Allele frequency",main = "Site Frequency Spectrum", col = "deepskyblue")
+hist(Derived_test[2:24,], right = FALSE, xlab = "# of variants at site", 
+     ylab = "Proportion of SNPs",main = "Site Frequency Spectrum", col = "deepskyblue")
 
 #   Plot
-plot(Derived_test[2:24,], type = "p", xlab = "Sites",
-     ylab = "Allele frequency", main = "Site Frequency Spectrum", col = "navyblue", pch = 18)
+plot(Derived_test[2:24,], type = "p", xlab = "# of variants at site",
+     ylab = "Proportion of SNPs", main = "Site Frequency Spectrum", col = "navyblue", pch = 18)
 
 
