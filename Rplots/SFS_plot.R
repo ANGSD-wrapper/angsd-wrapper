@@ -11,7 +11,11 @@ plot.sfs <- function(sfs) {
     Derived <- Derived[3:nrow(x = Derived) - 1, ]
     #   Creating SFS graphs
     #   Bar plot
-    barplot(Derived, xlab = "# of variants at site", ylab = "Proportion of SNPs", main = "Site Frequency Spectrum", col = "purple4")
+    barplot(Derived, xaxt = "n", xlab = "Derived Allele Frequency", ylab = "Proportion of SNPs", main = "Site Frequency Spectrum", col = "purple4", 
+            offset = 0, width = 1, las = 1)
+    #   Need help generalizing 'at' parameter to fit any sample size input
+    axis.x <- axis(1, at= 1:23, labels = numeric(), lwd = 2)
+    axis.y <- axis(side = 2, at = , labels = numeric(), lwd = 1, lwd.ticks = 1, outer = FALSE, yaxt = "n")
     #   Histogram
     #   Make histogram excluding row 1 and 25, this needs to be fixed in the wrapper script later on
     hist(Derived, right = FALSE, xlab = "# of variants at site", ylab = "Proportion of SNPs",main = "Site Frequency Spectrum", col = "deepskyblue")
