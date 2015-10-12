@@ -117,5 +117,4 @@ fi
 "${ANGSD_DIR}"/misc/realSFS \
     "${OUT}"/"${PROJECT}"_SFSOut.saf.idx \
     -P "${N_CORES}" \
-    -oldout 1 \
     > "${OUT}"/"${PROJECT}"_DerivedSFS
