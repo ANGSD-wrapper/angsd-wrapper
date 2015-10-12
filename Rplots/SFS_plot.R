@@ -30,7 +30,7 @@ plot.sfs <- function(sfs) {
 #   Do the work here
 main <- function() {
     inputData <- args[1]
-    outputName <- paste0(args[2], '/', args[3], '_outplot.pdf')
+    outputName <- paste0(args[2], '/', args[3], '_SFS.pdf')
     pdf(file = outputName, width = 6, height = 6)
     options(scipen=5)
     plot.sfs(sfs = inputData)
