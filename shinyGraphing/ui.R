@@ -142,21 +142,6 @@ shinyUI(fluidPage(
           
         )
       )
-    ),
-    tabPanel(
-      "Fasta",
-      sidebarLayout(
-        sidebarPanel(
-          selectInput("fastaChoice",
-                      label = "Are you satisfied with your fasta file?", 
-                      choices = c("Yes","No")
-          )
-        ),
-        mainPanel(
-          textOutput("pacBio")
-          
-        )
-      )
     )
     #end of tabsetPanel
   )
