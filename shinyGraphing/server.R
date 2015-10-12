@@ -318,7 +318,8 @@ shinyServer(
         sfs <- exp(scan("sfs_example.txt"))
       })
       subsfs <- sfs[-c(1,length(sfs))]/sum(sfs[-c(1,length(sfs))])
-      barplot(subsfs, xlab="Chromosomes", ylab="Proportion", main="Site Frequency Spectrum",names=1:length(sfs[-c(1,length(sfs))]), col="#A2C8EC", border=NA)
+#   Changed "Chromosome" for x axis label to "Derived Allele Frequency"      
+      barplot(subsfs, xlab="Derived Allele Frequency", ylab="Proportion of SNPs", main="Site Frequency Spectrum",names=1:length(sfs[-c(1,length(sfs))]), col="#A2C8EC", border=NA)
 
     })
 
