@@ -9,7 +9,7 @@ shinyUI(fluidPage(
       sidebarLayout(
         sidebarPanel(
           fileInput('userThetas',
-                    label= 'Choose Thetas File'
+                    label= "Choose '.pestPG' Thetas File"
           ),
           
           selectInput("thetaChoice",
@@ -52,7 +52,7 @@ shinyUI(fluidPage(
       sidebarLayout(
         sidebarPanel(
           fileInput('userSFS',
-                    label= 'Choose SFS File'
+                    label= "Choose '_DerivedSFS' SFS File"
           )
           
         ),
@@ -66,7 +66,7 @@ shinyUI(fluidPage(
       sidebarLayout(
         sidebarPanel(
           fileInput('userABBABABA',
-                    label= 'Choose ABBABABA File'
+                    label= "Choose 'abbababa.txt' ABBABABA File"
           ),
           textInput('h2', label="H2", value='NA11993'),
           textInput('h3', label="H3", value='NA12763')
@@ -84,7 +84,7 @@ shinyUI(fluidPage(
       sidebarLayout(
         sidebarPanel(
           fileInput('userFst',
-                    label= 'Choose Fst File'
+                    label= "Choose '.fst' Fst File"
           ),
           fileInput('userIntersect',
                     label= 'Choose Intersect File'
@@ -118,7 +118,7 @@ shinyUI(fluidPage(
       sidebarLayout(
         sidebarPanel(
           fileInput('userPCA',
-                    label= 'Choose a .covar File'
+                    label= "Choose a '_PCA.covar' File"
           )
         ),
         mainPanel(
@@ -131,11 +131,10 @@ shinyUI(fluidPage(
       "Admixture",
       sidebarLayout(
         sidebarPanel(
-          numericInput("k", "Number of K ancestral populations to graph:", 1,
-                       min = 1, max = 10),
           fileInput('userAdmix',
-                    label= 'Choose admixture File'
-          )
+                    label= "Choose '.qopt' admixture File"),
+          numericInput("k", "Number of K ancestral populations to graph:", 1,
+                       min = 1, max = 10)
           
         ),
         mainPanel(
