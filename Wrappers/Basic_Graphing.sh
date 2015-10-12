@@ -34,5 +34,6 @@ fi
 #   Site Frequency Spectrum
 if ! [[ -z "${SFS_OUT}" ]]
 then
-    Rscript "${GRAPH_DIR}"/SFS_plot.R "${SFS_OUT}"
+    SFS_NAME=`basename "${SFS_OUT}" _DerivedSFS`
+    Rscript "${GRAPH_DIR}"/SFS_plot.R "${SFS_OUT}" "${OUT}" "${SFS_NAME}"
 fi
