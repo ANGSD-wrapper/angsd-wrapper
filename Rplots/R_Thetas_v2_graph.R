@@ -7,7 +7,7 @@ args <- commandArgs(trailingOnly = TRUE)
 #   Get initial data
 pest.pg <- function(thetas) {
   #   read in table as data frame
-  Pest <- as.data.frame(thetas)
+  Pest <- read.table(thetas, header = FALSE)
   #   Assign column names to dataframe
   names(Pest) <- c("#", "Chromosome", "Wincenter", "tW", "tP", "tF", "tH", "tL", "Tajima's D", "fuf", "fud",
                    "fayh", "zeng", "nSites")
@@ -18,8 +18,7 @@ pest.pg <- function(thetas) {
   pest$Watterson <- Pest$tW
   pest$Pairwise <- Pest$tP
   pest$Tajima <- Pest$"Tajima's D"
-  #   Remove duplicate contigs
-  chromoNames <- list(as.character(unique(pest$Chromosome)))
+  return(pest)
 }
 
 #   Watterson Estimates by base pair
@@ -29,5 +28,21 @@ Watterson.chr <- function(chromosome, thetas) {
   chromosome <- Pest$Chromosome
   chromo <- subset(x = thetas, select = c("nSites", "tW"))
   totalWatterson <- sum(chromo$Watterson)
+  divWatterson <- totalWatterson / chromo$nSites
+  return(divWatterson)
 }
 
+
+# Do the work here
+main <- function() {
+  # Where is our data?
+  inputData <- args[1]
+  # Create a name for the output file
+  outputName <- past0(args[2], '/', args[3], '_Thetas.pdf')
+  # Read the data in as a dataframe
+  pest <- pest.pg(thetas = inputData)
+  #   Remove duplicate contigs
+  chromoNames <- list(as.character(unique(pest$Chromosome)))
+  # Find the Watterson Estimates by basepair
+  wattersons <- sapply(X = chromoNames[[1]], FUN = Watterson.chr, thetas = pest)
+}
