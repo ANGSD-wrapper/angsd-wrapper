@@ -58,33 +58,38 @@ main <- function() {
   return(wattersons, pairwises, estTheta)
 }
 
-#   Summary Statistics for Watterson's Theta, Pairwise Theata, and Tajima's D
-summary(estTheta)
+# Not needed
+# #   Summary Statistics for Watterson's Theta, Pairwise Theata, and Tajima's D
+# summary(estTheta)
 
-#   Variance and Average of Watterson's Theta
-var(estTheta$Watterson)
-mean(estTheta$Watterson)
+# Not needed
+# #   Variance and Average of Watterson's Theta
+# var(estTheta$Watterson)
+# mean(estTheta$Watterson)
 
-#   Variance and Average of Pairwise Theta
-var(estTheta$Pairwise)
-mean(estTheta$Pairwise)
+# Not needed
+# #   Variance and Average of Pairwise Theta
+# var(estTheta$Pairwise)
+# mean(estTheta$Pairwise)
 
-#   Variance and Average of Tajima's D
-var(estTheta$Tajima)
-mean(estTheta$Tajima)
+# Not needed
+# #   Variance and Average of Tajima's D
+# var(estTheta$Tajima)
+# mean(estTheta$Tajima)
 
+# Make these a function
 #   Graphs: Histogram, Scatter Plot, and Barplot
 #   Watterson's Theta
 hist(Watterson, right = FALSE, xlab = "Watterson's Theta",
      main = "Frequency Distribution of Watterson's Theta", col = "lightsteelblue")
 
 plot(x = pest$WinCenter, y = estTheta$Watterson, type = "p", xlab = "Position (bp)",
-     ylab = "Watson's Theta", main = "Estimators of Watson's Theta", 
+     ylab = "Watson's Theta", main = "Estimators of Watson's Theta",
      col = "lightsteelblue", pch = 19)
 
-barplot(wattersons, col = sample(x= colors(distinct = TRUE), 
-                                 size = length(wattersons), replace = FALSE), 
-        main = "Estimated Watterson's Theta per base pair", 
+barplot(wattersons, col = sample(x= colors(distinct = TRUE),
+                                 size = length(wattersons), replace = FALSE),
+        main = "Estimated Watterson's Theta per base pair",
         xlab = "Region", ylab = "Estimated Theta", las = 2, names.arg = FALSE)
 
 #   Pairwise Theta
@@ -92,23 +97,21 @@ hist(pairwises, right = FALSE, xlab = "Pairwise Theta",
      main = "Frequency Distribution of Pairwise Theta", col = "seagreen2")
 
 plot(x = pest$WinCenter, y = estTheta$Pairwise, type = "p", xlab = "Position (bp)",
-     ylab = "Pairwise Theta", main = "Estimators of Pairwise Theta", 
+     ylab = "Pairwise Theta", main = "Estimators of Pairwise Theta",
      col = "seagreen2", pch = 19)
 
-barplot(pairwises, col = sample(x= colors(distinct = TRUE), size = length(pairwises), 
-                                replace = FALSE), main = "Estimated Pairwise Theta per base pair", 
+barplot(pairwises, col = sample(x= colors(distinct = TRUE), size = length(pairwises),
+                                replace = FALSE), main = "Estimated Pairwise Theta per base pair",
         xlab = "Region", ylab = "Estimated Theta", las = 2, names.arg = FALSE)
 
 #   Tajima's D
 hist(estTheta$Tajima, right = FALSE, xlab = "Tajima's D",
      main = "Frequency Distribution of Tajima's D", col = "lightsalmon")
 
-plot(x = pest$WinCenter, y = estTheta$Tajima.s.D, type = "p", xlab = "Position (bp)", 
-     ylab = "Tajima's D", main = "Estimators of Tajima's D", 
+plot(x = pest$WinCenter, y = estTheta$Tajima.s.D, type = "p", xlab = "Position (bp)",
+     ylab = "Tajima's D", main = "Estimators of Tajima's D",
      col = "lightsalmon", pch = 19)
 
 barplot(estTheta$Tajima, col = sample(x= colors(distinct = TRUE), size = length(estTheta$T), replace = FALSE),
-        main = "Estimated Tajima's D per base pair", xlab = "Region", 
+        main = "Estimated Tajima's D per base pair", xlab = "Region",
         ylab = "Estimated Tajima's D", las = 2, names.arg = FALSE)
-
-
