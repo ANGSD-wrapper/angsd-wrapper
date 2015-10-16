@@ -32,17 +32,29 @@ Watterson.chr <- function(chromosome, thetas) {
   return(divWatterson)
 }
 
+#   Pairwise Estimates by base pair
+#   Creating a new function
+Pairwise.chr <- function(chromosome, thetas) {
+  chromo <- subset(x = thetas, subset = Chromosome == chromosome, select = c("nSites", "Pairwise"))
+  totalPairwise <- sum(chromo$Pairwise)
+  divPairwise <- totalPairwise / chromo$nSites
+  return(divPairwise)
+}
 
-# Do the work here
+
+
+#   Do the work here
 main <- function() {
-  # Where is our data?
+  #   Where is our data?
   inputData <- args[1]
-  # Create a name for the output file
+  #   Create a name for the output file
   outputName <- past0(args[2], '/', args[3], '_Thetas.pdf')
-  # Read the data in as a dataframe
+  #   Read the data in as a dataframe
   pest <- pest.pg(thetas = inputData)
   #   Remove duplicate contigs
   chromoNames <- list(as.character(unique(pest$Chromosome)))
-  # Find the Watterson Estimates by basepair
+  #   Find the Watterson Estimates by basepair
   wattersons <- sapply(X = chromoNames[[1]], FUN = Watterson.chr, thetas = pest)
+  #   Find Pairwise Estimates by base pair
+  pairwises <- sapply(X = chromoNames[[1]], FUN = Pairwise.chr, thetas = pest)
 }
