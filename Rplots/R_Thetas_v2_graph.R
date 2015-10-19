@@ -58,25 +58,6 @@ main <- function() {
   return(wattersons, pairwises, estTheta)
 }
 
-# Not needed
-# #   Summary Statistics for Watterson's Theta, Pairwise Theata, and Tajima's D
-# summary(estTheta)
-
-# Not needed
-# #   Variance and Average of Watterson's Theta
-# var(estTheta$Watterson)
-# mean(estTheta$Watterson)
-
-# Not needed
-# #   Variance and Average of Pairwise Theta
-# var(estTheta$Pairwise)
-# mean(estTheta$Pairwise)
-
-# Not needed
-# #   Variance and Average of Tajima's D
-# var(estTheta$Tajima)
-# mean(estTheta$Tajima)
-
 # Make these a function
 #   Graphs: Histogram, Scatter Plot, and Barplot
 #   Watterson's Theta
