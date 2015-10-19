@@ -24,14 +24,14 @@ SCRATCH=
 #       This should be the Derived_SFS file
 SFS_OUT=
 
-##############################################################################################
-#   The following graphing utilities are not yet implemented
-#   They will be implemented shortly
-##############################################################################################
 #   Thetas Estimators
 #       This should be the .pestPG file
 THETAS_OUT=
 
+##############################################################################################
+#   The following graphing utilities are not yet implemented
+#   They will be implemented shortly
+##############################################################################################
 #   Abbababa D-Test
 #       This should be the .abbababa.txt file
 ABBABABBA_OUT=
