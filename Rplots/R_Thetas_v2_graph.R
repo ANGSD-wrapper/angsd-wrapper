@@ -13,7 +13,7 @@ pest.pg <- function(thetas) {
   #   Subset data frames
   pest <- data.frame(Chromosome = Pest$Chromosome)
   pest$WinCenter <- Pest$Wincenter
-  pest$nsites <- Pest$nSites
+  pest$nSites <- Pest$nSites
   pest$Watterson <- Pest$tW
   pest$Pairwise <- Pest$tP
   pest$Tajima <- Pest$"Tajima's D"
@@ -24,7 +24,7 @@ pest.pg <- function(thetas) {
 #   Creating new function called Watterson.chr
 Watterson.chr <- function(chromosome, thetas) {
   #   subset and select columns to put into new data frame
-  chromo <- subset(x = pest, subset = Chromosome == chromosome, select = c("nsites", "Watterson"))
+  chromo <- subset(x = thetas, subset = Chromosome == chromosome, select = c("nSites", "Watterson"))
   totalWatterson <- sum(chromo$Watterson)
   divWatterson <- totalWatterson / chromo$nSites
   return(divWatterson)
@@ -33,7 +33,7 @@ Watterson.chr <- function(chromosome, thetas) {
 #   Pairwise Estimates by base pair
 #   Creating a new function
 Pairwise.chr <- function(chromosome, thetas) {
-  chromo <- subset(x = pest, subset = Chromosome == chromosome, select = c("nsites", "Pairwise"))
+  chromo <- subset(x = thetas, subset = Chromosome == chromosome, select = c("nSites", "Pairwise"))
   totalPairwise <- sum(chromo$Pairwise)
   divPairwise <- totalPairwise / chromo$nSites
   return(divPairwise)
