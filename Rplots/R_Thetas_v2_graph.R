@@ -42,7 +42,8 @@ Pairwise.chr <- function(chromosome, thetas) {
 #   Do the work here
 main <- function() {
   #   Where is our data?
-  inputData <- args[1]
+  #inputData <- args[1]
+  inputData <- "~/Dropbox/ANGSD_Wrapper/Thetas/ANGSD_Diversity.thetas.gz.pestPG"
   #   Create a name for the output file
   outputName <- past0(args[2], '/', args[3], '_Thetas.pdf')
   #   Read the data in as a dataframe
@@ -60,39 +61,36 @@ main <- function() {
 
 # Make these a function
 #   Graphs: Histogram, Scatter Plot, and Barplot
-#   Watterson's Theta
-hist(Watterson, right = FALSE, xlab = "Watterson's Theta",
-     main = "Frequency Distribution of Watterson's Theta", col = "lightsteelblue")
+plot.thetas <- function() {
+  #   Watterson's Theta
+  hist(wattersons, right = FALSE, xlab = "Watterson's Theta",
+       main = "Frequency Distribution of Watterson's Theta", col = "lightsteelblue")
+  
+  plot(x = pest$WinCenter, y = estTheta$Watterson, type = "p", xlab = "Position (bp)",
+       ylab = "Watson's Theta", main = "Estimators of Watson's Theta",
+       col = "lightsteelblue", pch = 19)
+  barplot(estTheta$Watterson, col = sample(x= colors(distinct = TRUE),
+                                   size = length(wattersons), replace = FALSE),
+          main = "Estimated Watterson's Theta per base pair",
+          xlab = "Region", ylab = "Estimated Theta", las = 2, names.arg = FALSE)
+  
+  #   Pairwise Theta
+  hist(pairwises, right = FALSE, xlab = "Pairwise Theta",
+       main = "Frequency Distribution of Pairwise Theta", col = "seagreen2")
+  
+  plot(x = pest$WinCenter, y = estTheta$Pairwise, type = "p", xlab = "Position (bp)",
+       ylab = "Pairwise Theta", main = "Estimators of Pairwise Theta", col = "seagreen2", pch = 19)
+  
+  barplot(pairwises, col = sample(x= colors(distinct = TRUE), size = length(pairwises), replace = FALSE), main = "Estimated Pairwise Theta per base pair", xlab = "Region", ylab = "Estimated Theta", las = 2, names.arg = FALSE)
 
-plot(x = pest$WinCenter, y = estTheta$Watterson, type = "p", xlab = "Position (bp)",
-     ylab = "Watson's Theta", main = "Estimators of Watson's Theta",
-     col = "lightsteelblue", pch = 19)
+  #   Tajima's D
+  hist(estTheta$Tajima, right = FALSE, xlab = "Tajima's D",
+       main = "Frequency Distribution of Tajima's D", col = "lightsalmon")
+  
+  plot(x = pest$WinCenter, y = estTheta$Tajima.s.D, type = "p", xlab = "Position (bp)",
+       ylab = "Tajima's D", main = "Estimators of Tajima's D",
+       col = "lightsalmon", pch = 19)
+  
+  barplot(estTheta$Tajima, col = sample(x= colors(distinct = TRUE), size = length(estTheta$T), replace = FALSE), main = "Estimated Tajima's D per base pair", xlab = "Region", ylab = "Estimated Tajima's D", las = 2, names.arg = FALSE)  
+}
 
-barplot(wattersons, col = sample(x= colors(distinct = TRUE),
-                                 size = length(wattersons), replace = FALSE),
-        main = "Estimated Watterson's Theta per base pair",
-        xlab = "Region", ylab = "Estimated Theta", las = 2, names.arg = FALSE)
-
-#   Pairwise Theta
-hist(pairwises, right = FALSE, xlab = "Pairwise Theta",
-     main = "Frequency Distribution of Pairwise Theta", col = "seagreen2")
-
-plot(x = pest$WinCenter, y = estTheta$Pairwise, type = "p", xlab = "Position (bp)",
-     ylab = "Pairwise Theta", main = "Estimators of Pairwise Theta",
-     col = "seagreen2", pch = 19)
-
-barplot(pairwises, col = sample(x= colors(distinct = TRUE), size = length(pairwises),
-                                replace = FALSE), main = "Estimated Pairwise Theta per base pair",
-        xlab = "Region", ylab = "Estimated Theta", las = 2, names.arg = FALSE)
-
-#   Tajima's D
-hist(estTheta$Tajima, right = FALSE, xlab = "Tajima's D",
-     main = "Frequency Distribution of Tajima's D", col = "lightsalmon")
-
-plot(x = pest$WinCenter, y = estTheta$Tajima.s.D, type = "p", xlab = "Position (bp)",
-     ylab = "Tajima's D", main = "Estimators of Tajima's D",
-     col = "lightsalmon", pch = 19)
-
-barplot(estTheta$Tajima, col = sample(x= colors(distinct = TRUE), size = length(estTheta$T), replace = FALSE),
-        main = "Estimated Tajima's D per base pair", xlab = "Region",
-        ylab = "Estimated Tajima's D", las = 2, names.arg = FALSE)
