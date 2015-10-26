@@ -28,7 +28,7 @@ load_config $1
 #load_config ${SCRIPTS_DIR}/common.conf
 
 #check if regions exist
-if [[ ${REGIONS} == */*]]; then
+if [[ ${REGIONS} == */* ]]; then
     if file_exists "${REGIONS}" && file_not_empty "${REGIONS}"; then
         >&2 echo "WRAPPER: regions file exists and not empty, starting analysis..."
 elif variable_exists "${REGIONS}"; then
