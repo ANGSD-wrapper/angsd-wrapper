@@ -10,7 +10,7 @@ file_exists() {
 }
 
 file_not_empty() {
-  if [[ -s "$1"]]
+  if [[ -s "$1" ]]
   then
     return 0
     echo $1" not empty!"
@@ -32,7 +32,7 @@ directory_exists() {
 }
 
 variable_exists() {
-  if [[ -n "$1"]]
+  if [[ -n "$1" ]]
   then
     return 0
     echo $1" exists!"
