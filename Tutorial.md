@@ -9,7 +9,7 @@ The basic dependencies for ANGSD-wrapper are `SAMTools`, `Wget`, and `Git`. Most
 
 ### Note: Mac Users Have Special Installation Requirements
 
-You will need to install all three of the basic dependencies to run, as well as the GNU Scientific Library. We recommend using [Homebrew](http://brew.sh/) to manage the installation process. If you use Homebrew, you can install all of the required dependencies with the following commands:
+You will need to install all three of the basic dependencies to run, as well as the GNU Scientific Library. We recommend using [Homebrew](http://brew.sh/) to manage the installation process. If you use Homebrew, you can install all of the required dependencies from anywhere in your terminal with the following commands:
 
 ```shell
 brew install git
