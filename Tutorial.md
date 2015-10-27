@@ -27,7 +27,7 @@ git clone https://github.com/mojaveazure/angsd-wrapper.git
 cd angsd-wrapper
 ```
 
-ANGSD-wrapper comes with its own version of ANGSD to prevent compatibility breaking changes in ANGSD from affecting ANGSD-wrapper and comes with a few other programs. In order to compile these programs, you must run the setup routine.
+ANGSD-wrapper comes with its own version of ANGSD to prevent compatibility breaking changes in ANGSD from affecting ANGSD-wrapper and comes with a few other programs. In order to compile these programs, you must run the following setup routine:
 
 ```shell
 ./angsd-wrapper setup please
@@ -36,26 +36,26 @@ source ~/.bash_profile
 
 This will download and install ANGSD, ngsAdmix, ngsTools, and ngsF. All of these programs are downloaded to the `dependencies` directory. In addition, it will also download and set up a directory with test data. These data are located in the `iplant` directory. Finally, ANGSD-wrapper will be installed system-wide so that it can be used from any working directory.
 
-In the `iplant` directory, there are 12 BAM and BAI files (`[0-11].sub.bam` and `[0-11].sub.bam.bai`), serving as samples and their indeies, ancestral (`ancestral.merid_japonica_chr.fa`) and reference (`reference.Oryza_sativa.IRGSP-1.0.23.dna.genome_chr.fa`) sequences, a file with inbreeding coefficients (`InbreedingCoefficients.txt`), a list of regions (`regions.txt`) to be analyzed, and a file with sample names (`SampleNames.txt`).
+In the `iplant` directory, there are 12 BAM and BAI files (`[0-11].sub.bam` and `[0-11].sub.bam.bai`), serving as samples and their indices, ancestral (`ancestral.merid_japonica_chr.fa`) and reference (`reference.Oryza_sativa.IRGSP-1.0.23.dna.genome_chr.fa`) sequences, a file with inbreeding coefficients (`InbreedingCoefficients.txt`), a list of regions (`regions.txt`) to be analyzed, and a file with sample names (`SampleNames.txt`).
 
-ANGSD-wrapper has many different routines, or wrappers, that it can perform on a given dataset; we will be working using the Site Frequency Spectrum (SFS), Thetas Estimator, Admixture Analysis, and Principal Component Analysis (PCA) routines for this tutorial. We will also be graphing our results using ~~a Shiny web app~~ R code that will generate PDFs with plots for all outputs we generate. All analysis should be done using a supercomputer-like device, at least 32 GB of RAM~~, and all graphing should be done using a computer with a graphical user interaface~~. ~~If you have access to a supercomputer cluster, we recommend setting up ANGSD-wrapper on both the cluster for analysis and local machine for graphing.~~ To see all available wrappers, run `angsd-wrapper` without any arguments.
+ANGSD-wrapper has many different routines, or wrappers, that it can perform on a given dataset; we will be working with the Site Frequency Spectrum (SFS), Thetas Estimator, Admixture Analysis, and Principal Component Analysis (PCA) routines for this tutorial. We will also be graphing our results using ~~a Shiny web app~~ R code that will generate PDFs with plots for all outputs we generate. All analysis should be done using a supercomputer-like device, at least 32 GB of RAM~~, and all graphing should be done using a computer with a graphical user interaface~~. ~~If you have access to a supercomputer cluster, we recommend setting up ANGSD-wrapper on both the cluster for analysis and local machine for graphing.~~ To see all available wrappers, run `angsd-wrapper` without any arguments.
 
 ## Configuring ANGSD-wrapper with the `Common_Config` file
 
-angsd-wrapper uses configuration files to figure out where the data is and what options should be passed to ANGSD and other dependencies. There is one configuration file per wrapper included with `angsd-wrapper`, as well as a common configuration file that can be used by multiple wrappers. All of these are located in the `Configuration_Files` directory; we recommend copying this directory to another directory so that there is always a clean copy of the configuration files availabl. In this case, we will copy the `Configuration_Files` directory into the `iplant` directory using the following command while being in the `angsd-wrapper` directory:
+ANGSD-wrapper uses configuration files to figure out where the data is and what options should be passed to ANGSD and other dependencies. There is one configuration file per wrapper included with `angsd-wrapper`, as well as a common configuration file (`Common_Config`) that can be used by multiple wrappers. All of these are located in the `Configuration_Files` directory; we recommend copying this directory to another directory so that there is always a clean copy of the configuration files available. In this case, we will start in the `angsd-wrapper` directory; then we will copy the `Configuration_Files` directory into the `iplant` directory using the following command:
 
 ```shell
 cp -r Configuration_Files/ iplant/
 ```
 
-Now, let's go into the `iplant` directory and figure out the full path to this directory.
+Now, let's go into the `iplant` directory and figure out the full path to this directory using `pwd`.
 
 ```shell
 cd iplant/
 pwd
 ```
 
-This will output a string that starts with `/home/`, go ahead and copy everything following that second forward slash. For example, if we get `/home/software/angsd-wrapper/iplant` as our output, we only need `/software/angsd-wrapper/iplant`
+This will output a string that starts with `/home/`; go ahead and copy everything following that second forward slash. For example, if we get `/home/software/angsd-wrapper/iplant` as our output, we only need `/software/angsd-wrapper/iplant`.
 
 Now, we'll go find our configuration files in the `Configuration_Files` directory:
 
@@ -67,7 +67,7 @@ Because we're using multiple wrappers in this tutorial, we'll use the `Common_Co
 
 First, we need to define a list of samples. On line 10 of `Common_Config`, there's a place to define this sample list. If we remember back in our `iplant` directory, our sample list is called `SampleNames.txt`
 
-So, to tell ANGSD-wrapper where our sample list is, using our exapmle of `iplant` being at `/home/software/angsd-wrapper/iplant`, we would make sure line 10 looks like this:
+So, to tell ANGSD-wrapper where our sample list is, we will use our `iplant` example with the directory location being  `/home/software/angsd-wrapper/iplant`. We'll make sure line 10 looks like this:
 
 ```shell
 SAMPLE_LIST=${HOME}/software/angsd-wrapper/iplant/SampleNames.txt
@@ -85,7 +85,7 @@ The `@HD` header line should be the first line that pops up; if you don't see it
 
 Adjust the `/software/angsd-wrapper/iplant` part to whatever you copied from your output.
 
-Next, we need our list of inbreeding coefficients. This was called `InbreedingCoefficients.txt`, we tell ANGSD-wrapper where this file is on line 13 of our `Common_Config` file:
+Next, we need our list of inbreeding coefficients. This is called `InbreedingCoefficients.txt`, to run this we tell ANGSD-wrapper where this file is on line 13 of our `Common_Config` file:
 
 ```shell
 SAMPLE_INBREEDING=${HOME}/software/angsd-wrapper/iplant/InbreedingCoefficients.txt
@@ -100,7 +100,7 @@ REF_SEQ=${HOME}/software/angsd-wrapper/iplant/reference.Oryza_sativa.IRGSP-1.0.2
 
 Now we need to set up our outdirectory structure. We use two variables to define this: `PROJECT` and `SCRATCH`. All output files will be placed in `$SCRATCH/$PROJECT/<name_of_program>`; for example, if we set `SCRATCH` to be "`${HOME}/scratch`" and `PROJECT` to be "Rice" and calculated a site frequency spectrum, our outdirectory would be `${HOME}/scratch/Rice/SFS`.
 
-If we used the same `SCRATCH` and `PROJECT` assignments and estimated Thetas, our outdirectory would be `${HOME}/scratch/Rice/Thetas`. The outdirectory structure is generated automatically, making any directory within the structure that doesn't already exist, so there's need to make these directories before hand.
+If we used the same `SCRATCH` and `PROJECT` assignments and estimated Thetas, our outdirectory would be `${HOME}/scratch/Rice/Thetas`. The outdirectory structure is generated automatically, making any directory within the structure that doesn't already exist, so it is necessary to make these directories before hand.
 
 Let's set `SCRATCH` to be "`${HOME}/scratch`" and `PROJECT` to be "Rice"; we define these two variables on lines 22, for `PROJECT`, and 27, for `SCRATCH`:
 
@@ -125,9 +125,9 @@ Each wrapper function has its own configuration file associated with it. To run 
 
 Each wrapper-specific configuration file is split into three parts: the `COMMON` definition, the 'not-using-common' section, and the wrapper-specifc variables section. If a wrapper utilizes the `Common` definition, it will always be on line 10. The 'not-using-common' section is blocked off by 
 
-#Theta calculation
+## Theta calculation
 
-Running estimation of theta is very simple now that we've gotten everything set up. We need to modify one line in the `THETAS.sh` script:
+Running estimation of theta is very simple now that we've gotten everything set up. We only need to modify one line in the `THETAS.sh` script:
 
     TAXON=test
 
@@ -143,6 +143,8 @@ You can also turn off sliding windows with:
 Great! Now we can run the script:
 
     sbatch -p bigmemm scripts/THETAS.sh scripts/THETAS.conf
+
+*Note sbatch is not available to everyone, so that part will need to be changed depending on the system you are calling to run the scripts.*
 
 We can visualize this the same way as before with the site frequency spectrum. The file we are interested in is called test_Diversity.thetas.gz.pestPG:
 
