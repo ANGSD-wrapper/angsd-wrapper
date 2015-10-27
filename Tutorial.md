@@ -5,7 +5,7 @@ Welcome! This is a short guide to population genetics analysis using ANGSD-wrapp
 
 ### Dependencies
 
-The basic dependencies for ANGSD-wrapper are `SAMTools`, `Wget`, and `Git`. Most Linux distributions have `Wget` and `Git` installed by default; users will need to download `SAMTools`, and it's dependency [`HTSlib`](https://github.com/samtools/htslib) from its [GitHub page](https://github.com/samtools/samtools).
+The basic dependencies for ANGSD-wrapper are `SAMTools`, `Wget`, and `Git`. Most Linux distributions have `Wget` and `Git` installed by default, however some will not; users will need to download `SAMTools`, and it's dependency [`HTSlib`](https://github.com/samtools/htslib) from its [GitHub page](https://github.com/samtools/samtools).
 
 ### Note: Mac Users Have Special Installation Requirements
 
@@ -34,7 +34,7 @@ ANGSD-wrapper comes with its own version of ANGSD to prevent compatibility break
 source ~/.bash_profile
 ```
 
-This will download and install ANGSD, ngsAdmix, ngsTools, and ngsF. All of these programs are downloaded to the `dependencies` directory. In addition, it will also download and set up a directory with test data. These data are located in the `iplant` directory. Finally, ANGSD-wrapper will be installed system-wide so that it can be used from any working directory.
+This will download and install ANGSD, ngsAdmix, ngsTools, and ngsF. All of these programs are downloaded to the `dependencies` directory. In addition, it will also download and set up a directory with test data. These data are located in the `iplant` directory. Finally, ANGSD-wrapper will be installed system-wide so that it can be used from any working directory. To make sure ANGSD-wrapper installed correctly, run `angsd-wrapper`, without the `./` that we used before.
 
 In the `iplant` directory, there are 12 BAM and BAI files (`[0-11].sub.bam` and `[0-11].sub.bam.bai`), serving as samples and their indices, ancestral (`ancestral.merid_japonica_chr.fa`) and reference (`reference.Oryza_sativa.IRGSP-1.0.23.dna.genome_chr.fa`) sequences, a file with inbreeding coefficients (`InbreedingCoefficients.txt`), a list of regions (`regions.txt`) to be analyzed, and a file with sample names (`SampleNames.txt`).
 
@@ -72,6 +72,8 @@ So, to tell ANGSD-wrapper where our sample list is, we will use our `iplant` exa
 ```shell
 SAMPLE_LIST=${HOME}/software/angsd-wrapper/iplant/SampleNames.txt
 ```
+
+We use `${HOME}` to help ANGSD-wrapper find your files, if we used `/home`, some systems will error out, saying that the directory does not exist.
 
 ### Note: BAM Files **MUST** Have an `@HD` Header Line
 
@@ -117,82 +119,184 @@ We have a regions file in our `iplant` directory called `regions.txt`, let's tel
 REGIONS=${HOME}/software/angsd-wrapper/iplant/regions.txt
 ```
 
-Now we're ready to run ANGSD-wrapper to calculate a site frequency spectrum, estimate Thetas, perform an admixture analysis, and run a principal component analysis. Close out of `Common_Config`, and be sure to save your changes. We're going to stay in the `Configuration_Files` directory for now.
+Now we're ready to run ANGSD-wrapper to calculate a site frequency spectrum, estimate Thetas, perform an analyze admixture, and run a principal component analysis. Close out of `Common_Config`, and be sure to save your changes. We're going to stay in the `Configuration_Files` directory for now; we're going to need the full path for this directory, which we obtain with the following command:
+
+```shell
+pwd
+```
+
+Again, we'll get an output starting with `/home/` and we only need the part after the second forward slash. Using our directory structure from before, our output would be `/home/software/angsd-wrapper/iplant/Configuration_Files` and we need `/software/angsd-wrapper/iplant/Configuration_Files`
 
 ## Site Frequency Spectrum
 
 Each wrapper function has its own configuration file associated with it. To run the site frequency spectrum, we need the `Site_Frequency_Spectrum_Config` file. Open this up in your favorite text editor.
 
-Each wrapper-specific configuration file is split into three parts: the `COMMON` definition, the 'not-using-common' section, and the wrapper-specifc variables section. If a wrapper utilizes the `Common` definition, it will always be on line 10. The 'not-using-common' section is blocked off by 
+### Note: A Word About Configuration Files
 
-## Theta calculation
+Each wrapper-specific configuration file is split into three parts: the `COMMON` definition, the 'not-using-common' section, and the wrapper-specifc variables section. If a wrapper utilizes the `Common` definition, it will always be on line 10. The 'not-using-common' section is blocked off by 94 hash marks (`#`). If you are not using the `Common_Config` file, please fill out the variable definitions in this section. Since we're using `Common_Config`, we can skip these lines. finally, the wrapper-specific section includes any other variable definitons as well as parameters for the specifc wrapper.
 
-Running estimation of theta is very simple now that we've gotten everything set up. We only need to modify one line in the `THETAS.sh` script:
+In `Site_Frequency_Spectrum_Config`, we need to tell ANGSD-wrapper where our `Common_Config` file is. This definition is on line 10:
 
-    TAXON=test
+```shell
+COMMON=${HOME}/software/angsd-wrapper/iplant/Configuration_Files/Common_Config
+```
 
-If you would like to change the window size and step amount, you can modify the following variables:
+Remember to adjust the `/software/angsd-wrapper/iplant/Configuration_Files` part for your own directory structure.
 
-    WIN=100
-    STEP=50
+Most of the other variables and parameters are set up to run smoothly. For now, we're going to set `OVERRIDE` to be `true`, in case we run this another time and want updated results; we change this on line 53:
 
-You can also turn off sliding windows with:
+```shell
+OVERRIDE=true
+```
 
-    SLIDING_WINDOW=false
+### Note: How ANGSD-wrapper Knows What to do
 
-Great! Now we can run the script:
+ANGSD-wrapper has several functions, or wrappers, built into it. These are predefined and very specific. The syntax for running ANGSD-wrapper is as follows:
 
-    sbatch -p bigmemm scripts/THETAS.sh scripts/THETAS.conf
+```shell
+angsd-wrapper <wrapper> <configuration file>
+```
 
-*Note sbatch is not available to everyone, so that part will need to be changed depending on the system you are calling to run the scripts.*
+Where `<wrapper>` is one of the wrappers that ANGSD-wrapper can perform and `<configuration file>` is the full path to the configuration file we set up for it. To see a full list of wrapper that ANGSD-wrapper has and how to call them, run the following command:
 
-We can visualize this the same way as before with the site frequency spectrum. The file we are interested in is called test_Diversity.thetas.gz.pestPG:
+```shell
+angsd-wrapper
+```
+This will display a usage message with the wrappers ANGSD-wrapper has and how to call them. Capitalization and spelling are very important with ANGSD-wrapper; you **must** type out what you see in the usage message to get ANGSD-wrapper to run. Also, you don't have to use our presupplied configuration files with ANGSD-wrapper, but you *do* need to have all of the variable definitions that we have supplied.
 
-    $scp name@server.address.edu:~/rilab/aw-tutorial/results/test_Diversity.thetas.gz.pestPG ./
+Now, lets calculate a site frequency spectrum using ANGSD-wrapper:
 
-Once you upload the file into the web app, you should get two graphs that look like this:
-![](http://i.imgur.com/gZemo59.png)
-![](http://i.imgur.com/ZjfQhhZ.png)
+```shell
+angsd-wrapper SFS ./Site_Frequency_Spectrum_Config
+```
 
-You can view these graphs interactively by using the controls on the side. You can switch between estimators of theta and neutrality statistics with the drop down menus and zoom in on regions of interest with the Base start and end position number fields. You can also add lowess curves to the graphs and include gene annotations by uploading a GFF3 file that corresponds to your species.
+Once this finishes, our output files will be in the outdirectory we specified, `${HOME}/scratch/Rice/SFS`, let's go there and look at our files:
 
-## Admixture analysis
+```shell
+cd ${HOME}/scratch/Rice/SFS/
+ls
+```
 
-In order to carry out admixture analysis, we have to compile the ngsAdmix program.
+Here we see files. I don't know what they're called, but hopefully we figure this shit out.
 
-    cd ngsPopGen
-    g++ ngsadmix32.cpp -O3 -lpthread -lz -o NGSadmix
+We'll need the `_DerivedSFS` file for our Thetas estimation
 
-Then we just have to change one variable in the `ADMIX.conf` file.
+## Thetas Estimation
 
-    TAXON=test
+Now, we need to go back to our `Configuration_Files` directory so we can set up ANGSD-wrapper to estimates Thetas values for us. We use the `cd` command to do this:
 
-The variable `K` specifies the ending point for the number of ancestral populations to run admixture with (starting ith 2). For example, if `K=5`, admixture will be run from K={2,3,4,5}. Now we can submit it like this:
+```shell
+cd ${HOME}/software/angsd-wrapper/iplant/Configuration_Files/
+```
 
-    sbatch -p bigmemm scripts/ADMIX.sh scripts/ADMIX.conf
+Open up `Thetas_Config` in your favorite text editor. We have three variables we need to define in this configuration file. First, we need to tell ANGSD-wrapper where our `Common_Config` file is; this will be the same as what we put in our `Site_Frequency_Spectrum_Config` file. On line 10, we'll put:
 
-Once this has finished running, you can copy over the results (`*.qopt`) and view them in the graphing application.
+```shell
+COMMON=${HOME}/software/angsd-wrapper/iplant/Configuration_Files/Common_Config
+```
 
-    $scp name@server.edu:~/rilab/aw-tutorial/results/test.3.qopt ./
+Next, we need to specify our pest file. This file comes from our site frequency spectrum; in this case, our file is `_DerivedSFS`. We need to specify this on line 41 of `Thetas_Config`:
 
-The results should look something like this:
+```shell
+PEST=${HOME}/scratch/Rice/SFS/_DerivedSFS
+```
 
-![](http://i.imgur.com/hTYhnTo.png)
+Finally, let's set `OVERRIDE` to be `true` again; we do this on line 56:
 
-##PCA
+```shell
+OVERRIDE=true
+```
 
-Running a PCA is pretty straightforward. The only variable you need to change is the `TAXON` variable:
+Now, we can estimate Thetas values using ANGSD-wrapper; we do this with the following command:
 
-    TAXON=test
+```shell
+angsd-wrapper Thetas ./Thetas_Config
+```
 
-And we can run the analysis with
+Our output files will be in `${HOME}/scratch/Rice/Thetas`, let's go there and look at our files
 
-    sbatch -p bigmemm scripts/PCA.sh scripts/PCA.conf
+```shell
+cd ${HOME}/scratch/Rice/Thetas/
+ls
+```
 
-We can visualize the result by copying over the `.covar` file:
+Here we see more files, which I don't know what they are. They're super cool, though, and that one is my favorite. No, not that one, the one next to it. There you go. Isn't it awesome?
 
-    $scp name@server.edu:~/rilab/aw-tutorial/results/test_geno.covar ./
+## Admixture Analysis
 
-In the graphing application, switch to the PCA tab and upload the file. You should get something like this:
+```shell
+cd ${HOME}/software/angsd-wrapper/iplant/Configuration_Files/
+```
 
-![](http://i.imgur.com/RMOheV1.png)
+```shell
+COMMON=${HOME}/software/angsd-wrapper/iplant/Configuration_Files/Common_Config
+```
+
+```shell
+LIKELIHOOD=${HOME}/scratch/Rice/SFS/.beagle.gz
+```
+
+```shell
+angsd-wrapper ngsAdmix ./ngsAdmix_Config
+```
+
+>We should probably change everything from `ngsAdmix` to `Admixture` or something like that...
+
+```shell
+cd ${HOME}/scratch/Rice/ngsAdmix/
+ls
+```
+
+## Principal Component Analysis
+
+```shell
+COMMON=${HOME}/software/angsd-wrapper/iplant/Configuration_Files/Common_Config
+```
+
+```shell
+angsd-wrapper PCA ./Principal_Component_Analysis_Config
+```
+
+```shell
+cd ${HOME}/scratch/Rice/PCA/
+ls
+```
+
+## Graphing
+
+### Basic Graphing
+
+```shell
+COMMON=${HOME}/software/angsd-wrapper/iplant/Configuration_Files/Common_Config
+```
+
+```shell
+SFS_OUT=${HOME}/scratch/Rice/SFS/_DerivedSFS
+```
+
+```shell
+THETAS_OUT=${HOME}/scratch/Rice/Thetas/.pestPG
+```
+
+```shell
+ADMIX_OUT=${HOME}/scratch/Rice/ngsAdmix/.qopt
+```
+
+```shell
+PCA_OUT=${HOME}/scratch/Rice/_PCA.covar
+```
+
+```shell
+angsd-wrapper basic-graphing ./Basic_Graphing_Config
+```
+
+```shell
+cd ${HOME}/scratch/Rice/plots/
+ls
+```
+
+> I might need to set up a library installation routine into this, I don't know yet...
+
+### Shiny Graphing
+
+> To be implemented
