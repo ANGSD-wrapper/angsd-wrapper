@@ -4,6 +4,7 @@ shinyUI(fluidPage(
   # Application title
   titlePanel("ANGSD-wrapper graph"),
   tabsetPanel(
+    # Tab 1 called Thetas
     tabPanel(
       "Thetas",
       sidebarLayout(
