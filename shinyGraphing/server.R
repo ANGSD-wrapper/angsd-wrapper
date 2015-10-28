@@ -5,6 +5,8 @@ library(Hmisc)
 library(ape)
 library(data.table)
 options(shiny.maxRequestSize = -1)
+
+# Assign headers to thetas, Fst and intersect data
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
 fst.headers <- c("A", "AB", "f", "FST", "Pvar")
 intersect.headers <- c("Chr","bp")
@@ -22,7 +24,8 @@ shinyServer(
 
 
   function(input, output) {
-
+    
+    # Input data
     dataInputThetas = reactive({
       data <- input$userThetas
       path <- as.character(data$datapath)
@@ -90,7 +93,11 @@ shinyServer(
       return(gff)
 
     })
-
+    
+    # Create zoomable plot on left
+    ranges <- reactiveValues(x = NULL, y = NULL)
+    
+    # Output data
     output$thetaChroms = renderUI({
       if(is.null(input$userThetas)){
         choices <- 10
@@ -101,7 +108,8 @@ shinyServer(
       }
       selectInput('thetaChrom', 'Chromosome to plot', choices)
     })
-
+    
+    # Create reactive plot
     output$thetaPlot <- renderPlot({
 #       error handling code to provide a default dataset to graph
       thetas <- tryCatch({

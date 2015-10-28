@@ -17,6 +17,7 @@ SOURCE=$2
 
 #   Where is ANGSD?
 ANGSD_DIR="${SOURCE}"/dependencies/angsd
+NGS_POPGEN_DIR="${SOURCE}"/dependencies/ngsPopGen
 
 #   Make the outdirectory
 OUT=${SCRATCH}/${PROJECT}/PCA
