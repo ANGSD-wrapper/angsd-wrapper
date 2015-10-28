@@ -2,7 +2,7 @@ library(shiny)
 
 shinyUI(fluidPage(
   # Application title
-  titlePanel("angsd-wrapper graph"),
+  titlePanel("ANGSD-wrapper graph"),
   tabsetPanel(
     tabPanel(
       "Thetas",
