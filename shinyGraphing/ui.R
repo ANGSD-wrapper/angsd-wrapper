@@ -5,8 +5,7 @@ shinyUI(fluidPage(
   titlePanel("ANGSD-wrapper graph"),
   tabsetPanel(
     # Tab 1 called Thetas
-    tabPanel(
-      "Thetas",
+    tabPanel("Thetas",
       sidebarLayout(
         sidebarPanel(
           fileInput('userThetas',
@@ -43,7 +42,10 @@ shinyUI(fluidPage(
         ),
         # Show a plot of the thetas
         mainPanel(
-          plotOutput("thetaPlot"), 
+          fluidRow(
+            plotOutput("thetaPlot", dblclick = "input$userThetas_dblclick", 
+                       brush = brushOpts(id = "input$userThetas", resetOnNew = TRUE))
+            ), 
           plotOutput("selectionPlot")
         )
       )
