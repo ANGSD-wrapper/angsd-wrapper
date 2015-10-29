@@ -2,7 +2,7 @@
 
 # An Admixture graphing utility for angsd-wrapper
 #   Enable command line arguments
-args <- commandArgs(tralingOnly = TRUE)
+args <- commandArgs(trailingOnly = TRUE)
 
 #   A function to plot Admixture
 plot.admix <- function(admixFile) {
