@@ -8,7 +8,7 @@ Welcome! This is a short guide to population genetics analysis using ANGSD-wrapp
 The basic dependencies for ANGSD-wrapper are `SAMTools`, `Wget`, and `Git`. Most Linux distributions have `Wget` and `Git` installed by default, however some will not; users will need to download `SAMTools`, and it's dependency [`HTSlib`](https://github.com/samtools/htslib) from its [GitHub page](https://github.com/samtools/samtools) or your package manager.
 
 ---
-### Note: Mac Users Have Special Installation Requirements
+>### Note: Mac Users Have Special Installation Requirements
 
 >You will need to install all three of the basic dependencies to run, as well as the GNU Scientific Library. We recommend using [Homebrew](http://brew.sh/) to manage the installation process. If you use Homebrew, you can install all of the required dependencies from anywhere in your terminal with the following commands:
 
@@ -80,7 +80,7 @@ SAMPLE_LIST=${HOME}/software/angsd-wrapper/iplant/SampleNames.txt
 We use `${HOME}` to help ANGSD-wrapper find your files, if we used `/home`, some systems will error out, saying that the directory does not exist.
 
 ---
-### Note: BAM Files **MUST** Have an `@HD` Header Line
+>### Note: BAM Files **MUST** Have an `@HD` Header Line
 
 >Some programs, when generating BAM files, will not include the `@HD` header line. To see if you have this line, use `SAMTools` to check the header for your BAM files:
 
@@ -139,7 +139,7 @@ Again, we'll get an output starting with `/home/` and we only need the part afte
 Each wrapper function has its own configuration file associated with it. To run the site frequency spectrum, we need the `Site_Frequency_Spectrum_Config` file. Open this up in your favorite text editor.
 
 ---
-### Note: A Word About Configuration Files
+>### Note: A Word About Configuration Files
 
 >Each wrapper-specific configuration file is split into three parts: the `COMMON` definition, the 'not-using-common' section, and the wrapper-specifc variables section. If a wrapper utilizes the `Common` definition, it will always be on line 10. The 'not-using-common' section is blocked off by 94 hash marks (`#`). If you are not using the `Common_Config` file, please fill out the variable definitions in this section. Since we're using `Common_Config`, we can skip these lines. finally, the wrapper-specific section includes any other variable definitons as well as parameters for the specifc wrapper.
 
