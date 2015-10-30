@@ -141,6 +141,7 @@ Each wrapper function has its own configuration file associated with it. To run 
 ### Note: A Word About Configuration Files
 
 Each wrapper-specific configuration file is split into three parts: the `COMMON` definition, the 'not-using-common' section, and the wrapper-specifc variables section. If a wrapper utilizes the `Common` definition, it will always be on line 10. The 'not-using-common' section is blocked off by 94 hash marks (`#`). If you are not using the `Common_Config` file, please fill out the variable definitions in this section. Since we're using `Common_Config`, we can skip these lines. finally, the wrapper-specific section includes any other variable definitons as well as parameters for the specifc wrapper.
+
 ---
 
 In `Site_Frequency_Spectrum_Config`, we need to tell ANGSD-wrapper where our `Common_Config` file is. This definition is on line 10:
