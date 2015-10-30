@@ -88,6 +88,7 @@ Some programs, when generating BAM files, will not include the `@HD` header line
 samtools view -H <name of header> | head
 ```
 The `@HD` header line should be the first line that pops up; if you don't see it, this [Gist](https://gist.github.com/mojaveazure/d194c4705642eecf8437) will add one for you.
+
 ---
 
 Adjust the `/software/angsd-wrapper/iplant` part to whatever you copied from your output.
