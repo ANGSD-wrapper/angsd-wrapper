@@ -308,4 +308,4 @@ The files we need for graphing are:
 
 ### Shiny Graphing
 
-> **Hurry up Chaochih**
+> **Hurry up _Chaochih_**
