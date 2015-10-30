@@ -303,7 +303,7 @@ ANGSD-wrapper comes with a visualization package, based off of Rstudio's Shiny p
 The files we need for graphing are:
  - `_Derived_SFS`
  - `.pestPG`
- - All `.qopt` and `list of qopt files`
+ - All `.qopt` files
  - `_PCA.covar`
 
 ### Shiny Graphing
