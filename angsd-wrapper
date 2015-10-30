@@ -29,9 +29,6 @@ To upgrade the dependencies, please run \n\
 \n\
 To start the Shiny graphing interface, please run \n\
     `basename $0` shiny graphing \n\
-\n\
-If you're not on a system where Shiny is allowed, please run \n\
-    `basename $0` basic-graphing <config> \n\
 " >&2
     exit 1
 }
@@ -158,9 +155,6 @@ case "${WRAPPER}" in
         ;;
     "shiny" )
         Rscript "${SOURCE}"/Wrappers/startShiny.R "${SOURCE}"
-        ;;
-    "basic-graphing" )
-        bash "${SOURCE}"/Wrappers/Basic_Graphing.sh "${CONFIG}" "${SOURCE}"
         ;;
     "test" )
         bash "${SOURCE}"/Wrappers/test.sh
