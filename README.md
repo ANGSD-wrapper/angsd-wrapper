@@ -1,6 +1,4 @@
 #angsd-wrapper
----
-
 
 Angsd-wrapper is a utility developed to aid in the analysis of next generation sequencing data. Users can do the following with this suite:
 - Calculate a site frequency spectrum
@@ -106,14 +104,16 @@ These are downloaded and installed automatically when angsd-wrapper is [installe
 
 ## Supported methods
 
-- [SFS](https://github.com/arundurvasula/angsd-wrapper/wiki/Site-Frequency-Spectrum)
-- [Thetas](https://github.com/arundurvasula/angsd-wrapper/wiki/Thetas)
-- [2DSFS](https://github.com/arundurvasula/angsd-wrapper/wiki/2D-Site-Frequency-Spectrum) and [Fst](https://github.com/arundurvasula/angsd-wrapper/wiki/ngsTools-FST)
-- [ABBA BABA](https://github.com/arundurvasula/angsd-wrapper/wiki/ABBA-BABA)
-- [Ancestral Sequence](https://github.com/mojaveazure/angsd-wrapper/blob/master/Wrappers/Ancestral_Sequence.sh)
-- [Genotype Likelihoods](https://github.com/mojaveazure/angsd-wrapper/blob/master/Wrappers/Genotypes.sh)
-- [ngsF](https://github.com/fgvieira/ngsF)
-- [Principal Component Analysis](https://github.com/arundurvasula/angsd-wrapper/wiki/Principle-Components-Analysis)
+ - [Site frequency spectrum (SFS)](https://github.com/arundurvasula/angsd-wrapper/wiki/Site-Frequency-Spectrum)
+ - [Thetas estimations](https://github.com/arundurvasula/angsd-wrapper/wiki/Thetas)
+ - [2D SFS](https://github.com/arundurvasula/angsd-wrapper/wiki/2D-Site-Frequency-Spectrum) and [Fst](https://github.com/arundurvasula/angsd-wrapper/wiki/ngsTools-FST)
+ - ~~[Abbababa](https://github.com/arundurvasula/angsd-wrapper/wiki/ABBA-BABA)~~ Work in progress
+ - [Ancestral sequence extractions](https://github.com/mojaveazure/angsd-wrapper/blob/master/Wrappers/Ancestral_Sequence.sh)
+ - [Genotype likelihood estimations](https://github.com/mojaveazure/angsd-wrapper/blob/master/Wrappers/Genotypes.sh)
+ - [ngsF](https://github.com/fgvieira/ngsF)
+ - [Principal component analysis](https://github.com/arundurvasula/angsd-wrapper/wiki/Principle-Components-Analysis)
+ - Admixture analysis
+ - Inbreeding coefficients calculations
 
 ## To Do
 
