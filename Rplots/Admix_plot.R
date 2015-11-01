@@ -2,7 +2,7 @@
 
 # An Admixture graphing utility for angsd-wrapper
 #   Enable command line arguments
-args <- commandArgs(tralingOnly = TRUE)
+args <- commandArgs(trailingOnly = TRUE)
 
 #   A function to plot Admixture
 plot.admix <- function(admixFile) {
@@ -13,12 +13,12 @@ plot.admix <- function(admixFile) {
 }
 
 #   Determine the number of populations for each sample
-find.k <- function(fileList) {
-    admixFiles <- read.table(fileList, col.names = 'Qopt Files', colClasses = 'character')
-    k <- sapply(admixFiles[, 1], function(name) regmatches(basename(name), regexpr('([0-9]+)', basename(name))))
-    admixFiles["K"] = k
-    return(admixFiles)
-}
+# find.k <- function(fileList) {
+#     admixFiles <- read.table(fileList, col.names = 'Qopt Files', colClasses = 'character')
+#     k <- sapply(admixFiles[, 1], function(name) regmatches(basename(name), regexpr('([0-9]+)', basename(name))))
+#     admixFiles["K"] = k
+#     return(admixFiles)
+# }
 
 main <- function() {
     inputList <- args[1]
