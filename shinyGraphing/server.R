@@ -10,13 +10,11 @@ options(shiny.maxRequestSize = -1)
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
 fst.headers <- c("A", "AB", "f", "FST", "Pvar")
 intersect.headers <- c("Chr","bp")
-#thetas <- fread("~/RiceResults/allo_Diversity.thetas.gz.pestPG",sep = '\t')
-# fst <- read.table(file="allo.indica.fst",
-#                   sep="\t",
-#                   col.names=fst.headers)
-# intersect <- read.table(file="intersect.allo.indica_intergenic.txt",
-#                         sep="\t",
-#                         col.names=intersect.headers)
+
+thetas <- fread("C:/Users/Chaochih/angsd-wrapper/shinyGraphing/BKN_Diversity.thetas.gz.pestPG", sep = "\t")
+
+#thetasTest <- fread("C:/Users/Chaochih/Dropbox/ANGSD_Wrapper/angsd-wrapper_test/Thetas/ANGSD_test_Diversity.thetas.gz.pestPG", sep = "\t")
+
 not.loaded <- TRUE
 
 # Define server logic required to draw a histogram
@@ -25,7 +23,7 @@ shinyServer(
 
   function(input, output) {
     
-    # Input data
+    # Thetas input data
     dataInputThetas = reactive({
       data <- input$userThetas
       path <- as.character(data$datapath)
@@ -33,7 +31,24 @@ shinyServer(
       setnames(thetas,thetas.headers)
       return(thetas)
     })
+    
+    # Subset of Thetas data frame
+#    thetas$"(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)"
+#    thetas$Chr
+#    thetas$WinCenter
+#    thetas$tW
+#    thetas$tP
+#    thetas$tF
+#    thetas$tH
+#    thetas$tL
+#    thetas$"Tajima"
+#    thetas$fuf
+#    thetas$fud
+#    thetas$fayh
+#    thetas$zeng
+#    thetas$nSites
 
+    # SFS input data
     dataInputSFS = reactive({
       data <- input$userSFS
       path <- as.character(data$datapath)
@@ -42,6 +57,7 @@ shinyServer(
 
     })
 
+    # Fst input data
     dataInputFst = reactive({
       data <- input$userFst
       path <- as.character(data$datapath)
@@ -52,6 +68,7 @@ shinyServer(
       return(fst)
     })
 
+    # Intersect input data
     dataInputIntersect = reactive({
       data <- input$userIntersect
       path <- as.character(data$datapath)
@@ -62,6 +79,7 @@ shinyServer(
       return(intersect)
     })
 
+    # Admixture input data
     dataInputAdmix = reactive({
       data <- input$userAdmix
       path <- as.character(data$datapath)
@@ -70,6 +88,7 @@ shinyServer(
 
     })
 
+    # ABBA BABA test input data
     dataInputABBABABA = reactive({
       data <- input$userABBABABA
       path <- as.character(data$datapath)
@@ -78,6 +97,7 @@ shinyServer(
 
     })
 
+    # PCA plot input data
     dataInputPCA = reactive({
       data <- input$userPCA
       path <- as.character(data$datapath)
@@ -85,6 +105,7 @@ shinyServer(
       return(PCA)
     })
 
+    # GFF file input
     gffInput = reactive({
       data <- input$userAnnotations
       path <- as.character(data$datapath)
@@ -94,8 +115,6 @@ shinyServer(
 
     })
     
-    # Create zoomable plot on left
-    ranges <- reactiveValues(x = NULL, y = NULL)
     
     # Output data
     output$thetaChroms = renderUI({
@@ -106,12 +125,17 @@ shinyServer(
       thetas <- dataInputThetas()
       choices <- unique(thetas$Chr)
       }
-      selectInput('thetaChrom', 'Chromosome to plot', choices)
+      selectInput('thetaChrom', 'Chromosome to plot', 
+                  choices,
+                  multiple = TRUE)
     })
+ 
+    # Create zoomable plots
+    ranges <- reactiveValues(x = NULL, y = NULL)
     
-    # Create reactive plot
-    output$thetaPlot <- renderPlot({
-#       error handling code to provide a default dataset to graph
+    # Create reactive plot on left side of page
+    output$thetaPlot1 <- renderPlot({
+      #  error handling code to provide a default dataset to graph
       thetas <- tryCatch({
         dataInputThetas()
       }, error = function(err) {
@@ -182,7 +206,97 @@ shinyServer(
         if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
       }
     })
+    
+    # Create reactive plot that zooms in on right side
+    output$thetaPlot2 <- renderPlot({
+      # error handling code to provide a default dataset to graph
+      thetas <- tryCatch({
+        dataInputThetas()
+      }, error = function(err) {
+        thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG",
+                             sep="\t",
+                             col.names=thetas.headers)
+      }
+      )
+      
+      thetas <- subset(thetas,Chr==input$thetaChrom)
+      if(input$annotations){
+        validate(need(input$userAnnotations, 'Need GFF file before clicking checkbox!'))
+        gff <- gffInput()
+        gff.gene <- subset(gff, type="gene")
+        gff.df <- data.frame(gff.gene,annotation(gff))
+        gff.df.chr <- subset(gff.df, seq_name==thetas$Chr[1])
+        if(length(gff.df.chr$seq_name)==0){
+          stop("Annotation does not match graphed region. Please make sure the first column of your GFF file matches the Chr column of the .pestPG file.")
+        }
+        gff.df.gene <- subset(gff.df.chr, type=="gene")
+      }
+      
+      if(input$subset) {
+        thetas.plot <- subset(thetas, WinCenter > input$WinCenterLow & WinCenter < input$WinCenterHigh)
+      }
+      else {
+        thetas.plot <- thetas
+      }
+      
+      # remove nsites=0
+      thetas.plot <- subset(thetas.plot, nSites != 0)
+      # remove data points with less than 50 sites. Calculate minimum from data?
+      if(input$rm.nsites) {
+        thetas.plot <- subset(thetas.plot, nSites > input$nsites)
+      }
+      #divide thetas by the number of sites in each window
+      thetas.plot$tW <- thetas.plot$tW/thetas.plot$nSites
+      thetas.plot$tP <- thetas.plot$tP/thetas.plot$nSites
+      thetas.plot$tF <- thetas.plot$tF/thetas.plot$nSites
+      thetas.plot$tH <- thetas.plot$tH/thetas.plot$nSites
+      thetas.plot$tL <- thetas.plot$tW/thetas.plot$nSites
+      
+      data <- switch(input$thetaChoice,
+                     "Watterson's Theta" = thetas.plot$tW,
+                     "Pairwise Theta" = thetas.plot$tP,
+                     "Fu and Li's Theta" = thetas.plot$tF,
+                     "Fay's Theta" = thetas.plot$tH,
+                     "Maximum likelihood (L) Theta" = thetas.plot$tL
+      )
+      if(input$annotations) {
+        plot(thetas.plot$WinCenter,
+             data, t="p", pch=19,col=rgb(0,0,0,0.5),
+             xlab="Position (bp)",
+             ylab=paste(input$thetaChoice,"Estimator Value"),
+             main=paste("Estimators of theta along chromosome", thetas$Chr[1])
+        )
+        
+        rug(rect(gff.df.gene$X1, -1e2, gff.df.gene$X2, 0, col=rgb(0.18,0.55,0.8,0.75), border=NA))
+        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
+      }
+      else {
+        plot(thetas.plot$WinCenter,
+             data, t="p", pch=19,col=rgb(0,0,0,0.5),
+             xlab="Position (bp)",
+             ylab=paste(input$thetaChoice,"Estimator Value"),
+             main=paste("Estimators of theta along chromosome",
+                        thetas$Chr[1]),
+             xlim = ranges$x, ylim = ranges$y
+        )
+        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
+      }
+    })
 
+    # Creating zoom function in thetasPlot1 and thetasPlot2
+    observe({
+      brush <- input$thetaPlot1_brush
+      if (!is.null(brush)) {
+        ranges$x <- c(brush$xmin, brush$xmax)
+        ranges$y <- c(brush$ymin, brush$ymax)
+        
+      } else {
+        ranges$x <- NULL
+        ranges$y <- NULL
+      }
+    })
+    
+    # selectionPlot
     output$selectionPlot <- renderPlot({
       # error handling code to provide a default dataset to graph
       thetas <- tryCatch({
@@ -224,7 +338,11 @@ shinyServer(
       )
       if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
     })
+    
+    # Creating zoom function in plots
+    
 
+    # Fst Plot
     output$fstChroms = renderUI({
       if(is.null(input$userIntersect)){
         choices <- 12
