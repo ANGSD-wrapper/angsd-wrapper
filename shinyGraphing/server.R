@@ -10,14 +10,15 @@ options(shiny.maxRequestSize = -1)
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
 fst.headers <- c("A", "AB", "f", "FST", "Pvar")
 intersect.headers <- c("Chr","bp")
+sfs.headers <- c("Allele Frequency")
 
-thetas <- fread("C:/Users/Chaochih/angsd-wrapper/shinyGraphing/BKN_Diversity.thetas.gz.pestPG", sep = "\t")
+#thetas <- fread("C:/Users/Chaochih/angsd-wrapper/shinyGraphing/BKN_Diversity.thetas.gz.pestPG", sep = "\t")
 
-#thetasTest <- fread("C:/Users/Chaochih/Dropbox/ANGSD_Wrapper/angsd-wrapper_test/Thetas/ANGSD_test_Diversity.thetas.gz.pestPG", sep = "\t")
+thetas <- fread("~/angsd-wrapper/shinyGraphing/BKN_Diversity.thetas.gz.pestPG")
 
 not.loaded <- TRUE
 
-# Define server logic required to draw a histogram
+# Define server logic required to draw plots
 shinyServer(
 
 
@@ -32,28 +33,17 @@ shinyServer(
       return(thetas)
     })
     
-    # Subset of Thetas data frame
-#    thetas$"(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)"
-#    thetas$Chr
-#    thetas$WinCenter
-#    thetas$tW
-#    thetas$tP
-#    thetas$tF
-#    thetas$tH
-#    thetas$tL
-#    thetas$"Tajima"
-#    thetas$fuf
-#    thetas$fud
-#    thetas$fayh
-#    thetas$zeng
-#    thetas$nSites
-
     # SFS input data
     dataInputSFS = reactive({
       data <- input$userSFS
       path <- as.character(data$datapath)
-      sfs <- exp(scan(path))
-      return(sfs)
+      #Derived <- as.matrix(read.table(input=path, header = FALSE))
+      Derived <- as.matrix(read.table(data, header = FALSE))
+      sfs <- as.data.frame(t(Derived))
+      names(sfs) <- c("Allele_frequency")
+      #sfs <- sfs[3:nrow(x=sfs)-1, ]
+      #sfs <- exp(scan(path))
+      return(sfs) 
 
     })
 
@@ -296,8 +286,11 @@ shinyServer(
       }
     })
     
-    # selectionPlot
-    output$selectionPlot <- renderPlot({
+    # Creating reactive plot for selectionPlot1 and selectionPlot2
+    ranges2 <- reactiveValues(x = NULL, y = NULL)
+    
+    # selectionPlot1
+    output$selectionPlot1 <- renderPlot({
       # error handling code to provide a default dataset to graph
       thetas <- tryCatch({
         dataInputThetas()
@@ -339,8 +332,62 @@ shinyServer(
       if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
     })
     
-    # Creating zoom function in plots
+    # selectionPlot2
+    output$selectionPlot2 <- renderPlot({
+      # error handling code to provide a default dataset to graph
+      thetas <- tryCatch({
+        dataInputThetas()
+      }, error = function(err) {
+        thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG",
+                             sep="\t",
+                             col.names=thetas.headers
+        )
+      }
+      )
+      
+      
+      thetas <- subset(thetas,Chr==input$thetaChrom)
+      
+      if(input$subset) {
+        thetas.plot <- subset(thetas, WinCenter > input$WinCenterLow & WinCenter < input$WinCenterHigh)
+      }
+      else {
+        thetas.plot <- thetas
+      }
+      
+      # remove nsites=0
+      thetas.plot <- subset(thetas.plot, nSites != 0)
+      
+      data <- switch(input$selectionChoice,
+                     "Tajima's D" = thetas.plot$Tajima,
+                     "Fu and Li's F" = thetas.plot$fuf,
+                     "Fu and Li's D" = thetas.plot$fud,
+                     "Fay and Wu's H" = thetas.plot$fayh,
+                     "Zeng's E" = thetas.plot$zeng
+      )
+      
+      plot(thetas.plot$WinCenter,
+           data, t="p", pch=19,col=rgb(0,0,0,0.5),
+           xlab="Position (bp)",
+           ylab=input$selectionChoice,
+           main=paste("Neutrality test statistics along chromosome", thetas$Chr[1]), 
+           xlim = ranges2$x, ylim = ranges2$y
+      )
+      if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
+    })
     
+    # Creating zoom function in selectionPlot1 and selectionPlot2
+    observe({
+      brush <- input$selectionPlot1_brush
+      if (!is.null(brush)) {
+        ranges2$x <- c(brush$xmin, brush$xmax)
+        ranges2$y <- c(brush$ymin, brush$ymax)
+        
+      } else {
+        ranges2$x <- NULL
+        ranges2$y <- NULL
+      }
+    })
 
     # Fst Plot
     output$fstChroms = renderUI({
@@ -422,17 +469,29 @@ shinyServer(
              ylab="Fst",
              main=paste("Fst along chromosome")
         )
-        rug(rect(gff.df.gene$X1, -1e2, gff.df.gene$X2, 0, col=rgb(0.18,0.55,0.8,0.75), border=NA))
-        if(input$fstLowess){lines(lowess(fst.plot$bp,fst.plot$FST, f=0.1), col="red")}
+        rug(rect(gff.df.gene$X1, 
+                 -1e2, gff.df.gene$X2, 
+                 0, 
+                 col=rgb(0.18,0.55,0.8,0.75), 
+                 border=NA))
+        if(input$fstLowess){lines(lowess(fst.plot$bp,
+                                         fst.plot$FST, 
+                                         f=0.1), 
+                                  col="red")}
       }
       else {
         plot(fst.plot$bp,
-             fst.plot$FST, t="p", pch=19,col=rgb(0,0,0,0.5),
+             fst.plot$FST, 
+             t="p", 
+             pch=19,
+             col=rgb(0,0,0,0.5),
              xlab="Position (bp)",
              ylab=paste("Fst"),
              main=paste("Fst along chromosome", fst.plot$Chr[1])
         )
-        if(input$fstLowess){lines(lowess(fst.plot$bp,fst.plot$FST, f=0.1), col="red")}
+        if(input$fstLowess){lines(lowess(fst.plot$bp, fst.plot$FST, 
+                                         f=0.1), 
+                                  col="red")}
       }
     })
 
@@ -443,23 +502,50 @@ shinyServer(
       },error = function(err) {
         sfs <- exp(scan("sfs_example.txt"))
       })
-      subsfs <- sfs[-c(1,length(sfs))]/sum(sfs[-c(1,length(sfs))])
-#   Changed "Chromosome" for x axis label to "Derived Allele Frequency"      
-      barplot(subsfs, xlab="Derived Allele Frequency", ylab="Proportion of SNPs", main="Site Frequency Spectrum",names=1:length(sfs[-c(1,length(sfs))]), col="#A2C8EC", border=NA)
-
+#      subsfs <- sfs[-c(1,length(sfs))]/sum(sfs[-c(1,length(sfs))])
+      
+# Changed "Chromosome" for x axis label to "Derived Allele Frequency" ### Temporarily comment out Arun's version of the plot    
+#      barplot(subsfs, xlab="Derived Allele Frequency", 
+#              ylab="Proportion of SNPs", 
+#              main="Site Frequency Spectrum",
+#              names=1:length(sfs[-c(1,length(sfs))]), 
+#              col="#A2C8EC", border=NA)
+      barplot(exp(sfs),
+              xaxt = "n",
+              xlab = "Derived Allele Frequency",
+              ylab = "Proportion of SNPs",
+              main = "Site Frequency Spectrum",
+              offset = 0,
+              xlim = NULL,
+              ylim = NULL,
+              las = 1,
+              pch = 18,
+              xpd = TRUE)
+      axis.x <- axis(1, at= 1:23, labels = numeric(), lwd = 2)
+      axis.y <- axis(side = 2, at = , labels = numeric(), 
+                     lwd = 1, lwd.ticks = 1, 
+                     outer = FALSE, yaxt = "n")
+      
     })
 
+    # Admixture plot
     output$admixPlot <- renderPlot({
       admix <- tryCatch({
         dataInputAdmix()
 
       },error = function(err) {
-        admix<-t(as.matrix(read.table("ngsadmix_example.txt")))
+        admix <- t(as.matrix(read.table("ngsadmix_example.txt")))
       })
-      barplot(admix,col=c("#006BA4","#FF800E","#A2C8EC","#898989","#ABABAB","#595959","#5F9ED1","#CFCFCF","#FFBC79","#C85200"),space=0,border=NA,xlab="Individuals",ylab="admixture proportion")
-
+      barplot(admix, col=c("#006BA4","#FF800E","#A2C8EC",
+                           "#898989","#ABABAB","#595959",
+                           "#5F9ED1","#CFCFCF","#FFBC79","#C85200"),
+              space=0, 
+              border=NA, 
+              xlab="Individuals", 
+              ylab="admixture proportion")
     })
 
+    # ABBA BABA plot
     output$ABBABABATree <- renderPlot({
       ABBABABA <- tryCatch({
         dataInputABBABABA()

@@ -69,7 +69,7 @@ shinyUI(fluidPage(
           fluidRow(
             column(
               width = 12, height = 300,
-              h4("Click and drag on this plot"),
+              h3("Click and drag to select area to zoom on this plot"),
               plotOutput("thetaPlot1", 
                          dblclick = "thetaPlot1_dblclick", 
                          brush = brushOpts(id = "thetaPlot1_brush", 
@@ -78,14 +78,23 @@ shinyUI(fluidPage(
             ),
             column(
               width = 12, height = 300,
-              h4("Plot will zoom in on this plot"),
+              h3("Plot will zoom in on area selected above"),
               plotOutput("thetaPlot2")
 
             ),
-            plotOutput("selectionPlot",
-                       dblclick = "selectionPlot_dblclick",
-                       brush = brushOpts(id = "selectionPlot_brush",
+            column(
+              width = 12, height = 300,
+              h3("Click and drag to select area to zoom on this plot"), 
+              plotOutput("selectionPlot1",
+                       dblclick = "selectionPlot1_dblclick",
+                       brush = brushOpts(id = "selectionPlot1_brush",
                                          resetOnNew = TRUE))
+            ),
+            column(
+              width = 12, height = 300,
+              h3("Plot will zoom in on area selected above"),
+              plotOutput("selectionPlot2")
+            )
           )
       )
       )
@@ -106,7 +115,7 @@ shinyUI(fluidPage(
         mainPanel(
           plotOutput("SFSPlot")
         )
-      )
+      ) 
     ),
     
     # Tab 3
@@ -187,6 +196,8 @@ shinyUI(fluidPage(
       "Admixture",
       sidebarLayout(
         sidebarPanel(
+          headerPanel('Admixture plots',
+                      windowTitle = 'Admixture'),
           fileInput('userAdmix',
                     label= "Choose '.qopt' admixture File"),
           numericInput("k", 
