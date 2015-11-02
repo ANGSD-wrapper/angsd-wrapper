@@ -1,6 +1,6 @@
-#angsd-wrapper
+# ANGSD-wrapper
 
-Angsd-wrapper is a utility developed to aid in the analysis of next generation sequencing data. Users can do the following with this suite:
+ANGSD-wrapper is a utility developed to aid in the analysis of next generation sequencing data. Users can do the following with this suite:
 - Calculate a site frequency spectrum
 - Calculate a 2D site frequency spectrum with corresponding Fst estimations
 - Perform ABBA BABA tests
@@ -73,13 +73,13 @@ cat ~/path/to/sample_list.txt | parallel samtools index {}
 
 ## Basic usage
 
-To run angsd-wrapper, run
+To run ANGSD-wrapper, run
 
 ```shell
 angsd-wrapper <wrapper> <config>
 ```
 
-Where < wrapper > is one of the available routines that angsd-wrapper can run and < config > is the relative path to the corresponding configuration file.
+Where < wrapper > is one of the available routines that ANGSD-wrapper can run and < config > is the relative path to the corresponding configuration file.
 
 To see a list of available wrappers, run
 
