@@ -19,7 +19,7 @@ SOURCE=$2
 ADMIX_DIR="${SOURCE}"/dependencies/ngsAdmix
 
 #   Make the outdirectory
-OUT=${SCRATCH}/${PROJECT}/ngsAdmix
+OUT=${SCRATCH}/${PROJECT}/Admixture
 mkdir -p ${OUT}
 
 for k in `seq 2 "${K}"`

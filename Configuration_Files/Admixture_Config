@@ -17,7 +17,7 @@ PROJECT=
 
 #   Where do we put the outfiles?
     #   Note, the final outdirectory will be
-    #   ${SCRATCH}/${PROJECT}/ngsAdmix
+    #   ${SCRATCH}/${PROJECT}/Admixture
 SCRATCH=
 ##############################################################################################
 
