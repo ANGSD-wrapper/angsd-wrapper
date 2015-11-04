@@ -240,7 +240,15 @@ cd ${HOME}/scratch/Rice/Thetas/
 ls
 ```
 
-Here we see more files, which I don't know what they are. They're super cool, though, and that one is my favorite. No, not that one, the one next to it. There you go. Isn't it awesome?
+Here we see more files, that are super cool, and that one is my favorite. No, not that one, the one next to it. 
+- `_Diversity.arg`
+- `_Diversity.mafs.gz`
+- `_Diversity.thetas.gz`
+- `_Diversity.thetas.gz.bin`
+- `_Diversity.thetas.gz.idx`
+- `_Diversity.thetas.gz.pestPG`
+
+There you go. Isn't it awesome?
 
 ## Admixture Analysis
 
