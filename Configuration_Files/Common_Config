@@ -10,6 +10,7 @@ set -o pipefail
 SAMPLE_LIST=
 
 #   Define a list of inbreeding coefficients
+#	Use '.indF' file
 SAMPLE_INBREEDING=
 
 #   Ancestral sequence
