@@ -187,9 +187,19 @@ cd ${HOME}/scratch/Rice/SFS/
 ls
 ```
 
-Here we see files. I don't know what they're called, but hopefully we figure this shit out.
+Here we see files. I don't know what they're called, but hopefully we figure this shit out...
 
-We'll need the `_DerivedSFS` file for our Thetas estimation
+Ta da! Figured it all out, here are the files we should see in the SFS directory:
+- `_DerivedSFS`
+- `_SFSOut.arg`
+- `_SFSOut.beagle.gz`
+- `_SFSOut.geno.gz`
+- `_SFSOut.mafs.gz`
+- `_SFSOut.saf.gz`
+- `_SFSOut.saf.idx`
+- `_SFSOut.saf.pos.gz`
+
+We'll need the `_DerivedSFS` file for our Thetas estimation and graphing later on.
 
 ## Thetas Estimation
 
