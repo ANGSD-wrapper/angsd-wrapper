@@ -311,7 +311,7 @@ Let's go back out to `Configuration_Files` directory to set up our principal com
 cd ${HOME}/software/angsd-wrapper/iplant/Configuration_Files/
 ```
 
-We only need to tell ANGSD-wrapper where our `Common_Config` file is, everythin else for the PCA is taken care of. We do this on line 10 of `Principal_Component_Analysis_Config`:
+We only need to tell ANGSD-wrapper where our `Common_Config` file is, everything else for the PCA is taken care of. We do this on line 10 of `Principal_Component_Analysis_Config`:
 
 ```shell
 COMMON=${HOME}/software/angsd-wrapper/iplant/Configuration_Files/Common_Config
