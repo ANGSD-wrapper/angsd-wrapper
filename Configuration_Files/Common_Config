@@ -7,25 +7,25 @@ set -o pipefail
 #   A simple script to hold common variables for angsd-wrapper
 
 #   Define a list of samples
-SAMPLE_LIST=
+SAMPLE_LIST=${HOME}/ANGSD-wrapper_beta_testing/regionsExtractor/Liana_samples_finishedBAM.txt
 
 #   Define a list of inbreeding coefficients
 SAMPLE_INBREEDING=
 
 #   Ancestral sequence
-ANC_SEQ=
+ANC_SEQ=${HOME}/Shared/References/Reference_Sequences/Barley/Morex/Morex_Reference.fasta
 
 #   Reference sequence
-REF_SEQ=
+REF_SEQ=${HOME}/Shared/References/Reference_Sequences/Barley/Morex/Morex_Reference.fasta
 
 #   Name the project
-PROJECT=
+PROJECT=output_barley1_PH
 
 #   Where do we put the outfiles?
     #   Note, the final outdirectory will be
     #   ${SCRATCH}/${PROJECT}/<name_of_program/>
-SCRATCH=
+SCRATCH=${HOME}/ANGSD-wrapper_beta_testing
 
 #   Define the region being looked at
 #       Optional, but ANGSD is expensive to run without specifying regions to look at
-REGIONS=
+REGIONS=${HOME}/ANGSD-wrapper_beta_testing/regionsExtractor/super_barley_list
