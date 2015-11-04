@@ -331,6 +331,10 @@ ls
 ```
 
 More files :D
+- `_PCA.arg`
+- `_PCA.covar`
+- `_PCA.geno`
+- `_PCA.mafs.gz`
 
 ## Graphing
 
