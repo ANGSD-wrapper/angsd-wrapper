@@ -167,7 +167,7 @@ ANGSD-wrapper has several functions, or wrappers, built into it. These are prede
 angsd-wrapper <wrapper> <configuration file>
 ```
 
-Where `<wrapper>` is one of the wrappers that ANGSD-wrapper can perform and `<configuration file>` is the full path to the configuration file we set up for it. To see a full list of wrapper that ANGSD-wrapper has and how to call them, run the following command:
+Where `<wrapper>` is one of the wrappers that ANGSD-wrapper can perform and `<configuration file>` is the full path to the configuration file we set up for it. To see a full list of wrappers that ANGSD-wrapper has and how to call them, run the following command:
 
 ```shell
 angsd-wrapper
