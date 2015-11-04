@@ -7,7 +7,7 @@ set -o pipefail
 #   A simple script to hold variables for the NGS_F
 #   Are you using the Common_Config file?
 #       If so, where is it?
-COMMON=${HOME}/ANGSD-wrapper_beta_testing/aw_test_barley1_PH/angsd-wrapper/Configuration_Files/Common_Config
+COMMON=
 
 ##############################################################################################
 #   If we aren't using the Common_Config file, specify these variables
@@ -42,7 +42,7 @@ N_CORES=32
 DO_MAJORMINOR=1
 DO_MAF=1
 SNP_PVAL=1e-6
-OVERRIDE=true
+OVERRIDE=false
 MIN_EPSILON=1e-9
     #   Use the random number generator built into BASH
 SEED=$RANDOM
