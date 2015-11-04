@@ -283,7 +283,25 @@ cd ${HOME}/scratch/Rice/ngsAdmix/
 ls
 ```
 
-Here, we see some more fantastic, unknown files. Let us ponder their existence and relish in their mystery.
+Here, we see some more output files in the `Admixture` directory:
+- `_.2.filter`
+- `_.2.fopt.gz`
+- `_.2.log`
+- `_.2.qopt`
+- `_.3.filter`
+- `_.3.fopt.gz`
+- `_.3.log`
+- `_.3.qopt`
+- `_.4.filter`
+- `_.4.fopt.gz`
+- `_.4.log`
+- `_.4.qopt`
+- `_.5.filter`
+- `_.5.fopt.gz`
+- `_.5.log`
+- `_.5.qopt`
+
+Where each number in the filename correlates with the number of K ancestral populations graphed.
 
 ## Principal Component Analysis
 
