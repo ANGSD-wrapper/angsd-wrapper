@@ -67,7 +67,7 @@ Now, we'll go find our configuration files in the `Configuration_Files` director
 cd Configuration_Files/
 ```
 
-Because we're using multiple wrappers in this tutorial, we'll use the `Common_Config` file to hold variables that will be used across all methods. Open `Common_Config` in your favorite text editor, such as Vim or Emacs.
+Because we're using multiple wrappers in this tutorial, we'll use the `Common_Config` file to hold variables that will be used across all methods. Open `Common_Config` in your favorite [text editor](http://www.yolinux.com/TUTORIALS/LinuxTextEditors.html), such as [Vim](http://vim.wikia.com/wiki/Tutorial) or [Emacs](https://www.gnu.org/software/emacs/manual/).
 
 First, we need to define a list of samples. On line 10 of `Common_Config`, there's a place to define this sample list. If we remember back in our `iplant` directory, our sample list is called `SampleNames.txt`
 
