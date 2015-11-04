@@ -305,7 +305,7 @@ Where each number in the filename correlates with the number of K ancestral popu
 
 ## Principal Component Analysis
 
-Let's go back to out `Configuration_Files` directory to set up our principal component  analysis (PCA):
+Let's go back out to `Configuration_Files` directory to set up our principal component  analysis (PCA):
 
 ```shell
 cd ${HOME}/software/angsd-wrapper/iplant/Configuration_Files/
