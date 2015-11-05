@@ -38,7 +38,7 @@ source ~/.bash_profile
 
 This will download and install ANGSD, ngsAdmix, ngsTools, and ngsF. All of these programs are downloaded to the `dependencies` directory. In addition, it will also download and set up a directory with test data. These data are located in the `iplant` directory. Finally, ANGSD-wrapper will be installed system-wide so that it can be used from any working directory. To make sure ANGSD-wrapper installed correctly, run `angsd-wrapper`, without the `./` that we used before.
 
-In the `iplant` directory, there are 12 BAM and BAI files (`[0-11].sub.bam` and `[0-11].sub.bam.bai`), serving as samples and their indices, ancestral (`ancestral.merid_japonica_chr.fa`) and reference (`reference.Oryza_sativa.IRGSP-1.0.23.dna.genome_chr.fa`) sequences, a file with inbreeding coefficients (`InbreedingCoefficients.txt`), a list of regions (`regions.txt`) to be analyzed, and a file with sample names (`SampleNames.txt`).
+In the `iplant` directory, there are 12 BAM and BAI files (`[0-11].sub.bam` and `[0-11].sub.bam.bai`), serving as samples and their indices, ancestral (`ancestral.merid_japonica_chr.fa`) and reference (`reference.Oryza_sativa.IRGSP-1.0.23.dna.genome_chr.fa`) sequences, a file with inbreeding coefficients (`InbreedingCoefficients.indF`), a list of regions (`regions.txt`) to be analyzed, and a file with sample names (`SampleNames.txt`).
 
 ANGSD-wrapper has many different routines, or wrappers, that it can perform on a given dataset; we will be working with the Site Frequency Spectrum (SFS), Thetas Estimator, Admixture Analysis, and Principal Component Analysis (PCA) routines for this tutorial. To see all available wrappers, run `angsd-wrapper` without any arguments.
 
@@ -94,10 +94,10 @@ We use `${HOME}` to help ANGSD-wrapper find your files, if we used `/home`, some
 
 Adjust the `/software/angsd-wrapper/iplant` part to whatever you copied from your output.
 
-Next, we need our list of inbreeding coefficients. This is called `InbreedingCoefficients.txt`, to run this we tell ANGSD-wrapper where this file is on line 13 of our `Common_Config` file:
+Next, we need our list of inbreeding coefficients. This is called `InbreedingCoefficients.indF`, to run this we tell ANGSD-wrapper where this file is on line 13 of our `Common_Config` file:
 
 ```shell
-SAMPLE_INBREEDING=${HOME}/software/angsd-wrapper/iplant/InbreedingCoefficients.txt
+SAMPLE_INBREEDING=${HOME}/software/angsd-wrapper/iplant/InbreedingCoefficients.indF
 ```
 
 Lines 16 and 19 ask for our ancestral and reference sequences. These are `ancestral.merid_japonica_chr.fa` and `reference.Oryza_sativa.IRGSP-1.0.23.dna.genome_chr.fa`, respectively. In the `Common_Config` file, we'd enter the following on their respective lines:
@@ -240,7 +240,7 @@ cd ${HOME}/scratch/Rice/Thetas/
 ls
 ```
 
-Here we see more files, that are super cool, and that one is my favorite. No, not that one, the one next to it. 
+Here we see more files, that are super cool, and that one is my favorite. No, not that one, the one next to it.
 - `_Diversity.arg`
 - `_Diversity.mafs.gz`
 - `_Diversity.thetas.gz`

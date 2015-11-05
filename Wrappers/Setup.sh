@@ -86,7 +86,7 @@ find `pwd` -name "*.fa.gz" -exec gzip -d {} \;
 find `pwd` -name "*.fa" -exec samtools faidx {} \;
 #       Rename the inbreeding coefficients file
 echo "Creating a list of inbreeding coefficients..."
-mv test_F.txt InbreedingCoefficients.txt
+mv test_F.txt InbreedingCoefficients.indF
 #       Create a regions file
 echo "Creating a regions file..."
 for i in `seq 12`
