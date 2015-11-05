@@ -339,7 +339,7 @@ fi
 
 #   Estimate joint SFS using realSFS
 echo "WRAPPER: realSFS 2dsfs..." >&2
-"${ANGSD_DIR}"/misc/realSFS 2dsfs \
+"${ANGSD_DIR}"/misc/realSFS \
     "${OUT}"/"${GROUP_1}"_Intergenic_Conditioned.saf.idx \
     "${OUT}"/"${GROUP_2}"_Intergenic_Conditioned.saf.idx \
     -P "${N_CORES}" \
@@ -347,7 +347,7 @@ echo "WRAPPER: realSFS 2dsfs..." >&2
 
 #   Estimate the Fst using ngsFST
 #   Create a directory for ngsFST results
-mkdir -P ${OUT}/ngsFST
+mkdir -p ${OUT}/ngsFST
 
 #   Get number of sites and individuals
 N_SITES=`wc -l < "${OUT}"/Intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt`
