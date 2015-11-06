@@ -74,8 +74,7 @@ shinyUI(fluidPage(
                          dblclick = "thetaPlot1_dblclick", 
                          brush = brushOpts(id = "thetaPlot1_brush", 
                                            resetOnNew = TRUE))
-              
-            ),
+              ),
             column(
               width = 12, height = 300,
               h3("Plot will zoom in on area selected above"),
@@ -191,8 +190,21 @@ shinyUI(fluidPage(
           )
         ),
         mainPanel(
-          plotOutput("PCAPlot"), 
-          width=4
+          fluidRow(
+            column(
+              width = 12, height = 300,
+              h3("Click and drag to select area on this plot"),
+              plotOutput("PCAPlot1",
+                         dblclick = "PCAPlot1_dblclick",
+                         brush = brushOpts(id = "PCAPlot1_brush",
+                                           resetOnNew = TRUE))
+            ),
+            column(
+              width = 12, height = 300,
+              h3("Plot will zoom in on area selected above",
+                 plotOutput("PCAPlot2"))
+            )
+          )
         )
       )
     ),

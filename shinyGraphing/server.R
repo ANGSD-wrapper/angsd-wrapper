@@ -14,13 +14,12 @@ sfs.headers <- c("Allele Frequency")
 
 #thetas <- fread("C:/Users/Chaochih/angsd-wrapper/shinyGraphing/BKN_Diversity.thetas.gz.pestPG", sep = "\t")
 
-thetas <- fread("~/angsd-wrapper/shinyGraphing/BKN_Diversity.thetas.gz.pestPG")
+thetas <- fread("~/ANGSD-wrapper_beta_test/PH/angsd-wrapper/shinyGraphing/BKN_Diversity.thetas.gz.pestPG")
 
 not.loaded <- TRUE
 
 # Define server logic required to draw plots
 shinyServer(
-
 
   function(input, output) {
     
@@ -106,7 +105,7 @@ shinyServer(
     })
     
     
-    # Output data
+    # Thetas output data
     output$thetaChroms = renderUI({
       if(is.null(input$userThetas)){
         choices <- 10
@@ -128,7 +127,8 @@ shinyServer(
       #  error handling code to provide a default dataset to graph
       thetas <- tryCatch({
         dataInputThetas()
-      }, error = function(err) {
+      }, 
+      error = function(err) {
         thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG",
                              sep="\t",
                              col.names=thetas.headers)
@@ -183,8 +183,13 @@ shinyServer(
              main=paste("Estimators of theta along chromosome", thetas$Chr[1])
         )
 
-        rug(rect(gff.df.gene$X1, -1e2, gff.df.gene$X2, 0, col=rgb(0.18,0.55,0.8,0.75), border=NA))
-        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
+        # Different representation of the data to plot
+        rug(rect(gff.df.gene$X1, -1e2, 
+                 gff.df.gene$X2, 0, 
+                 col=rgb(0.18,0.55,0.8,0.75), 
+                 border=NA))
+        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
+                                    col="red")}
       }
       else {
         plot(thetas.plot$WinCenter,
@@ -193,7 +198,8 @@ shinyServer(
              ylab=paste(input$thetaChoice,"Estimator Value"),
              main=paste("Estimators of theta along chromosome", thetas$Chr[1])
         )
-        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
+        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
+                                    col="red")}
       }
     })
     
@@ -242,6 +248,7 @@ shinyServer(
       thetas.plot$tH <- thetas.plot$tH/thetas.plot$nSites
       thetas.plot$tL <- thetas.plot$tW/thetas.plot$nSites
       
+      # Choose one of the following data sets to plot
       data <- switch(input$thetaChoice,
                      "Watterson's Theta" = thetas.plot$tW,
                      "Pairwise Theta" = thetas.plot$tP,
@@ -257,8 +264,12 @@ shinyServer(
              main=paste("Estimators of theta along chromosome", thetas$Chr[1])
         )
         
-        rug(rect(gff.df.gene$X1, -1e2, gff.df.gene$X2, 0, col=rgb(0.18,0.55,0.8,0.75), border=NA))
-        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
+        rug(rect(gff.df.gene$X1, -1e2, 
+                 gff.df.gene$X2, 0, 
+                 col=rgb(0.18,0.55,0.8,0.75), 
+                 border=NA))
+        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter, data, f=0.1), 
+                                    col="red")}
       }
       else {
         plot(thetas.plot$WinCenter,
@@ -269,7 +280,8 @@ shinyServer(
                         thetas$Chr[1]),
              xlim = ranges$x, ylim = ranges$y
         )
-        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
+        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
+                                    col="red")}
       }
     })
 
@@ -301,7 +313,6 @@ shinyServer(
         )
       }
       )
-
 
       thetas <- subset(thetas,Chr==input$thetaChrom)
 
@@ -574,31 +585,62 @@ shinyServer(
                      length = 0.05, unit = "native",
                      angle = 90, code = 3)
       }
-      Dotplot(factor(d.current$H1) ~ Cbind(d.current$Dstat,d.current$Dstat-d.current$SE,d.current$Dstat+d.current$SE), col="blue", pch=20, panel = mypanel.Dotplot,
-              xlab="D",ylab="Taxon", title=paste("D statistic comparison where H2=", input$h2, " and H3=", input$h3, sep=""))
-
+      Dotplot(factor(d.current$H1) ~ Cbind(d.current$Dstat, 
+                                           d.current$Dstat-d.current$SE, 
+                                           d.current$Dstat+d.current$SE), 
+              col="blue", pch=20, panel = mypanel.Dotplot,
+              xlab="D", ylab="Taxon", 
+              title=paste("D statistic comparison where H2=", 
+                          input$h2, " and H3=", input$h3, sep=""))
     })
 
-    output$PCAPlot <- renderPlot({
+    # Create zoomable plots
+    ranges3 <- reactiveValues(x = NULL, y = NULL)
+    
+    # Create PCAPlot1 you can select areas to zoom in on top
+    output$PCAPlot1 <- renderPlot({
       PCA <- tryCatch({
         dataInputPCA()
-
-      },error = function(err) {
+      }, error = function(err) {
         PCA <- read.table("all.pop.covar", header=F)
       })
-      eig <- eigen(PCA, symm=TRUE);
+      eig <- eigen(PCA, symm=TRUE); # computes eigenvalues of matrices
       eig$val <- eig$val/sum(eig$val);
       PC <- as.data.frame(eig$vectors)
-      plot(PC$V1, PC$V2, pch=19, col=rgb(0,0,0,0.4),xlab="PC1", ylab="PC2", main="ngsCovar Results",asp=1)
+      plot(PC$V1, PC$V2, 
+           pch=19, col=rgb(0,0,0,0.4), 
+           xlab="PC1", ylab="PC2", 
+           main="ngsCovar Results",
+           asp=1)
     })
-
-    output$pacBio <- renderText({
-      if(input$fastaChoice=='Yes'){
-        text <- "Glad to hear it!"
+    
+    # Create PCAPlot2 that will react to PCAPlot1 selected area
+    output$PCAPlot2 <- renderPlot({
+      PCA <- tryCatch({
+        dataInputPCA()
+      }, error = function(err) {
+        PCA <- read.table("all.pop.covar", header=F)
+      })
+      eig <- eigen(PCA, symm=TRUE); # computes eigenvalues of matrices
+      eig$val <- eig$val/sum(eig$val);
+      PC <- as.data.frame(eig$vectors)
+      plot(PC$V1, PC$V2, 
+           pch=19, col=rgb(0,0,0,0.4), 
+           xlab="PC1", ylab="PC2", 
+           main="ngsCovar Results",
+           xlim = ranges3$x, ylim = ranges3$y,
+           asp=1)
+    })
+    
+    # Creating zoom function in PCAPlot1 and PCAPlot2
+    observe({
+      brush <- input$PCAPlot1_brush
+      if(!is.null(brush)) {
+        ranges3$x <- c(brush$xmin, brush$xmax)
+        ranges3$y <- c(brush$ymin, brush$ymax)
+      } else {
+        ranges3$x <- NULL
+        ranges3$y <- NULL
       }
-      if(input$fastaChoice=='No'){
-        text <- "Perhaps your reads are too short. Have you considered PacBio?"
-      }
-      return(text)
     })
   })
