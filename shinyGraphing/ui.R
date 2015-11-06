@@ -5,7 +5,7 @@ shinyUI(fluidPage(
   titlePanel("ANGSD-wrapper graph"),
   tabsetPanel(
     
-    # Tab 1
+    # Tab 1 - Thetas
     tabPanel("Thetas",
       sidebarLayout(
         sidebarPanel(
@@ -100,7 +100,7 @@ shinyUI(fluidPage(
       )
     ),
     
-    # Tab 2
+    # Tab 2 - SFS
     tabPanel(
       "SFS",
       sidebarLayout(
@@ -118,7 +118,7 @@ shinyUI(fluidPage(
       ) 
     ),
     
-    # Tab 3
+    # Tab 3 - ABBA BABA
     tabPanel(
       "ABBA BABA",
       sidebarLayout(
@@ -138,6 +138,8 @@ shinyUI(fluidPage(
         )
       )
     ),
+    
+    # Tab 4 - Fst
     tabPanel(
       "Fst",
       sidebarLayout(
@@ -166,7 +168,7 @@ shinyUI(fluidPage(
           
           hr(),
           fileInput('userAnnotations',
-                    label= 'Choose GFF File'
+                    label= "Choose '.gff' GFF File"
           ),
           checkboxInput("annotations",
                         "Toggle GFF annotations", 
@@ -178,6 +180,8 @@ shinyUI(fluidPage(
         )
       )
     ),
+    
+    # Tab 5 - PCA
     tabPanel(
       "PCA",
       sidebarLayout(
@@ -192,6 +196,8 @@ shinyUI(fluidPage(
         )
       )
     ),
+    
+    # Tab 6 - Admixture
     tabPanel(
       "Admixture",
       sidebarLayout(
