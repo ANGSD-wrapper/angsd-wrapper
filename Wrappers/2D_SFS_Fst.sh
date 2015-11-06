@@ -194,6 +194,9 @@ fi
 echo "WRAPPER: making intersect file..." >&2
 gunzip -c "${OUT}"/"${GROUP_1}"_Intergenic.saf.pos "${OUT}"/"${GROUP_2}"_Intergenic.saf.pos | sort | uniq -d | sort -k1,1 > "${OUT}"/Intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
 
+#   Index the intersect file
+${ANGSD_DIR}/angsd sites index "${OUT}"/Intersect."${GROUP_1}"."${GROUP_2}"_intergenic.txt
+
 #   Calculate allele frequencies only on sites in both populations
 #   Do we have a regions file?
 if [[ -f "${REGIONS}" ]]
