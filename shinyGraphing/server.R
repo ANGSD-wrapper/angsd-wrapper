@@ -119,7 +119,7 @@ shinyServer(
                   multiple = TRUE)
     })
  
-    # Create zoomable plots
+    # Create zoomable thetas plots
     ranges <- reactiveValues(x = NULL, y = NULL)
     
     # Create reactive plot on left side of page
@@ -377,6 +377,7 @@ shinyServer(
                      "Zeng's E" = thetas.plot$zeng
       )
       
+      # Output plot of thetas
       plot(thetas.plot$WinCenter,
            data, t="p", pch=19,col=rgb(0,0,0,0.5),
            xlab="Position (bp)",
@@ -594,7 +595,7 @@ shinyServer(
                           input$h2, " and H3=", input$h3, sep=""))
     })
 
-    # Create zoomable plots
+    # Create zoomable PCA plots
     ranges3 <- reactiveValues(x = NULL, y = NULL)
     
     # Create PCAPlot1 you can select areas to zoom in on top
