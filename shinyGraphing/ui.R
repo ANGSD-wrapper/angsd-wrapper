@@ -31,6 +31,9 @@ shinyUI(fluidPage(
                       selected = "Tajima's D"
           ),
           uiOutput('thetaChroms'),
+          # Adding additional 'help' text
+          tags$h5(class ="header",
+                  tags$p("Samples can be removed from graph by using cursor in text box and using backspace")),
           hr(),
           checkboxInput("thetaLowess",
                         "Theta Lowess", 
