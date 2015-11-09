@@ -217,6 +217,9 @@ shinyUI(fluidPage(
           headerPanel('Admixture plots',
                       windowTitle = 'Admixture'),
           fileInput('userAdmix',
+                    label= "Choose '.qopt' admixture File",
+                    multiple = TRUE),
+          fileInput('userAdmix2',
                     label= "Choose '.qopt' admixture File"),
           numericInput("k", 
                        "Number of K ancestral populations to graph:",
@@ -225,8 +228,14 @@ shinyUI(fluidPage(
                        max = 10)
         ),
         mainPanel(
-          plotOutput("admixPlot")
-          
+          column(
+            width = 12, height = 200,
+            plotOutput("admixPlot1")
+          ),
+          column(
+            width = 12, height = 200,
+            plotOutput("admixPlot2")
+          )
         )
       )
     )

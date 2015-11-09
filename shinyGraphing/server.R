@@ -37,12 +37,13 @@ shinyServer(
       data <- input$userSFS
       path <- as.character(data$datapath)
       #Derived <- as.matrix(read.table(input=path, header = FALSE))
-      Derived <- as.matrix(read.table(data, header = FALSE))
+      
+      Derived <- as.matrix(read.table(path, header = FALSE))
+      # Transverse data frame
       sfs <- as.data.frame(t(Derived))
-      names(sfs) <- c("Allele_frequency")
-      #sfs <- sfs[3:nrow(x=sfs)-1, ]
-      #sfs <- exp(scan(path))
-      return(sfs) 
+      names(sfs) <- "Allele_frequency"
+      alleles <- sfs$Allele_frequency[seq(3, nrow(sfs), by = 2)]
+      return(alleles) 
 
     })
 
@@ -74,9 +75,16 @@ shinyServer(
       path <- as.character(data$datapath)
       admix <- t(as.matrix(read.table(path)))
       return(admix)
-
     })
-
+    
+    # Admixture input data
+    dataInputAdmix = reactive({
+      data <- input$userAdmix2
+      path <- as.character(data$datapath)
+      admix <- t(as.matrix(read.table(path)))
+      return(admix)
+    })
+    
     # ABBA BABA test input data
     dataInputABBABABA = reactive({
       data <- input$userABBABABA
@@ -99,9 +107,7 @@ shinyServer(
       data <- input$userAnnotations
       path <- as.character(data$datapath)
       gff <- readGff3(path)
-
       return(gff)
-
     })
     
     
@@ -512,7 +518,7 @@ shinyServer(
         dataInputSFS()
 
       },error = function(err) {
-        sfs <- exp(scan("sfs_example.txt"))
+        sfs <- scan("sfs_example.txt")
       })
 #      subsfs <- sfs[-c(1,length(sfs))]/sum(sfs[-c(1,length(sfs))])
       
@@ -522,7 +528,7 @@ shinyServer(
 #              main="Site Frequency Spectrum",
 #              names=1:length(sfs[-c(1,length(sfs))]), 
 #              col="#A2C8EC", border=NA)
-      barplot(exp(sfs),
+      sfs.bp <- barplot((alleles/sum(alleles)),
               xaxt = "n",
               xlab = "Derived Allele Frequency",
               ylab = "Proportion of SNPs",
@@ -530,21 +536,38 @@ shinyServer(
               offset = 0,
               xlim = NULL,
               ylim = NULL,
+              axes = TRUE,
+              names = 1:length(alleles),
               las = 1,
               pch = 18,
-              xpd = TRUE)
-      axis.x <- axis(1, at= 1:23, labels = numeric(), lwd = 2)
-      axis.y <- axis(side = 2, at = , labels = numeric(), 
-                     lwd = 1, lwd.ticks = 1, 
-                     outer = FALSE, yaxt = "n")
-      
+              xpd = TRUE,
+              col = "magenta1")
+      lab <- c(1:length(sfs.bp))
+      axis(1, at = sfs.bp, labels = lab)
+
     })
 
-    # Admixture plot
-    output$admixPlot <- renderPlot({
+    # Admixture plot 1
+    output$admixPlot1 <- renderPlot({
       admix <- tryCatch({
         dataInputAdmix()
-
+      },error = function(err) {
+        admix <- t(as.matrix(read.table("ngsadmix_example.txt")))
+      })
+      barplot(admix, col=c("#006BA4","#FF800E","#A2C8EC",
+                           "#898989","#ABABAB","#595959",
+                           "#5F9ED1","#CFCFCF","#FFBC79","#C85200"),
+              space=0, 
+              border=NA, 
+              xlab="Individuals", 
+              ylab="admixture proportion")
+    })
+    
+    # Admixture plot 2
+    output$admixPlot2 <- renderPlot({
+      admix <- tryCatch({
+        dataInputAdmix()
+        
       },error = function(err) {
         admix <- t(as.matrix(read.table("ngsadmix_example.txt")))
       })
