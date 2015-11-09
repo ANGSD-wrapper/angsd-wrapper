@@ -115,7 +115,9 @@ shinyServer(
       }
       selectInput('thetaChrom', 'Chromosome to plot', 
                   choices,
-                  multiple = TRUE)
+                  multiple = TRUE,
+                  selected = choices
+                  )
     })
  
     # Create zoomable thetas plots
