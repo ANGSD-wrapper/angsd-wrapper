@@ -37,14 +37,13 @@ shinyServer(
       data <- input$userSFS
       path <- as.character(data$datapath)
       #Derived <- as.matrix(read.table(input=path, header = FALSE))
-      
-      Derived <- as.matrix(read.table(path, header = FALSE))
+      Derived <- as.matrix(fread(input=path, sep = "\t"))
+      #Derived <- as.matrix(read.table(path, header = FALSE))
       # Transverse data frame
       sfs <- as.data.frame(t(Derived))
-      names(sfs) <- "Allele_frequency"
+      setnames(sfs, sfs.headers)
       alleles <- sfs$Allele_frequency[seq(3, nrow(sfs), by = 2)]
       return(alleles) 
-
     })
 
     # Fst input data
