@@ -6,15 +6,14 @@ library(ape)
 library(data.table)
 options(shiny.maxRequestSize = -1)
 
-# Assign headers to thetas, Fst and intersect data
+# Define headers for thetas, Fst and intersect data
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
 fst.headers <- c("A", "AB", "f", "FST", "Pvar")
 intersect.headers <- c("Chr","bp")
 sfs.headers <- c("Allele_Frequency")
 
-#thetas <- fread("C:/Users/Chaochih/angsd-wrapper/shinyGraphing/BKN_Diversity.thetas.gz.pestPG", sep = "\t")
-
-thetas <- fread("~/ANGSD-wrapper_beta_test/PH/angsd-wrapper/shinyGraphing/BKN_Diversity.thetas.gz.pestPG")
+# Read in test dataset
+#thetas <- fread("~/ANGSD-wrapper_beta_test/PH/angsd-wrapper/shinyGraphing/BKN_Diversity.thetas.gz.pestPG")
 
 not.loaded <- TRUE
 
@@ -36,13 +35,9 @@ shinyServer(
     dataInputSFS = reactive({
       data <- input$userSFS
       path <- as.character(data$datapath)
-      #Derived <- as.matrix(read.table(input=path, header = FALSE))
       Derived <- as.matrix(fread(input=path, header = FALSE))
-      #Derived <- as.matrix(read.table(path, header = FALSE))
-      # Transverse data frame
       sfs <- as.data.frame(t(Derived))
       setnames(sfs, sfs.headers)
-      #alleles <- sfs$Allele_frequency[seq(3, nrow(sfs), by = 2)]
       return(sfs) 
     })
 
@@ -90,7 +85,6 @@ shinyServer(
       path <- as.character(data$datapath)
       ABBABABA <- read.table(path, sep="\t", header=T)
       return(ABBABABA)
-
     })
 
     # PCA plot input data
@@ -127,7 +121,7 @@ shinyServer(
     # Create zoomable thetas plots
     ranges <- reactiveValues(x = NULL, y = NULL)
     
-    # Create reactive plot on left side of page
+    # Create reactive thetaPlot1 to click and drag to select area
     output$thetaPlot1 <- renderPlot({
       #  error handling code to provide a default dataset to graph
       thetas <- tryCatch({
@@ -162,11 +156,11 @@ shinyServer(
 
       # remove nsites=0
       thetas.plot <- subset(thetas.plot, nSites != 0)
-      # remove data points with less than 50 sites. Calculate minimum from data?
+      # remove data points with less than 50 sites. Calculate minimum from data
       if(input$rm.nsites) {
         thetas.plot <- subset(thetas.plot, nSites > input$nsites)
       }
-      #divide thetas by the number of sites in each window
+      # Divide thetas by the number of sites in each window
       thetas.plot$tW <- thetas.plot$tW/thetas.plot$nSites
       thetas.plot$tP <- thetas.plot$tP/thetas.plot$nSites
       thetas.plot$tF <- thetas.plot$tF/thetas.plot$nSites
@@ -208,7 +202,7 @@ shinyServer(
       }
     })
     
-    # Create reactive plot that zooms in on right side
+    # Create reactive plot that zooms in below thetaPlot1
     output$thetaPlot2 <- renderPlot({
       # error handling code to provide a default dataset to graph
       thetas <- tryCatch({
@@ -246,7 +240,7 @@ shinyServer(
       if(input$rm.nsites) {
         thetas.plot <- subset(thetas.plot, nSites > input$nsites)
       }
-      #divide thetas by the number of sites in each window
+      # Divide thetas by the number of sites in each window
       thetas.plot$tW <- thetas.plot$tW/thetas.plot$nSites
       thetas.plot$tP <- thetas.plot$tP/thetas.plot$nSites
       thetas.plot$tF <- thetas.plot$tF/thetas.plot$nSites
@@ -345,7 +339,8 @@ shinyServer(
            ylab=input$selectionChoice,
            main=paste("Neutrality test statistics along chromosome", thetas$Chr[1])
       )
-      if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
+      if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter, data, f=0.1), 
+                                      col="red")}
     })
     
     # selectionPlot2
@@ -360,8 +355,7 @@ shinyServer(
         )
       }
       )
-      
-      
+  
       thetas <- subset(thetas,Chr==input$thetaChrom)
       
       if(input$subset) {
@@ -390,7 +384,8 @@ shinyServer(
            main=paste("Neutrality test statistics along chromosome", thetas$Chr[1]), 
            xlim = ranges2$x, ylim = ranges2$y
       )
-      if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), col="red")}
+      if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
+                                      col="red")}
     })
     
     # Creating zoom function in selectionPlot1 and selectionPlot2
@@ -406,7 +401,7 @@ shinyServer(
       }
     })
 
-    # Fst Plot
+    # Fst Plot output
     output$fstChroms = renderUI({
       if(is.null(input$userIntersect)){
         choices <- 12
@@ -428,7 +423,8 @@ shinyServer(
         min <- min(intersect$bp)
         max <- max(intersect$bp)
       }
-      numericInput("intersectLow", "Base Start Position", value=min, min = min, max=max-1)
+      numericInput("intersectLow", "Base Start Position", 
+                   value=min, min = min, max=max-1)
     })
 
     output$fstMax = renderUI({
@@ -512,23 +508,20 @@ shinyServer(
       }
     })
 
+    # SFS Plot output
     output$SFSPlot <- renderPlot({
       sfs <- tryCatch({
         dataInputSFS()
 
-      },error = function(err) {
+      }, error = function(err) {
         sfs <- scan("sfs_example.txt")
       })
-#      subsfs <- sfs[-c(1,length(sfs))]/sum(sfs[-c(1,length(sfs))])
-      
-# Changed "Chromosome" for x axis label to "Derived Allele Frequency" ### Temporarily comment out Arun's version of the plot    
-#      barplot(subsfs, xlab="Derived Allele Frequency", 
-#              ylab="Proportion of SNPs", 
-#              main="Site Frequency Spectrum",
-#              names=1:length(sfs[-c(1,length(sfs))]), 
-#              col="#A2C8EC", border=NA)
+
+      # Graph SFS here
       sfs.AFreq <- sfs$Allele_Frequency
+      # Throw out 0th class
       alleles <- sfs.AFreq[seq(2, nrow(sfs))]
+      # Plot proportion
       sfs.bp <- barplot((alleles/sum(alleles)),
               xaxt = "n",
               xlab = "Derived Allele Frequency",
@@ -543,6 +536,7 @@ shinyServer(
               pch = 18,
               xpd = TRUE,
               col = "blue")
+      # Label x-axis
       lab <- c(1:length(sfs.bp))
       axis(1, at = sfs.bp, labels = lab)
     })
@@ -580,7 +574,7 @@ shinyServer(
               ylab="admixture proportion")
     })
 
-    # ABBA BABA plot
+    # ABBA BABA plot output
     output$ABBABABATree <- renderPlot({
       ABBABABA <- tryCatch({
         dataInputABBABABA()
@@ -588,7 +582,8 @@ shinyServer(
         ABBABABA <- read.table("abbababa.test", sep="\t", header=T)
       })
       d.current <- subset(ABBABABA, H2 == input$h2 & H3 == input$h3)
-      tree <- read.tree(text=paste("(Outgroup,(", input$h3, ",(", input$h2, ",Taxon)));", sep=""))
+      tree <- read.tree(text=paste("(Outgroup,(", input$h3, ",(", input$h2, ",Taxon)));",
+                                   sep=""))
       plot(tree, type = "cladogram", edge.width = 2, direction='downwards')
 
     })
@@ -596,7 +591,9 @@ shinyServer(
       ABBABABA <- tryCatch({
         dataInputABBABABA()
       }, error = function(err){
-        ABBABABA <- read.table("abbababa.test", sep="\t", header=T)
+        ABBABABA <- read.table("abbababa.test", 
+                               sep="\t", 
+                               header=T)
       })
       d.current <- subset(ABBABABA, H2 == input$h2 & H3 == input$h3)
       mypanel.Dotplot <- function(x, y, ...) {
@@ -615,7 +612,9 @@ shinyServer(
               col="blue", pch=20, panel = mypanel.Dotplot,
               xlab="D", ylab="Taxon", 
               title=paste("D statistic comparison where H2=", 
-                          input$h2, " and H3=", input$h3, sep=""))
+                          input$h2, " and H3=", 
+                          input$h3, 
+                          sep=""))
     })
 
     # Create zoomable PCA plots
@@ -629,6 +628,7 @@ shinyServer(
         PCA <- read.table("all.pop.covar", header=F)
       })
       eig <- eigen(PCA, symm=TRUE); # computes eigenvalues of matrices
+      # Plot proportion of values
       eig$val <- eig$val/sum(eig$val);
       PC <- as.data.frame(eig$vectors)
       plot(PC$V1, PC$V2, 
