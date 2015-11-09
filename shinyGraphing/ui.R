@@ -190,7 +190,10 @@ shinyUI(fluidPage(
         sidebarPanel(
           fileInput('userPCA',
                     label= "Choose a '_PCA.covar' File"
-          )
+          ),
+          tags$h5(class ="header",
+                  tags$p("The zoom function works as follows:"),
+                  tags$p("Click and drag over area you want to select on the top graph, the graph will zoom in on the bottom graph"))
         ),
         mainPanel(
           fluidRow(
