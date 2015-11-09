@@ -528,7 +528,7 @@ shinyServer(
 #              names=1:length(sfs[-c(1,length(sfs))]), 
 #              col="#A2C8EC", border=NA)
       sfs.AFreq <- sfs$Allele_Frequency
-      alleles <- sfs.AFreq[seq(3, nrow(sfs), by = 2)]
+      alleles <- sfs.AFreq[seq(2, nrow(sfs))]
       sfs.bp <- barplot((alleles/sum(alleles)),
               xaxt = "n",
               xlab = "Derived Allele Frequency",
@@ -542,7 +542,7 @@ shinyServer(
               las = 1,
               pch = 18,
               xpd = TRUE,
-              col = "skyblue")
+              col = "blue")
       lab <- c(1:length(sfs.bp))
       axis(1, at = sfs.bp, labels = lab)
     })
