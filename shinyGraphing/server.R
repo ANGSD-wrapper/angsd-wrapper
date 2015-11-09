@@ -521,8 +521,8 @@ shinyServer(
 
       # Graph SFS here
       sfs.AFreq <- sfs$Allele_Frequency
-      # Throw out 0th class
-      alleles <- sfs.AFreq[seq(2, nrow(sfs))]
+      # Throw out 0th class and nth class
+      alleles <- sfs.AFreq[seq(2, nrow(sfs)-1)]
       # Plot proportion
       sfs.bp <- barplot((alleles/sum(alleles)),
               xaxt = "n",
