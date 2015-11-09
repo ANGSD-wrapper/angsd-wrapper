@@ -5,7 +5,7 @@ shinyUI(fluidPage(
   titlePanel("ANGSD-wrapper graph"),
   tabsetPanel(
     
-    # Tab 1
+    # Tab 1 - Thetas
     tabPanel("Thetas",
       sidebarLayout(
         sidebarPanel(
@@ -74,8 +74,7 @@ shinyUI(fluidPage(
                          dblclick = "thetaPlot1_dblclick", 
                          brush = brushOpts(id = "thetaPlot1_brush", 
                                            resetOnNew = TRUE))
-              
-            ),
+              ),
             column(
               width = 12, height = 300,
               h3("Plot will zoom in on area selected above"),
@@ -100,7 +99,7 @@ shinyUI(fluidPage(
       )
     ),
     
-    # Tab 2
+    # Tab 2 - SFS
     tabPanel(
       "SFS",
       sidebarLayout(
@@ -118,7 +117,7 @@ shinyUI(fluidPage(
       ) 
     ),
     
-    # Tab 3
+    # Tab 3 - ABBA BABA
     tabPanel(
       "ABBA BABA",
       sidebarLayout(
@@ -138,6 +137,8 @@ shinyUI(fluidPage(
         )
       )
     ),
+    
+    # Tab 4 - Fst
     tabPanel(
       "Fst",
       sidebarLayout(
@@ -166,7 +167,7 @@ shinyUI(fluidPage(
           
           hr(),
           fileInput('userAnnotations',
-                    label= 'Choose GFF File'
+                    label= "Choose '.gff' GFF File"
           ),
           checkboxInput("annotations",
                         "Toggle GFF annotations", 
@@ -178,6 +179,8 @@ shinyUI(fluidPage(
         )
       )
     ),
+    
+    # Tab 5 - PCA
     tabPanel(
       "PCA",
       sidebarLayout(
@@ -187,11 +190,26 @@ shinyUI(fluidPage(
           )
         ),
         mainPanel(
-          plotOutput("PCAPlot"), 
-          width=4
+          fluidRow(
+            column(
+              width = 12, height = 300,
+              h3("Click and drag to select area on this plot"),
+              plotOutput("PCAPlot1",
+                         dblclick = "PCAPlot1_dblclick",
+                         brush = brushOpts(id = "PCAPlot1_brush",
+                                           resetOnNew = TRUE))
+            ),
+            column(
+              width = 12, height = 300,
+              h3("Plot will zoom in on area selected above",
+                 plotOutput("PCAPlot2"))
+            )
+          )
         )
       )
     ),
+    
+    # Tab 6 - Admixture
     tabPanel(
       "Admixture",
       sidebarLayout(
@@ -199,17 +217,25 @@ shinyUI(fluidPage(
           headerPanel('Admixture plots',
                       windowTitle = 'Admixture'),
           fileInput('userAdmix',
+                    label= "Choose '.qopt' admixture File",
+                    multiple = TRUE),
+          fileInput('userAdmix2',
                     label= "Choose '.qopt' admixture File"),
           numericInput("k", 
                        "Number of K ancestral populations to graph:",
                        1,
                        min = 1, 
                        max = 10)
-          
         ),
         mainPanel(
-          plotOutput("admixPlot")
-          
+          column(
+            width = 12, height = 200,
+            plotOutput("admixPlot1")
+          ),
+          column(
+            width = 12, height = 200,
+            plotOutput("admixPlot2")
+          )
         )
       )
     )

@@ -38,7 +38,7 @@ source ~/.bash_profile
 
 This will download and install ANGSD, ngsAdmix, ngsTools, and ngsF. All of these programs are downloaded to the `dependencies` directory. In addition, it will also download and set up a directory with test data. These data are located in the `iplant` directory. Finally, ANGSD-wrapper will be installed system-wide so that it can be used from any working directory. To make sure ANGSD-wrapper installed correctly, run `angsd-wrapper`, without the `./` that we used before.
 
-In the `iplant` directory, there are 12 BAM and BAI files (`[0-11].sub.bam` and `[0-11].sub.bam.bai`), serving as samples and their indices, ancestral (`ancestral.merid_japonica_chr.fa`) and reference (`reference.Oryza_sativa.IRGSP-1.0.23.dna.genome_chr.fa`) sequences, a file with inbreeding coefficients (`InbreedingCoefficients.txt`), a list of regions (`regions.txt`) to be analyzed, and a file with sample names (`SampleNames.txt`).
+In the `iplant` directory, there are 12 BAM and BAI files (`[0-11].sub.bam` and `[0-11].sub.bam.bai`), serving as samples and their indices, ancestral (`ancestral.merid_japonica_chr.fa`) and reference (`reference.Oryza_sativa.IRGSP-1.0.23.dna.genome_chr.fa`) sequences, a file with inbreeding coefficients (`InbreedingCoefficients.indF`), a list of regions (`regions.txt`) to be analyzed, and a file with sample names (`SampleNames.txt`).
 
 ANGSD-wrapper has many different routines, or wrappers, that it can perform on a given dataset; we will be working with the Site Frequency Spectrum (SFS), Thetas Estimator, Admixture Analysis, and Principal Component Analysis (PCA) routines for this tutorial. To see all available wrappers, run `angsd-wrapper` without any arguments.
 
@@ -67,7 +67,7 @@ Now, we'll go find our configuration files in the `Configuration_Files` director
 cd Configuration_Files/
 ```
 
-Because we're using multiple wrappers in this tutorial, we'll use the `Common_Config` file to hold variables that will be used across all methods. Open `Common_Config` in your favorite text editor, such as Vim or Emacs.
+Because we're using multiple wrappers in this tutorial, we'll use the `Common_Config` file to hold variables that will be used across all methods. Open `Common_Config` in your favorite [text editor](http://www.yolinux.com/TUTORIALS/LinuxTextEditors.html), such as [Vim](http://vim.wikia.com/wiki/Tutorial) or [Emacs](https://www.gnu.org/software/emacs/manual/).
 
 First, we need to define a list of samples. On line 10 of `Common_Config`, there's a place to define this sample list. If we remember back in our `iplant` directory, our sample list is called `SampleNames.txt`
 
@@ -94,10 +94,10 @@ We use `${HOME}` to help ANGSD-wrapper find your files, if we used `/home`, some
 
 Adjust the `/software/angsd-wrapper/iplant` part to whatever you copied from your output.
 
-Next, we need our list of inbreeding coefficients. This is called `InbreedingCoefficients.txt`, to run this we tell ANGSD-wrapper where this file is on line 13 of our `Common_Config` file:
+Next, we need our list of inbreeding coefficients. This is called `InbreedingCoefficients.indF`, to run this we tell ANGSD-wrapper where this file is on line 13 of our `Common_Config` file:
 
 ```shell
-SAMPLE_INBREEDING=${HOME}/software/angsd-wrapper/iplant/InbreedingCoefficients.txt
+SAMPLE_INBREEDING=${HOME}/software/angsd-wrapper/iplant/InbreedingCoefficients.indF
 ```
 
 Lines 16 and 19 ask for our ancestral and reference sequences. These are `ancestral.merid_japonica_chr.fa` and `reference.Oryza_sativa.IRGSP-1.0.23.dna.genome_chr.fa`, respectively. In the `Common_Config` file, we'd enter the following on their respective lines:
@@ -167,7 +167,7 @@ ANGSD-wrapper has several functions, or wrappers, built into it. These are prede
 angsd-wrapper <wrapper> <configuration file>
 ```
 
-Where `<wrapper>` is one of the wrappers that ANGSD-wrapper can perform and `<configuration file>` is the full path to the configuration file we set up for it. To see a full list of wrapper that ANGSD-wrapper has and how to call them, run the following command:
+Where `<wrapper>` is one of the wrappers that ANGSD-wrapper can perform and `<configuration file>` is the full path to the configuration file we set up for it. To see a full list of wrappers that ANGSD-wrapper has and how to call them, run the following command:
 
 ```shell
 angsd-wrapper
@@ -187,9 +187,19 @@ cd ${HOME}/scratch/Rice/SFS/
 ls
 ```
 
-Here we see files. I don't know what they're called, but hopefully we figure this shit out.
+Here we see files. I don't know what they're called, but hopefully we figure this shit out...
 
-We'll need the `_DerivedSFS` file for our Thetas estimation
+Ta da! Figured it all out, here are the files we should see in the SFS directory:
+- `_DerivedSFS`
+- `_SFSOut.arg`
+- `_SFSOut.beagle.gz`
+- `_SFSOut.geno.gz`
+- `_SFSOut.mafs.gz`
+- `_SFSOut.saf.gz`
+- `_SFSOut.saf.idx`
+- `_SFSOut.saf.pos.gz`
+
+We'll need the `_DerivedSFS` file for our Thetas estimation and graphing later on.
 
 ## Thetas Estimation
 
@@ -230,7 +240,15 @@ cd ${HOME}/scratch/Rice/Thetas/
 ls
 ```
 
-Here we see more files, which I don't know what they are. They're super cool, though, and that one is my favorite. No, not that one, the one next to it. There you go. Isn't it awesome?
+Here we see more files, that are super cool, and that one is my favorite. No, not that one, the one next to it.
+- `_Diversity.arg`
+- `_Diversity.mafs.gz`
+- `_Diversity.thetas.gz`
+- `_Diversity.thetas.gz.bin`
+- `_Diversity.thetas.gz.idx`
+- `_Diversity.thetas.gz.pestPG`
+
+There you go. Isn't it awesome?
 
 ## Admixture Analysis
 
@@ -265,17 +283,35 @@ cd ${HOME}/scratch/Rice/ngsAdmix/
 ls
 ```
 
-Here, we see some more fantastic, unknown files. Let us ponder their existence and relish in their mystery.
+Here, we see some more output files in the `Admixture` directory:
+- `_.2.filter`
+- `_.2.fopt.gz`
+- `_.2.log`
+- `_.2.qopt`
+- `_.3.filter`
+- `_.3.fopt.gz`
+- `_.3.log`
+- `_.3.qopt`
+- `_.4.filter`
+- `_.4.fopt.gz`
+- `_.4.log`
+- `_.4.qopt`
+- `_.5.filter`
+- `_.5.fopt.gz`
+- `_.5.log`
+- `_.5.qopt`
+
+Where each number in the filename correlates with the number of K ancestral populations graphed.
 
 ## Principal Component Analysis
 
-Let's go back to out `Configuration_Files` directory to set up our principal component  analysis (PCA):
+Let's go back out to `Configuration_Files` directory to set up our principal component  analysis (PCA):
 
 ```shell
 cd ${HOME}/software/angsd-wrapper/iplant/Configuration_Files/
 ```
 
-We only need to tell ANGSD-wrapper where our `Common_Config` file is, everythin else for the PCA is taken care of. We do this on line 10 of `Principal_Component_Analysis_Config`:
+We only need to tell ANGSD-wrapper where our `Common_Config` file is, everything else for the PCA is taken care of. We do this on line 10 of `Principal_Component_Analysis_Config`:
 
 ```shell
 COMMON=${HOME}/software/angsd-wrapper/iplant/Configuration_Files/Common_Config
@@ -295,6 +331,10 @@ ls
 ```
 
 More files :D
+- `_PCA.arg`
+- `_PCA.covar`
+- `_PCA.geno`
+- `_PCA.mafs.gz`
 
 ## Graphing
 
