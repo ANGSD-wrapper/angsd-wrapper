@@ -10,7 +10,7 @@ options(shiny.maxRequestSize = -1)
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
 fst.headers <- c("A", "AB", "f", "FST", "Pvar")
 intersect.headers <- c("Chr","bp")
-sfs.headers <- c("Allele Frequency")
+sfs.headers <- c("Allele_Frequency")
 
 #thetas <- fread("C:/Users/Chaochih/angsd-wrapper/shinyGraphing/BKN_Diversity.thetas.gz.pestPG", sep = "\t")
 
@@ -37,13 +37,13 @@ shinyServer(
       data <- input$userSFS
       path <- as.character(data$datapath)
       #Derived <- as.matrix(read.table(input=path, header = FALSE))
-      Derived <- as.matrix(fread(input=path, sep = "\t"))
+      Derived <- as.matrix(fread(input=path, header = FALSE))
       #Derived <- as.matrix(read.table(path, header = FALSE))
       # Transverse data frame
       sfs <- as.data.frame(t(Derived))
       setnames(sfs, sfs.headers)
-      alleles <- sfs$Allele_frequency[seq(3, nrow(sfs), by = 2)]
-      return(alleles) 
+      #alleles <- sfs$Allele_frequency[seq(3, nrow(sfs), by = 2)]
+      return(sfs) 
     })
 
     # Fst input data
@@ -527,6 +527,8 @@ shinyServer(
 #              main="Site Frequency Spectrum",
 #              names=1:length(sfs[-c(1,length(sfs))]), 
 #              col="#A2C8EC", border=NA)
+      sfs.AFreq <- sfs$Allele_Frequency
+      alleles <- sfs.AFreq[seq(3, nrow(sfs), by = 2)]
       sfs.bp <- barplot((alleles/sum(alleles)),
               xaxt = "n",
               xlab = "Derived Allele Frequency",
@@ -540,10 +542,9 @@ shinyServer(
               las = 1,
               pch = 18,
               xpd = TRUE,
-              col = "magenta1")
+              col = "skyblue")
       lab <- c(1:length(sfs.bp))
       axis(1, at = sfs.bp, labels = lab)
-
     })
 
     # Admixture plot 1
