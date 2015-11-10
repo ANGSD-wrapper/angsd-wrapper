@@ -65,7 +65,6 @@ shinyUI(fluidPage(
           numericInput("nsites", 
                        "x:",
                        value=0),
-          
           hr(),
           fileInput('userAnnotations',
                     label= "Choose '.gff' File"
