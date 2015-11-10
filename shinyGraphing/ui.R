@@ -32,8 +32,9 @@ shinyUI(fluidPage(
           ),
           uiOutput('thetaChroms'),
           # Adding additional 'help' text
-          tags$h5(class ="header",
-                  tags$p("Samples can be removed from graph by using cursor in text box and using backspace")),
+          tags$h4(class ="header",
+                  tags$h4("Samples can be removed from graph by using cursor in text box and using backspace."),
+                  tags$h4("You can also type parts of a sample name to search for it.")),
           hr(),
           checkboxInput("thetaLowess",
                         "Theta Lowess", 
@@ -42,6 +43,12 @@ shinyUI(fluidPage(
                         "Neutrality Test Statistic Lowess", 
                         value=FALSE),
           hr(),
+          tags$h4(class = "header",
+                  tags$h4("There are two ways you can zoom in on the plots"),
+                  tags$h4("1. You can click and drag to select area over the top graph and have the graph zoom in on the graph below"),
+                  tags$h4("or"),
+                  tags$h4("2. You can click the 'Toggle subset data' checkbox and enter in the interval you want to zoom in on")
+                  ),
           numericInput("WinCenterLow", 
                        "Base Start Position", 
                        value=0),
@@ -249,5 +256,4 @@ shinyUI(fluidPage(
     )
     #end of tabsetPanel
   )
-)
 )
