@@ -4,6 +4,7 @@ library(lattice)
 library(Hmisc)
 library(ape)
 library(data.table)
+library(DT) # Allows R data objects to be displayed as tables on HTML pages
 options(shiny.maxRequestSize = -1)
 
 # Define headers for thetas, Fst and intersect data
@@ -102,7 +103,6 @@ shinyServer(
       gff <- readGff3(path)
       return(gff)
     })
-    
     
     # Thetas output data
     output$thetaChroms = renderUI({
@@ -297,6 +297,18 @@ shinyServer(
         ranges$x <- NULL
         ranges$y <- NULL
       }
+    })
+    
+    # Creating hover function to output table of x and y values of thetasPlot1 and thetasPlot2
+    output$plotui <- renderUI({
+      plotOutput("plot", height = 300,
+                 click = "thetasPlot2_click",
+                 click = clickOpts(
+                   id = "thetasPlot2_click"
+                 ),
+                 hover = hoverOpts(
+                   id = "thetasPlot2_hover"
+                 ))
     })
     
     # Creating reactive plot for selectionPlot1 and selectionPlot2
