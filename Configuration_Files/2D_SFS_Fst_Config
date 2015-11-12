@@ -12,9 +12,8 @@ COMMON=
 ##############################################################################################
 #   If we aren't using the Common_Config file, specify these variables
 #   If Common_Config is specified, leave these blank
-#   Ancestral and Reference sequences
+#   Ancestral sequence
 ANC_SEQ=
-REF_SEQ=
 
 #   Name the project
 PROJECT=
