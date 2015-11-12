@@ -439,7 +439,8 @@ shinyServer(
         min <- min(intersect$bp)
         max <- max(intersect$bp)
       }
-      numericInput("intersectHigh", "Base Start Position", value=min+10000, min=min+1, max=max)
+      numericInput("intersectHigh", "Base Start Position", 
+                   value = min+10000, min = min+1, max = max)
     })
 
     output$fstPlot <- renderPlot({
