@@ -284,18 +284,22 @@ shinyServer(
         if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
                                     col="red")}
       }
-      # Creating click and hover function in thetasPlot2
-      plotOutput("thetaPlot2", height = 300,
-                 click = clickOpts(
-                   id = "thetaPlot2_click"
-                 ),
-                 hover = hoverOpts(
-                   id = "thetaPlot2_hover",
-                   delay = input$hover_delay,
+      # Creating hover function in thetasPlot2
+      plotOutput("thetaPlot2",
+                 width = "70%", height = "400px",
+                 hover = hoverOpts("thetaPlot2_hover",
+                   delay = 100,
+                   delayType = "throttle",
                    clip = TRUE
                  ))
     })
 
+    # Creating hover function to output table of x and y values of thetasPlot1 and thetasPlot2
+    output$thetaPlot2_hoverinfo <- renderPrint({
+      cat("Theta Plot Hover Function")
+      str(input$thetaPlot2_hover)
+    })
+    
     # Creating zoom function in thetasPlot1 and thetasPlot2
     observe({
       brush <- input$thetaPlot1_brush
@@ -307,17 +311,6 @@ shinyServer(
         ranges$x <- NULL
         ranges$y <- NULL
       }
-    })
-    
-    # Creating hover function to output table of x and y values of thetasPlot1 and thetasPlot2
-    output$thetaPlot2_clickinfo <- renderPrint({
-      cat("input$thetaPlot2_click:\n")
-      str(input$thetaPlot2_click)
-    })
-    
-    output$thetaPlot2_hoverinfo <- renderPrint({
-      cat("input$thetaPlot2_hover:\n")
-      str(input$plot_hover)
     })
     
     # Creating reactive plot for selectionPlot1 and selectionPlot2
