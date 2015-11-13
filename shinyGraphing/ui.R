@@ -88,7 +88,14 @@ shinyUI(fluidPage(
               width = 12, height = 300,
               h3("Plot will zoom in on area selected above"),
               plotOutput("thetaPlot2")
-
+            ),
+            column(
+              width = 3,
+              verbatimTextOutput("thetaPlot2_clickinfo")
+            ),
+            column(
+              width = 3,
+              verbatimTextOutput("thetaPlot2_hoverinfo")
             ),
             column(
               width = 12, height = 300,
