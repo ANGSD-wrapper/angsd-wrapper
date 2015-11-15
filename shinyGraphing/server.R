@@ -406,6 +406,12 @@ shinyServer(
                                       col="red")}
     })
     
+    # Creating hover function to output table of x and y values of selectionPlot1 and selectionPlot2
+    output$selectionPlot2_hoverinfo <- renderPrint({
+      cat("Theta Plot Hover Function")
+      str(input$selectionPlot2_hover)
+    })
+    
     # Creating zoom function in selectionPlot1 and selectionPlot2
     observe({
       brush <- input$selectionPlot1_brush

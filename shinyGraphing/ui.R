@@ -97,7 +97,7 @@ shinyUI(fluidPage(
               h3("Plot will zoom in on area selected above"),
               plotOutput("thetaPlot2",
                          hover = hoverOpts("thetaPlot2_hover",
-                                           delay = 100,
+                                           delay = 50,
                                            nullOutside = FALSE)
             ),
             column(
@@ -115,11 +115,19 @@ shinyUI(fluidPage(
             column(
               width = 12, height = 300,
               h3("Plot will zoom in on area selected above"),
-              plotOutput("selectionPlot2")
+              plotOutput("selectionPlot2",
+                         hover = hoverOpts("selectionPlot2_hover",
+                                           delay = 50,
+                                           nullOutside = FALSE))
+            ),
+            column(
+              width = 6,
+              verbatimTextOutput("selectionPlot2_hoverinfo")
             )
           )
       )
       )
+    )
     ),
     
     # Tab 2 - SFS
@@ -269,4 +277,4 @@ shinyUI(fluidPage(
     )
     #end of tabsetPanel
   )
-))
+)
