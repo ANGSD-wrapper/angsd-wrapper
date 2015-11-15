@@ -285,13 +285,15 @@ shinyServer(
                                     col="red")}
       }
       # Creating hover function in thetasPlot2
-      plotOutput("thetaPlot2",
-                 width = "70%", height = "400px",
-                 hover = hoverOpts("thetaPlot2_hover",
-                   delay = 100,
-                   delayType = "throttle",
-                   clip = TRUE
-                 ))
+#      plotOutput("thetaPlot2",
+#                 width = "70%", height = "400px",
+#                 hover = hoverOpts("thetaPlot2_hover",
+#                   delay = 100,
+#                   delayType = "throttle",
+#                   clip = TRUE
+#                 ),
+#                 brush2 = brushOpts("thetaPlot2_brush",
+#                                    resetOnNew = TRUE))
     })
 
     # Creating hover function to output table of x and y values of thetasPlot1 and thetasPlot2
