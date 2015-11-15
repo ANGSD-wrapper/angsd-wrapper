@@ -20,14 +20,22 @@ shinyUI(fluidPage(
           selectInput("thetaChoice",
                       # Need to specify file to choose
                       label = "Choose estimator of theta to graph", 
-                      choices = c("Watterson's Theta", "Pairwise Theta", "Fu and Li's Theta", "Fay's Theta", "Maximum likelihood (L) Theta"),
+                      choices = c("Watterson's Theta", 
+                                  "Pairwise Theta", 
+                                  "Fu and Li's Theta", 
+                                  "Fay's Theta", 
+                                  "Maximum likelihood (L) Theta"),
                       selected = "Watterson's Theta"
           ),
           
           # Tajima's D
           selectInput("selectionChoice",
                       label = "Choose a neutrality test statistic to graph", 
-                      choices = c("Tajima's D", "Fi and Li's D", "Fu and Li's F", "Fay and Wu's H", "Zeng's E"),
+                      choices = c("Tajima's D", 
+                                  "Fi and Li's D", 
+                                  "Fu and Li's F", 
+                                  "Fay and Wu's H", 
+                                  "Zeng's E"),
                       selected = "Tajima's D"
           ),
           uiOutput('thetaChroms'),
@@ -87,14 +95,13 @@ shinyUI(fluidPage(
             column(
               width = 12, height = 300,
               h3("Plot will zoom in on area selected above"),
-              plotOutput("thetaPlot2")
+              plotOutput("thetaPlot2",
+                         hover = hoverOpts("thetaPlot2_hover",
+                                           delay = 100,
+                                           nullOutside = FALSE)
             ),
             column(
-              width = 3,
-              verbatimTextOutput("thetaPlot2_clickinfo")
-            ),
-            column(
-              width = 3,
+              width = 6,
               verbatimTextOutput("thetaPlot2_hoverinfo")
             ),
             column(
@@ -262,4 +269,4 @@ shinyUI(fluidPage(
     )
     #end of tabsetPanel
   )
-)
+))

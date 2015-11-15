@@ -8,9 +8,9 @@ library(DT) # Allows R data objects to be displayed as tables on HTML pages
 options(shiny.maxRequestSize = -1)
 
 # Define headers for thetas, Fst and intersect data
-thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
+thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)", "Chr","WinCenter", "tW", "tP", "tF", "tH", "tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
 fst.headers <- c("A", "AB", "f", "FST", "Pvar")
-intersect.headers <- c("Chr","bp")
+intersect.headers <- c("Chr", "bp")
 sfs.headers <- c("Allele_Frequency")
 
 # Read in test dataset
@@ -28,7 +28,7 @@ shinyServer(
       data <- input$userThetas
       path <- as.character(data$datapath)
       thetas <- fread(input=path, sep="\t")
-      setnames(thetas,thetas.headers)
+      setnames(thetas, thetas.headers)
       return(thetas)
     })
     
