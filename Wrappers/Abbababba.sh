@@ -41,6 +41,11 @@ fi
 #   Do we have a regions file?
 if [[ -f "${REGIONS}" ]]
 then
+    FAI=`ls $( dirname "${OUTGROUP}" )| grep -E "$( basename ${OUTGROUP} )\.fai|$( basename ${OUTGROUP} .fasta )\.fai"`
+    for region in `cut -f 1 $( dirname "${OUTGROUP}" )/"${FAI}"`
+    do
+        grep -w "$region" "${REGIONS}"
+        done > "${OUT}"/"${PROJECT}"_sortedRegions.txt
     "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
         -rmTrans "${REMOVE_TRANS}" \
@@ -54,7 +59,7 @@ then
         -minInd "${MIN_IND}" \
         -nThreads "${N_CORES}" \
         -checkBamHeaders "${CHECK_BAM_HEADERS}" \
-        -rf "${REGIONS}" \
+        -rf "${OUT}"/"${PROJECT}"_sortedRegions.txt \
         -out "${OUT}"/"${PROJECT}".D
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
