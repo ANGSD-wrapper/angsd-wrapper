@@ -45,7 +45,7 @@ then
     for region in `cut -f 1 $( dirname "${OUTGROUP}" )/"${FAI}"`
     do
         grep -w "$region" "${REGIONS}"
-        done > "${OUT}"/"${PROJECT}"_sortedRegions.txt
+    done > "${OUT}"/"${PROJECT}"_sortedRegions.txt
     "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
         -rmTrans "${REMOVE_TRANS}" \
