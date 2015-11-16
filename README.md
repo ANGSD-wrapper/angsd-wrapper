@@ -3,18 +3,18 @@
 ANGSD-wrapper is a utility developed to aid in the analysis of next generation sequencing data. Users can do the following with this suite:
 - Calculate a site frequency spectrum
 - Calculate a 2D site frequency spectrum with corresponding Fst estimations
-- Perform ABBA BABA tests
+- ~~Perform Abbababa tests~~ In progress
 - Extract a FASTA sequence from BAM files
 - Estimate genotype likelihoods
-- Estimate thetas and various neutrality statistics
+- Estimate Thetas and various neutrality statistics
 - Calculate per-individual inbreeding coefficient
 - Find admixture proportions
 
-Likelihood based approaches are used in ANGSD to calculate summary statistics for next generation sequencing data. The wrapper scripts and documentation aim to make angsd user friendly.
+Likelihood based approaches are used in ANGSD to calculate summary statistics for next generation sequencing data. The wrapper scripts and documentation aim to make ANGSD user friendly.
 
 ## Installing angsd-wrapper
 
-To install angsd-wrapper, download from GitHub
+To install ANGSD-wrapper, download from GitHub
 
 ```shell
 git clone https://github.com/mojaveazure/angsd-wrapper.git
@@ -102,23 +102,25 @@ This package requires the following dependencies to work:
 
 These are downloaded and installed automatically when angsd-wrapper is [installed](https://github.com/mojaveazure/angsd-wrapper#installing-angsd-wrapper)
 
+There are a few other dependencies that are **not** automatically downloaded during the installation:
+ - [SAMTools](http://samtools.github.io/)
+ - [GNU Scientific Library](http://www.gnu.org/software/gsl/)
+ - [Git](http://www.git-scm.com/)
+ - [Wget](http://www.gnu.org/software/wget/)
+
 ## Supported methods
 
  - [Site frequency spectrum (SFS)](https://github.com/arundurvasula/angsd-wrapper/wiki/Site-Frequency-Spectrum)
  - [Thetas estimations](https://github.com/arundurvasula/angsd-wrapper/wiki/Thetas)
- - [2D SFS](https://github.com/arundurvasula/angsd-wrapper/wiki/2D-Site-Frequency-Spectrum) and [Fst](https://github.com/arundurvasula/angsd-wrapper/wiki/ngsTools-FST)
- - ~~[Abbababa](https://github.com/arundurvasula/angsd-wrapper/wiki/ABBA-BABA)~~ Work in progress
- - [Ancestral sequence extractions](https://github.com/mojaveazure/angsd-wrapper/blob/master/Wrappers/Ancestral_Sequence.sh)
- - [Genotype likelihood estimations](https://github.com/mojaveazure/angsd-wrapper/blob/master/Wrappers/Genotypes.sh)
- - [ngsF](https://github.com/fgvieira/ngsF)
+ - [2D SFS and Fst](https://github.com/mojaveazure/angsd-wrapper/wiki/2D-Site-Frequency-Spectrum-and-Fst)
+ - ~~[Abbababa](https://github.com/mojaveazure/angsd-wrapper/wiki/Abbababa)~~ Work in progress
+ - [Ancestral sequence extractions](https://github.com/mojaveazure/angsd-wrapper/wiki/Ancestral-Sequence)
+ - [Genotype likelihood estimations](https://github.com/mojaveazure/angsd-wrapper/wiki/Genotype-Likelihoods)
+ - [Inbreeding coefficients calculations](https://github.com/mojaveazure/angsd-wrapper/wiki/Inbreeding-Coefficients)
  - [Principal component analysis](https://github.com/arundurvasula/angsd-wrapper/wiki/Principle-Components-Analysis)
- - Admixture analysis
- - Inbreeding coefficients calculations
+ - [Admixture analysis](https://github.com/mojaveazure/angsd-wrapper/wiki/Admixture-Analysis)
 
 ## To Do
 
- - ~~Define requirements for BAM files (@HD/index)~~ DONE!
  - Fix segfaults (In progress with the `ANGSD` team)
  - Define variables in configuration files
- - ~~Fix issue with `git pull`~~ DONE!
-
