@@ -348,4 +348,5 @@ The files we need for graphing are:
 
 ### Shiny Graphing
 
-> **Hurry up _Chaochih_**
+To run Shiny graphing use:
+`angsd-wrapper shiny graphing`
