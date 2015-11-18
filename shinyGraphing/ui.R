@@ -20,17 +20,29 @@ shinyUI(fluidPage(
           selectInput("thetaChoice",
                       # Need to specify file to choose
                       label = "Choose estimator of theta to graph", 
-                      choices = c("Watterson's Theta", "Pairwise Theta", "Fu and Li's Theta", "Fay's Theta", "Maximum likelihood (L) Theta"),
+                      choices = c("Watterson's Theta", 
+                                  "Pairwise Theta", 
+                                  "Fu and Li's Theta", 
+                                  "Fay's Theta", 
+                                  "Maximum likelihood (L) Theta"),
                       selected = "Watterson's Theta"
           ),
           
           # Tajima's D
           selectInput("selectionChoice",
                       label = "Choose a neutrality test statistic to graph", 
-                      choices = c("Tajima's D", "Fi and Li's D", "Fu and Li's F", "Fay and Wu's H", "Zeng's E"),
+                      choices = c("Tajima's D", 
+                                  "Fi and Li's D", 
+                                  "Fu and Li's F", 
+                                  "Fay and Wu's H", 
+                                  "Zeng's E"),
                       selected = "Tajima's D"
           ),
           uiOutput('thetaChroms'),
+          # Adding additional 'help' text
+          tags$h4(class ="header",
+                  tags$h4("Samples can be removed from graph by using cursor in text box and using backspace."),
+                  tags$h4("You can also type parts of a sample name to search for it.")),
           hr(),
           checkboxInput("thetaLowess",
                         "Theta Lowess", 
@@ -39,6 +51,12 @@ shinyUI(fluidPage(
                         "Neutrality Test Statistic Lowess", 
                         value=FALSE),
           hr(),
+          tags$h4(class = "header",
+                  tags$h4("There are two ways you can zoom in on the plots"),
+                  tags$h4("1. You can click and drag to select area over the top graph and have the graph zoom in on the graph below"),
+                  tags$h4("or"),
+                  tags$h4("2. You can click the 'Toggle subset data' checkbox and enter in the interval you want to zoom in on")
+                  ),
           numericInput("WinCenterLow", 
                        "Base Start Position", 
                        value=0),
@@ -55,7 +73,6 @@ shinyUI(fluidPage(
           numericInput("nsites", 
                        "x:",
                        value=0),
-          
           hr(),
           fileInput('userAnnotations',
                     label= "Choose '.gff' File"
@@ -78,8 +95,14 @@ shinyUI(fluidPage(
             column(
               width = 12, height = 300,
               h3("Plot will zoom in on area selected above"),
-              plotOutput("thetaPlot2")
-
+              plotOutput("thetaPlot2",
+                         hover = hoverOpts("thetaPlot2_hover",
+                                           delay = 50,
+                                           nullOutside = FALSE)
+            ),
+            column(
+              width = 6,
+              verbatimTextOutput("thetaPlot2_hoverinfo")
             ),
             column(
               width = 12, height = 300,
@@ -92,11 +115,19 @@ shinyUI(fluidPage(
             column(
               width = 12, height = 300,
               h3("Plot will zoom in on area selected above"),
-              plotOutput("selectionPlot2")
+              plotOutput("selectionPlot2",
+                         hover = hoverOpts("selectionPlot2_hover",
+                                           delay = 50,
+                                           nullOutside = FALSE))
+            ),
+            column(
+              width = 6,
+              verbatimTextOutput("selectionPlot2_hoverinfo")
             )
           )
       )
       )
+    )
     ),
     
     # Tab 2 - SFS
@@ -187,7 +218,10 @@ shinyUI(fluidPage(
         sidebarPanel(
           fileInput('userPCA',
                     label= "Choose a '_PCA.covar' File"
-          )
+          ),
+          tags$h5(class ="header",
+                  tags$p("The zoom function works as follows:"),
+                  tags$p("Click and drag over area you want to select on the top graph, the graph will zoom in on the bottom graph"))
         ),
         mainPanel(
           fluidRow(
@@ -216,30 +250,31 @@ shinyUI(fluidPage(
         sidebarPanel(
           headerPanel('Admixture plots',
                       windowTitle = 'Admixture'),
-          fileInput('userAdmix',
+          fileInput('userAdmix1',
                     label= "Choose '.qopt' admixture File",
                     multiple = TRUE),
           fileInput('userAdmix2',
-                    label= "Choose '.qopt' admixture File"),
-          numericInput("k", 
-                       "Number of K ancestral populations to graph:",
-                       1,
-                       min = 1, 
-                       max = 10)
+                    label= "Choose '.qopt' admixture File")
+#          numericInput("k", 
+#                       "Number of K ancestral populations to graph:",
+#                       1,
+#                       min = 1, 
+#                       max = 10)
         ),
         mainPanel(
-          column(
-            width = 12, height = 200,
-            plotOutput("admixPlot1")
-          ),
-          column(
-            width = 12, height = 200,
-            plotOutput("admixPlot2")
+          plotOutput("admixPlot1"),
+          plotOutput("admixPlot2")
+#          column(
+#            width = 12, height = 200,
+#            plotOutput("admixPlot1")
+#          ),
+#          column(
+#            width = 12, height = 200,
+#            plotOutput("admixPlot2")
           )
         )
       )
     )
     #end of tabsetPanel
   )
-)
 )

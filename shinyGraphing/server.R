@@ -4,12 +4,13 @@ library(lattice)
 library(Hmisc)
 library(ape)
 library(data.table)
+library(DT) # Allows R data objects to be displayed as tables on HTML pages
 options(shiny.maxRequestSize = -1)
 
 # Define headers for thetas, Fst and intersect data
-thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)","Chr","WinCenter","tW","tP","tF","tH","tL","Tajima","fuf","fud","fayh","zeng","nSites")
+thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)", "Chr","WinCenter", "tW", "tP", "tF", "tH", "tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
 fst.headers <- c("A", "AB", "f", "FST", "Pvar")
-intersect.headers <- c("Chr","bp")
+intersect.headers <- c("Chr", "bp")
 sfs.headers <- c("Allele_Frequency")
 
 # Read in test dataset
@@ -27,7 +28,7 @@ shinyServer(
       data <- input$userThetas
       path <- as.character(data$datapath)
       thetas <- fread(input=path, sep="\t")
-      setnames(thetas,thetas.headers)
+      setnames(thetas, thetas.headers)
       return(thetas)
     })
     
@@ -102,7 +103,6 @@ shinyServer(
       gff <- readGff3(path)
       return(gff)
     })
-    
     
     # Thetas output data
     output$thetaChroms = renderUI({
@@ -284,8 +284,24 @@ shinyServer(
         if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
                                     col="red")}
       }
+      # Creating hover function in thetasPlot2
+#      plotOutput("thetaPlot2",
+#                 width = "70%", height = "400px",
+#                 hover = hoverOpts("thetaPlot2_hover",
+#                   delay = 100,
+#                   delayType = "throttle",
+#                   clip = TRUE
+#                 ),
+#                 brush2 = brushOpts("thetaPlot2_brush",
+#                                    resetOnNew = TRUE))
     })
 
+    # Creating hover function to output table of x and y values of thetasPlot1 and thetasPlot2
+    output$thetaPlot2_hoverinfo <- renderPrint({
+      cat("Theta Plot Hover Function")
+      str(input$thetaPlot2_hover)
+    })
+    
     # Creating zoom function in thetasPlot1 and thetasPlot2
     observe({
       brush <- input$thetaPlot1_brush
@@ -390,6 +406,12 @@ shinyServer(
                                       col="red")}
     })
     
+    # Creating hover function to output table of x and y values of selectionPlot1 and selectionPlot2
+    output$selectionPlot2_hoverinfo <- renderPrint({
+      cat("Theta Plot Hover Function")
+      str(input$selectionPlot2_hover)
+    })
+    
     # Creating zoom function in selectionPlot1 and selectionPlot2
     observe({
       brush <- input$selectionPlot1_brush
@@ -439,7 +461,8 @@ shinyServer(
         min <- min(intersect$bp)
         max <- max(intersect$bp)
       }
-      numericInput("intersectHigh", "Base Start Position", value=min+10000, min=min+1, max=max)
+      numericInput("intersectHigh", "Base Start Position", 
+                   value = min+10000, min = min+1, max = max)
     })
 
     output$fstPlot <- renderPlot({
@@ -521,8 +544,8 @@ shinyServer(
 
       # Graph SFS here
       sfs.AFreq <- sfs$Allele_Frequency
-      # Throw out 0th class
-      alleles <- sfs.AFreq[seq(2, nrow(sfs))]
+      # Throw out 0th class and nth class
+      alleles <- sfs.AFreq[seq(2, nrow(sfs)-1)]
       # Plot proportion
       sfs.bp <- barplot((alleles/sum(alleles)),
               xaxt = "n",
