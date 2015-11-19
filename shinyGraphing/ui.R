@@ -1,6 +1,10 @@
 library(shiny)
+library(shinythemes)
 
 shinyUI(fluidPage(
+  # Theme
+  theme = shinytheme("cerulean"),
+  tags$style("body {background-color: #FFFFFF; }"),
   # Application title
   titlePanel("ANGSD-wrapper graph"),
   tabsetPanel(
@@ -89,7 +93,7 @@ shinyUI(fluidPage(
               h3("Click and drag to select area to zoom on this plot"),
               plotOutput("thetaPlot1", 
                          dblclick = "thetaPlot1_dblclick", 
-                         brush = brushOpts(id = "thetaPlot1_brush", 
+                         brush = brushOpts("thetaPlot1_brush", 
                                            resetOnNew = TRUE))
               ),
             column(
@@ -140,7 +144,6 @@ shinyUI(fluidPage(
           fileInput('userSFS',
                     label= "Choose '_DerivedSFS' SFS File"
           )
-          
         ),
         mainPanel(
           plotOutput("SFSPlot")
@@ -158,7 +161,6 @@ shinyUI(fluidPage(
           ),
           textInput('h2', label="H2", value='NA11993'),
           textInput('h3', label="H3", value='NA12763')
-          
         ),
         mainPanel(
           plotOutput("ABBABABATree"),
@@ -180,15 +182,12 @@ shinyUI(fluidPage(
           fileInput('userIntersect',
                     label= 'Choose Intersect File'
           ),
-          
           uiOutput('fstChroms'),
-          
           hr(),
           checkboxInput("fstLowess",
                         "Fst Lowess", 
                         value=FALSE),
           hr(),
-          
           uiOutput('fstMin'),
           uiOutput('fstMax'),
           
@@ -230,13 +229,20 @@ shinyUI(fluidPage(
               h3("Click and drag to select area on this plot"),
               plotOutput("PCAPlot1",
                          dblclick = "PCAPlot1_dblclick",
-                         brush = brushOpts(id = "PCAPlot1_brush",
+                         brush = brushOpts("PCAPlot1_brush",
+                                           delay = 50,
                                            resetOnNew = TRUE))
             ),
             column(
               width = 12, height = 300,
               h3("Plot will zoom in on area selected above",
-                 plotOutput("PCAPlot2"))
+                 plotOutput("PCAPlot2",
+                            hover = hoverOpts("PCAPlot2_hover",
+                                              nullOutside = FALSE)))
+            ),
+            column(
+              width = 6,
+              verbatimTextOutput("PCAPlot2_hoverinfo")
             )
           )
         )
@@ -252,25 +258,10 @@ shinyUI(fluidPage(
                       windowTitle = 'Admixture'),
           fileInput('userAdmix1',
                     label= "Choose '.qopt' admixture File",
-                    multiple = TRUE),
-          fileInput('userAdmix2',
-                    label= "Choose '.qopt' admixture File")
-#          numericInput("k", 
-#                       "Number of K ancestral populations to graph:",
-#                       1,
-#                       min = 1, 
-#                       max = 10)
+                    multiple = TRUE)
         ),
         mainPanel(
-          plotOutput("admixPlot1"),
-          plotOutput("admixPlot2")
-#          column(
-#            width = 12, height = 200,
-#            plotOutput("admixPlot1")
-#          ),
-#          column(
-#            width = 12, height = 200,
-#            plotOutput("admixPlot2")
+          plotOutput("admixPlot1")
           )
         )
       )

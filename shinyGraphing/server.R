@@ -13,9 +13,6 @@ fst.headers <- c("A", "AB", "f", "FST", "Pvar")
 intersect.headers <- c("Chr", "bp")
 sfs.headers <- c("Allele_Frequency")
 
-# Read in test dataset
-#thetas <- fread("~/ANGSD-wrapper_beta_test/PH/angsd-wrapper/shinyGraphing/BKN_Diversity.thetas.gz.pestPG")
-
 not.loaded <- TRUE
 
 # Define server logic required to draw plots
@@ -67,14 +64,6 @@ shinyServer(
     # Admixture input data
     dataInputAdmix = reactive({
       data <- input$userAdmix
-      path <- as.character(data$datapath)
-      admix <- t(as.matrix(read.table(path)))
-      return(admix)
-    })
-    
-    # Admixture input data
-    dataInputAdmix = reactive({
-      data <- input$userAdmix2
       path <- as.character(data$datapath)
       admix <- t(as.matrix(read.table(path)))
       return(admix)
@@ -284,16 +273,6 @@ shinyServer(
         if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
                                     col="red")}
       }
-      # Creating hover function in thetasPlot2
-#      plotOutput("thetaPlot2",
-#                 width = "70%", height = "400px",
-#                 hover = hoverOpts("thetaPlot2_hover",
-#                   delay = 100,
-#                   delayType = "throttle",
-#                   clip = TRUE
-#                 ),
-#                 brush2 = brushOpts("thetaPlot2_brush",
-#                                    resetOnNew = TRUE))
     })
 
     # Creating hover function to output table of x and y values of thetasPlot1 and thetasPlot2
@@ -539,28 +518,30 @@ shinyServer(
         dataInputSFS()
 
       }, error = function(err) {
-        sfs <- scan("sfs_example.txt")
+        sfs <- fread("sfs_example.txt")
       })
 
       # Graph SFS here
       sfs.AFreq <- sfs$Allele_Frequency
       # Throw out 0th class and nth class
       alleles <- sfs.AFreq[seq(2, nrow(sfs)-1)]
-      # Plot proportion
+      # Proportion to plot
+      alleles.prop <- alleles/sum(alleles)
+      # Generate barplot
       sfs.bp <- barplot((alleles/sum(alleles)),
               xaxt = "n",
               xlab = "Derived Allele Frequency",
               ylab = "Proportion of SNPs",
               main = "Site Frequency Spectrum",
               offset = 0,
-              xlim = NULL,
-              ylim = NULL,
+              xlim = sfs$Allele_Frequency,
+              ylim = sfs$Allele_Frequency,
               axes = TRUE,
               names = 1:length(alleles),
               las = 1,
               pch = 18,
               xpd = TRUE,
-              col = "blue")
+              col = "#5F9ED1")
       # Label x-axis
       lab <- c(1:length(sfs.bp))
       axis(1, at = sfs.bp, labels = lab)
@@ -679,6 +660,11 @@ shinyServer(
            main="ngsCovar Results",
            xlim = ranges3$x, ylim = ranges3$y,
            asp=1)
+    })
+    # Creating hover function in PCAPlot2
+    output$PCAPlot2_hoverinfo <- renderPrint({
+      cat("PCA Plot Hover Function")
+      str(input$PCAPlot2_hover)
     })
     
     # Creating zoom function in PCAPlot1 and PCAPlot2
