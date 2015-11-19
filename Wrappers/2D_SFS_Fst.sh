@@ -13,7 +13,7 @@ then
 fi
 
 #   Where is angsd-wrapper located?
-SOURCE=$2
+SOURCE=/home/morrellp/hoffmanp/software/angsd-wrapper
 
 #   Where is ANGSD?
 ANGSD_DIR="${SOURCE}"/dependencies/angsd
