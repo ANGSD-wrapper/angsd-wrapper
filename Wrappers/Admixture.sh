@@ -32,3 +32,8 @@ do
         -o "${OUT}"/"${PROJECT}"."${k}" \
         -minMaf "${MIN_MAF}"
 done
+
+for kvalue in `seq 2 "${K}"`
+do
+    cat "${OUT}"/"${PROJECT}"."$kvalue".qopt >> "${OUT}"/"${PROJECT}".allK.qopt
+done
