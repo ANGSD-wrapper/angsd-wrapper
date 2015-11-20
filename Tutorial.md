@@ -59,7 +59,7 @@ cd iplant/
 pwd
 ```
 
-This will output a string that starts with `/home/`; go ahead and copy everything following that second forward slash. For example, if we get `/home/software/angsd-wrapper/iplant` as our output, we only need `/software/angsd-wrapper/iplant`.
+This will output a string that starts with `/home/`; go ahead and copy everything following the forward slash after your user name. For example, if we get `/home/user_group/user_name/software/angsd-wrapper/iplant` as our output, we only need `/software/angsd-wrapper/iplant`.
 
 Now, we'll go find our configuration files in the `Configuration_Files` directory:
 
@@ -109,13 +109,13 @@ REF_SEQ=${HOME}/software/angsd-wrapper/iplant/reference.Oryza_sativa.IRGSP-1.0.2
 
 Now we need to set up our outdirectory structure. We use two variables to define this: `PROJECT` and `SCRATCH`. All output files will be placed in `$SCRATCH/$PROJECT/<name_of_program>`; for example, if we set `SCRATCH` to be "`${HOME}/scratch`" and `PROJECT` to be "Rice" and calculated a site frequency spectrum, our outdirectory would be `${HOME}/scratch/Rice/SFS`.
 
-If we used the same `SCRATCH` and `PROJECT` assignments and estimated Thetas, our outdirectory would be `${HOME}/scratch/Rice/Thetas`. The outdirectory structure is generated automatically, making any directory within the structure that doesn't already exist, so it is necessary to make these directories before hand.
+If we used the same `SCRATCH` and `PROJECT` assignments and estimated Thetas, our outdirectory would be `${HOME}/scratch/Rice/Thetas`. The outdirectory structure is generated automatically, making any directory within the structure that doesn't already exist, so it is not necessary to make these directories before hand.
 
 Let's set `SCRATCH` to be "`${HOME}/scratch`" and `PROJECT` to be "Rice"; we define these two variables on lines 22, for `PROJECT`, and 27, for `SCRATCH`:
 
 ```shell
 PROJECT=Rice
-SCRATCH=${HOME}/Rice
+SCRATCH=${HOME}/scratch
 ```
 
 Finally, we need to specify a regions file for ANGSD-wrapper. While we can run ANGSD-wrapper without a regions file, it becomes very computationally expensive and takes much longer. If you would like to generate a regions file, taking a random sample of all possible regions, this [Gist](https://gist.github.com/mojaveazure/d115bb25eeff3b2df9f9) will create a valid regions file for you.
@@ -141,7 +141,7 @@ Each wrapper function has its own configuration file associated with it. To run 
 ---
 >### Note: A Word About Configuration Files
 
->Each wrapper-specific configuration file is split into three parts: the `COMMON` definition, the 'not-using-common' section, and the wrapper-specifc variables section. If a wrapper utilizes the `Common` definition, it will always be on line 10. The 'not-using-common' section is blocked off by 94 hash marks (`#`). If you are not using the `Common_Config` file, please fill out the variable definitions in this section. Since we're using `Common_Config`, we can skip these lines. finally, the wrapper-specific section includes any other variable definitons as well as parameters for the specifc wrapper.
+>Each wrapper-specific configuration file is split into three parts: the `COMMON` definition, the 'not-using-common' section, and the wrapper-specifc variables section. If a wrapper utilizes the `Common` definition, it will always be on line 10. The 'not-using-common' section is blocked off by 94 hash marks (`#`). If you are not using the `Common_Config` file, please fill out the variable definitions in this section. Since we're using `Common_Config`, we can skip these lines. finally, the wrapper-specific section includes any other variable definitons as well as parameters for the specific wrapper.
 
 ---
 
