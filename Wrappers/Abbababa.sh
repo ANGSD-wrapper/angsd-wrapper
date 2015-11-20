@@ -42,7 +42,8 @@ fi
 if [[ -f "${REGIONS}" ]]
 then
     FAI=`ls $( dirname "${OUTGROUP}" )| grep -E "$( basename ${OUTGROUP} )\.fai|$( basename ${OUTGROUP} .fasta )\.fai"`
-    for region in `cut -f 1 $( dirname "${OUTGROUP}" )/"${FAI}"`
+    declare -a FAIREGIONS=(`cut -f 1 $( dirname "${OUTGROUP}" )/"${FAI}"`)
+    for region in "${FAIREGIONS[@]}"
     do
         grep -w "$region" "${REGIONS}"
     done > "${OUT}"/"${PROJECT}"_sortedRegions.txt
