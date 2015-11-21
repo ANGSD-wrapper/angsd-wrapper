@@ -5,7 +5,7 @@ import sys
 import re
 import os
 try:
-    import argparse:
+    import argparse
 except ImportError:
     sys.exit("Please install argparse or update to a newer version of Python")
 
