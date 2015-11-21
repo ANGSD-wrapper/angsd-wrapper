@@ -25,7 +25,7 @@ mkdir -p ${OUT}
 #   Check for local R installation
 if `command -v Rscript > /dev/null 2> /dev/null`
 then
-    echo "R is insalled"
+    echo "R is installed"
 else
     echo "R is not installed or not in your PATH"
     exit 1
