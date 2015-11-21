@@ -19,7 +19,7 @@ SOURCE=$2
 ANGSD_DIR=${SOURCE}/dependencies/angsd
 
 #   Create outdirectory
-OUT=${SCRATCH}/${PROJECT}/ABBABABA
+OUT=${SCRATCH}/${PROJECT}/Abbababa
 mkdir -p ${OUT}
 
 #   Check for local R installation

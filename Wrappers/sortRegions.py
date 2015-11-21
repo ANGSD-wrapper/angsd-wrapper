@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 
-import argparse
+#   Import required modules from the standard Python library
 import sys
 import re
 import os
+try:
+    import argparse:
+except ImportError:
+    sys.exit("Please install argparse or update to a newer version of Python")
 
 Parser = argparse.ArgumentParser(add_help=True)
 Parser.add_argument('-r',
