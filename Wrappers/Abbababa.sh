@@ -44,11 +44,13 @@ then
     if [[ "${SORTED}" == false ]]
     then
         declare -a FAIREGIONS=(`cut -f 1 `)
-        if ! `command -v python > /dev/null 2> /dev/null`; then echo "Please install Python and place in your PATH"; exit 1; fi
+        if ! `command -v python > /dev/null 2> /dev/null`; then echo "Please install Python and place in your PATH" >&2; exit 1; fi
+        echo "Sorting ${REGIONS} to match the order in ${OUTGROUP}" >&2
         FAI=`ls $( dirname "${OUTGROUP}" )| grep -E "$( basename ${OUTGROUP} )\.fai|$( basename ${OUTGROUP} .fasta )\.fai"`
         python "${SOURCE}"/Wrappers/sortRegions.py --fai `dirname "${OUTGROUP}"`/"${FAI}" --regions "${REGIONS}" --project "${PROJECT}"
         REGIONS=`dirname "${REGIONS}"`/"${PROJECT}"_SortedRegions.txt
     fi
+    echo "Running Abbababa" >&2
     "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
         -rmTrans "${REMOVE_TRANS}" \
@@ -67,6 +69,7 @@ then
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
+    echo "Running Abbababa" >&2
     "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
         -rmTrans "${REMOVE_TRANS}" \
@@ -83,6 +86,7 @@ then
         -out "${OUT}"/"${PROJECT}".D
 #   Assuming a single reigon was defined in config file
 else
+    echo "Running Abbababa" >&2
     "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
         -rmTrans "${REMOVE_TRANS}" \
@@ -101,6 +105,7 @@ else
 fi
 
 #   jackKnife.R is provided with angsd.
+echo "Using jackKnife.R to finish Abbababa" >&2
 Rscript "${ANGSD_DIR}"/R/jackKnife.R \
     file="${OUT}"/"${PROJECT}".D.abbababa \
     indNames="${SAMPLE_LIST}" \
