@@ -41,12 +41,14 @@ fi
 #   Do we have a regions file?
 if [[ -f "${REGIONS}" ]]
 then
-    FAI=`ls $( dirname "${OUTGROUP}" )| grep -E "$( basename ${OUTGROUP} )\.fai|$( basename ${OUTGROUP} .fasta )\.fai"`
-    declare -a FAIREGIONS=(`cut -f 1 $( dirname "${OUTGROUP}" )/"${FAI}"`)
-    for region in "${FAIREGIONS[@]}"
-    do
-        grep -w "$region" "${REGIONS}"
-    done > "${OUT}"/"${PROJECT}"_sortedRegions.txt
+    if [[ "${SORTED}" == false ]]
+    then
+        declare -a FAIREGIONS=(`cut -f 1 `)
+        if ! `command -v python > /dev/null 2> /dev/null`; then echo "Please install Python and place in your PATH"; exit 1; fi
+        FAI=`ls $( dirname "${OUTGROUP}" )| grep -E "$( basename ${OUTGROUP} )\.fai|$( basename ${OUTGROUP} .fasta )\.fai"`
+        python "${SOURCE}"/Wrappers/sortRegions.py --fai `dirname "${OUTGROUP}"`/"${FAI}" --regions "${REGIONS}" --project "${PROJECT}"
+        REGIONS=`dirname "${REGIONS}"`/"${PROJECT}"_SortedRegions.txt
+    fi
     "${ANGSD_DIR}"/angsd \
         -doAbbababa "${DO_ABBABABA}" \
         -rmTrans "${REMOVE_TRANS}" \
@@ -60,7 +62,7 @@ then
         -minInd "${MIN_IND}" \
         -nThreads "${N_CORES}" \
         -checkBamHeaders "${CHECK_BAM_HEADERS}" \
-        -rf "${OUT}"/"${PROJECT}"_sortedRegions.txt \
+        -rf "${REGIONS}" \
         -out "${OUT}"/"${PROJECT}".D
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
