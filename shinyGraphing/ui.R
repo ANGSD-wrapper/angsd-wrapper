@@ -280,20 +280,27 @@ shinyUI(fluidPage(
                     multiple = TRUE)
         ),
         mainPanel(
-          column(width = 6, height = 300,
-            plotOutput("admixPlot2")
-          ),
-          column(
-            width = 6, height = 300,
-            plotOutput("admixPlot3")
-          ),
-          column(
-            width = 6, height = 300,
-            plotOutput("admixPlot4")
-          ),
-          column(
-            width = 6, height = 300,
-            plotOutput("admixPlot5")
+          fluidRow(
+            column(
+              width = 6, height = 300,
+              h4("K = 2"),
+              plotOutput("admixPlot2")
+            ),
+            column(
+              width = 6, height = 300,
+              h4("K = 3"),
+              plotOutput("admixPlot3")
+            ),
+            column(
+              width = 6, height = 300,
+              h4("K = 4"),
+              plotOutput("admixPlot4")
+            ),
+            column(
+              width = 6, height = 300,
+              h4("K = 5"),
+              plotOutput("admixPlot5")
+            )
           )
           )
         )

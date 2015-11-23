@@ -595,7 +595,8 @@ shinyServer(
               space=0, 
               border=NA, 
               xlab="Individuals", 
-              ylab="admixture proportion")
+              ylab="admixture proportion",
+              main = "Admixture 5 Ancestral Populations")
     })
     
     # Admixture plot 4 for 4 K ancestral populations
@@ -616,7 +617,8 @@ shinyServer(
               space=0, 
               border=NA, 
               xlab="Individuals", 
-              ylab="admixture proportion")
+              ylab="admixture proportion",
+              main = "Admixture 4 Ancestral Populations")
     })
     
     # Admixture plot 3 for 3 K ancestral populations
@@ -637,7 +639,8 @@ shinyServer(
               space=0, 
               border=NA, 
               xlab="Individuals", 
-              ylab="admixture proportion")
+              ylab="admixture proportion",
+              main = "Admixture 3 Ancestral Populations")
     })
     
     # Admixture plot 2 for 2 K ancestral populations
@@ -658,7 +661,8 @@ shinyServer(
               space=0, 
               border=NA, 
               xlab="Individuals", 
-              ylab="admixture proportion")
+              ylab="admixture proportion",
+              main = "Admixture 2 Ancestral Populations")
     })
     
     # ABBA BABA plot output
