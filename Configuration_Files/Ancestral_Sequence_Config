@@ -26,5 +26,5 @@ OUT=${OUT_DIR}/${OUT_NAME}
 #       Listed below are the defaults, please modify for your samples
 DO_FASTA=1
 #       If DO_FASTA is 2, DO_COUNTS must be 1
-#       Otherwise, DO_COUNTS can be any other legal value or empty
+#       Otherwise, DO_COUNTS can be any other legal value
 DO_COUNTS=
