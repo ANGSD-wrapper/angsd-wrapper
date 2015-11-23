@@ -33,7 +33,7 @@ do
         -minMaf "${MIN_MAF}"
 done
 
-for kvalue in `seq 2 "${K}"`
+for kvalue in `eval echo {"$k"..2}`
 do
     cat "${OUT}"/"${PROJECT}"."$kvalue".qopt >> "${OUT}"/"${PROJECT}".allK.qopt
 done
