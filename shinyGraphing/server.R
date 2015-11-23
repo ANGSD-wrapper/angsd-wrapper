@@ -405,110 +405,55 @@ shinyServer(
     })
 
     # Fst Plot output
-    output$fstChroms = renderUI({
-      if(is.null(input$userIntersect)){
-        choices <- 12
-      }
-      else{
-        intersect <- dataInputIntersect()
-        choices <- unique(intersect$Chr)
-      }
-      selectInput('fstChrom', 'Chromosome to plot', choices)
-    })
-
-    output$fstMin = renderUI({
-      if(is.null(input$userIntersect)){
-        min <- 10944
-        max <- 27530233
-      }
-      else{
-        intersect <- dataInputIntersect()
-        min <- min(intersect$bp)
-        max <- max(intersect$bp)
-      }
-      numericInput("intersectLow", "Base Start Position", 
-                   value=min, min = min, max=max-1)
-    })
-
-    output$fstMax = renderUI({
-      if(is.null(input$userIntersect)){
-        min <- 10944
-        max <- 27530233
-      }
-      else{
-        intersect <- dataInputIntersect()
-        min <- min(intersect$bp)
-        max <- max(intersect$bp)
-      }
-      numericInput("intersectHigh", "Base Start Position", 
-                   value = min+10000, min = min+1, max = max)
-    })
-
     output$fstPlot <- renderPlot({
-      #error handling code to provide a default dataset to graph
       fst <- tryCatch({
         dataInputFst()
       }, error = function(err) {
-        fst <- fread("allo.indica.fst",
-                             sep="\t")
+        sfs <- fread("Inversion.Liana_AB_NAM.fst")
       })
-      intersect <- tryCatch({
-        dataInputIntersect()
-      }, error = function(err) {
-        intersect <- fread("intersect.allo.indica_intergenic.txt",
-                        sep="\t")
-      })
-      setnames(fst,fst.headers)
-      setnames(intersect,intersect.headers)
-      fst.intersect <- cbind(intersect,fst)
-      fst.intersect <- subset(fst.intersect, Chr==input$fstChrom)
-      fst.intersect <- subset(fst.intersect, FST>=0 & FST<=1)
-
+      
       if(input$annotations){
-        validate(need(input$userAnnotations, 'Need GFF file before clicking checkbox!'))
+        validate(need(input$userAnnotations, 
+                      'Need GFF file before clicking checkbox!'))
         gff <- gffInput()
-        gff.gene <- subset(gff, type="gene")
-        gff.df <- data.frame(gff.gene,annotation(gff))
+        gff.gene <- subset(gff, type = "gene")
+        gff.df <- data.frame(gff.gene, annotation(gff))
         gff.df.gene <- subset(gff.df, type=="gene")
       }
-
-      if(input$subset) {
-        fst.plot <- subset(fst.intersect, bp >= input$intersectLow & bp <= input$intersectHigh)
-      }
-      else {
-        fst.plot <- fst.intersect
-      }
-
+      
+      # Pull columns to graph
+      fst.f <- fst$f
+      fst.FST <- fst$FST
+      
       if(input$annotations) {
-        plot(fst.plot$bp,
-             fst.plot$FST, t="p", pch=19,col=rgb(0,0,0,0.5),
-             xlab="Position (bp)",
-             ylab="Fst",
-             main=paste("Fst along chromosome")
-        )
-        rug(rect(gff.df.gene$X1, 
-                 -1e2, gff.df.gene$X2, 
-                 0, 
-                 col=rgb(0.18,0.55,0.8,0.75), 
-                 border=NA))
-        if(input$fstLowess){lines(lowess(fst.plot$bp,
-                                         fst.plot$FST, 
-                                         f=0.1), 
-                                  col="red")}
+        plot(fst.f, fst.FST,
+             t = "p", pch = 19,
+             col = rgb(0, 0, 0, 0.5),
+             xlab = "Position (bp)",
+             ylab = "Fst",
+             main = paste("Fst along chromosome")
+             )
+        rug(rect(gff.df.gene$X1,
+                 -1e2, gff.df.gene$X2, 0,
+                 col = rgb(0.18, 0.55, 0.8, 0.75),
+                 border = NA))
+        if(input$fstLowess){
+          lines(lowess(fst.f, fst.FST,
+                       f=0.1), col = "red")
+        }
       }
       else {
-        plot(fst.plot$bp,
-             fst.plot$FST, 
-             t="p", 
-             pch=19,
-             col=rgb(0,0,0,0.5),
-             xlab="Position (bp)",
-             ylab=paste("Fst"),
-             main=paste("Fst along chromosome", fst.plot$Chr[1])
-        )
-        if(input$fstLowess){lines(lowess(fst.plot$bp, fst.plot$FST, 
-                                         f=0.1), 
-                                  col="red")}
+        plot(fst.f, fst.FST,
+             t = "p", pch = 19,
+             col = rgb(0, 0, 0, 0.5),
+             xlab = "Position (bp)",
+             ylab = paste("Fst"),
+             main = paste("Fst along chromosome")
+             )
+        if(input$fstLowess) {
+          lines(lowess(fst.f, fst.FST, f = 0.1,
+                       col = "red"))
+        }
       }
     })
 
@@ -518,7 +463,7 @@ shinyServer(
         dataInputSFS()
 
       }, error = function(err) {
-        sfs <- fread("sfs_example.txt")
+        sfs <- fread("sfs_example.txt", sep = "\t")
       })
 
       # Graph SFS here
