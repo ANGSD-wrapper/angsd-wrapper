@@ -275,12 +275,26 @@ shinyUI(fluidPage(
         sidebarPanel(
           headerPanel('Admixture plots',
                       windowTitle = 'Admixture'),
-          fileInput('userAdmix1',
+          fileInput('userAdmix',
                     label= "Choose '.qopt' admixture File",
                     multiple = TRUE)
         ),
         mainPanel(
-          plotOutput("admixPlot1")
+          column(width = 6, height = 300,
+            plotOutput("admixPlot2")
+          ),
+          column(
+            width = 6, height = 300,
+            plotOutput("admixPlot3")
+          ),
+          column(
+            width = 6, height = 300,
+            plotOutput("admixPlot4")
+          ),
+          column(
+            width = 6, height = 300,
+            plotOutput("admixPlot5")
+          )
           )
         )
       )
