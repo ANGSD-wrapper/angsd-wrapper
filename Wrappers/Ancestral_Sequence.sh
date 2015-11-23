@@ -36,9 +36,9 @@ then
     find "${OUT}" -name "${OUT_NAME}.fa*" | grep .gz > /dev/null 2> /dev/null
     if [[ "$?" -eq 0 ]]
     then
-        gzip -d "${OUT}".fa.gz
+        gzip -d "${OUT}"/"${OUT_NAME}".fa.gz
     fi
-    samtools faidx "${OUT}".fa
+    samtools faidx "${OUT}"/"${OUT_NAME}".fa
 else
     echo "Can't find SAMTools, we aren't indexing for you"
     echo "If you'd like to index yourself,"
