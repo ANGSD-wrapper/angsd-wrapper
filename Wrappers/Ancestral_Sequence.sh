@@ -33,7 +33,7 @@ if `command -v samtools > /dev/null 2> /dev/null`
 then
     echo "Indexing fasta file..."
     #   Do we need to unzip the fasta file?
-    find "${OUT}" -name "${OUTNAME}.fa*" | grep .gz > /dev/null 2> /dev/null
+    find "${OUT}" -name "${OUT_NAME}.fa*" | grep .gz > /dev/null 2> /dev/null
     if [[ "$?" -eq 0 ]]
     then
         gzip -d "${OUT}".fa.gz
@@ -43,5 +43,5 @@ else
     echo "Can't find SAMTools, we aren't indexing for you"
     echo "If you'd like to index yourself,"
     echo "Then install SAMTools and run the following command:"
-    echo "samtools faidx ${OUT}/${OUTNAME}.fa"
+    echo "samtools faidx ${OUT}/${OUT_NAME}.fa"
 fi
