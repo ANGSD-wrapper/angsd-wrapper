@@ -2,6 +2,10 @@
 # This works
 admix <- fread("C:/Users/Chaochih/Dropbox/ANGSD_Wrapper/output_barley2_PH/output_barley2_PH.allK.qopt", header = FALSE, sep = "\n", na.strings = c("NA"))
 
+admix <- fread("C:/Users/Chaochih/Dropbox/ANGSD_Wrapper/Inverted_2DSFS.qopt", header = FALSE, sep = "\n", na.strings = c("NA"))
+
+admix <- read.table("C:/Users/Chaochih/Dropbox/ANGSD_Wrapper/Inverted_2DSFS.qopt", header = FALSE, fill = TRUE)
+
 # This set works
 # R reads in each row of values as a single column, need to figure out how to get it to read it in as multiple columns
 admix.2pop <- admix[1:12, ]
@@ -9,9 +13,13 @@ admix.3pop <- admix[13:24, ]
 admix.4pop <- admix[25:36, ]
 admix.5pop <- admix[37:48, ]
 
+setnames(admix.2pop, admix.headers.5)
+
 # Convert data to matrix
 admix.2dat <- t(as.data.frame(as.matrix(admix.2pop)))
-admix.3dat <- as.data.frame(as.matrix(admix.3pop))
+admix.3dat <- t(as.data.frame(as.matrix(admix.3pop)))
+admix.4dat <- t(as.data.frame(as.matrix(admix.4pop)))
+admix.5dat <- t(as.data.frame(as.matrix(admix.5pop)))
 
 # Graph admixture
 barplot(admix.2dat,
@@ -21,44 +29,6 @@ barplot(admix.2dat,
         border=NA,  
         xlab="Individuals", 
         ylab="admixture proportion")
-
-
-
-
-
-
-
-
-### Code that doesn't work
-# Deson't work
-admix <- read.table("C:/Users/Chaochih/Dropbox/ANGSD_Wrapper/output_barley2_PH/output_barley2_PH.allK.qopt", header = TRUE, sep = "\t", na.strings = c("", " ", "\t"))
-# Doesn't work
-admix.inv <- as.matrix(fread("C:/Users/Chaochih/Dropbox/ANGSD_Wrapper/Inverted_2DSFS.qopt", header = TRUE, sep = " ", na.strings = c(" ", "", "NA")))
-
-# Write CSV in R
-admixture <- write.csv(admix, row.names = TRUE, na="")
-
-admix.2 <- admixture[1:12, ]
-admix.3 <- admixture[13:24, ]
-admix.4 <- admixture[25:36, ]
-admix.5 <- admixture[37:48, ]
-
-admix.2inv <- admix.inv[1:12, ]
-admix.3inv <- admix.inv[13:24, ]
-admix.4inv <- admix.inv[25:36, ]
-admix.5inv <- admix.inv[37:48, ]
-
-# Function to add NA values to data frame
-add.NA <- function(x){
-  z <- gsub("\\s+","", x)
-  x[z==""] <- NA
-  return(x)
-}
-
-# Run function on data frame
-admix.data <- sapply(data, add.NA)
-
-admix.2data.f <- format(admix.2data)
 
 # Specify headers
 # Will most likely have to set headers depending on the # of K ancestral populations
