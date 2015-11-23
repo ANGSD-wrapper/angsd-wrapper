@@ -573,15 +573,10 @@ shinyServer(
 
     # Define possible Admixture headers dependent on the number of K ancestral populations graphed
     # Headers are for K= 1 to K = 10
-    admix.headers.2 <- c("Population_1", "Population_2")
-    admix.headers.3 <- c("Population_1", "Population_2", "Population_3")
-    admix.headers.4 <- c("Population_1", "Population_2", "Population_3", "Population_4")
-    admix.headers.5 <- c("Population_1", "Population_2", "Population_3", "Population_4", "Population_5")
-    admix.headers.6 <- c("Population_1", "Population_2", "Population_3", "Population_4", "Population_5", "Population_6")
-    admix.headers.7 <- c("Population_1", "Population_2", "Population_3", "Population_4", "Population_5", "Population_6", "Population_7")
-    admix.headers.8 <- c("Population_1", "Population_2", "Population_3", "Population_4", "Population_5", "Population_6", "Population_7", "Population_8")
-    admix.headers.9 <- c("Population_1", "Population_2", "Population_3", "Population_4", "Population_5", "Population_6", "Population_7", "Population_8", "Population_9")
-    admix.headers.10 <- c("Population_1", "Population_2", "Population_3", "Population_4", "Population_5", "Population_6", "Population_7", "Population_8", "Population_9", "Population_10")
+    admix.headers.2 <- c("Pop_1", "Pop_2")
+    admix.headers.3 <- c("Pop_1", "Pop_2", "Pop_3")
+    admix.headers.4 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4")
+    admix.headers.5 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5")
     
     # Admixture plot 5 for 5 K ancestral populations
     output$admixPlot5 <- renderPlot({
@@ -611,7 +606,7 @@ shinyServer(
         admix <- read.table("ngsadmix_example.txt")
       })
       admix.4pop <- admix[13:24, ]
-      setnames(admix.4pop, admix.headers.4)
+      setnames(admix.4pop, admix.headers.5)
       admix.4dat <- t(as.data.frame(as.matrix(admix.4pop)))
   
       # Graphing admixPlot4  
@@ -632,7 +627,7 @@ shinyServer(
         admix <- read.table("ngsadmix_example.txt")
       })
       admix.3pop <- admix[25:36, ]
-      setnames(admix.3pop, admix.headers.3)
+      setnames(admix.3pop, admix.headers.5)
       admix.3dat <- t(as.data.frame(as.matrix(admix.3pop)))
       
       # Graphing admixPlot3  
@@ -648,12 +643,12 @@ shinyServer(
     # Admixture plot 2 for 2 K ancestral populations
     output$admixPlot2 <- renderPlot({
       admix <- tryCatch({
-        dataInputAdmix()
+        dataInputAdmix() 
       },error = function(err) {
         admix <- read.table("ngsadmix_example.txt")
       })
       admix.2pop <- admix[37:48, ]
-      setnames(admix.2pop, admix.headers.2)
+      setnames(admix.2pop, admix.headers.5)
       admix.2dat <- t(as.data.frame(as.matrix(admix.2pop)))
       
       # Graphing admixPlot2  

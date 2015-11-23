@@ -6,12 +6,14 @@ admix <- fread("C:/Users/Chaochih/Dropbox/ANGSD_Wrapper/Inverted_2DSFS.qopt", he
 
 admix <- read.table("C:/Users/Chaochih/Dropbox/ANGSD_Wrapper/Inverted_2DSFS.qopt", header = FALSE, fill = TRUE)
 
+admix <- read.table("~/Dropbox/ANGSD_Wrapper/Inverted_2DSFS.qopt", header = FALSE, fill = TRUE)
+
 # This set works
 # R reads in each row of values as a single column, need to figure out how to get it to read it in as multiple columns
-admix.2pop <- admix[1:12, ]
-admix.3pop <- admix[13:24, ]
-admix.4pop <- admix[25:36, ]
-admix.5pop <- admix[37:48, ]
+admix.5pop <- admix[1:12, ]
+admix.4pop <- admix[13:24, ]
+admix.3pop <- admix[25:36, ]
+admix.2pop <- admix[37:48, ]
 
 setnames(admix.2pop, admix.headers.5)
 
