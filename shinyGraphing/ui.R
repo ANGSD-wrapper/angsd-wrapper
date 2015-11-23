@@ -277,7 +277,9 @@ shinyUI(fluidPage(
                       windowTitle = 'Admixture'),
           fileInput('userAdmix',
                     label= "Choose '.qopt' admixture File",
-                    multiple = TRUE)
+                    multiple = TRUE)#,
+#          checkboxGroupInput("checkGroup",
+#                             label = )
         ),
         mainPanel(
           fluidRow(

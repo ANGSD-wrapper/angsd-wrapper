@@ -577,6 +577,11 @@ shinyServer(
     admix.headers.3 <- c("Pop_1", "Pop_2", "Pop_3")
     admix.headers.4 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4")
     admix.headers.5 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5")
+    admix.headers.6 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5", "Pop_6")
+    admix.headers.7 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5", "Pop_6", "Pop_7")
+    admix.headers.8 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5", "Pop_6", "Pop_8")
+    admix.headers.9 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5", "Pop_6", "Pop_8", "Pop_9")
+    admix.headers.10 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5", "Pop_6", "Pop_8", "Pop_9", "Pop_10")
     
     # Admixture plot 5 for 5 K ancestral populations
     output$admixPlot5 <- renderPlot({
@@ -607,6 +612,7 @@ shinyServer(
         admix <- read.table("ngsadmix_example.txt")
       })
       admix.4pop <- admix[13:24, ]
+      # 5th column is NAs
       setnames(admix.4pop, admix.headers.5)
       admix.4dat <- t(as.data.frame(as.matrix(admix.4pop)))
   
@@ -629,6 +635,7 @@ shinyServer(
         admix <- read.table("ngsadmix_example.txt")
       })
       admix.3pop <- admix[25:36, ]
+      # 4th and 5th columns are NAs
       setnames(admix.3pop, admix.headers.5)
       admix.3dat <- t(as.data.frame(as.matrix(admix.3pop)))
       
@@ -651,6 +658,7 @@ shinyServer(
         admix <- read.table("ngsadmix_example.txt")
       })
       admix.2pop <- admix[37:48, ]
+      # 3rd, 4th and 5th columns are NAs
       setnames(admix.2pop, admix.headers.5)
       admix.2dat <- t(as.data.frame(as.matrix(admix.2pop)))
       
