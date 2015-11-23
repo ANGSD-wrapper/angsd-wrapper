@@ -156,6 +156,8 @@ shinyUI(fluidPage(
       "ABBA BABA",
       sidebarLayout(
         sidebarPanel(
+          headerPanel("ABBA BABA",
+                      windowTitle = "ABBA BABA Graph"),
           fileInput('userABBABABA',
                     label= "Choose 'abbababa.txt' ABBABABA File"
           ),
@@ -176,11 +178,10 @@ shinyUI(fluidPage(
       "Fst",
       sidebarLayout(
         sidebarPanel(
+          headerPanel("Fst", 
+                      windowTitle = "Fst Graph"),
           fileInput('userFst',
                     label= "Choose '.fst' Fst File"
-          ),
-          fileInput('userIntersect',
-                    label= 'Choose Intersect File'
           ),
           uiOutput('fstChroms'),
           hr(),
@@ -190,10 +191,6 @@ shinyUI(fluidPage(
           hr(),
           uiOutput('fstMin'),
           uiOutput('fstMax'),
-          
-          checkboxInput("subset",
-                        "Toggle subset data", 
-                        value=FALSE),
           
           hr(),
           fileInput('userAnnotations',
@@ -205,7 +202,27 @@ shinyUI(fluidPage(
           
         ),
         mainPanel(
-          plotOutput("fstPlot")
+          fluidRow(
+            column(
+              width = 12, height = 300,
+              h3("Click and drag to select area to zoom on this plot"),
+              plotOutput("fstPlot1",
+                         dblclick = "fstPlot1_dblclick",
+                         brush = brushOpts("fstPlot1_brush",
+                                           resetOnNew = TRUE))
+            ),
+            column(
+              width = 12, height = 300,
+              h3("Plot will zoom in on area selected above"),
+              plotOutput("fstPlot2",
+                         hover = hoverOpts("fstPlot2_hover",
+                                           delay = 50,
+                                           nullOutside = FALSE))
+            ),
+            column(
+              width = 6, verbatimTextOutput("fstPlot2_hoverinfo")
+            )
+          )
         )
       )
     ),
@@ -215,6 +232,8 @@ shinyUI(fluidPage(
       "PCA",
       sidebarLayout(
         sidebarPanel(
+          headerPanel("Principal Component Analysis",
+                      windowTitle = "PCA Graph"),
           fileInput('userPCA',
                     label= "Choose a '_PCA.covar' File"
           ),
