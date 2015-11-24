@@ -87,12 +87,10 @@ else
 fi
 
 N_SITES="`expr $(zcat "${OUT}"/${PROJECT}.mafs.gz | wc -l) - 1`"
-echo ${N_SITES}
 
 
-gzip -d "${OUT}"/"${PROJECT}".glf.gz
-"${NGSF_DIR}"/ngsF \
-    -glf "${OUT}"/"${PROJECT}".glf \
+zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
+    -glf - \
     -out "${OUT}"/"${PROJECT}".approx_indF \
     -n_ind "${N_IND}" \
     -n_sites "${N_SITES}" \
@@ -102,8 +100,8 @@ gzip -d "${OUT}"/"${PROJECT}".glf.gz
     -init_values r \
     -n_threads "${N_CORES}"
 
-"${NGSF_DIR}"/ngsF \
-    -glf "${OUT}"/"${PROJECT}".glf.gz \
+zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
+    -glf - \
     -out "${OUT}"/"${PROJECT}".indF \
     -n_ind "${N_IND}" \
     -n_sites "${N_SITES}" \
