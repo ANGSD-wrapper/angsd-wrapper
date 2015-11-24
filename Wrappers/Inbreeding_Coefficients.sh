@@ -27,6 +27,9 @@ N_IND=`wc -l < "${SAMPLE_LIST}"`
 OUT=${SCRATCH}/${PROJECT}/ngsF
 mkdir -p ${OUT}
 
+#   Can't use beagle format
+if [[ "${DO_GLF}" == 2 ]]; then echo "Can't use beagle format, please specify a different value for DO_GLF!"; exit 1; fi
+
 if [[ -f "${OUT}"/"${PROJECT}"_.mafs.gz ]] && [[ "${OVERRIDE}" = "false" ]]
 then
     echo "mafs already exists and OVERRIDe=false, skipping angsd -bam..."
@@ -86,8 +89,9 @@ fi
 N_SITES="`expr $(zcat "${OUT}"/${PROJECT}.mafs.gz | wc -l) - 1`"
 
 
-zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
-    -glf - \
+gzip -d "${OUT}"/"${PROJECT}".glf.gz
+"${NGSF_DIR}"/ngsF \
+    -glf "${OUT}"/"${PROJECT}".glf \
     -out "${OUT}"/"${PROJECT}".approx_indF \
     -n_ind "${N_IND}" \
     -n_sites "${N_SITES}" \
@@ -97,8 +101,8 @@ zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
     -init_values r \
     -n_threads "${N_CORES}"
 
-zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
-    -glf - \
+"${NGSF_DIR}"/ngsF \
+    -glf "${OUT}"/"${PROJECT}".glf.gz \
     -out "${OUT}"/"${PROJECT}".indF \
     -n_ind "${N_IND}" \
     -n_sites "${N_SITES}" \
