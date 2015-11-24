@@ -87,6 +87,7 @@ else
 fi
 
 N_SITES="`expr $(zcat "${OUT}"/${PROJECT}.mafs.gz | wc -l) - 1`"
+echo ${N_SITES}
 
 
 gzip -d "${OUT}"/"${PROJECT}".glf.gz
