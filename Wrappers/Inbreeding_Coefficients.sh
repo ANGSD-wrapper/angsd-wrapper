@@ -87,21 +87,21 @@ N_SITES="`expr $(zcat "${OUT}"/${PROJECT}.mafs.gz | wc -l) - 1`"
 
 
 zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
+    -glf - \
+    -out "${OUT}"/"${PROJECT}".approx_indF \
     -n_ind "${N_IND}" \
     -n_sites "${N_SITES}" \
     -min_epsilon "${MIN_EPSILON}" \
-    -glf - \
-    -out "${OUT}"/"${PROJECT}".approx_indF \
     -approx_EM \
     -seed "${SEED}" \
     -init_values r \
     -n_threads "${N_CORES}"
 
 zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
+    -glf - \
+    -out "${OUT}"/"${PROJECT}".indF \
     -n_ind "${N_IND}" \
     -n_sites "${N_SITES}" \
     -min_epsilon "${MIN_EPSILON}" \
-    -glf - \
-    -out "${OUT}"/"${PROJECT}".indF \
     -init_values "${OUT}"/"${PROJECT}".approx_indF.pars \
     -n_threads "${N_CORES}"
