@@ -2,7 +2,7 @@ library(shiny)
 library(genomeIntervals)
 library(lattice)
 library(Hmisc)
-library(ape)
+library(ape) # Used for ABBA BABA graphing
 library(data.table)
 library(DT) # Allows R data objects to be displayed as tables on HTML pages
 options(shiny.maxRequestSize = -1)
@@ -681,8 +681,7 @@ shinyServer(
         ABBABABA <- read.table("abbababa.test", sep="\t", header=T)
       })
       d.current <- subset(ABBABABA, H2 == input$h2 & H3 == input$h3)
-      tree <- read.tree(text=paste("(Outgroup,(", input$h3, ",(", input$h2, ",Taxon)));",
-                                   sep=""))
+      tree <- read.tree(text=paste("(Outgroup,(", input$h3, ",(", input$h2, ",Taxon)));", sep=""))
       plot(tree, type = "cladogram", edge.width = 2, direction='downwards')
 
     })
@@ -705,7 +704,7 @@ shinyServer(
                      length = 0.05, unit = "native",
                      angle = 90, code = 3)
       }
-      Dotplot(factor(d.current$H1) ~ Cbind(d.current$Dstat, 
+      dotplot(factor(d.current$H1) ~ cbind(d.current$Dstat, 
                                            d.current$Dstat-d.current$SE, 
                                            d.current$Dstat+d.current$SE), 
               col="blue", pch=20, panel = mypanel.Dotplot,
