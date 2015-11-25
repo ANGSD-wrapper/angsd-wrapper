@@ -426,11 +426,11 @@ shinyServer(
       }
       
       # Pull columns to graph
-      fst.f <- fst$f
-      fst.FST <- fst$FST
+      fst.FST <- subset(fst$FST, fst$FST > 0)
+#      f.FST <- subset(fst$f, fst$f > 0)
       
       if(input$annotations) {
-        plot(fst.f, fst.FST,
+        plot(fst.FST,
              t = "p", pch = 19,
              col = rgb(0, 0, 0, 0.5),
              xlab = "Position (bp)",
