@@ -430,7 +430,7 @@ shinyServer(
 #      f.FST <- subset(fst$f, fst$f > 0)
       
       if(input$annotations) {
-        plot(fst.FST,
+        plot(fst.FST/sum(fst.FST),
              t = "p", pch = 19,
              col = rgb(0, 0, 0, 0.5),
              xlab = "Position (bp)",
@@ -447,7 +447,7 @@ shinyServer(
         }
       }
       else {
-        plot(fst.f, fst.FST,
+        plot(fst.FST/sum(fst.FST),
              t = "p", pch = 19,
              col = rgb(0, 0, 0, 0.5),
              xlab = "Position (bp)",
