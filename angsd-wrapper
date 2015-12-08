@@ -8,7 +8,7 @@ set -o pipefail
 #   Define a usage message
 function usage() {
     echo -e "\
-Usage:  `basename $0` <wrapper> <config> \n\
+Usage:  $(basename $0) <wrapper> <config> \n\
 where:  <wrapper> is one of SFS, 2DSFS, Abbababa, Ancestral, Genotypes, Thetas, Inbreeding
 and:    <config> is the corresponding configuration file \n\
 \n\
@@ -25,16 +25,16 @@ The following is a list of calls and what they do: \n\
 \n\
 To upgrade the dependencies, please run \n\
 \n\
-    `basename $0` upgrade dependencies \n\
+    $(basename $0) upgrade dependencies \n\
 \n\
 To start the Shiny graphing interface, please run \n\
-    `basename $0` shiny graphing \n\
+    $(basename $0) shiny graphing \n\
 " >&2
     exit 1
 }
 
 #   Where is angsd-wrapper located?
-SOURCE=`dirname "$0"`
+SOURCE=$(dirname "$0")
 
 #   Run some checks
 if [[ ! -d "${SOURCE}"/dependencies ]] # Are we missing the dependencies directory?
@@ -42,10 +42,10 @@ then
     if [[ ! "$1" == 'setup' ]] # If we're not running the setup routine
     then
         echo -e "\
-Welcome to `basename $0`! \n\
+Welcome to $(basename $0)! \n\
 To set up, please run \n\
 \n\
-    ./`basename $0` setup please \n\
+    ./$(basename $0) setup please \n\
 " >&2
         exit 1
     fi
