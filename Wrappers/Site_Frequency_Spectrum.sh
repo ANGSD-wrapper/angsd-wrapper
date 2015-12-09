@@ -4,7 +4,7 @@ set -e
 set -o pipefail
 
 #   Load variables from supplied config file
-source $1
+source "$1"
 
 #   Are we using Common_Config? If so, source it
 if [[ -f "${COMMON}" ]]
@@ -20,9 +20,9 @@ ANGSD_DIR=${SOURCE}/dependencies/angsd
 
 #   Variables created from transforming other variables
 #       The number of individuals in the taxon we are analyzing
-N_IND=`wc -l < "${SAMPLE_LIST}"`
+N_IND=$(wc -l < "${SAMPLE_LIST}")
 #       How many inbreeding coefficients are supplied?
-N_F=`wc -l < "${SAMPLE_INBREEDING}"`
+N_F=$(wc -l < "${SAMPLE_INBREEDING}")
 #       For ANGSD, the actual sample size is twice the number of individuals, since each individual has two chromosomes.
 #       The individual inbreeding coefficents take care of the mismatch between these two numbers
 N_CHROM=`expr 2 \* "${N_IND}"`
@@ -36,7 +36,7 @@ fi
 
 #   Create outdirectory
 OUT="${SCRATCH}"/"${PROJECT}"/SFS
-mkdir -p ${OUT}
+mkdir -p "${OUT}"
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
 if [[ -f "${OUT}"/"${PROJECT}"_SFSOut.mafs.gz ]] && [ "$OVERRIDE" = "false" ]

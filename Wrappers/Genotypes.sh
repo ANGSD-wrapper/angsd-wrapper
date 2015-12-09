@@ -4,7 +4,7 @@ set -e
 set -o pipefail
 
 #   Load variables from supplied config file
-source $1
+source "$1"
 
 #   Are we using Common_Config? If so, source it
 if [[ -f "${COMMON}" ]]
@@ -17,9 +17,9 @@ SOURCE=$2
 
 #   Variables created from transforming other variables
 #       The number of individuals in the taxon we are analyzing
-N_IND=`wc -l < "${SAMPLE_LIST}"`
+N_IND=$(wc -l < "${SAMPLE_LIST}")
 #       How many inbreeding coefficients are supplied?
-N_F=`wc -l < "${SAMPLE_INBREEDING}"`
+N_F=$(wc -l < "${SAMPLE_INBREEDING}")
 
 #   Perform a check to see if number of individuals matches number of inbreeding coefficients
 if [ "${N_IND}" -ne "${N_F}" ]
@@ -30,7 +30,7 @@ fi
 
 #   Create outdirectory
 OUT="${SCRATCH}"/"${PROJECT}"/GenotypeLikelihoods
-mkdir -p ${OUT}
+mkdir -p "${OUT}"
 
 #   Where is ANGSD?
 ANGSD_DIR="${SOURCE}"/dependencies/angsd

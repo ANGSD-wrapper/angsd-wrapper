@@ -18,7 +18,7 @@ echo alias "angsd-wrapper='`pwd -P`/angsd-wrapper'" >> ~/.bash_profile
 #   Make the 'dependencies' directory
 mkdir dependencies
 cd dependencies
-ROOT=`pwd`
+ROOT=$(pwd)
 
 #   Install HTSLIB
 cd "${ROOT}"
@@ -63,7 +63,7 @@ make
 cd "${ROOT}"
 
 #   Download and set up the test data
-cd ${ROOT}
+cd "${ROOT}"
 cd ..
 wget http://de.iplantcollaborative.org/dl/d/3A541C91-A66A-4651-949D-4E65028C4A2F/iplant.zip
 unzip iplant.zip
@@ -74,27 +74,27 @@ cd iplant
 #       Create a list of sample names
 echo "Creating list of sample names..."
 rm test_samples.txt
-find `pwd` -name "*.bam" | sort > SampleNames.txt
+find "$(pwd)" -name "*.bam" | sort > SampleNames.txt
 #       Index the BAM files
-for i in `cat SampleNames.txt`
+for i in $(cat SampleNames.txt)
 do
     samtools index "$i"
 done
 #       Index the reference and ancestral sequences
 echo "Indexing reference and ancestral sequences..."
-find `pwd` -name "*.fa.gz" -exec gzip -d {} \;
-find `pwd` -name "*.fa" -exec samtools faidx {} \;
+find "$(pwd)" -name "*.fa.gz" -exec gzip -d {} \;
+find "$(pwd)" -name "*.fa" -exec samtools faidx {} \;
 #       Rename the inbreeding coefficients file
 echo "Creating a list of inbreeding coefficients..."
 mv test_F.txt InbreedingCoefficients.indF
 #       Create a regions file
 echo "Creating a regions file..."
-for i in `seq 12`
+for i in $(seq 12)
 do
     echo "$i": >> regions.txt
 done
 
 #   Display final setup message
 echo
-echo "Test data can be found at `pwd`"
+echo "Test data can be found at $(pwd)"
 echo "Please run 'source ~/.bash_profile' to complete installation"

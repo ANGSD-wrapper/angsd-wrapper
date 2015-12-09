@@ -4,7 +4,7 @@ set -e
 set -o pipefail
 
 #   Load variables from supplied config file
-source $1
+source "$1"
 
 #   Are we using Common_Config? If so, source it
 if [[ -f "${COMMON}" ]]
@@ -23,15 +23,15 @@ NGS_POPGEN="${SOURCE}"/dependencies/ngsPopGen
 
 #   Create the out directory
 OUT=${SCRATCH}/"${PROJECT}"/2DSFS
-mkdir -p ${OUT}
+mkdir -p "${OUT}"
 
 #   Variables created from transforming other variables
 #       The number of individuals in the groups we are analyzing
-N_IND1=`wc -l < "${G1_SAMPLE_LIST}"`
-N_IND2=`wc -l < "${G2_SAMPLE_LIST}"`
+N_IND1=$(wc -l < "${G1_SAMPLE_LIST}")
+N_IND2=$(wc -l < "${G2_SAMPLE_LIST}")
 #       How many inbreeding coefficients are supplied?
-N_F1=`wc -l < "${G1_INBREEDING}"`
-N_F2=`wc -l < "${G2_INBREEDING}"`
+N_F1=$(wc -l < "${G1_INBREEDING}")
+N_F2=$(wc -l < "${G2_INBREEDING}")
 
 #   Perform a check to see if number of individuals matches number of inbreeding coefficients
 if [ "${N_IND1}" -ne "${N_F1}" ] || [ "${N_IND2}" -ne "${N_F2}" ]

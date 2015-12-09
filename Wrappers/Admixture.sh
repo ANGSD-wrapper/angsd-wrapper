@@ -4,7 +4,7 @@ set -e
 set -o pipefail
 
 #   Load variables from supplied config file
-source $1
+source "$1"
 
 #   Are we using Common_Config? If so, source it
 if [[ -f "${COMMON}" ]]
@@ -13,16 +13,16 @@ then
 fi
 
 #   Where is angsd-wrapper located?
-SOURCE=$2
+SOURCE="$2"
 
 #   Where is ngsAdmix
 ADMIX_DIR="${SOURCE}"/dependencies/ngsAdmix
 
 #   Make the outdirectory
-OUT=${SCRATCH}/${PROJECT}/Admixture
-mkdir -p ${OUT}
+OUT="${SCRATCH}/${PROJECT}/Admixture"
+mkdir -p "${OUT}"
 
-for k in `seq 2 "${K}"`
+for k in $(seq 2 "${K}")
 do
     echo "Calculating for K=$k"
     "${ADMIX_DIR}"/NGSadmix \
@@ -33,7 +33,7 @@ do
         -minMaf "${MIN_MAF}"
 done
 
-for kvalue in `eval echo {"$k"..2}`
+for kvalue in $(eval echo {"$k"..2})
 do
     cat "${OUT}"/"${PROJECT}"."$kvalue".qopt >> "${OUT}"/"${PROJECT}".allK.qopt
 done

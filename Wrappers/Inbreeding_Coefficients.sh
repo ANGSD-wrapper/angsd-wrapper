@@ -4,7 +4,7 @@ set -e
 set -o pipefail
 
 #   Load variables from supplied config file
-source $1
+source "$1"
 
 #   Are we using Common_Config? If so, source it
 if [[ -f "${COMMON}" ]]
@@ -21,18 +21,18 @@ ANGSD_DIR="${SOURCE}"/dependencies/angsd
 #   Where is ngsF?
 NGSF_DIR="${SOURCE}"/dependencies/ngsF
 
-N_IND=`wc -l < "${SAMPLE_LIST}"`
+N_IND=$(wc -l < "${SAMPLE_LIST}")
 
 #   Make the outdirectory
 OUT=${SCRATCH}/${PROJECT}/ngsF
-mkdir -p ${OUT}
+mkdir -p "${OUT}"
 
 #   Can't use beagle format
 if [[ "${DO_GLF}" == 2 ]]; then echo "Can't use beagle format, please specify a different value for DO_GLF!"; exit 1; fi
 
 if [[ -f "${OUT}"/"${PROJECT}"_.mafs.gz ]] && [[ "${OVERRIDE}" = "false" ]]
 then
-    echo "mafs already exists and OVERRIDe=false, skipping angsd -bam..."
+    echo "mafs already exists and OVERRIDE=false, skipping angsd -bam..."
 else
 #   Do we have a regions file?
     if [[ -f "${REGIONS}" ]]

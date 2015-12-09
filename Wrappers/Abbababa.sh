@@ -4,7 +4,7 @@ set -e
 set -o pipefail
 
 #   Load variables from supplied config file
-source $1
+source "$1"
 
 #   Are we using Common_Config? If so, source it
 if [[ -f "${COMMON}" ]]
@@ -20,10 +20,10 @@ ANGSD_DIR=${SOURCE}/dependencies/angsd
 
 #   Create outdirectory
 OUT=${SCRATCH}/${PROJECT}/Abbababa
-mkdir -p ${OUT}
+mkdir -p "${OUT}"
 
 #   Check for local R installation
-if `command -v Rscript > /dev/null 2> /dev/null`
+if $(command -v Rscript > /dev/null 2> /dev/null)
 then
     echo "R is installed"
 else
@@ -45,9 +45,9 @@ then
     then
         if ! `command -v python > /dev/null 2> /dev/null`; then echo "Please install Python and place in your PATH" >&2; exit 1; fi
         echo "Sorting ${REGIONS} to match the order in ${OUTGROUP}" >&2
-        FAI=`ls $( dirname "${OUTGROUP}" )| grep -E "$( basename ${OUTGROUP} )\.fai|$( basename ${OUTGROUP} .fasta )\.fai"`
-        python "${SOURCE}"/Wrappers/sortRegions.py --fai `dirname "${OUTGROUP}"`/"${FAI}" --regions "${REGIONS}" --project "${PROJECT}"
-        REGIONS=`dirname "${REGIONS}"`/"${PROJECT}"_SortedRegions.txt
+        FAI=$(ls $( dirname "${OUTGROUP}" )| grep -E "$( basename ${OUTGROUP} )\.fai|$( basename ${OUTGROUP} .fasta )\.fai")
+        python "${SOURCE}"/Wrappers/sortRegions.py --fai $(dirname "${OUTGROUP}")/"${FAI}" --regions "${REGIONS}" --project "${PROJECT}"
+        REGIONS=$(dirname "${REGIONS}")/"${PROJECT}"_SortedRegions.txt
     fi
     echo "Running Abbababa" >&2
     "${ANGSD_DIR}"/angsd \

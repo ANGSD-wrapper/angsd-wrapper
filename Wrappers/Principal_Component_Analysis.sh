@@ -4,7 +4,7 @@ set -e
 set -o pipefail
 
 #   Load variables from supplied config file
-source $1
+source "$1"
 
 #   Are we using Common_Config? If so, source it
 if [[ -f "${COMMON}" ]]
@@ -21,10 +21,10 @@ NGS_POPGEN_DIR="${SOURCE}"/dependencies/ngsPopGen
 
 #   Make the outdirectory
 OUT=${SCRATCH}/${PROJECT}/PCA
-mkdir -p ${OUT}
+mkdir -p "${OUT}"
 
 #   Find number of individuals
-N_IND=`wc -l < "${SAMPLE_LIST}"`
+N_IND=$(wc -l < "${SAMPLE_LIST}")
 
 #   Do we have a regions file?
 if [[ -f "${REGIONS}" ]]
@@ -73,6 +73,6 @@ gunzip ${OUT}/${PROJECT}_PCA.geno.gz
 ${NGS_POPGEN_DIR}/ngsCovar \
     -probfile ${OUT}/${PROJECT}_PCA.geno\
     -outfile ${OUT}/${PROJECT}_PCA.covar\
-    -nind ${N_IND}\
-    -nsites ${N_SITES}\
-    -call ${CALL}
+    -nind "${N_IND}"\
+    -nsites "${N_SITES}"\
+    -call "${CALL}"
