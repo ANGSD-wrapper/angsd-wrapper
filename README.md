@@ -113,7 +113,7 @@ There are a few other dependencies that are **not** automatically downloaded dur
  - [Site frequency spectrum (SFS)](https://github.com/arundurvasula/angsd-wrapper/wiki/Site-Frequency-Spectrum)
  - [Thetas estimations](https://github.com/arundurvasula/angsd-wrapper/wiki/Thetas)
  - [2D SFS and Fst](https://github.com/mojaveazure/angsd-wrapper/wiki/2D-Site-Frequency-Spectrum-and-Fst)
- - ~~[Abbababa](https://github.com/mojaveazure/angsd-wrapper/wiki/Abbababa)~~ Work in progress
+ - [Abbababa](https://github.com/mojaveazure/angsd-wrapper/wiki/Abbababa)
  - [Ancestral sequence extractions](https://github.com/mojaveazure/angsd-wrapper/wiki/Ancestral-Sequence)
  - [Genotype likelihood estimations](https://github.com/mojaveazure/angsd-wrapper/wiki/Genotype-Likelihoods)
  - [Inbreeding coefficients calculations](https://github.com/mojaveazure/angsd-wrapper/wiki/Inbreeding-Coefficients)
@@ -122,5 +122,5 @@ There are a few other dependencies that are **not** automatically downloaded dur
 
 ## To Do
 
- - Fix segfaults (In progress with the `ANGSD` team)
+ - ~~Fix segfaults (In progress with the `ANGSD` team)~~ DONE!
  - Define variables in configuration files
