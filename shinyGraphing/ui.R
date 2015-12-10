@@ -8,26 +8,25 @@ shinyUI(fluidPage(
   # Application title
   titlePanel("ANGSD-wrapper graph"),
   tabsetPanel(
-    
+
     # Tab 1 - Thetas
     tabPanel("Thetas",
       sidebarLayout(
         sidebarPanel(
-          headerPanel("Thetas Graphs", 
-                      windowTitle = "Thetas Graphs"),
+          headerPanel("Thetas Graphs", windowTitle = "Thetas Graphs"),
           # Choose input file
           fileInput('userThetas',
                     label= "Choose '.pestPG' Thetas File"
           ),
-          
+
           # Watterson's theta
           selectInput("thetaChoice",
                       # Need to specify file to choose
                       label = "Choose estimator of theta to graph", 
-                      choices = c("Watterson's Theta", 
-                                  "Pairwise Theta", 
-                                  "Fu and Li's Theta", 
-                                  "Fay's Theta", 
+                      choices = c("Watterson's Theta",
+                                  "Pairwise Theta",
+                                  "Fu and Li's Theta",
+                                  "Fay's Theta",
                                   "Maximum likelihood (L) Theta"),
                       selected = "Watterson's Theta"
           ),
@@ -35,15 +34,15 @@ shinyUI(fluidPage(
           # Tajima's D
           selectInput("selectionChoice",
                       label = "Choose a neutrality test statistic to graph", 
-                      choices = c("Tajima's D", 
-                                  "Fi and Li's D", 
-                                  "Fu and Li's F", 
-                                  "Fay and Wu's H", 
+                      choices = c("Tajima's D",
+                                  "Fi and Li's D",
+                                  "Fu and Li's F",
+                                  "Fay and Wu's H",
                                   "Zeng's E"),
                       selected = "Tajima's D"
           ),
           uiOutput('thetaChroms'),
-          # Adding additional 'help' text
+          # Adding additional "help" text
           tags$h4(class ="header",
                   tags$h4("Samples can be removed from graph by using cursor in text box and using backspace."),
                   tags$h4("You can also type parts of a sample name to search for it.")),
@@ -61,20 +60,20 @@ shinyUI(fluidPage(
                   tags$h4("or"),
                   tags$h4("2. You can click the 'Toggle subset data' checkbox and enter in the interval you want to zoom in on")
                   ),
-          numericInput("WinCenterLow", 
-                       "Base Start Position", 
+          numericInput("WinCenterLow",
+                       "Base Start Position",
                        value=0),
           numericInput("WinCenterHigh", 
-                       "Base End Position", 
+                       "Base End Position",
                        value=10000),
           checkboxInput("subset",
-                        "Toggle subset data", 
+                        "Toggle subset data",
                         value=FALSE),
           hr(),
-          checkboxInput("rm.nsites", 
-                        "Remove data where nSites < x", 
+          checkboxInput("rm.nsites",
+                        "Remove data where nSites < x",
                         value=FALSE),
-          numericInput("nsites", 
+          numericInput("nsites",
                        "x:",
                        value=0),
           hr(),
@@ -82,7 +81,7 @@ shinyUI(fluidPage(
                     label= "Choose '.gff' File"
           ),
           checkboxInput("annotations",
-                        "Toggle GFF annotations", 
+                        "Toggle GFF annotations",
                         value=FALSE)
         ),
         # Show a plot of the thetas
@@ -91,9 +90,9 @@ shinyUI(fluidPage(
             column(
               width = 12, height = 300,
               h3("Click and drag to select area to zoom on this plot"),
-              plotOutput("thetaPlot1", 
-                         dblclick = "thetaPlot1_dblclick", 
-                         brush = brushOpts("thetaPlot1_brush", 
+              plotOutput("thetaPlot1",
+                         dblclick = "thetaPlot1_dblclick",
+                         brush = brushOpts("thetaPlot1_brush",
                                            resetOnNew = TRUE))
               ),
             column(
@@ -150,7 +149,7 @@ shinyUI(fluidPage(
         )
       ) 
     ),
-    
+
     # Tab 3 - ABBA BABA
     tabPanel(
       "ABBA BABA",
@@ -166,6 +165,7 @@ shinyUI(fluidPage(
         ),
         mainPanel(
           plotOutput("ABBABABATree"),
+          dataTableOutput("ABBABABATable"),
           plotOutput("ABBABABAPlot"),
           helpText(a("https://youtu.be/unfzfe8f9NI", 
                      href="https://youtu.be/unfzfe8f9NI"))
@@ -178,7 +178,7 @@ shinyUI(fluidPage(
       "Fst",
       sidebarLayout(
         sidebarPanel(
-          headerPanel("Fst", 
+          headerPanel("Fst",
                       windowTitle = "Fst Graph"),
           fileInput('userFst',
                     label= "Choose '.fst' Fst File"
@@ -186,7 +186,7 @@ shinyUI(fluidPage(
           uiOutput('fstChroms'),
           hr(),
           checkboxInput("fstLowess",
-                        "Fst Lowess", 
+                        "Fst Lowess",
                         value=FALSE),
           hr(),
           uiOutput('fstMin'),
@@ -197,9 +197,9 @@ shinyUI(fluidPage(
                     label= "Choose '.gff' GFF File"
           ),
           checkboxInput("annotations",
-                        "Toggle GFF annotations", 
+                        "Toggle GFF annotations",
                         value=FALSE)
-          
+
         ),
         mainPanel(
           fluidRow(

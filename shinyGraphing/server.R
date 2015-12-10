@@ -2,10 +2,10 @@ library(shiny)
 library(genomeIntervals)
 library(lattice)
 library(Hmisc)
-library(ape) # Used for ABBA BABA graphing
+library(ape)  # Used for ABBA BABA graphing
 library(data.table)
-library(DT) # Allows R data objects to be displayed as tables on HTML pages
-options(shiny.maxRequestSize = -1)
+library(DT)  # Allows R data objects to be displayed as tables on HTML pages
+options(shiny.maxRequestSize = - 1)
 
 # Define headers for thetas, Fst and intersect data
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)", "Chr","WinCenter", "tW", "tP", "tF", "tH", "tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
@@ -125,17 +125,17 @@ shinyServer(
       }
       )
 
-      thetas <- subset(thetas,Chr==input$thetaChrom)
+      thetas <- subset(thetas, Chr == input$thetaChrom)
       if(input$annotations){
         validate(need(input$userAnnotations, 'Need GFF file before clicking checkbox!'))
         gff <- gffInput()
         gff.gene <- subset(gff, type="gene")
         gff.df <- data.frame(gff.gene,annotation(gff))
-        gff.df.chr <- subset(gff.df, seq_name==thetas$Chr[1])
-        if(length(gff.df.chr$seq_name)==0){
+        gff.df.chr <- subset(gff.df, seq_name == thetas$Chr[1])
+        if(length(gff.df.chr$seq_name) == 0){
           stop("Annotation does not match graphed region. Please make sure the first column of your GFF file matches the Chr column of the .pestPG file.")
         }
-        gff.df.gene <- subset(gff.df.chr, type=="gene")
+        gff.df.gene <- subset(gff.df.chr, type == "gene")
       }
 
       if(input$subset) {
@@ -167,26 +167,26 @@ shinyServer(
       )
       if(input$annotations) {
         plot(thetas.plot$WinCenter,
-             data, t="p", pch=19,col=rgb(0,0,0,0.5),
-             xlab="Position (bp)",
-             ylab=paste(input$thetaChoice,"Estimator Value"),
-             main=paste("Estimators of theta along chromosome", thetas$Chr[1])
+             data, t = "p", pch = 19,col = rgb(0,0,0,0.5),
+             xlab = "Position (bp)",
+             ylab = paste(input$thetaChoice, "Estimator Value"),
+             main = paste("Estimators of theta along chromosome", thetas$Chr[1])
         )
 
         # Different representation of the data to plot
         rug(rect(gff.df.gene$X1, -1e2, 
                  gff.df.gene$X2, 0, 
-                 col=rgb(0.18,0.55,0.8,0.75), 
-                 border=NA))
-        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
+                 col = rgb(0.18,0.55,0.8,0.75), 
+                 border = NA))
+        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter, data, f=0.1), 
                                     col="red")}
       }
       else {
         plot(thetas.plot$WinCenter,
-             data, t="p", pch=19,col=rgb(0,0,0,0.5),
-             xlab="Position (bp)",
-             ylab=paste(input$thetaChoice,"Estimator Value"),
-             main=paste("Estimators of theta along chromosome", thetas$Chr[1])
+             data, t = "p", pch = 19,col = rgb(0,0,0,0.5),
+             xlab = "Position (bp)",
+             ylab = paste(input$thetaChoice, "Estimator Value"),
+             main = paste("Estimators of theta along chromosome", thetas$Chr[1])
         )
         if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
                                     col="red")}
@@ -688,6 +688,15 @@ shinyServer(
       plot(tree, type = "cladogram", edge.width = 2, direction='downwards')
 
     })
+    # Output table of ABBA BABA values
+    output$ABBABABATable <- renderDataTable({
+      ABBABABA <- tryCatch({
+        dataInputABBABABA()
+      }, error = function(err){
+        ABBABABA <- read.table("abbababa.test", sep="\t", header=T)
+      })
+      ABBABABATable <- as.data.table(ABBABABA)
+    })
     output$ABBABABAPlot <- renderPlot({
       ABBABABA <- tryCatch({
         dataInputABBABABA()
@@ -728,7 +737,7 @@ shinyServer(
       }, error = function(err) {
         PCA <- read.table("all.pop.covar", header=F)
       })
-      eig <- eigen(PCA, symm=TRUE); # computes eigenvalues of matrices
+      eig <- eigen(PCA, symm=TRUE);  # computes eigenvalues of matrices
       # Plot proportion of values
       eig$val <- eig$val/sum(eig$val);
       PC <- as.data.frame(eig$vectors)
@@ -746,7 +755,7 @@ shinyServer(
       }, error = function(err) {
         PCA <- read.table("all.pop.covar", header=F)
       })
-      eig <- eigen(PCA, symm=TRUE); # computes eigenvalues of matrices
+      eig <- eigen(PCA, symm=TRUE);  # computes eigenvalues of matrices
       eig$val <- eig$val/sum(eig$val);
       PC <- as.data.frame(eig$vectors)
       plot(PC$V1, PC$V2, 
