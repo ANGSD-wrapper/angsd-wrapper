@@ -697,26 +697,33 @@ shinyServer(
                                sep="\t", 
                                header=T)
       })
-      d.current <- subset(ABBABABA, H2 == input$h2 & H3 == input$h3)
+      d.c <- subset(ABBABABA, H2 == input$h2 & H3 == input$h3)
+      d.current <- as.matrix(d.c)
       mypanel.Dotplot <- function(x, y, ...) {
-        panel.Dotplot(x,y,...)
+        panel.Dotplot(x, y, ... = )
         tips <- attr(x, "other")
-        panel.abline(v=0, lty=3)
-        trellis.par.set(mfrow=c(2,1))
+        panel.abline(v = 0, lty = 3)
+        trellis.par.set(mfrow = c(2, 1))
         panel.arrows(x0 = tips[,1], y0 = y,
                      x1 = tips[,2], y1 = y,
                      length = 0.05, unit = "native",
                      angle = 90, code = 3)
       }
-      dstat.plotdata <- cbind(as.numeric(d.current[, "Dstat"]), as.numeric(d.current[, "Dstat"]-d.current[, "SE"]), as.numeric(d.current[, "Dstat"]+d.current[, "SE"]))
-      dotplot(factor(d.current[, "H1"]) ~ cbind(as.numeric(d.current[, "Dstat"]), 
-                                           as.numeric(d.current[, "Dstat"]-d.current[, "SE"]), 
-                                           as.numeric(d.current[, "Dstat"]+d.current[, "SE"])), 
-              col="blue", pch=20, panel = mypanel.Dotplot,
-              xlab="D", ylab="Taxon", 
-              title=paste("D statistic comparison where H2=", 
+      # Making sure columns are numeric
+      d.current.Dstat <- as.numeric(d.current[, "Dstat"])
+      d.current.SE <- as.numeric(d.current[, "SE"])
+      # Do the math
+      d.current.minus <- d.current.Dstat-d.current.SE
+      d.current.plus <- d.current.Dstat+d.current.SE
+      # Create combined factors to be used in dotplot formula
+      dstat.data <- cbind(d.current.Dstat, d.current.minus, d.current.plus)
+      # Graph dotplot
+      dotplot(factor(d.current[, "H1"]) ~ dstat.data, 
+              col = "blue", pch = 20, panel = lattice.getOption("mypanel.Dotplot"),
+              xlab = "D", ylab = "Taxon", 
+              title = paste("D statistic comparison where H2=", 
                           input$h2, " and H3=", 
-                          input$h3, 
+                          input$h3,
                           sep=""))
     })
     # Output table of ABBA BABA values
