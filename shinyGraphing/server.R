@@ -688,22 +688,7 @@ shinyServer(
       plot(tree, type = "cladogram", edge.width = 2, direction='downwards')
 
     })
-    # Output table of ABBA BABA values
-    output$ABBABABATable <- renderDataTable({
-      ABBABABA <- tryCatch({
-        dataInputABBABABA()
-      }, error = function(err){
-        ABBABABA <- read.table("abbababa.test", sep="\t", header=T)
-      })
-      abTable <- as.data.table(ABBABABA)
-      ABBABABATable <- setkey(abTable)
-      colnames(ABBABABATable)[10] <- "Pvalue"
-      pvalue <- as.data.table(2*pnorm(-abs(ABBABABATable$Z)))
-      as.headers.pval <- c("Pvalue")
-      setnames(pvalue, as.headers.pval)
-      ABBABABATable$Pvalue <- pvalue
-      return(ABBABABATable)
-    })
+    # Graph dotplot
     output$ABBABABAPlot <- renderPlot({
       ABBABABA <- tryCatch({
         dataInputABBABABA()
@@ -733,6 +718,22 @@ shinyServer(
                           input$h2, " and H3=", 
                           input$h3, 
                           sep=""))
+    })
+    # Output table of ABBA BABA values
+    output$ABBABABATable <- renderDataTable({
+      ABBABABA <- tryCatch({
+        dataInputABBABABA()
+      }, error = function(err){
+        ABBABABA <- read.table("abbababa.test", sep="\t", header=T)
+      })
+      abTable <- as.data.table(ABBABABA)
+      ABBABABATable <- setkey(abTable)
+      colnames(ABBABABATable)[10] <- "Pvalue"
+      pvalue <- as.data.table(2*pnorm(-abs(ABBABABATable$Z)))
+      as.headers.pval <- c("Pvalue")
+      setnames(pvalue, as.headers.pval)
+      ABBABABATable$Pvalue <- pvalue
+      return(ABBABABATable)
     })
 
     # Create zoomable PCA plots
