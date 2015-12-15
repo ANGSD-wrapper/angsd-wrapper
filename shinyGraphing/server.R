@@ -697,10 +697,12 @@ shinyServer(
       })
       abTable <- as.data.table(ABBABABA)
       ABBABABATable <- setkey(abTable)
+      colnames(ABBABABATable)[10] <- "Pvalue"
       pvalue <- as.data.table(2*pnorm(-abs(ABBABABATable$Z)))
       as.headers.pval <- c("Pvalue")
       setnames(pvalue, as.headers.pval)
-      AB.table <- ABBABABATable["Pvalue"] <- pvalue
+      ABBABABATable$Pvalue <- pvalue
+      return(ABBABABATable)
     })
     output$ABBABABAPlot <- renderPlot({
       ABBABABA <- tryCatch({
@@ -721,9 +723,10 @@ shinyServer(
                      length = 0.05, unit = "native",
                      angle = 90, code = 3)
       }
-      dotplot(factor(d.current$H1) ~ cbind(d.current$Dstat, 
-                                           d.current$Dstat-d.current$SE, 
-                                           d.current$Dstat+d.current$SE), 
+      dstat.plotdata <- cbind(as.numeric(d.current[, "Dstat"]), as.numeric(d.current[, "Dstat"]-d.current[, "SE"]), as.numeric(d.current[, "Dstat"]+d.current[, "SE"]))
+      dotplot(factor(d.current[, "H1"]) ~ cbind(as.numeric(d.current[, "Dstat"]), 
+                                           as.numeric(d.current[, "Dstat"]-d.current[, "SE"]), 
+                                           as.numeric(d.current[, "Dstat"]+d.current[, "SE"])), 
               col="blue", pch=20, panel = mypanel.Dotplot,
               xlab="D", ylab="Taxon", 
               title=paste("D statistic comparison where H2=", 
