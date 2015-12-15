@@ -44,8 +44,8 @@ shinyUI(fluidPage(
           uiOutput('thetaChroms'),
           # Adding additional "help" text
           tags$h4(class ="header",
-                  tags$h4("Samples can be removed from graph by using cursor in text box and using backspace."),
-                  tags$h4("You can also type parts of a sample name to search for it.")),
+                  tags$h5("Samples can be removed from graph by using cursor in text box and using backspace."),
+                  tags$h5("You can also type parts of a sample name to search for it.")),
           hr(),
           checkboxInput("thetaLowess",
                         "Theta Lowess", 
@@ -55,11 +55,14 @@ shinyUI(fluidPage(
                         value=FALSE),
           hr(),
           tags$h4(class = "header",
-                  tags$h4("There are two ways you can zoom in on the plots"),
-                  tags$h4("1. You can click and drag to select area over the top graph and have the graph zoom in on the graph below"),
-                  tags$h4("or"),
-                  tags$h4("2. You can click the 'Toggle subset data' checkbox and enter in the interval you want to zoom in on")
-                  ),
+                  tags$h4("Interactive Zoom and Hover:"),
+                  hr(),
+                  tags$h5("There are two ways you can zoom in on the plots:"),
+                  tags$h6("1. Click and drag on the upper graph to select an area to zoom in on."),
+                  tags$h6("Lower graph will show zoomed area selected. If you hover over a point on the lower graph, a table of the 'x' and 'y' values will be shown."),
+                  p("or"),
+                  tags$h6("2. Click the 'Toggle subset data' checkbox and enter in the interval you want to zoom in on."),
+                  hr()),
           numericInput("WinCenterLow",
                        "Base Start Position",
                        value=0),
@@ -89,7 +92,7 @@ shinyUI(fluidPage(
           fluidRow(
             column(
               width = 12, height = 300,
-              h3("Click and drag to select area to zoom on this plot"),
+              h5("Click and drag to select area to zoom on this plot"),
               plotOutput("thetaPlot1",
                          dblclick = "thetaPlot1_dblclick",
                          brush = brushOpts("thetaPlot1_brush",
@@ -97,7 +100,7 @@ shinyUI(fluidPage(
               ),
             column(
               width = 12, height = 300,
-              h3("Plot will zoom in on area selected above"),
+              h5("Plot will zoom in on area selected above"),
               plotOutput("thetaPlot2",
                          hover = hoverOpts("thetaPlot2_hover",
                                            delay = 50,
@@ -109,7 +112,7 @@ shinyUI(fluidPage(
             ),
             column(
               width = 12, height = 300,
-              h3("Click and drag to select area to zoom on this plot"), 
+              h5("Click and drag to select area to zoom on this plot"), 
               plotOutput("selectionPlot1",
                        dblclick = "selectionPlot1_dblclick",
                        brush = brushOpts(id = "selectionPlot1_brush",
@@ -117,7 +120,7 @@ shinyUI(fluidPage(
             ),
             column(
               width = 12, height = 300,
-              h3("Plot will zoom in on area selected above"),
+              h5("Plot will zoom in on area selected above"),
               plotOutput("selectionPlot2",
                          hover = hoverOpts("selectionPlot2_hover",
                                            delay = 50,
@@ -160,18 +163,18 @@ shinyUI(fluidPage(
           fileInput('userABBABABA',
                     label= "Choose 'abbababa.txt' ABBABABA File"
           ),
-          tags$h4(class = "header",
-                  tags$h4("Change the orientation of individuals/populations for your tree by typing name of H2 and H3 groups"),
+          tags$h5(class = "header",
+                  tags$h5("Change the orientation of individuals/populations for your tree by typing name of H2 and H3 groups"),
                   hr()),
           textInput('h2', label="H2", value='NA11993'),
           textInput('h3', label="H3", value='NA12763'),
           hr(),
           tags$h4(class = "header",
-                  tags$h4("The table includes the output ABBABABA file from ANGSD-wrapper with the addition of a 'Pvalue' column."),
+                  tags$h5("The table includes the output ABBABABA file from ANGSD-wrapper with the addition of a 'Pvalue' column."),
                   tags$h5("1. Output of ABBABABA file from ANGSD-wrapper"),
                   tags$h5("2. Additional 'Pvalue' column calculated with the formula 2*pnorm(-abs(z-score))"),
                   hr(),
-                  tags$h4("The table should be used as supplemental data to determine the most significant tree orientation. The table is searchable and can be organized by column."))
+                  tags$h5("The table should be used as supplemental data to determine the most significant tree orientation. The table is searchable and can be organized by column."))
         ),
         mainPanel(
           plotOutput("ABBABABATree"),
@@ -193,6 +196,11 @@ shinyUI(fluidPage(
           fileInput('userFst',
                     label= "Choose '.fst' Fst File"
           ),
+          tags$h4(class = "header",
+                  tags$h4("Interactive Zoom and Hover:"),
+                  hr(),
+                  tags$h5("Click and drag on the upper graph to select an area to zoom in on."),
+                  tags$h5("Lower graph will show zoomed area selected. If you hover over a point on the lower graph, a table of the 'x' and 'y' values will be shown.")),
           uiOutput('fstChroms'),
           hr(),
           checkboxInput("fstLowess",
@@ -215,7 +223,7 @@ shinyUI(fluidPage(
           fluidRow(
             column(
               width = 12, height = 300,
-              h3("Click and drag to select area to zoom on this plot"),
+              h5("Click and drag to select area to zoom on this plot"),
               plotOutput("fstPlot1",
                          dblclick = "fstPlot1_dblclick",
                          brush = brushOpts("fstPlot1_brush",
@@ -223,7 +231,7 @@ shinyUI(fluidPage(
             ),
             column(
               width = 12, height = 300,
-              h3("Plot will zoom in on area selected above"),
+              h5("Plot will zoom in on area selected above"),
               plotOutput("fstPlot2",
                          hover = hoverOpts("fstPlot2_hover",
                                            delay = 50,
@@ -247,15 +255,17 @@ shinyUI(fluidPage(
           fileInput('userPCA',
                     label= "Choose a '_PCA.covar' File"
           ),
-          tags$h5(class ="header",
-                  tags$p("The zoom function works as follows:"),
-                  tags$p("Click and drag over area you want to select on the top graph, the graph will zoom in on the bottom graph"))
+          tags$h4(class = "header",
+                  tags$h4("Interactive Zoom and Hover:"),
+                  hr(),
+                  tags$h5("Click and drag on the upper graph to select an area to zoom in on."),
+                  tags$h5("Lower graph will show zoomed area selected. If you hover over a point on the lower graph, a table of the 'x' and 'y' values will be shown."))
         ),
         mainPanel(
           fluidRow(
             column(
               width = 12, height = 300,
-              h3("Click and drag to select area on this plot"),
+              h5("Click and drag to select area on this plot"),
               plotOutput("PCAPlot1",
                          dblclick = "PCAPlot1_dblclick",
                          brush = brushOpts("PCAPlot1_brush",
@@ -264,7 +274,7 @@ shinyUI(fluidPage(
             ),
             column(
               width = 12, height = 300,
-              h3("Plot will zoom in on area selected above",
+              h5("Plot will zoom in on area selected above",
                  plotOutput("PCAPlot2",
                             hover = hoverOpts("PCAPlot2_hover",
                                               nullOutside = FALSE)))
