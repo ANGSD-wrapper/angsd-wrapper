@@ -695,7 +695,12 @@ shinyServer(
       }, error = function(err){
         ABBABABA <- read.table("abbababa.test", sep="\t", header=T)
       })
-      ABBABABATable <- as.data.table(ABBABABA)
+      abTable <- as.data.table(ABBABABA)
+      ABBABABATable <- setkey(abTable)
+      pvalue <- as.data.table(2*pnorm(-abs(ABBABABATable$Z)))
+      as.headers.pval <- c("Pvalue")
+      setnames(pvalue, as.headers.pval)
+      AB.table <- ABBABABATable["Pvalue"] <- pvalue
     })
     output$ABBABABAPlot <- renderPlot({
       ABBABABA <- tryCatch({
