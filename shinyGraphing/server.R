@@ -705,7 +705,7 @@ shinyServer(
       d.c <- subset(ABBABABA, H2 == input$h2 & H3 == input$h3)
       d.current <- as.matrix(d.c)
       mypanel.Dotplot <- function(x, y, ...) {
-        panel.Dotplot(x, y, ... = )
+        panel.Dotplot(x, y, ...)
         tips <- attr(x, "other")
         panel.abline(v = 0, lty = 3)
         trellis.par.set(mfrow = c(2, 1))
