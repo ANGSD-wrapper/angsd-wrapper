@@ -186,7 +186,8 @@ shinyServer(
              data, t = "p", pch = 19,col = rgb(0,0,0,0.5),
              xlab = "Position (bp)",
              ylab = paste(input$thetaChoice, "Estimator Value"),
-             main = paste("Estimators of theta along chromosome", thetas$Chr[1])
+             main = "Estimators of theta along chromosome"
+#             main = paste("Estimators of theta along chromosome", thetas$Chr[1])
         )
         if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
                                     col="red")}
@@ -251,7 +252,8 @@ shinyServer(
              data, t="p", pch=19,col=rgb(0,0,0,0.5),
              xlab="Position (bp)",
              ylab=paste(input$thetaChoice,"Estimator Value"),
-             main=paste("Estimators of theta along chromosome", thetas$Chr[1])
+             main = "Estimators of theta along chromosome"
+#             main=paste("Estimators of theta along chromosome", thetas$Chr[1])
         )
         
         rug(rect(gff.df.gene$X1, -1e2, 
@@ -266,8 +268,9 @@ shinyServer(
              data, t="p", pch=19,col=rgb(0,0,0,0.5),
              xlab="Position (bp)",
              ylab=paste(input$thetaChoice,"Estimator Value"),
-             main=paste("Estimators of theta along chromosome",
-                        thetas$Chr[1]),
+             main = "Estimators of theta along chromosome",
+#             main=paste("Estimators of theta along chromosome",
+#                        thetas$Chr[1]),
              xlim = ranges$x, ylim = ranges$y
         )
         if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
@@ -334,7 +337,8 @@ shinyServer(
            data, t="p", pch=19,col=rgb(0,0,0,0.5),
            xlab="Position (bp)",
            ylab=input$selectionChoice,
-           main=paste("Neutrality test statistics along chromosome", thetas$Chr[1])
+           main = "Neutrality test statistics along chromosome"
+#           main=paste("Neutrality test statistics along chromosome", thetas$Chr[1])
       )
       if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter, data, f=0.1), 
                                       col="red")}
@@ -378,8 +382,9 @@ shinyServer(
            data, t="p", pch=19,col=rgb(0,0,0,0.5),
            xlab="Position (bp)",
            ylab=input$selectionChoice,
-           main=paste("Neutrality test statistics along chromosome", 
-                      thetas$Chr[1]), 
+           main = "Neutrality test statistics along chromosome",
+#           main=paste("Neutrality test statistics along chromosome", 
+#                      thetas$Chr[1]), 
            xlim = ranges2$x, ylim = ranges2$y
       )
       if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
