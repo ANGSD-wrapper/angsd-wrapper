@@ -725,7 +725,8 @@ shinyServer(
       # Graph dotplot
       dotplot(factor(as.vector(d.current[, "H1"])) ~ as.vector(dstat.data), 
               col = "blue", pch = 20, panel = lattice.getOption("mypanel.Dotplot"),
-              xlab = "D", ylab = "Taxon", 
+              xlab = "D", ylab = "Taxon",
+              main = "D statistic comparison",
               title = paste("D statistic comparison where H2=", 
                           input$h2, " and H3=", 
                           input$h3,
