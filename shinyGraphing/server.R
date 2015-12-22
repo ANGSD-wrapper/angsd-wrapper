@@ -703,7 +703,7 @@ shinyServer(
                                header=T)
       })
       d.c <- subset(ABBABABA, H2 == input$h2 & H3 == input$h3)
-      d.current <- as.matrix(d.c)
+      d.current <- as.vector(d.c)
       mypanel.Dotplot <- function(x, y, ...) {
         panel.Dotplot(x, y, ...)
         tips <- attr(x, "other")
@@ -715,15 +715,15 @@ shinyServer(
                      angle = 90, code = 3)
       }
       # Making sure columns are numeric
-      d.current.Dstat <- as.numeric(d.current[, "Dstat"])
-      d.current.SE <- as.numeric(d.current[, "SE"])
+      d.current.Dstat <- as.vector(d.current[, "Dstat"])
+      d.current.SE <- as.vector(d.current[, "SE"])
       # Do the math
       d.current.minus <- d.current.Dstat-d.current.SE
       d.current.plus <- d.current.Dstat+d.current.SE
       # Create combined factors to be used in dotplot formula
       dstat.data <- cbind(d.current.Dstat, d.current.minus, d.current.plus)
       # Graph dotplot
-      dotplot(factor(d.current[, "H1"]) ~ dstat.data, 
+      dotplot(factor(as.vector(d.current[, "H1"])) ~ as.vector(dstat.data), 
               col = "blue", pch = 20, panel = lattice.getOption("mypanel.Dotplot"),
               xlab = "D", ylab = "Taxon", 
               title = paste("D statistic comparison where H2=", 
