@@ -299,32 +299,11 @@ shinyUI(fluidPage(
                       windowTitle = 'Admixture'),
           fileInput('userAdmix',
                     label= "Choose '.qopt' admixture File",
-                    multiple = TRUE)#,
-#          checkboxGroupInput("checkGroup",
-#                             label = )
+                    multiple = TRUE)
         ),
         mainPanel(
           fluidRow(
-            column(
-              width = 6, height = 300,
-              h4("K = 2"),
-              plotOutput("admixPlot2")
-            ),
-            column(
-              width = 6, height = 300,
-              h4("K = 3"),
-              plotOutput("admixPlot3")
-            ),
-            column(
-              width = 6, height = 300,
-              h4("K = 4"),
-              plotOutput("admixPlot4")
-            ),
-            column(
-              width = 6, height = 300,
-              h4("K = 5"),
-              plotOutput("admixPlot5")
-            )
+            plotOutput("admixPlot")
           )
           )
         )

@@ -65,7 +65,7 @@ shinyServer(
     dataInputAdmix = reactive({
       data <- input$userAdmix
       path <- as.character(data$datapath)
-      admix <- read.table(path, header = FALSE, fill = TRUE)
+      admix <- t(as.matrix(read.table(path, header = FALSE, fill = TRUE)))
       return(admix)
     })
     
@@ -575,110 +575,21 @@ shinyServer(
       axis(1, at = sfs.bp, labels = lab)
     })
 
-    # Define possible Admixture headers dependent on the number of K ancestral populations graphed
-    # Headers are for K= 1 to K = 10
-    admix.headers.2 <- c("Pop_1", "Pop_2")
-    admix.headers.3 <- c("Pop_1", "Pop_2", "Pop_3")
-    admix.headers.4 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4")
-    admix.headers.5 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5")
-    admix.headers.6 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5", "Pop_6")
-    admix.headers.7 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5", "Pop_6", "Pop_7")
-    admix.headers.8 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5", "Pop_6", "Pop_8")
-    admix.headers.9 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5", "Pop_6", "Pop_8", "Pop_9")
-    admix.headers.10 <- c("Pop_1", "Pop_2", "Pop_3", "Pop_4", "Pop_5", "Pop_6", "Pop_8", "Pop_9", "Pop_10")
-    
-    # Admixture plot 5 for 5 K ancestral populations
-    output$admixPlot5 <- renderPlot({
+    # Admixture plot
+    output$admixPlot <- renderPlot({
       admix <- tryCatch({
         dataInputAdmix()
+        
       },error = function(err) {
-        admix <- read.table("ngsadmix_example.txt")
+        admix <- t(as.matrix(read.table("ngsadmix_example.txt")))
       })
-      admix.5pop <- admix[1:12, ]
-      setnames(admix.5pop, admix.headers.5)
-      admix.5dat <- t(as.data.frame(as.matrix(admix.5pop)))
-      # Graphing admixPlot5
-      barplot(admix.5dat, col=c("#006BA4","#FF800E","#A2C8EC",
+      barplot(admix, col=c("#006BA4","#FF800E","#A2C8EC",
                            "#898989","#ABABAB","#595959",
                            "#5F9ED1","#CFCFCF","#FFBC79","#C85200"),
               space=0, 
-              xaxt = 'n',
               border=NA, 
               xlab="Individuals", 
-              ylab="admixture proportion",
-              main = "Admixture 5 Ancestral Populations")
-    })
-    
-    # Admixture plot 4 for 4 K ancestral populations
-    output$admixPlot4 <- renderPlot({
-      admix <- tryCatch({
-        dataInputAdmix()
-      },error = function(err) {
-        admix <- read.table("ngsadmix_example.txt")
-      })
-      admix.4pop <- admix[13:24, ]
-      # 5th column is NAs
-      setnames(admix.4pop, admix.headers.5)
-      admix.4dat <- t(as.data.frame(as.matrix(admix.4pop)))
-  
-      # Graphing admixPlot4  
-      barplot(admix.4dat, col=c("#006BA4","#FF800E","#A2C8EC",
-                                "#898989","#ABABAB","#595959",
-                                "#5F9ED1","#CFCFCF","#FFBC79","#C85200"),
-              space=0,
-              xaxt = 'n',
-              border=NA, 
-              xlab="Individuals", 
-              ylab="admixture proportion",
-              main = "Admixture 4 Ancestral Populations")
-    })
-    
-    # Admixture plot 3 for 3 K ancestral populations
-    output$admixPlot3 <- renderPlot({
-      admix <- tryCatch({
-        dataInputAdmix()
-      },error = function(err) {
-        admix <- read.table("ngsadmix_example.txt")
-      })
-      admix.3pop <- admix[25:36, ]
-      # 4th and 5th columns are NAs
-      setnames(admix.3pop, admix.headers.5)
-      admix.3dat <- t(as.data.frame(as.matrix(admix.3pop)))
-      
-      # Graphing admixPlot3  
-      barplot(admix.3dat, col=c("#006BA4","#FF800E","#A2C8EC",
-                                "#898989","#ABABAB","#595959",
-                                "#5F9ED1","#CFCFCF","#FFBC79","#C85200"),
-              space=0, 
-              xaxt = 'n',
-              border=NA, 
-              xlab="Individuals", 
-              ylab="admixture proportion",
-              main = "Admixture 3 Ancestral Populations")
-    })
-    
-    # Admixture plot 2 for 2 K ancestral populations
-    output$admixPlot2 <- renderPlot({
-      admix <- tryCatch({
-        dataInputAdmix() 
-      },error = function(err) {
-        admix <- read.table("ngsadmix_example.txt")
-      })
-      admix.2pop <- admix[37:48, ]
-      # 3rd, 4th and 5th columns are NAs
-      setnames(admix.2pop, admix.headers.5)
-      admix.2dat <- t(as.data.frame(as.matrix(admix.2pop)))
-      
-      # Graphing admixPlot2  
-      barplot(admix.2dat, col=c("#006BA4","#FF800E","#A2C8EC",
-                                "#898989","#ABABAB","#595959",
-                                "#5F9ED1","#CFCFCF","#FFBC79","#C85200"),
-              space=0,
-              xaxt = 'n',
-              border=NA, 
-              xlab="Individuals", 
-              ylab="admixture proportion",
-              main = "Admixture 2 Ancestral Populations")
+              ylab="admixture proportion")
     })
     
     # ABBA BABA plot output
