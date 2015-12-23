@@ -165,6 +165,7 @@ shinyUI(fluidPage(
           ),
           tags$h5(class = "header",
                   tags$h5("Change the orientation of individuals/populations for your tree by typing name of H2 and H3 groups"),
+                  tags$b("Note: the names of H2 and H3 must be an exact match with the names outputted in the table."),
                   hr()),
           textInput('h2', label="H2", value='NA11993'),
           textInput('h3', label="H3", value='NA12763'),
