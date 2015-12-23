@@ -39,8 +39,8 @@ main <- function() {
     angsdwrapper <- args[1]
     batchInstall(pkgList)
     bioInstall()
-    setwd(angsdwrapper)
-    runApp("shinyGraphing", launch.browser = TRUE)
+    setwd(paste0(angsdwrapper, "/shinyGraphing"))
+    runApp(launch.browser = TRUE)
 }
 
 main()
