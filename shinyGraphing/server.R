@@ -418,7 +418,7 @@ shinyServer(
       fst <- tryCatch({
         dataInputFst()
       }, error = function(err) {
-        sfs <- fread("Inversion.Liana_AB_NAM.fst")
+        fst <- read.table("Inversion_east.Inversion_west.fst", sep = "\t", col.names = fst.headers)
       })
       
       if(input$annotations){
@@ -471,7 +471,7 @@ shinyServer(
       fst <- tryCatch({
         dataInputFst()
       }, error = function(err) {
-        sfs <- fread("C:/Users/Chaochih/Dropbox/ANGSD_Wrapper/output_barley2_PH/Inversion.Liana_AB_NAM.fst")
+        fst <- read.table("Inversion_east.Inversion_west.fst", sep = "\t", col.names = fst.headers)
       })
       
       if(input$annotations){
