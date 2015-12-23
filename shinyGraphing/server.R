@@ -581,17 +581,16 @@ shinyServer(
     output$admixPlot <- renderPlot({
       admix <- tryCatch({
         dataInputAdmix()
-        
       },error = function(err) {
         admix <- t(as.matrix(read.table("ngsadmix_example.txt")))
       })
       barplot(admix, col=c("#006BA4","#FF800E","#A2C8EC",
                            "#898989","#ABABAB","#595959",
                            "#5F9ED1","#CFCFCF","#FFBC79","#C85200"),
-              space=0, 
-              border=NA, 
-              xlab="Individuals", 
-              ylab="admixture proportion")
+              space = 0,
+              border = NA,
+              xlab = "Individuals",
+              ylab = "Admixture proportion")
     })
     
     # ABBA BABA plot output

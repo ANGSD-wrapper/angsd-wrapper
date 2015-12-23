@@ -165,16 +165,14 @@ shinyUI(fluidPage(
           ),
           tags$h5(class = "header",
                   tags$h5("Change the orientation of individuals/populations for your tree by typing name of H2 and H3 groups"),
-                  tags$b("Note: the names of H2 and H3 must be an exact match with the names outputted in the table."),
                   hr()),
           textInput('h2', label="H2", value='NA11993'),
           textInput('h3', label="H3", value='NA12763'),
-          submitButton(text = "Apply Changes", icon = NULL, width = NULL),
           hr(),
           tags$h4(class = "header",
                   tags$h5("The table includes the output ABBABABA file from ANGSD-wrapper with the addition of a 'Pvalue' column."),
                   tags$h5("1. Output of ABBABABA file from ANGSD-wrapper"),
-                  tags$h5("2. The 'Pvalue' column is calculated with the formula 2*pnorm(-abs(z-score))"),
+                  tags$h5("2. Additional 'Pvalue' column calculated with the formula 2*pnorm(-abs(z-score))"),
                   hr(),
                   tags$h5("The table should be used as supplemental data to determine the most significant tree orientation. The table is searchable and can be organized by column."))
         ),
@@ -299,7 +297,9 @@ shinyUI(fluidPage(
                       windowTitle = 'Admixture'),
           fileInput('userAdmix',
                     label= "Choose '.qopt' admixture File",
-                    multiple = TRUE)
+                    multiple = TRUE)#,
+#          checkboxGroupInput("checkGroup",
+#                             label = )
         ),
         mainPanel(
           fluidRow(
