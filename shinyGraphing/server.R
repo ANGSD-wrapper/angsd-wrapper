@@ -546,7 +546,9 @@ shinyServer(
         dataInputSFS()
 
       }, error = function(err) {
-        sfs <- fread("sfs_example.txt", sep = "\t")
+        Derived <- as.matrix(fread("output_barley1_PH_DerivedSFS", header = FALSE))
+        sfs <- as.data.frame(t(Derived))
+        setnames(sfs, sfs.headers)
       })
 
       # Graph SFS here
