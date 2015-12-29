@@ -626,23 +626,13 @@ shinyServer(
                      length = 0.05, unit = "native",
                      angle = 90, code = 3)
       }
-      # Making sure columns are numeric
-      d.current.Dstat <- as.vector(d.current[, "Dstat"])
-      d.current.SE <- as.vector(d.current[, "SE"])
-      # Do the math
-      d.current.minus <- d.current.Dstat-d.current.SE
-      d.current.plus <- d.current.Dstat+d.current.SE
-      # Create combined factors to be used in dotplot formula
-      dstat.data <- cbind(d.current.Dstat, d.current.minus, d.current.plus)
-      # Graph dotplot
-      dotplot(factor(as.vector(d.current[, "H1"])) ~ as.vector(dstat.data), 
-              col = "blue", pch = 20, panel = lattice.getOption("mypanel.Dotplot"),
-              xlab = "D", ylab = "Taxon",
-              main = "D statistic comparison",
-              title = paste("D statistic comparison where H2=", 
-                          input$h2, " and H3=", 
-                          input$h3,
-                          sep=""))
+      # Creating plot with error bars 
+      Dotplot(factor(d.current$H1) ~ Cbind(d.current$Dstat, 
+                                           d.current$Dstat-d.current$SE, 
+                                           d.current$Dstat+d.current$SE), 
+              col = "blue", pch = 20, panel = mypanel.Dotplot, 
+              xlab = "D", ylab = "Taxon", 
+              title = paste("D statistic comparison where H2=", input$h2, " and H3=", input$h3, sep = ""))
     })
     # Output table of ABBA BABA values
     output$ABBABABATable <- renderDataTable({
