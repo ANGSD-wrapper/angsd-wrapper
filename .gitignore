@@ -9,3 +9,7 @@ iplant/
 # Ignore ZIP files #
 ####################
 *.zip
+
+# Ignore .DS_Store #
+####################
+*.DS_Store
