@@ -24,7 +24,7 @@ NGSF_DIR="${SOURCE}"/dependencies/ngsF
 N_IND=$(wc -l < "${SAMPLE_LIST}")
 
 #   Make the outdirectory
-OUT=${SCRATCH}/${PROJECT}/ngsF
+OUT=${SCRATCH}/${PROJECT}/Inbreeding_Coefficients
 mkdir -p "${OUT}"
 
 #   Can't use beagle format
