@@ -65,36 +65,30 @@ cd "${ROOT}"
 #   Download and set up the test data
 cd "${ROOT}"
 cd ..
-wget http://de.iplantcollaborative.org/dl/d/3A541C91-A66A-4651-949D-4E65028C4A2F/iplant.zip
-unzip iplant.zip
-#       Get rid of the zip file
-rm iplant.zip
-#       Change into the iplant directory
-cd iplant
-#       Create a list of sample names
-echo "Creating list of sample names..."
-rm test_samples.txt
-find "$(pwd)" -name "*.bam" | sort > SampleNames.txt
-#       Index the BAM files
-for i in $(cat SampleNames.txt)
-do
-    samtools index "$i"
-done
+wget 'http://de.iplantcollaborative.org/dl/d/8D7AF180-508E-4639-941F-946FA14C0120/Example_Data.tar.bz2'
+tar -xvjf Example_Data.tar.bz2
+#       Change into the example data directory
+cd Example_Data
+#       Create lists of sample names
+echo "Creating sample lists..." >&2
+find $(pwd)/Maize/ -name "*.bam" | sort > Maize/Maize_Samples.txt
+find $(pwd)/Mexicana -name "*.bam" | sort > Mexicana/Mexicana_Samples.txt
+find $(pwd)/Teosinte -name "*.bam" | sort > Teosinte/Teostinte_Samples.txt
 #       Index the reference and ancestral sequences
-echo "Indexing reference and ancestral sequences..."
-find "$(pwd)" -name "*.fa.gz" -exec gzip -d {} \;
-find "$(pwd)" -name "*.fa" -exec samtools faidx {} \;
-#       Rename the inbreeding coefficients file
-echo "Creating a list of inbreeding coefficients..."
-mv test_F.txt InbreedingCoefficients.indF
-#       Create a regions file
-echo "Creating a regions file..."
-for i in $(seq 12)
-do
-    echo "$i": >> regions.txt
-done
+echo "Indexing reference and ancestral sequences..." >&2
+cd Sequences
+find $(pwd) -name "*.fa" -exec samtools faidx {} \;
+#   Index the BAM files
+echo "Indexing the BAM files..." >&2
+cd ../Maize # Maize samples
+for i in `cat Maize_Samples.txt`; do samtools index "$i"; done
+cd ../Mexicana # Mexicana samples
+for i in `cat Mexicana_Samples.txt`; do samtools index "$i"; done
+cd ../Teosinte # Teosinte samples
+for i in `cat Teosinte_Samples.txt`; do samtools index "$i"; done
 
 #   Display final setup message
+cd ..
 echo
 echo "Test data can be found at $(pwd)"
 echo "Please run 'source ~/.bash_profile' to complete installation"
