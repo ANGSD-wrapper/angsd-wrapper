@@ -32,6 +32,12 @@ Run the setup command
 ./angsd-wrapper setup please
 ```
 
+Download the example dataset (optional)
+
+```shell
+./angsd-wrapper setup data
+```
+
 Finish the installation
 
 ```shell
