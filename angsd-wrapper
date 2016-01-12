@@ -43,9 +43,13 @@ then
     then
         echo -e "\
 Welcome to $(basename $0)! \n\
-To set up, please run \n\
+To download and install dependencies, please run \n\
 \n\
     ./$(basename $0) setup please \n\
+\n\
+To download the example dataset, please run \n\
+\n\
+    ./$(basename $0) setup data \n\
 " >&2
         exit 1
     fi
@@ -59,12 +63,16 @@ CONFIG="$2"
 
 case "${WRAPPER}" in
     "setup" )
-        if ! [ "${CONFIG}" == "please" ]
+        if [ "${CONFIG}" == "data" ]
+        then
+            bash Wrappers/Setup.sh data "${SOURCE}"
+        elif ! [ "${CONFIG}" == "please" ]
         then
             echo "Ask nicely"
             exit 1
+        else
+            bash Wrappers/Setup.sh dependencies "${SOURCE}"
         fi
-        bash Wrappers/Setup.sh
         ;;
     "SFS" )
         #   Run the site frequency spectrum wrapper script
