@@ -46,7 +46,7 @@ source ~/.bash_profile
 
 ## A note about BAM files
 
-ANGSD requires BAM files as its input, and angsd-wrapper uses a list of BAM files to pass to ANGSD. These BAM files have a few requirements:
+ANGSD requires BAM files as its input, and ANGSD-wrapper uses a list of BAM files to pass to ANGSD. These BAM files have a few requirements:
 
 - The BAM files must have an '@HD' header line
 - The BAM files must be indexed (.bai)
@@ -60,7 +60,7 @@ do
 done
 ```
 
-If any samples start with '@SQ' instead of '@HD', ANGSD and angsd-wrapper will fail. This [Gist](https://gist.github.com/mojaveazure/d194c4705642eecf8437) will add an `@HD` header lines to your BAM files.
+If any samples start with '@SQ' instead of '@HD', ANGSD and ANGSD-wrapper will fail. This [Gist](https://gist.github.com/mojaveazure/d194c4705642eecf8437) will add an `@HD` header lines to your BAM files.
 
 The index files must be generated after the BAM files. To index the BAM files using SAMTools, run the following on your sample list:
 
@@ -93,11 +93,15 @@ To see a list of available wrappers, run
 angsd-wrapper
 ```
 
-### Configuration files
+## Configuration files
 
 For each of the methods `angsd-wrapper` has, there is a config file for it. The configuration files hold variables used by the `wrappers`. This is where you need to modify and save the variables (i.e. specify filepaths of indexed BAM files/CRAM files,  FASTA files, sample lists, etc.) to suit your samples before running angsd-wrapper with a specified method.
 
-The default config files can be found in the `Configuration_Files` directory. You will need to modify them to suit your samples. Please refer to the config files or the [wiki](https://github.com/arundurvasula/angsd-wrapper/wiki) to see what each variable is used for and how they should be specified. If you run `angsd-wrapper` without any arguments, it will spit out a usage message.
+The default config files can be found in the `Configuration_Files` directory. You will need to modify them to suit your samples. Please refer to the config files or the [wiki](https://github.com/mojaveazure/angsd-wrapper/wiki) to see what each variable is used for and how they should be specified. If you run `angsd-wrapper` without any arguments, it will spit out a usage message.
+
+## Futher Information
+
+For more information about ANGSD-wrapper, the methods used in ANGSD-wrapper, and a comprehensive tutorial, please see the [wiki](https://github.com/mojaveazure/angsd-wrapper/wiki).
 
 ## Dependencies
 This package requires the following dependencies to work:
@@ -116,8 +120,8 @@ There are a few other dependencies that are **not** automatically downloaded dur
 
 ## Supported methods
 
- - [Site frequency spectrum (SFS)](https://github.com/arundurvasula/angsd-wrapper/wiki/Site-Frequency-Spectrum)
- - [Thetas estimations](https://github.com/arundurvasula/angsd-wrapper/wiki/Thetas)
+ - [Site frequency spectrum (SFS)](https://github.com/mojaveazure/angsd-wrapper/wiki/Site-Frequency-Spectrum)
+ - [Thetas estimations](https://github.com/mojaveazure/angsd-wrapper/wiki/Thetas)
  - [2D SFS and Fst](https://github.com/mojaveazure/angsd-wrapper/wiki/2D-Site-Frequency-Spectrum-and-Fst)
  - [Abbababa](https://github.com/mojaveazure/angsd-wrapper/wiki/Abbababa)
  - [Ancestral sequence extractions](https://github.com/mojaveazure/angsd-wrapper/wiki/Ancestral-Sequence)
@@ -125,8 +129,3 @@ There are a few other dependencies that are **not** automatically downloaded dur
  - [Inbreeding coefficients calculations](https://github.com/mojaveazure/angsd-wrapper/wiki/Inbreeding-Coefficients)
  - [Principal component analysis](https://github.com/arundurvasula/angsd-wrapper/wiki/Principle-Components-Analysis)
  - [Admixture analysis](https://github.com/mojaveazure/angsd-wrapper/wiki/Admixture-Analysis)
-
-## To Do
-
- - ~~Fix segfaults (In progress with the `ANGSD` team)~~ DONE!
- - Define variables in configuration files
