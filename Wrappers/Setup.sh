@@ -74,7 +74,7 @@ case "${setup_routine}" in
         exit
         #   Download and set up the test data
         cd "${SOURCE}"
-        wget 'http://de.iplantcollaborative.org/dl/d/8D7AF180-508E-4639-941F-946FA14C0120/Example_Data.tar.bz2'
+        wget 'http://de.iplantcollaborative.org/dl/d/D499C4BC-37F2-41B4-AD43-07BC7B5828C4/Example_Data.tar.bz2'
         tar -xvjf Example_Data.tar.bz2
         #       Change into the example data directory
         cd Example_Data
