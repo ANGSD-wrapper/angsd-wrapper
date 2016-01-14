@@ -9,8 +9,6 @@ SOURCE=$2 # Where is ANGSD-wrapper?
 
 case "${setup_routine}" in
     "dependencies" )
-        echo deps
-        exit
         #   Check to see if Git, Wget and SAMTools are installed
         if `command -v git > /dev/null 2> /dev/null` && `command -v wget > /dev/null 2> /dev/null` && `command -v samtools > /dev/null 2> /dev/null`
         then
@@ -70,8 +68,6 @@ case "${setup_routine}" in
         echo "Please run 'source ~/.bash_profile' to complete installation"
         ;;
     "data" )
-        echo data
-        exit
         #   Download and set up the test data
         cd "${SOURCE}"
         wget 'http://de.iplantcollaborative.org/dl/d/D499C4BC-37F2-41B4-AD43-07BC7B5828C4/Example_Data.tar.bz2'
