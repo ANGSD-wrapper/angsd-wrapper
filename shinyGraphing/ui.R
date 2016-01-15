@@ -195,7 +195,7 @@ shinyUI(fluidPage(
           headerPanel("Fst",
                       windowTitle = "Fst Graph"),
           fileInput('userFst',
-                    label= "Choose '.fst' Fst File"
+                    label= "Choose '.fst.graph.me' Fst File"
           ),
           tags$h4(class = "header",
                   tags$h4("Interactive Zoom and Hover:"),
