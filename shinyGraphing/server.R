@@ -460,8 +460,8 @@ shinyServer(
              main = paste("Fst along chromosome")
              )
         if(input$fstLowess) {
-          lines(lowess(fst.f, fst.FST, f = 0.1,
-                       col ="red"))
+          lines(lowess(fst.f, fst.FST, f = 0.1),
+                       col ="red")
         }
       }
     })
