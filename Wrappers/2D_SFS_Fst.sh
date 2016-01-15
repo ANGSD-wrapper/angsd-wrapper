@@ -230,3 +230,10 @@ ${NGS_POPGEN}/ngsFST \
     -block_size ${BLOCK_SIZE} \
     -nsites ${N_SITES} \
     -outfile ${OUT}/${GROUP_1}.${GROUP_2}.fst
+
+#   Merge shared.pos file with Fst output file
+echo "WRAPPER: creating files for Shiny graphing..." >&2
+Rscript ${SOURCE}/Wrappers/fst_bp.R \
+    ${OUT}/shared.pos \
+    ${OUT}/${GROUP_1}.${GROUP_2}.fst \
+    ${OUT}/"${PROJECT}".Fst.graph.me
