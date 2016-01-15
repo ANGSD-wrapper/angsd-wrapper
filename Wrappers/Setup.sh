@@ -70,7 +70,7 @@ case "${setup_routine}" in
     "data" )
         #   Download and set up the test data
         cd "${SOURCE}"
-        wget 'http://de.iplantcollaborative.org/dl/d/D499C4BC-37F2-41B4-AD43-07BC7B5828C4/Example_Data.tar.bz2'
+        wget --no-check-certificate --output-document=Example_Data.tar.bz2 https://ndownloader.figshare.com/files/3667101
         tar -xvjf Example_Data.tar.bz2
         #       Change into the example data directory
         cd Example_Data
