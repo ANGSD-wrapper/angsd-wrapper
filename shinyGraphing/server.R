@@ -9,8 +9,7 @@ options(shiny.maxRequestSize = - 1)
 
 # Define headers for thetas, Fst and intersect data
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)", "Chr","WinCenter", "tW", "tP", "tF", "tH", "tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
-fst.headers <- c("A", "AB", "f", "FST", "Pvar")
-intersect.headers <- c("Chr", "bp")
+fst.headers <- c("Chr", "bp", "A", "AB", "f", "FST", "Pvar")
 sfs.headers <- c("Allele_Frequency")
 
 not.loaded <- TRUE
@@ -43,9 +42,9 @@ shinyServer(
     dataInputFst = reactive({
       data <- input$userFst
       path <- as.character(data$datapath)
-      fst <- read.table(file=path,
-                        sep="\t",
-                        col.names=fst.headers
+      fst <- read.table(file = path,
+                        sep = "",
+                        col.names = fst.headers
       )
       return(fst)
     })
@@ -418,8 +417,12 @@ shinyServer(
       fst <- tryCatch({
         dataInputFst()
       }, error = function(err) {
-        fst <- read.table("Inversion_east.Inversion_west.fst", sep = "\t", col.names = fst.headers)
+        fst <- read.table("graph.me.fst", sep = "", header = F, col.names = fst.headers)
       })
+      
+      #fst.intersect <- cbind(intersect, fst)
+      #fst <- subset(fst, Chr==input$fstChrom)
+      fst.intersect <- subset(fst, FST>=0 & FST <=1)  # keep values between 0 and 1
       
       if(input$annotations){
         validate(need(input$userAnnotations, 
@@ -431,11 +434,15 @@ shinyServer(
       }
       
       # Pull columns to graph
-      fst.FST <- subset(fst$FST, fst$FST > 0)
-#      f.FST <- subset(fst$f, fst$f > 0)
+      if(input$subset) {
+        fst.plot <- subset(fst.intersect, bp >= input$intersectLow & bp <= input$intersectHigh)
+      }
+      else {
+        fst.plot <- fst.intersect
+      }
       
       if(input$annotations) {
-        plot(fst.FST/sum(fst.FST),
+        plot(fst.plot$bp, fst.plot$FST,
              t = "p", pch = 19,
              col = rgb(0, 0, 0, 0.5),
              xlab = "Position (bp)",
@@ -447,12 +454,12 @@ shinyServer(
                  col = rgb(0.18, 0.55, 0.8, 0.75),
                  border = NA))
         if(input$fstLowess){
-          lines(lowess(fst.f, fst.FST,
+          lines(lowess(fst.plot$f, fst.plot$FST,
                        f=0.1), col="red")
         }
       }
       else {
-        plot(fst.FST/sum(fst.FST),
+        plot(fst.plot$bp, fst.plot$FST,
              t = "p", pch = 19,
              col = rgb(0, 0, 0, 0.5),
              xlab = "Position (bp)",
@@ -460,7 +467,7 @@ shinyServer(
              main = paste("Fst along chromosome")
              )
         if(input$fstLowess) {
-          lines(lowess(fst.f, fst.FST, f = 0.1),
+          lines(lowess(fst.plot$f, fst.plot$FST, f = 0.1),
                        col ="red")
         }
       }
@@ -471,8 +478,11 @@ shinyServer(
       fst <- tryCatch({
         dataInputFst()
       }, error = function(err) {
-        fst <- read.table("Inversion_east.Inversion_west.fst", sep = "\t", col.names = fst.headers)
+        fst <- read.table("graph.me.fst", sep = "", header = F, col.names = fst.headers)
       })
+      
+      # Only pull values between 0 and 1
+      fst.intersect <- subset(fst, FST >= 0 & FST <= 1)
       
       if(input$annotations){
         validate(need(input$userAnnotations, 
@@ -484,10 +494,15 @@ shinyServer(
       }
       
       # Pull columns to graph
-      fst.FST <- subset(fst$FST, fst$FST > 0)
+      if(input$subset) {
+        fst.plot <- subset(fst.intersect, bp >= input$intersectLow & bp <= input$intersectHigh)
+      }
+      else {
+        fst.plot <- fst.intersect
+      }
       
       if(input$annotations) {
-        plot(fst.FST/sum(fst.FST),
+        plot(fst.plot$bp, fst.plot$FST,
              t = "p", pch = 19,
              col = rgb(0, 0, 0, 0.5),
              xlab = "Position (bp)",
@@ -501,12 +516,12 @@ shinyServer(
                  col = rgb(0.18, 0.55, 0.8, 0.75),
                  border = NA))
         if(input$fstLowess){
-          lines(lowess(fst.f, fst.FST,
-                       f=0.1), col="red")
+          lines(lowess(fst.plot$f, fst.plot$FST,
+                       f = 0.1), col = "red")
         }
       }
       else {
-        plot(fst.FST/sum(fst.FST),
+        plot(fst.plot$bp, fst.plot$FST,
              t = "p", pch = 19,
              col = rgb(0, 0, 0, 0.5),
              xlab = "Position (bp)",
@@ -516,8 +531,8 @@ shinyServer(
              ylim = ranges3$y
         )
         if(input$fstLowess) {
-          lines(lowess(fst.f, fst.FST, f = 0.1,
-                       col ="red"))
+          lines(lowess(fst.plot$f, fst.plot$FST, f = 0.1),
+                       col ="red")
         }
       }
     })
