@@ -1,4 +1,5 @@
 #!/usr/bin/env Rscript
+library(data.table)
 
 # Collect arguments from the command line
 args <- commandArgs(trailingOnly = TRUE)
