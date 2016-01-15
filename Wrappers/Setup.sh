@@ -72,6 +72,7 @@ case "${setup_routine}" in
         cd "${SOURCE}"
         wget --no-check-certificate --output-document=Example_Data.tar.bz2 https://ndownloader.figshare.com/files/3667101
         tar -xvjf Example_Data.tar.bz2
+        rm Example_Data.tar.bz2
         #       Change into the example data directory
         cd Example_Data
         #       Create lists of sample names
