@@ -27,7 +27,7 @@ To upgrade the dependencies, please run \n\
 \n\
     $(basename $0) upgrade dependencies \n\
 \n\
-To download the example dataset, plese run \n\
+To download the example dataset, please run \n\
     $(basename $0) setup data \n\
 \n\
 To start the Shiny graphing interface, please run \n\
