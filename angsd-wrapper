@@ -48,7 +48,7 @@ then
 Welcome to $(basename $0)! \n\
 To download and install dependencies, please run \n\
 \n\
-    ./$(basename $0) setup please \n\
+    ./$(basename $0) setup dependencies \n\
 \n\
 To download the example dataset, please run \n\
 \n\
@@ -69,12 +69,22 @@ case "${WRAPPER}" in
         if [ "${CONFIG}" == "data" ]
         then
             bash Wrappers/Setup.sh data "${SOURCE}"
-        elif ! [ "${CONFIG}" == "please" ]
+        elif [ "${CONFIG}" == "dependencies" ]
         then
-            echo "Ask nicely"
+            bash Wrappers/Setup.sh dependencies "${SOURCE}"
             exit 1
         else
-            bash Wrappers/Setup.sh dependencies "${SOURCE}"
+            echo -e "\
+Welcome to $(basename $0)! \n\
+To download and install dependencies, please run \n\
+\n\
+    ./$(basename $0) setup dependencies \n\
+\n\
+To download the example dataset, please run \n\
+\n\
+    ./$(basename $0) setup data \n\
+" >&2
+            exit 1
         fi
         ;;
     "SFS" )

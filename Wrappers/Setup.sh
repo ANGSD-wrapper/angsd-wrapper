@@ -10,7 +10,8 @@ SOURCE=$2 # Where is ANGSD-wrapper?
 case "${setup_routine}" in
     "dependencies" )
         #   Check to see if Git and Wget are installed
-        if ! `command -v git > /dev/null 2> /dev/null` || ! `command -v wget > /dev/null 2> /dev/null`; then echo "Cannot find either Git or Wget; please install and place in your PATH"; exit 1; fi
+        if ! `command -v git > /dev/null 2> /dev/null`; then echo "Please install Git and place in your PATH" >&2 ; exit 1; fi
+        if ! `command -v wget > /dev/null 2> /dev/null`; then echo "Please install Wget and place in your PATH" >&2 ; exit 1; fi
         #   Let angsd-wrapper be run from anywhere
         echo alias "angsd-wrapper='`pwd -P`/angsd-wrapper'" >> ~/.bash_profile
         #   Make the 'dependencies' directory
@@ -63,7 +64,8 @@ case "${setup_routine}" in
         ;;
     "data" )
         #   Check for depenent programs
-        if ! `command -v wget > /dev/null 2> /dev/null` || `command -v samtools > /dev/null 2> /dev/null`; then echo "Please install Wget and SAMTools to download and install the example dataset" >&2; exit 1; fi
+        if ! `command -v wget > /dev/null 2> /dev/null`; then echo "Please install Wget and place in your PATH" >&2 ; exit 1; fi
+        if ! `command -v samtools > /dev/null 2> /dev/null`; then echo "Please install SAMTools and place in your PATH" >&2; exit 1; fi
         #   Download and set up the test data
         cd "${SOURCE}"
         wget --no-check-certificate --output-document=Example_Data.tar.bz2 https://ndownloader.figshare.com/files/3667101
