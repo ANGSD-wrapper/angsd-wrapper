@@ -2,17 +2,17 @@
 
 ANGSD-wrapper is a utility developed to aid in the analysis of next generation sequencing data. Users can do the following with this suite:
 - Calculate a site frequency spectrum
-- Calculate a 2D site frequency spectrum with corresponding Fst estimations
-- Perform Abbababa tests
+- Calculate a 2D site frequency spectrum with corresponding *F*<sub>ST</sub> estimations
+- Perform ABBA/BABA tests
 - Extract a FASTA sequence from BAM files
 - Estimate genotype likelihoods
 - Estimate Thetas and various neutrality statistics
 - Calculate per-individual inbreeding coefficient
 - Find admixture proportions
 
-Likelihood based approaches are used in ANGSD to calculate summary statistics for next generation sequencing data. The wrapper scripts and documentation aim to make ANGSD user friendly.
+Likelihood based approaches are used in ANGSD to calculate summary statistics from next generation sequencing data. The wrapper scripts and documentation are designed to make ANGSD user friendly.
 
-## Installing angsd-wrapper
+## Installing ANGSD-wrapper
 
 To install ANGSD-wrapper, download from GitHub
 
@@ -20,7 +20,7 @@ To install ANGSD-wrapper, download from GitHub
 git clone https://github.com/mojaveazure/angsd-wrapper.git
 ```
 
-Go into the angsd-wrapper directory
+Go into the ANGSD-wrapper directory
 
 ```shell
 cd angsd-wrapper/
@@ -46,7 +46,7 @@ source ~/.bash_profile
 
 ## A note about BAM files
 
-ANGSD requires BAM files as its input, and ANGSD-wrapper uses a list of BAM files to pass to ANGSD. These BAM files have a few requirements:
+ANGSD requires BAM files as input, and ANGSD-wrapper passes a list of BAM files to ANGSD. These BAM files have a few requirements:
 
 - The BAM files must have an '@HD' header line
 - The BAM files must be indexed (.bai)
@@ -85,7 +85,7 @@ To run ANGSD-wrapper, run
 angsd-wrapper <wrapper> <config>
 ```
 
-Where < wrapper > is one of the available routines that ANGSD-wrapper can run and < config > is the relative path to the corresponding configuration file.
+Where <wrapper> is one of the methods that ANGSD-wrapper can run and <config> is the relative path to the corresponding configuration file.
 
 To see a list of available wrappers, run
 
@@ -95,16 +95,16 @@ angsd-wrapper
 
 ## Configuration files
 
-For each of the methods `angsd-wrapper` has, there is a config file for it. The configuration files hold variables used by the `wrappers`. This is where you need to modify and save the variables (i.e. specify filepaths of indexed BAM files/CRAM files,  FASTA files, sample lists, etc.) to suit your samples before running angsd-wrapper with a specified method.
+There is a configuration (config) file for each method available through `angsd-wrapper.` The configuration files hold variables used by the `wrappers.` This is where you need to modify and save the variables (i.e., specify filepaths of indexed BAM files/CRAM files,  FASTA files, sample lists, etc.) to suit your samples before running angsd-wrapper with a specified method.
 
-The default config files can be found in the `Configuration_Files` directory. You will need to modify them to suit your samples. Please refer to the config files or the [wiki](https://github.com/mojaveazure/angsd-wrapper/wiki) to see what each variable is used for and how they should be specified. If you run `angsd-wrapper` without any arguments, it will spit out a usage message.
+The default config files can be found in the `Configuration_Files` directory. You will need to modify them to suit your samples. Please refer to the config files or the [wiki](https://github.com/mojaveazure/angsd-wrapper/wiki) to see what each variable is used for and how they should be specified. If you run `angsd-wrapper` without any arguments, it will return a usage message.
 
 ## Futher Information
 
-For more information about ANGSD-wrapper, the methods used in ANGSD-wrapper, and a comprehensive tutorial, please see the [wiki](https://github.com/mojaveazure/angsd-wrapper/wiki).
+For more information about ANGSD-wrapper, the methods availble through ANGSD-wrapper, and a comprehensive tutorial, please see the [wiki](https://github.com/mojaveazure/angsd-wrapper/wiki).
 
 ## Dependencies
-This package requires the following dependencies to work:
+This package requires the following dependencies:
  - [ANGSD](https://github.com/angsd/angsd)
  - [ngsPopGen](https://github.com/mfumagalli/ngsPopGen)
  - [ngsF](https://github.com/fgvieira/ngsF)
@@ -122,8 +122,8 @@ There are a few other dependencies that are **not** automatically downloaded dur
 
  - [Site frequency spectrum (SFS)](https://github.com/mojaveazure/angsd-wrapper/wiki/Site-Frequency-Spectrum)
  - [Thetas estimations](https://github.com/mojaveazure/angsd-wrapper/wiki/Thetas)
- - [2D SFS and Fst](https://github.com/mojaveazure/angsd-wrapper/wiki/2D-Site-Frequency-Spectrum-and-Fst)
- - [Abbababa](https://github.com/mojaveazure/angsd-wrapper/wiki/Abbababa)
+ - [2D SFS and *F*<sub>ST</sub>](https://github.com/mojaveazure/angsd-wrapper/wiki/2D-Site-Frequency-Spectrum-and-Fst)
+ - [ABBA/BABA](https://github.com/mojaveazure/angsd-wrapper/wiki/Abbababa)
  - [Ancestral sequence extractions](https://github.com/mojaveazure/angsd-wrapper/wiki/Ancestral-Sequence)
  - [Genotype likelihood estimations](https://github.com/mojaveazure/angsd-wrapper/wiki/Genotype-Likelihoods)
  - [Inbreeding coefficients calculations](https://github.com/mojaveazure/angsd-wrapper/wiki/Inbreeding-Coefficients)
