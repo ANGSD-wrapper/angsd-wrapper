@@ -231,7 +231,6 @@ ${NGS_POPGEN}/ngsFST \
     -nsites ${N_SITES} \
     -outfile ${OUT}/${GROUP_1}.${GROUP_2}.fst
 
-
 #   Unzip the mafs files
 gzip -df ${OUT}/${GROUP_1}_Intergenic.mafs.gz
 gzip -df ${OUT}/${GROUP_2}_Intergenic.mafs.gz
