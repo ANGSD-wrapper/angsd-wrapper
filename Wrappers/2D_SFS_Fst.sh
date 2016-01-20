@@ -207,7 +207,7 @@ echo "WRAPPER: converting 2D SFS for Fst Estimations..." >&2
 mv ${OUT/2DSFS}/shared.pos.gz ${OUT}
 
 #   Unzip shared.pos.gz and get the number of shared sites
-gzip -d ${OUT}/shared.pos.gz
+gzip -df ${OUT}/shared.pos.gz
 N_SITES=`wc -l < "${OUT}"/shared.pos`
 
 #   Generate a prior spectrum using ngs2dSFS from ngsPopGen
@@ -231,9 +231,15 @@ ${NGS_POPGEN}/ngsFST \
     -nsites ${N_SITES} \
     -outfile ${OUT}/${GROUP_1}.${GROUP_2}.fst
 
+
+#   Unzip the mafs files
+gzip -df "${OUT}"/*.mafs.gz
+
 #   Merge shared.pos file with Fst output file
 echo "WRAPPER: creating files for Shiny graphing..." >&2
 Rscript ${SOURCE}/Wrappers/fst_bp.R \
     ${OUT}/shared.pos \
     ${OUT}/${GROUP_1}.${GROUP_2}.fst \
+    ${OUT}/${GROUP_1}_Intergenic.mafs \
+    ${OUT}/${GROUP_2}_Intergenic.mafs \
     ${OUT}/"${PROJECT}".Fst.graph.me

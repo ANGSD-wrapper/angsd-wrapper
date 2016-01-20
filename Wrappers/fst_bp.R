@@ -15,16 +15,16 @@ fst.headers <- c("A", "AB", "f", "FST", "Pvar")
 intersect.headers <- c("Chr","bp")
 
 # Read in data from .fst file and shared.pos file
-intersect <- fread(intersectOut, sep = "\t", col.names = intersect.headers)
-fst <- fread(fstOut, sep = "\t", col.names = fst.headers %>%
+intersect <- read.table(file = intersectOut, sep = "\t", col.names = intersect.headers)
+fst <- read.table(file = fstOut, sep = "\t", col.names = fst.headers %>%
                select(c("Pvar")))
-mafs1 <- fread(mafs.g1 %>%
+mafs1 <- read.table(file = mafs.g1 %>%
                  select(c(chromo, position, major, minor, knownEM)))
-mafs2 <- fread(mafs.g2 %>%
+mafs2 <- read.table(file= = mafs.g2 %>%
                  select(c(chromo, position, major, minor, knownEM)))
 
 # Combine two datasets
 FST <- cbind(intersect, fst, mafs1, mafs2)
 
 # Save to .fst file
-write.table(FST, graph.me.fst, col.names = F, row.names = F)
+write.table(x = FST, file = graph.me.fst, col.names = F, row.names = F)
