@@ -11,7 +11,7 @@ pkgTest <- function(package) {
 }
 
 #   A list of required pacakges
-pkgList <- c("shiny", "lattice", "Hmisc", "ape", "data.table", "DT", "shinythemes")
+pkgList <- c("shiny", "lattice", "Hmisc", "ape", "data.table", "DT", "shinythemes", "dplyr")
 
 #   Load the packages
 batchInstall <- function(pkgList) {
