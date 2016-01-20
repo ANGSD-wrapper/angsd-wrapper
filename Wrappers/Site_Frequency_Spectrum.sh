@@ -25,7 +25,6 @@ N_IND=$(wc -l < "${SAMPLE_LIST}")
 N_F=$(wc -l < "${SAMPLE_INBREEDING}")
 #       For ANGSD, the actual sample size is twice the number of individuals, since each individual has two chromosomes.
 #       The individual inbreeding coefficents take care of the mismatch between these two numbers
-N_CHROM=`expr 2 \* "${N_IND}"`
 
 #   Perform a check to see if number of individuals matches number of inbreeding coefficients
 if [ "${N_IND}" -ne "${N_F}" ]
