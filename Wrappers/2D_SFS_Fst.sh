@@ -233,7 +233,8 @@ ${NGS_POPGEN}/ngsFST \
 
 
 #   Unzip the mafs files
-gzip -df "${OUT}"/*.mafs.gz
+gzip -df ${OUT}/${GROUP_1}_Intergenic.mafs.gz
+gzip -df ${OUT}/${GROUP_2}_Intergenic.mafs.gz
 
 #   Merge shared.pos file with Fst output file
 echo "WRAPPER: creating files for Shiny graphing..." >&2
