@@ -77,7 +77,7 @@ case "${setup_routine}" in
         echo "Creating sample lists..." >&2
         find $(pwd)/Maize/ -name "*.bam" | sort > Maize/Maize_Samples.txt
         find $(pwd)/Mexicana -name "*.bam" | sort > Mexicana/Mexicana_Samples.txt
-        find $(pwd)/Teosinte -name "*.bam" | sort > Teosinte/Teostinte_Samples.txt
+        find $(pwd)/Teosinte -name "*.bam" | sort > Teosinte/Teosinte_Samples.txt
         #       Index the reference and ancestral sequences
         echo "Indexing reference and ancestral sequences..." >&2
         cd Sequences
