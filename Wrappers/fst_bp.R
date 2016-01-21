@@ -52,4 +52,4 @@ filter.minor <- subset(x = filter.knownEM, minor.mafs2 == minor.mafs1 | minor.ma
 filter.major <- subset(x = filter.minor, major.mafs2 == major.mafs1 | major.mafs2 == minor.mafs1)
 
 # Save to .fst file
-write.table(x = filter.major, file = "maize.graph.me.fst", col.names = F, row.names = F)
+write.table(x = filter.major, file = "graph.me.fst", col.names = F, row.names = F)
