@@ -68,6 +68,7 @@ case "${setup_routine}" in
         if ! `command -v samtools > /dev/null 2> /dev/null`; then echo "Please install SAMTools and place in your PATH" >&2; exit 1; fi
         #   Download and set up the test data
         cd "${SOURCE}"
+        if [[ -d "Example_Data" ]]; then rm -rf Example_Data/; fi # Remove any old example datasets
         wget --no-check-certificate --output-document=Example_Data.tar.bz2 https://ndownloader.figshare.com/files/3667101
         tar -xvjf Example_Data.tar.bz2
         rm Example_Data.tar.bz2

@@ -2,11 +2,17 @@
 
 # Collect arguments from the command line
 args <- commandArgs(trailingOnly = TRUE)
-intersectOut <- args[1]
-fstOut <- args[2]
-mafs.g1 <- args[3]
+angsd.wrapper <- args[1]
+intersectOut <- args[2]
+fstOut <- args[3]
+mafs.g1 <- args[4]
 mafs.g2 <- args[4]
-graph.me.fst <- args[5]
+graph.me.fst <- args[6]
+
+
+# Set install directory for packages
+dir.create(file.path(angsd.wrapper, ".RLibs", fsep="/"), showWarnings = FALSE)
+.libPaths(paste0(angsd.wrapper, "/.RLibs"))
 
 # Install dependent libraries
 pkgTest <- function(package) {
