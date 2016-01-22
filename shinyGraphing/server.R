@@ -9,7 +9,6 @@ options(shiny.maxRequestSize = - 1)
 
 # Define headers for thetas, Fst and intersect data
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)", "Chr","WinCenter", "tW", "tP", "tF", "tH", "tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
-#fst.headers <- c("Position", "Chromo.mafs1", "Major.mafs1", "AB", "f", "FST", "Pvar")
 sfs.headers <- c("Allele_Frequency")
 
 not.loaded <- TRUE
