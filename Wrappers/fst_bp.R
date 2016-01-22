@@ -53,10 +53,7 @@ FST <- cbind(intersect, fst)
 
 # Merge FST dataset and mafs.1and2 dataset and filter by columns
 data.fst <- merge(mafs.1and2, FST, by = "position")
-#filter.knownEM <- subset(x = data.fst, knownEM.mafs1 + knownEM.mafs2 > 0)
-#filter.minor <- subset(x = filter.knownEM, minor.mafs2 == minor.mafs1 | minor.mafs2 == #major.mafs1)
-#filter.major <- subset(x = filter.minor, major.mafs2 == major.mafs1 | major.mafs2 == minor.mafs1)
-
+# Filter based on a values of multiple columns
 filter.fst <- subset(x = data.fst, knownEM.mafs1 + knownEM.mafs2 > 0 & minor.mafs2 == minor.mafs1 | minor.mafs2 == major.mafs1 & major.mafs2 == major.mafs1 | major.mafs2 == minor.mafs1)
 
 # Save to .fst file
