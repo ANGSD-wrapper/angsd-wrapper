@@ -22,7 +22,7 @@ pkgTest <- function(package) {
 }
 
 #   A list of required packages
-pkgList <- c("data.table", "dplyr")
+pkgList <- c("data.table")
 
 #   Load the packages
 options(repos = c(CRAN = "http://cran.rstudio.com")) # set a repo mirror, we used RStudio just because
