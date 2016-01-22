@@ -417,7 +417,7 @@ shinyServer(
       fst <- tryCatch({
         dataInputFst()
       }, error = function(err) {
-        fst <- fread("graph.me.fst", sep = " ", header = T)
+        fst <- fread("Maize.Fst.graph.me", sep = " ", header = T)
       })
       
       # ngsPopGen FST calculator returns negative FST values 
@@ -454,11 +454,11 @@ shinyServer(
                  border = NA))
         if(input$fstLowess){
           lines(lowess(fst.plot$f, fst.plot$FST,
-                       f=0.1), col="red")
+                       f = 0.1), col = "red")
         }
       }
       else {
-        plot(fst.plot$bp, fst.plot$FST,
+        plot(fst.plot$position, fst.plot$FST,
              t = "p", pch = 19,
              col = rgb(0, 0, 0, 0.5),
              xlab = "Position (bp)",
@@ -467,7 +467,7 @@ shinyServer(
              )
         if(input$fstLowess) {
           lines(lowess(fst.plot$f, fst.plot$FST, f = 0.1),
-                       col ="red")
+                       col = "red")
         }
       }
     })
@@ -477,11 +477,11 @@ shinyServer(
       fst <- tryCatch({
         dataInputFst()
       }, error = function(err) {
-        fst <- read.table("graph.me.fst", sep = "", header = F, col.names = fst.headers)
+        fst <- fread("Maize.Fst.graph.me", sep = " ", header = T)
       })
       
-      # Only pull values between 0 and 1
-      fst.intersect <- subset(fst, FST >= 0 & FST <= 1)
+      # ngsPopGen FST calculator returns negative FST values 
+      fst.intersect <- subset(fst, FST>=0 & FST <=1)  # keep values between 0 and 1
       
       if(input$annotations){
         validate(need(input$userAnnotations, 
@@ -494,14 +494,14 @@ shinyServer(
       
       # Pull columns to graph
       if(input$subset) {
-        fst.plot <- subset(fst.intersect, bp >= input$intersectLow & bp <= input$intersectHigh)
+        fst.plot <- subset(fst.intersect, position >= input$intersectLow & position <= input$intersectHigh)
       }
       else {
         fst.plot <- fst.intersect
       }
       
       if(input$annotations) {
-        plot(fst.plot$bp, fst.plot$FST,
+        plot(fst.plot$position, fst.plot$FST,
              t = "p", pch = 19,
              col = rgb(0, 0, 0, 0.5),
              xlab = "Position (bp)",
@@ -520,7 +520,7 @@ shinyServer(
         }
       }
       else {
-        plot(fst.plot$bp, fst.plot$FST,
+        plot(fst.plot$position, fst.plot$FST,
              t = "p", pch = 19,
              col = rgb(0, 0, 0, 0.5),
              xlab = "Position (bp)",
