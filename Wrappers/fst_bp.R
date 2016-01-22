@@ -60,4 +60,4 @@ data.fst <- merge(mafs.1and2, FST, by = "position")
 filter.fst <- subset(x = data.fst, knownEM.mafs1 + knownEM.mafs2 > 0 & minor.mafs2 == minor.mafs1 | minor.mafs2 == major.mafs1 & major.mafs2 == major.mafs1 | major.mafs2 == minor.mafs1)
 
 # Save to .fst file
-write.table(x = filter.fst, file = "graph.me.fst", col.names = F, row.names = F)
+write.table(x = filter.fst, file = graph.me.fst, col.names = T, row.names = F)
