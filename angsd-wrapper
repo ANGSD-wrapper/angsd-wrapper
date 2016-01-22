@@ -23,10 +23,6 @@ The following is a list of calls and what they do: \n\
     Inbreeding  Use ngsF to calculate per-individual inbreeding coefficients \n\
     Admixture   Perform admixture analysis \n\
 \n\
-To upgrade the dependencies, please run \n\
-\n\
-    $(basename $0) upgrade dependencies \n\
-\n\
 To download the example dataset, please run \n\
     $(basename $0) setup data \n\
 \n\
