@@ -39,7 +39,7 @@ intersect.headers <- c("Chr","position")
 # Subset data and select columns to pull
 intersect <- fread(input = intersectOut, sep = "\t", col.names = intersect.headers)
 fst <- fread(input = fstOut, sep = "\t", col.names = fst.headers)
-fst <- subset(x = fst, select = c("Pvar"))
+fst <- subset(x = fst, select = c("FST", "Pvar"))
 mafs1 <- fread(input = mafs.g1)
 mafs1 <- subset(x = mafs1, select = c("chromo", "position", "major", "minor", "knownEM"))
 mafs2 <- fread(input = mafs.g2)

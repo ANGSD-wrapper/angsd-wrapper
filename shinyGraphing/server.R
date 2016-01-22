@@ -9,7 +9,7 @@ options(shiny.maxRequestSize = - 1)
 
 # Define headers for thetas, Fst and intersect data
 thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(WinStart,WinStop)", "Chr","WinCenter", "tW", "tP", "tF", "tH", "tL", "Tajima", "fuf", "fud", "fayh", "zeng", "nSites")
-fst.headers <- c("Chr", "bp", "A", "AB", "f", "FST", "Pvar")
+#fst.headers <- c("Position", "Chromo.mafs1", "Major.mafs1", "AB", "f", "FST", "Pvar")
 sfs.headers <- c("Allele_Frequency")
 
 not.loaded <- TRUE
@@ -42,9 +42,9 @@ shinyServer(
     dataInputFst = reactive({
       data <- input$userFst
       path <- as.character(data$datapath)
-      fst <- read.table(file = path,
-                        sep = "",
-                        col.names = fst.headers
+      fst <- fread(file = path,
+                        sep = " ",
+                        header = T
       )
       return(fst)
     })
@@ -417,11 +417,9 @@ shinyServer(
       fst <- tryCatch({
         dataInputFst()
       }, error = function(err) {
-        fst <- read.table("graph.me.fst", sep = "", header = F, col.names = fst.headers)
+        fst <- fread("graph.me.fst", sep = " ", header = T)
       })
       
-      #fst.intersect <- cbind(intersect, fst)
-      #fst <- subset(fst, Chr==input$fstChrom)
       fst.intersect <- subset(fst, FST>=0 & FST <=1)  # keep values between 0 and 1
       
       if(input$annotations){
