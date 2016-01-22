@@ -420,6 +420,7 @@ shinyServer(
         fst <- fread("graph.me.fst", sep = " ", header = T)
       })
       
+      # ngsPopGen FST calculator returns negative FST values 
       fst.intersect <- subset(fst, FST>=0 & FST <=1)  # keep values between 0 and 1
       
       if(input$annotations){
@@ -428,19 +429,19 @@ shinyServer(
         gff <- gffInput()
         gff.gene <- subset(gff, type = "gene")
         gff.df <- data.frame(gff.gene, annotation(gff))
-        gff.df.gene <- subset(gff.df, type=="gene")
+        gff.df.gene <- subset(gff.df, type == "gene")
       }
       
       # Pull columns to graph
       if(input$subset) {
-        fst.plot <- subset(fst.intersect, bp >= input$intersectLow & bp <= input$intersectHigh)
+        fst.plot <- subset(fst.intersect, position >= input$intersectLow & position <= input$intersectHigh)
       }
       else {
         fst.plot <- fst.intersect
       }
       
       if(input$annotations) {
-        plot(fst.plot$bp, fst.plot$FST,
+        plot(fst.plot$position, fst.plot$FST,
              t = "p", pch = 19,
              col = rgb(0, 0, 0, 0.5),
              xlab = "Position (bp)",
