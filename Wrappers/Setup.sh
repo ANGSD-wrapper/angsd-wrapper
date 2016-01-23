@@ -20,22 +20,22 @@ case "${setup_routine}" in
         cd dependencies
         ROOT=$(pwd)
         #   Install ngsF
-        if [[ $(uname) == "Linux" ]]
-        then
+        if [[ $(uname) == "Linux" ]] # Are we on Linux?
+        then # If so, we can use the normal ngsF
             cd "${ROOT}"
             git clone https://github.com/fgvieira/ngsF.git
             cd ngsF
             git reset --hard c39b6ad35c8512d29f09dc4ffd7b6c30afcebd16
             make
             cd "${ROOT}"
-        elif [[ $(uname) == "Darwin" ]]
-        then
+        elif [[ $(uname) == "Darwin" ]] # If we're on Mac OS X
+        then # We need a version with a compalition routine that works for Mac OS X
             cd "${ROOT}"
             git clone https://github.com/mojaveazure/ngsF.git
             cd ngsF
             bash install.sh
             cd "${ROOT}"
-        else
+        else # I don't know how other BSDs works with ngsF, so yeah...
             echo "Failed to determine operating system; if not using a Windows-based machine, please file an issue and let us know!"
             exit 1
         fi
