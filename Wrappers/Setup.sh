@@ -36,7 +36,7 @@ case "${setup_routine}" in
             bash install.sh
             cd "${ROOT}"
         else # I don't know how other BSDs works with ngsF, so yeah...
-            echo "Failed to determine operating system; if not using a Windows-based machine, please file an issue and let us know!"
+            echo "Failed to determine operating system. If not using a Windows-based machine, please file an issue and let us know!"
             exit 1
         fi
         #   Install HTSLIB
