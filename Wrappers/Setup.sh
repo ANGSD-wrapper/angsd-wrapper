@@ -19,6 +19,26 @@ case "${setup_routine}" in
         mkdir dependencies
         cd dependencies
         ROOT=$(pwd)
+        #   Install ngsF
+        if [[ $(uname) == "Linux" ]]
+        then
+            cd "${ROOT}"
+            git clone https://github.com/fgvieira/ngsF.git
+            cd ngsF
+            git reset --hard c39b6ad35c8512d29f09dc4ffd7b6c30afcebd16
+            make
+            cd "${ROOT}"
+        elif [[ $(uname) == "Darwin" ]]
+        then
+            cd "${ROOT}"
+            git clone https://github.com/mojaveazure/ngsF.git
+            cd ngsF
+            bash install.sh
+            cd "${ROOT}"
+        else
+            echo "Failed to determine operating system; if not using a Windows-based machine, please file an issue and let us know!"
+            exit 1
+        fi
         #   Install HTSLIB
         cd "${ROOT}"
         git clone https://github.com/samtools/htslib.git
@@ -42,20 +62,11 @@ case "${setup_routine}" in
         wget http://popgen.dk/software/NGSadmix/ngsadmix32.cpp
         g++ ngsadmix32.cpp -O3 -lpthread -lz -o NGSadmix
         cd "${ROOT}"
-
         #   Install ngsPopGen
         cd "${ROOT}"
         git clone https://github.com/mfumagalli/ngsPopGen.git
         cd ngsPopGen
         git reset --hard abeabb73b547e067d32d620d6b58a54aad7c0070
-        make
-        cd "${ROOT}"
-
-        #   Install ngsF
-        cd "${ROOT}"
-        git clone https://github.com/fgvieira/ngsF.git
-        cd ngsF
-        git reset --hard c39b6ad35c8512d29f09dc4ffd7b6c30afcebd16
         make
         cd "${ROOT}"
         echo
