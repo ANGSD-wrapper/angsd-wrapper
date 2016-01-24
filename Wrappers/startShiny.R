@@ -37,8 +37,8 @@ bioInstall <- function() {
 #   Start Shiny
 main <- function() {
     angsdwrapper <- args[1] # Where is ANGSD-wrapper located?
-    dir.create(file.path(angsd.wrapper, ".RLibs", fsep="/"), showWarnings = FALSE) # Create our directory for packages
-    .libPaths(paste0(angsd.wrapper, "/.RLibs")) # Enable this as a place to look for packages
+    dir.create(file.path(angsdwrapper, ".RLibs", fsep="/"), showWarnings = FALSE) # Create our directory for packages
+    .libPaths(paste0(angsdwrapper, "/.RLibs")) # Enable this as a place to look for packages
     batchInstall(pkgList) # Install dependent packages
     bioInstall() # Install dependent packages needed from BioConductor
     setwd(paste0(angsdwrapper, "/shinyGraphing")) # Set our working directory
