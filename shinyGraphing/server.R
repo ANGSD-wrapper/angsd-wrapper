@@ -31,7 +31,7 @@ shinyServer(
     dataInputSFS = reactive({
       data <- input$userSFS
       path <- as.character(data$datapath)
-      Derived <- as.matrix(fread(input=path, header = FALSE))
+      Derived <- as.matrix(fread(input = path, header = FALSE))
       sfs <- as.data.frame(t(Derived))
       setnames(sfs, sfs.headers)
       return(sfs) 
@@ -53,7 +53,7 @@ shinyServer(
       data <- input$userIntersect
       path <- as.character(data$datapath)
       intersect <- read.table(file=path,
-                              sep="\t",
+                              sep = "\t",
                               col.names=intersect.headers
       )
       return(intersect)
@@ -71,7 +71,7 @@ shinyServer(
     dataInputABBABABA = reactive({
       data <- input$userABBABABA
       path <- as.character(data$datapath)
-      ABBABABA <- read.table(path, sep="\t", header=T)
+      ABBABABA <- read.table(path, sep = "\t", header = T)
       return(ABBABABA)
     })
 
@@ -117,9 +117,9 @@ shinyServer(
         dataInputThetas()
       }, 
       error = function(err) {
-        thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG",
-                             sep="\t",
-                             col.names=thetas.headers)
+        thetas <- read.table(file = "BKN_Diversity.thetas.gz.pestPG",
+                             sep = "\t",
+                             col.names = thetas.headers)
       }
       )
 
@@ -127,7 +127,7 @@ shinyServer(
       if(input$annotations){
         validate(need(input$userAnnotations, 'Need GFF file before clicking checkbox!'))
         gff <- gffInput()
-        gff.gene <- subset(gff, type="gene")
+        gff.gene <- subset(gff, type = "gene")
         gff.df <- data.frame(gff.gene,annotation(gff))
         gff.df.chr <- subset(gff.df, seq_name == thetas$Chr[1])
         if(length(gff.df.chr$seq_name) == 0){
@@ -136,12 +136,8 @@ shinyServer(
         gff.df.gene <- subset(gff.df.chr, type == "gene")
       }
 
-      if(input$subset) {
-        thetas.plot <- subset(thetas, WinCenter > input$WinCenterLow & WinCenter < input$WinCenterHigh)
-      }
-      else {
-        thetas.plot <- thetas
-      }
+      # What we are plotting
+      thetas.plot <- thetas
 
       # remove nsites=0
       thetas.plot <- subset(thetas.plot, nSites != 0)
@@ -185,7 +181,6 @@ shinyServer(
              xlab = "Position (bp)",
              ylab = paste(input$thetaChoice, "Estimator Value"),
              main = "Estimators of theta along chromosome"
-#             main = paste("Estimators of theta along chromosome", thetas$Chr[1])
         )
         if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
                                     col="red")}
@@ -217,12 +212,8 @@ shinyServer(
         gff.df.gene <- subset(gff.df.chr, type=="gene")
       }
       
-      if(input$subset) {
-        thetas.plot <- subset(thetas, WinCenter > input$WinCenterLow & WinCenter < input$WinCenterHigh)
-      }
-      else {
-        thetas.plot <- thetas
-      }
+      # What we are plotting
+      thetas.plot <- thetas
       
       # remove nsites=0
       thetas.plot <- subset(thetas.plot, nSites != 0)
@@ -251,7 +242,6 @@ shinyServer(
              xlab="Position (bp)",
              ylab=paste(input$thetaChoice,"Estimator Value"),
              main = "Estimators of theta along chromosome"
-#             main=paste("Estimators of theta along chromosome", thetas$Chr[1])
         )
         
         rug(rect(gff.df.gene$X1, -1e2, 
@@ -267,12 +257,11 @@ shinyServer(
              xlab="Position (bp)",
              ylab=paste(input$thetaChoice,"Estimator Value"),
              main = "Estimators of theta along chromosome",
-#             main=paste("Estimators of theta along chromosome",
-#                        thetas$Chr[1]),
              xlim = ranges$x, ylim = ranges$y
         )
-        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
-                                    col="red")}
+        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter, 
+                                           data, f = 0.1), 
+                                    col = "red")}
       }
     })
 
@@ -304,21 +293,17 @@ shinyServer(
       thetas <- tryCatch({
         dataInputThetas()
       }, error = function(err) {
-        thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG",
-                             sep="\t",
+        thetas <- read.table(file = "BKN_Diversity.thetas.gz.pestPG",
+                             sep = "\t",
                              col.names=thetas.headers
         )
       }
       )
 
-      thetas <- subset(thetas,Chr==input$thetaChrom)
+      thetas <- subset(thetas, Chr == input$thetaChrom)
 
-      if(input$subset) {
-        thetas.plot <- subset(thetas, WinCenter > input$WinCenterLow & WinCenter < input$WinCenterHigh)
-      }
-      else {
-        thetas.plot <- thetas
-      }
+      # What we are plotting
+      thetas.plot <- thetas
 
       # remove nsites=0
       thetas.plot <- subset(thetas.plot, nSites != 0)
@@ -332,11 +317,10 @@ shinyServer(
       )
       
       plot(thetas.plot$WinCenter,
-           data, t="p", pch=19,col=rgb(0,0,0,0.5),
-           xlab="Position (bp)",
-           ylab=input$selectionChoice,
+           data, t = "p", pch = 19, col = rgb(0,0,0,0.5),
+           xlab = "Position (bp)",
+           ylab = input$selectionChoice,
            main = "Neutrality test statistics along chromosome"
-#           main=paste("Neutrality test statistics along chromosome", thetas$Chr[1])
       )
       if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter, data, f=0.1), 
                                       col="red")}
@@ -357,12 +341,8 @@ shinyServer(
   
       thetas <- subset(thetas,Chr==input$thetaChrom)
       
-      if(input$subset) {
-        thetas.plot <- subset(thetas, WinCenter > input$WinCenterLow & WinCenter < input$WinCenterHigh)
-      }
-      else {
-        thetas.plot <- thetas
-      }
+      # What we are plotting
+      thetas.plot <- thetas
       
       # remove nsites=0
       thetas.plot <- subset(thetas.plot, nSites != 0)
@@ -381,11 +361,10 @@ shinyServer(
            xlab="Position (bp)",
            ylab=input$selectionChoice,
            main = "Neutrality test statistics along chromosome",
-#           main=paste("Neutrality test statistics along chromosome", 
-#                      thetas$Chr[1]), 
            xlim = ranges2$x, ylim = ranges2$y
       )
-      if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
+      if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter, 
+                                             data, f=0.1), 
                                       col="red")}
     })
     
@@ -431,13 +410,8 @@ shinyServer(
         gff.df.gene <- subset(gff.df, type == "gene")
       }
       
-      # Pull columns to graph
-      if(input$subset) {
-        fst.plot <- subset(fst.intersect, position >= input$intersectLow & position <= input$intersectHigh)
-      }
-      else {
+      # What we are plotting
         fst.plot <- fst.intersect
-      }
       
       if(input$annotations) {
         plot(fst.plot$position, fst.plot$FST,
@@ -491,13 +465,8 @@ shinyServer(
         gff.df.gene <- subset(gff.df, type=="gene")
       }
       
-      # Pull columns to graph
-      if(input$subset) {
-        fst.plot <- subset(fst.intersect, position >= input$intersectLow & position <= input$intersectHigh)
-      }
-      else {
-        fst.plot <- fst.intersect
-      }
+      # What we are plotting
+      fst.plot <- fst.intersect
       
       if(input$annotations) {
         plot(fst.plot$position, fst.plot$FST,

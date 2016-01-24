@@ -42,7 +42,7 @@ shinyUI(fluidPage(
                       selected = "Tajima's D"
           ),
           uiOutput('thetaChroms'),
-          # Adding additional "help" text
+          # Additional "help" text
           tags$h4(class ="header",
                   tags$h5("Samples can be removed from graph by using cursor in text box and using backspace."),
                   tags$h5("You can also type parts of a sample name to search for it.")),
@@ -57,36 +57,24 @@ shinyUI(fluidPage(
           tags$h4(class = "header",
                   tags$h4("Interactive Zoom and Hover:"),
                   hr(),
-                  tags$h5("There are two ways you can zoom in on the plots:"),
-                  tags$h6("1. Click and drag on the upper graph to select an area to zoom in on."),
+                  tags$h5("Below is how you can zoom in on the plots:"),
+                  tags$h6("Click and drag on the upper graph to select an area to zoom in on."),
                   tags$h6("Lower graph will show zoomed area selected. If you hover over a point on the lower graph, a table of the 'x' and 'y' values will be shown."),
-                  p("or"),
-                  tags$h6("2. Click the 'Toggle subset data' checkbox and enter in the interval you want to zoom in on."),
+                  tags$h6("Below each pair of graphs is a hover table that will output x and y values of points your pointer hovers over. Note: you must hover over points on the 2nd graph out of the pair of graphs.s"),
                   hr()),
-          numericInput("WinCenterLow",
-                       "Base Start Position",
-                       value=0, min=0),
-          numericInput("WinCenterHigh", 
-                       "Base End Position",
-                       value=10000, min=0),
-          checkboxInput("subset",
-                        "Toggle subset data",
-                        value=FALSE),
-          hr(),
           checkboxInput("rm.nsites",
                         "Remove data where nSites < x",
-                        value=FALSE),
+                        value = FALSE),
           numericInput("nsites",
                        "x:",
-                       value=0,
-			min=0),
+                       value = 0, min = 0),
           hr(),
           fileInput('userAnnotations',
                     label= "Choose '.gff' File"
           ),
           checkboxInput("annotations",
                         "Toggle GFF annotations",
-                        value=FALSE)
+                        value = FALSE)
         ),
         # Show a plot of the thetas
         mainPanel(
@@ -164,6 +152,7 @@ shinyUI(fluidPage(
           fileInput('userABBABABA',
                     label= "Choose 'abbababa.txt' ABBABABA File"
           ),
+          # Additional help text
           tags$h5(class = "header",
                   tags$h5("Change the orientation of individuals/populations for your tree by typing name of H2 and H3 groups"),
                   tags$b("Note: the names of H2 and H3 must be an exact match with the names outputted in the table."),
@@ -198,6 +187,7 @@ shinyUI(fluidPage(
           fileInput('userFst',
                     label= "Choose '.fst.graph.me' Fst File"
           ),
+          # Additional help text
           tags$h4(class = "header",
                   tags$h4("Interactive Zoom and Hover:"),
                   hr(),
@@ -207,7 +197,7 @@ shinyUI(fluidPage(
           hr(),
           checkboxInput("fstLowess",
                         "Fst Lowess",
-                        value=FALSE),
+                        value = FALSE),
           hr(),
           uiOutput('fstMin'),
           uiOutput('fstMax'),
@@ -218,7 +208,7 @@ shinyUI(fluidPage(
           ),
           checkboxInput("annotations",
                         "Toggle GFF annotations",
-                        value=FALSE)
+                        value = FALSE)
 
         ),
         mainPanel(
@@ -257,6 +247,7 @@ shinyUI(fluidPage(
           fileInput('userPCA',
                     label= "Choose a '_PCA.covar' File"
           ),
+          # Additional help text
           tags$h4(class = "header",
                   tags$h4("Interactive Zoom and Hover:"),
                   hr(),
@@ -299,9 +290,7 @@ shinyUI(fluidPage(
                       windowTitle = 'Admixture'),
           fileInput('userAdmix',
                     label= "Choose '.qopt' admixture File",
-                    multiple = TRUE)#,
-#          checkboxGroupInput("checkGroup",
-#                             label = )
+                    multiple = TRUE)
         ),
         mainPanel(
           fluidRow(
