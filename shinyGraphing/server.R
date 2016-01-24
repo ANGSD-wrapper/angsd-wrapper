@@ -139,7 +139,7 @@ shinyServer(
       # What we are plotting
       thetas.plot <- thetas
 
-      # remove nsites=0
+      # remove nsites = 0
       thetas.plot <- subset(thetas.plot, nSites != 0)
       # remove data points with less than 50 sites. Calculate minimum from data
       if(input$rm.nsites) {
@@ -172,7 +172,8 @@ shinyServer(
                  gff.df.gene$X2, 0, 
                  col = rgb(0.18,0.55,0.8,0.75), 
                  border = NA))
-        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter, data, f=0.1), 
+        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter, 
+                                           data, f=0.1), 
                                     col="red")}
       }
       else {
@@ -182,7 +183,8 @@ shinyServer(
              ylab = paste(input$thetaChoice, "Estimator Value"),
              main = "Estimators of theta along chromosome"
         )
-        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter,data, f=0.1), 
+        if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter, 
+                                           data, f = 0.1), 
                                     col="red")}
       }
     })
@@ -199,17 +201,17 @@ shinyServer(
       }
       )
       
-      thetas <- subset(thetas,Chr==input$thetaChrom)
+      thetas <- subset(thetas, Chr == input$thetaChrom)
       if(input$annotations){
         validate(need(input$userAnnotations, 'Need GFF file before clicking checkbox!'))
         gff <- gffInput()
         gff.gene <- subset(gff, type="gene")
         gff.df <- data.frame(gff.gene,annotation(gff))
-        gff.df.chr <- subset(gff.df, seq_name==thetas$Chr[1])
+        gff.df.chr <- subset(gff.df, seq_name == thetas$Chr[1])
         if(length(gff.df.chr$seq_name)==0){
           stop("Annotation does not match graphed region. Please make sure the first column of your GFF file matches the Chr column of the .pestPG file.")
         }
-        gff.df.gene <- subset(gff.df.chr, type=="gene")
+        gff.df.gene <- subset(gff.df.chr, type == "gene")
       }
       
       # What we are plotting
@@ -238,9 +240,9 @@ shinyServer(
       )
       if(input$annotations) {
         plot(thetas.plot$WinCenter,
-             data, t="p", pch=19,col=rgb(0,0,0,0.5),
-             xlab="Position (bp)",
-             ylab=paste(input$thetaChoice,"Estimator Value"),
+             data, t = "p", pch = 19, col = rgb(0,0,0,0.5),
+             xlab = "Position (bp)",
+             ylab = paste(input$thetaChoice,"Estimator Value"),
              main = "Estimators of theta along chromosome"
         )
         

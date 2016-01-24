@@ -128,3 +128,10 @@ else
         -win "${WIN}" \
         -step "${STEP}"
 fi
+
+# Filter pestPG file for invariant sites
+echo "Creating files for Shiny graphing..." >&2
+Rscript ${SOURCE}/Wrappers/thetas_filtering.R \
+    ${SOURCE} \
+    ${OUT}/${PROJECT}_Diversity.thetas.gz.pestPG \
+    ${OUT}/"${PROJECT}".thetas.graph.me 
