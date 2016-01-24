@@ -2,9 +2,9 @@
 ########################################
 dependencies/
 
-# Ignore the 'iplant' test data directory #
+# Ignore the 'Example_Data' test data directory #
 ###########################################
-iplant/
+Example_Data/
 
 # Ignore ZIP files #
 ####################

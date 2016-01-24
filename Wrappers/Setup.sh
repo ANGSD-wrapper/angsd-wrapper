@@ -7,11 +7,26 @@ set -u
 setup_routine=$1 # Which routine are we running
 SOURCE=$2 # Where is ANGSD-wrapper?
 
+#	Download and install SAMTools 1.3
+function installSAMTools() {
+	wget https://github.com/samtools/samtools/releases/download/1.3/samtools-1.3.tar.bz2 # Download SAMTools
+	tar -xvjf samtools-1.3.tar.bz2 # Extract the tarball
+	rm -f samtools-1.3.tar.bz2 # Get rid of the tarball
+	cd samtools-1.3 # Change into the SAMTools directory
+	./configure --prefix=$(pwd) # Configure the installation process, setting the install directory to be here
+	make # Compile the code
+	make install # Install SAMTools
+	echo "export PATH=$(pwd):"'${PATH}' >> ~/.bash_profile # Add the path to bash_profile
+}
+
+#   Export the function
+export -f installSAMTools
+
 case "${setup_routine}" in
     "dependencies" )
         #   Check to see if Git and Wget are installed
-        if ! `command -v git > /dev/null 2> /dev/null`; then echo "Please install Git and place in your PATH" >&2 ; exit 1; fi
-        if ! `command -v wget > /dev/null 2> /dev/null`; then echo "Please install Wget and place in your PATH" >&2 ; exit 1; fi
+        if ! $(command -v git > /dev/null 2> /dev/null); then echo "Please install Git and place in your PATH" >&2 ; exit 1; fi
+        if ! $(command -v wget > /dev/null 2> /dev/null); then echo "Please install Wget and place in your PATH" >&2 ; exit 1; fi
         #   Let angsd-wrapper be run from anywhere
         echo alias "angsd-wrapper='`pwd -P`/angsd-wrapper'" >> ~/.bash_profile
         #   Make the 'dependencies' directory
@@ -19,6 +34,8 @@ case "${setup_routine}" in
         mkdir dependencies
         cd dependencies
         ROOT=$(pwd)
+        #   Check for SAMTools. If not found, install it
+        if ! $(command -v samtools > /dev/null 2> /dev/null); then cd "${ROOT}"; installSAMTools; source ~/.bash_profile;cd "${ROOT}"; fi
         #   Install ngsF
         if [[ $(uname) == "Linux" ]] # Are we on Linux?
         then # If so, we can use the normal ngsF
@@ -75,8 +92,8 @@ case "${setup_routine}" in
         ;;
     "data" )
         #   Check for depenent programs
-        if ! `command -v wget > /dev/null 2> /dev/null`; then echo "Please install Wget and place in your PATH" >&2 ; exit 1; fi
-        if ! `command -v samtools > /dev/null 2> /dev/null`; then echo "Please install SAMTools and place in your PATH" >&2; exit 1; fi
+        if ! $(command -v wget > /dev/null 2> /dev/null); then echo "Please install Wget and place in your PATH" >&2 ; exit 1; fi
+        if ! $(command -v samtools > /dev/null 2> /dev/null); then echo "Please install SAMTools and place in your PATH" >&2; exit 1; fi
         #   Download and set up the test data
         cd "${SOURCE}"
         if [[ -d "Example_Data" ]]; then rm -rf Example_Data/; fi # Remove any old example datasets
