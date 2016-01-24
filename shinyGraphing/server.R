@@ -22,7 +22,7 @@ shinyServer(
     dataInputThetas = reactive({
       data <- input$userThetas
       path <- as.character(data$datapath)
-      thetas <- fread(input=path, sep="\t")
+      thetas <- fread(input = path, sep = "\t")
       setnames(thetas, thetas.headers)
       return(thetas)
     })
@@ -117,7 +117,7 @@ shinyServer(
         dataInputThetas()
       }, 
       error = function(err) {
-        thetas <- read.table(file = "BKN_Diversity.thetas.gz.pestPG",
+        thetas <- fread("BKN_Diversity.thetas.gz.pestPG",
                              sep = "\t",
                              col.names = thetas.headers)
       }
@@ -193,9 +193,9 @@ shinyServer(
       thetas <- tryCatch({
         dataInputThetas()
       }, error = function(err) {
-        thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG",
-                             sep="\t",
-                             col.names=thetas.headers)
+        thetas <- fread("BKN_Diversity.thetas.gz.pestPG",
+                             sep = "\t",
+                             col.names = thetas.headers)
       }
       )
       
