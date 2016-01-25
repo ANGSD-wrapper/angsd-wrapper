@@ -16,7 +16,7 @@ shinyUI(fluidPage(
           headerPanel("Thetas Graphs", windowTitle = "Thetas Graphs"),
           # Choose input file
           fileInput('userThetas',
-                    label= "Choose '.pestPG' Thetas File"
+                    label= "Choose '.thetas.graph.me' Thetas File"
           ),
 
           # Watterson's theta
