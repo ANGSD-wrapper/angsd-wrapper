@@ -29,7 +29,7 @@ cd angsd-wrapper/
 Run the setup command
 
 ```shell
-./angsd-wrapper setup
+./angsd-wrapper setup dependencies
 ```
 
 Download the example dataset (optional)
