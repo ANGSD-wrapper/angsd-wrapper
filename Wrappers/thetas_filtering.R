@@ -34,7 +34,7 @@ thetas.headers <- c("(indexStart,indexStop)(firstPos_withData,lastPos_withData)(
 thetas <- fread(input = thetasOut, sep = "\t", col.names = thetas.headers)
 
 # Filter invariant sites based on Tajima column
-filter.thetas <- subset(x = thetas, Tajima != 0)
+filter.thetas <- subset(x = thetas, tW != 0)
 
 # Save to .thetas file
 write.table(x = filter.thetas, file = graph.me.thetas, col.names = T, row.names = F)
