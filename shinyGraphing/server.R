@@ -22,8 +22,8 @@ shinyServer(
     dataInputThetas = reactive({
       data <- input$userThetas
       path <- as.character(data$datapath)
-      thetas <- fread(input = path, sep = "\t")
-      setnames(thetas, thetas.headers)
+      thetas <- fread(input = path, sep = " ", header = T)
+      #setnames(thetas, thetas.headers)
       return(thetas)
     })
     
