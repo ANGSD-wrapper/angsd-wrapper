@@ -3,7 +3,7 @@
 
 __Update:__ The current version of ANGSD-wrapper is available at: https://github.com/mojaveazure/angsd-wrapper
 
-This version is now depreciated.
+This version is now deprecated.
 
 ---
 Wrapper scripts and documentation to make angsd easier to use.
