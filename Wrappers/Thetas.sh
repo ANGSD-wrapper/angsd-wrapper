@@ -30,7 +30,7 @@ N_CHROM=`expr 2 \* "${N_IND}"`
 #   Perform a check to see if number of individuals matches number of inbreeding coefficients
 if [ "${N_IND}" -ne "${N_F}" ]
 then
-    echo "Mismatch between number of samples in ${SAMPLE_LIST} and ${SAMPLE_INBREEDING}"
+    echo "WRAPPER: Mismatch between number of samples in ${SAMPLE_LIST} and ${SAMPLE_INBREEDING}"
     exit 1
 fi
 
@@ -39,7 +39,7 @@ OUT=${SCRATCH}/${PROJECT}/Thetas
 mkdir -p "${OUT}"
 
 if [[  -f "${OUT}"_Diversity.mafs.gz ]] && [ "${OVERRIDE}" = "false" ]; then
-    echo "maf already exists and OVERRIDE=false, skipping angsd -bam...";
+    echo "WRAPPER: maf already exists and OVERRIDE=false, skipping angsd -bam...";
 else
     #   Now we actually run the command, this creates a binary file that contains the prior SFS
     #   Do we have a regions file?
@@ -130,7 +130,7 @@ else
 fi
 
 # Filter pestPG file for invariant sites
-echo "Creating files for Shiny graphing..." >&2
+echo "WRAPPER: Creating files for Shiny graphing..." >&2
 Rscript ${SOURCE}/Wrappers/thetas_filtering.R \
     ${SOURCE} \
     ${OUT}/${PROJECT}_Diversity.thetas.gz.pestPG \
