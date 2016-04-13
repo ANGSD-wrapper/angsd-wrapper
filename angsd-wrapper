@@ -9,7 +9,7 @@ set -o pipefail
 function usage() {
     echo -e "\
 Usage:  $(basename $0) <wrapper> <config> \n\
-where:  <wrapper> is one of SFS, 2DSFS, Abbababa, Ancestral, Genotypes, Thetas, Inbreeding
+where:  <wrapper> is one of SFS, 2DSFS, Abbababa, Ancestral, Genotypes, Thetas, Inbreeding, Admixture
 and:    <config> is the corresponding configuration file \n\
 \n\
 The following is a list of calls and what they do: \n\
