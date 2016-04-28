@@ -59,7 +59,6 @@ else
             -baq "${BAQ}" \
             -ref "${REF_SEQ}" \
             -GL "${GT_LIKELIHOOD}" \
-            -doGlf "${DO_GLF}" \
             -P "${N_CORES}" \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -83,7 +82,6 @@ else
             -baq "${BAQ}" \
             -ref "${REF_SEQ}" \
             -GL "${GT_LIKELIHOOD}" \
-            -doGlf "${DO_GLF}" \
             -P "${N_CORES}" \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -105,7 +103,6 @@ else
             -baq "${BAQ}" \
             -ref "${REF_SEQ}" \
             -GL "${GT_LIKELIHOOD}" \
-            -doGlf "${DO_GLF}" \
             -P "${N_CORES}" \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
