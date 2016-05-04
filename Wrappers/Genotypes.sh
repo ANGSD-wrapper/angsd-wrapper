@@ -48,6 +48,7 @@ then
         -minMapQ "${MIN_MAPQ}" \
         -minQ "${MIN_BASEQUAL}" \
         -GL "${GT_LIKELIHOOD}" \
+	-doGlf "${DO_GLF}" \	
         -rf "${REGIONS}" \
         -doGeno "${DO_GENO}" \
         -doPost "${DO_POST}"\
@@ -69,6 +70,7 @@ then
         -minMapQ "${MIN_MAPQ}" \
         -minQ "${MIN_BASEQUAL}" \
         -GL "${GT_LIKELIHOOD}" \
+	-doGlf "${DO_GLF}" \
         -doGeno "${DO_GENO}" \
         -doPost "${DO_POST}"\
         -postCutoff "${POST_CUTOFF}" \
@@ -88,6 +90,7 @@ else
         -minMapQ "${MIN_MAPQ}" \
         -minQ "${MIN_BASEQUAL}" \
         -GL "${GT_LIKELIHOOD}" \
+	-doGlf "${DO_GLF}" \
         -r "${REGIONS}" \
         -doGeno "${DO_GENO}" \
         -doPost "${DO_POST}"\
