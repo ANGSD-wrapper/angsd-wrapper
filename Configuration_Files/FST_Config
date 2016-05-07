@@ -43,29 +43,6 @@ GROUP_2=
 
 #   Sample list for group 2
 G2_SAMPLE_LIST=
-    #   Note, the final outdirectory will be
-    #   ${SCRATCH}/${PROJECT}/2DSFS
-SCRATCH=
-
-#   Region being looked at?
-REGIONS=
-
-##############################################################################################
-
-#   What is group 1?
-GROUP_1=
-
-#   Sample list for group 1
-G1_SAMPLE_LIST=
-
-#   Inbreeding coefficients for group 1
-G1_INBREEDING=
-
-#   What is group 2?
-GROUP_2=
-
-#   Sample list for group 2
-G2_SAMPLE_LIST=
 
 #   Inbreeding coefficients for group 2
 G2_INBREEDING=
