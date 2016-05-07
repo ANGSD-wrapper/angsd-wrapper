@@ -14,7 +14,7 @@ and:    <config> is the corresponding configuration file \n\
 \n\
 The following is a list of calls and what they do: \n\
     SFS         Site frequency spectrum \n\
-    2DSFS       2D Site frequency spectrum and Fst estimations \n\
+    Fst         Fst estimations \n\
     Abbababa    Abba baba test \n\
     Ancestral   Extract ancestral sequence from BAM file \n\
     Genotypes   Genotype likelihood estimations \n\
@@ -92,14 +92,14 @@ To download the example dataset, please run \n\
         fi
         bash "${SOURCE}"/Wrappers/Site_Frequency_Spectrum.sh "${CONFIG}" "${SOURCE}"
         ;;
-    "2DSFS" )
+    "Fst" )
         #   Run the 2D site frequency spectrum wrapper script
         if ! [[ -f "${CONFIG}" ]]
         then
             echo "Please specify a valid config file"
             exit 1
         fi
-        bash "${SOURCE}"/Wrappers/2D_SFS_Fst.sh "${CONFIG}" "${SOURCE}"
+        bash "${SOURCE}"/Wrappers/Fst.sh "${CONFIG}" "${SOURCE}"
         ;;
     "Abbababa" )
         #   Run the ABBA-BABA wrapper script
