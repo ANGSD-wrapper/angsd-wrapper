@@ -99,7 +99,7 @@ To download the example dataset, please run \n\
             echo "Please specify a valid config file"
             exit 1
         fi
-        bash "${SOURCE}"/Wrappers/Fst.sh "${CONFIG}" "${SOURCE}"
+        bash "${SOURCE}"/Wrappers/FST.sh "${CONFIG}" "${SOURCE}"
         ;;
     "Abbababa" )
         #   Run the ABBA-BABA wrapper script
