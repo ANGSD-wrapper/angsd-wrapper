@@ -33,11 +33,8 @@ SCRATCH=
 #   Define the region being looked at
 #       Optional, but ANGSD is expensive to run without specifying regions to look at
 REGIONS=
-##############################################################################################
 
-#   Site Frequency Spectrum Parameters
-#       Listed below are the defaults, please modify for your samples
-DO_SAF=2
+#   Parameters that are specified in Common_Config
 UNIQUE_ONLY=0
 MIN_BASEQUAL=20
 BAQ=1
@@ -49,4 +46,10 @@ DO_MAJORMINOR=1
 DO_GENO=32
 DO_MAF=1
 DO_POST=1
+
+##############################################################################################
+
+#   Site Frequency Spectrum Parameters
+#       Listed below are the defaults, please modify for your samples
+DO_SAF=2
 OVERRIDE=false

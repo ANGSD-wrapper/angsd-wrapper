@@ -19,6 +19,10 @@ PROJECT=
     #   Note, the final outdirectory will be
     #   ${SCRATCH}/${PROJECT}/Admixture
 SCRATCH=
+
+#   Parameters that are specified in Common_Config
+N_CORES=32
+
 ##############################################################################################
 
 #   The Likelihood file
@@ -28,5 +32,4 @@ LIKELIHOOD=
 #   ngsAdmix Parameters
 #       Listed below are the defaults, please modify for your samples
 K=5
-N_CORES=32
 MIN_MAF=0.05
