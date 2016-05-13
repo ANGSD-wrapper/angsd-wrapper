@@ -5,7 +5,7 @@ ANGSD-wrapper is a utility developed to aid in the analysis of next generation s
 - Calculate a 2D site frequency spectrum with corresponding *F*<sub>ST</sub> estimations
 - Perform ABBA/BABA tests
 - Extract a FASTA sequence from BAM files
-- Estimate genotype likelihoods
+- Calculate genotype likelihoods
 - Estimate Thetas and various neutrality statistics
 - Calculate per-individual inbreeding coefficient
 - Find admixture proportions
