@@ -75,4 +75,5 @@ ${NGS_POPGEN_DIR}/ngsCovar \
     -outfile ${OUT}/${PROJECT}_PCA.covar\
     -nind "${N_IND}"\
     -nsites "${N_SITES}"\
+    -norm "${NORM}" \
     -call "${CALL}"
