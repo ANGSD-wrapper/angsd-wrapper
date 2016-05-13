@@ -6,6 +6,10 @@ dependencies/
 ###########################################
 Example_Data/
 
+# Ignore the '.vscode/' directory #
+###################################
+.vscode/
+
 # Ignore ZIP files #
 ####################
 *.zip
