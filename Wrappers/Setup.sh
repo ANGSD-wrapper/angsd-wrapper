@@ -98,29 +98,43 @@ case "${setup_routine}" in
         cd "${SOURCE}"
         if [[ -d "Example_Data" ]]; then rm -rf Example_Data/; fi # Remove any old example datasets
         wget --no-check-certificate --output-document=Example_Data.tar.bz2 https://ndownloader.figshare.com/files/3667101
-        tar -xvjf Example_Data.tar.bz2
+        tar -xjf Example_Data.tar.bz2
         rm Example_Data.tar.bz2
+        EXAMPLE_DIR="${SOURCE}/Example_Data"
         #       Change into the example data directory
-        cd Example_Data
+        cd "${EXAMPLE_DIR}"
         #       Create lists of sample names
         echo "Creating sample lists..." >&2
-        find $(pwd)/Maize/ -name "*.bam" | sort > Maize/Maize_Samples.txt
-        find $(pwd)/Mexicana -name "*.bam" | sort > Mexicana/Mexicana_Samples.txt
-        find $(pwd)/Teosinte -name "*.bam" | sort > Teosinte/Teosinte_Samples.txt
+        find "${EXAMPLE_DIR}"/Maize/ -name "*.bam" | sort > Maize/Maize_Samples.txt
+        find "${EXAMPLE_DIR}"/Mexicana -name "*.bam" | sort > Mexicana/Mexicana_Samples.txt
+        find "${EXAMPLE_DIR}"/Teosinte -name "*.bam" | sort > Teosinte/Teosinte_Samples.txt
+        #   Make sure all inbreeding files are named "*.indF"
+        for inbreeding in $(find ${EXAMPLE_DIR} -name "*Inbreeding*")
+        do
+            BASE=$(basename ${inbreeding} | cut -f 1 -d '.')
+            DIR=$(dirname ${inbreeding})
+            mv ${inbreeding} ${DIR}/${BASE}.indF
+        done
         #       Index the reference and ancestral sequences
         echo "Indexing reference and ancestral sequences..." >&2
         cd Sequences
-        find $(pwd) -name "*.fa" -exec samtools faidx {} \;
+        find "${EXAMPLE_DIR}" -name "*.fa" -exec samtools faidx {} \;
         #   Index the BAM files
         echo "Indexing the BAM files..." >&2
-        cd ../Maize # Maize samples
-        for i in `cat Maize_Samples.txt`; do samtools index "$i"; done
-        cd ../Mexicana # Mexicana samples
-        for i in `cat Mexicana_Samples.txt`; do samtools index "$i"; done
-        cd ../Teosinte # Teosinte samples
-        for i in `cat Teosinte_Samples.txt`; do samtools index "$i"; done
-        cd ..
+        cd "${EXAMPLE_DIR}"/Maize # Maize samples
+        for i in $(cat Maize_Samples.txt); do samtools index "$i"; done
+        cd "${EXAMPLE_DIR}"/Mexicana # Mexicana samples
+        for i in $(cat Mexicana_Samples.txt); do samtools index "$i"; done
+        cd "${EXAMPLE_DIR}"/Teosinte # Teosinte samples
+        for i in $(cat Teosinte_Samples.txt); do samtools index "$i"; done
+        cd "${EXAMPLE_DIR}"
+        #   Write the example configuration files
+        echo "Writing example configuration files..." >&2
+        source "${SOURCE}/Wrappers/writeConfigs.sh"
+        CONFIG_DIR=$(writeConfigs ${EXAMPLE_DIR})
+        #   Finished
         echo
-        echo "Test data can be found at $(pwd)"
+        echo "Test data can be found at ${EXAMPLE_DIR}"
+        echo "Example configuration files can be found at ${CONFIG_DIR}"
         ;;
 esac
