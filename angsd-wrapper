@@ -5,6 +5,10 @@ set -o pipefail
 
 #   A script that runs loads a config file and runs a wrapper script for ANGSD
 
+#   Where is angsd-wrapper located?
+SOURCE=$(dirname "$0")
+echo -e "$(basename $0) running from ${SOURCE}\n" >&2
+
 #   Define a usage message
 function usage() {
     echo -e "\
@@ -31,9 +35,6 @@ To start the Shiny graphing interface, please run \n\
 " >&2
     exit 1
 }
-
-#   Where is angsd-wrapper located?
-SOURCE=$(dirname "$0")
 
 #   Run some checks
 if [[ ! -d "${SOURCE}"/dependencies ]] # Are we missing the dependencies directory?
@@ -174,7 +175,7 @@ To download the example dataset, please run \n\
         Rscript "${SOURCE}"/Wrappers/startShiny.R "${SOURCE}"
         ;;
     "test" )
-        bash "${SOURCE}"/Wrappers/test.sh
+        bash "${SOURCE}"/Wrappers/Setup.sh test ${SOURCE}
         ;;
     * )
         usage
