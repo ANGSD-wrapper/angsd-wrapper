@@ -110,7 +110,7 @@ case "${setup_routine}" in
         find "${EXAMPLE_DIR}"/Mexicana -name "*.bam" | sort > Mexicana/Mexicana_Samples.txt
         find "${EXAMPLE_DIR}"/Teosinte -name "*.bam" | sort > Teosinte/Teosinte_Samples.txt
         #   Make sure all inbreeding files are named "*.indF"
-        for inbreeding in $(find ${EXAMPLE_DIR} -name "*Inbreeding*")
+        for inbreeding in $(find ${EXAMPLE_DIR} -name "*Inbreeding.txt")
         do
             BASE=$(basename ${inbreeding} | cut -f 1 -d '.')
             DIR=$(dirname ${inbreeding})
