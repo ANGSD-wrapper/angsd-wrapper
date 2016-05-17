@@ -22,6 +22,7 @@ ADMIX_DIR="${SOURCE}"/dependencies/ngsAdmix
 OUT="${SCRATCH}/${PROJECT}/Admixture"
 mkdir -p "${OUT}"
 
+#   Run ngsAdmix for all values of K from 2 to ${K}
 for k in $(seq 2 "${K}")
 do
     echo "Calculating for K=$k"
@@ -31,6 +32,12 @@ do
         -P "${N_CORES}" \
         -o "${OUT}"/"${PROJECT}"."${k}" \
         -minMaf "${MIN_MAF}"
+done
+
+#   Rename all ".qopt" files to ".qopt.graph.me"
+for qoptFile in $(find ${OUT} -name "*.qopt")
+do
+    mv ${qoptFile} ${qoptFile}.graph.me
 done
 
 # for kvalue in $(eval echo {"$k"..2})

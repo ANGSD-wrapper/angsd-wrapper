@@ -71,9 +71,9 @@ fi
 gunzip ${OUT}/${PROJECT}_PCA.geno.gz
 
 ${NGS_POPGEN_DIR}/ngsCovar \
-    -probfile ${OUT}/${PROJECT}_PCA.geno\
-    -outfile ${OUT}/${PROJECT}_PCA.covar\
-    -nind "${N_IND}"\
-    -nsites "${N_SITES}"\
+    -probfile ${OUT}/${PROJECT}_PCA.geno \
+    -outfile ${OUT}/${PROJECT}_PCA.graph.me \
+    -nind "${N_IND}" \
+    -nsites "${N_SITES}" \
     -norm "${NORM}" \
     -call "${CALL}"

@@ -49,7 +49,7 @@ DO_MAF=1
 
 #   Pest file
 #       This is the output from the site frequency spectrum wrapper
-#       This should end in "_DerivedSFS"
+#       This should end in "_DerivedSFS.graph.me"
 PEST=
 
 #   Thetas Parameters

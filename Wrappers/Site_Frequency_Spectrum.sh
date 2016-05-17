@@ -113,4 +113,4 @@ fi
 "${ANGSD_DIR}"/misc/realSFS \
     "${OUT}"/"${PROJECT}"_SFSOut.saf.idx \
     -P "${N_CORES}" \
-    > "${OUT}"/"${PROJECT}"_DerivedSFS
+    > "${OUT}"/"${PROJECT}"_DerivedSFS.graph.me

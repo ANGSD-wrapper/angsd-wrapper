@@ -91,7 +91,7 @@ function configByProject() {
     local commonPath=$(createCommon "${projectDirectory}" "${project}_Samples.txt" "${project}_Inbreeding.indF" "${ancestralSequence}" "${referenceSequence}" "${project}_Example" "${scratch}" "${project}_Regions.txt" "${configurationDirectory}")
     #   Write the configuration file for SFS
     createSFS "${commonPath}" "${project}_Example" "${configurationDirectory}"
-    local pestPath="${scratch}/${project}_Example/SFS/${project}_Example_DerivedSFS" # Where is our pest file stored?
+    local pestPath="${scratch}/${project}_Example/SFS/${project}_Example_DerivedSFS.graph.me" # Where is our pest file stored?
     local likelihoodPath="${scratch}/${project}_Example/SFS/${project}_Example.beagle.gz" # Where is our likelihood file stored?
     #   Write the configuration file for Thetas
     createThetas "${commonPath}" "${pestPath}" "${project}_Example" "${configurationDirectory}"

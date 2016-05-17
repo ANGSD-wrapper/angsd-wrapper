@@ -106,3 +106,6 @@ Rscript "${ANGSD_DIR}"/R/jackKnife.R \
     file="${OUT}"/"${PROJECT}".D.abbababa \
     indNames="${SAMPLE_LIST}" \
     outfile="${OUT}"/"${PROJECT}".abbababa
+
+#   Move ${PROJECT}.abbababa.txt to ${PROJECT}_Abbababa.graph.me
+mv "${OUT}"/"${PROJECT}".abbababa.txt "${OUT}"/"${PROJECT}"_Abbababa.graph.me

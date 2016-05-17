@@ -134,4 +134,4 @@ echo "WRAPPER: Creating files for Shiny graphing..." >&2
 Rscript ${SOURCE}/Wrappers/thetas_filtering.R \
     ${SOURCE} \
     ${OUT}/${PROJECT}_Diversity.thetas.gz.pestPG \
-    ${OUT}/"${PROJECT}".thetas.graph.me 
+    ${OUT}/"${PROJECT}"_Thetas.graph.me
