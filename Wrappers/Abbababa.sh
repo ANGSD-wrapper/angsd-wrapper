@@ -59,7 +59,6 @@ then
         -minQ "${MIN_BASEQUAL}" \
         -minInd "${MIN_IND}" \
         -nThreads "${N_CORES}" \
-        -checkBamHeaders "${CHECK_BAM_HEADERS}" \
         -rf "${REGIONS}" \
         -out "${OUT}"/"${PROJECT}".D
 #   Are we missing a definiton for regions?
@@ -78,7 +77,6 @@ then
         -minQ "${MIN_BASEQUAL}" \
         -minInd "${MIN_IND}" \
         -nThreads "${N_CORES}" \
-        -checkBamHeaders "${CHECK_BAM_HEADERS}" \
         -out "${OUT}"/"${PROJECT}".D
 #   Assuming a single reigon was defined in config file
 else
@@ -95,7 +93,6 @@ else
         -minQ "${MIN_BASEQUAL}" \
         -minInd "${MIN_IND}" \
         -nThreads "${N_CORES}" \
-        -checkBamHeaders "${CHECK_BAM_HEADERS}" \
         -r "${REGIONS}" \
         -out "${OUT}"/"${PROJECT}".D
 fi
