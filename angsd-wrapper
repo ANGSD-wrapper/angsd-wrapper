@@ -7,6 +7,7 @@ set -o pipefail
 
 #   Where is angsd-wrapper located?
 SOURCE=$(dirname "$0")
+if [[ "${SOURCE}" == '.' ]]; then SOURCE=$(pwd -P); fi
 echo -e "$(basename $0) running from ${SOURCE}\n" >&2
 
 #   Define a usage message
