@@ -25,16 +25,19 @@ SCRATCH=
 
 #   Region being looked at?
 REGIONS=
-##############################################################################################
 
-#   Principal Component Analysis Parameters
-#       Listed below are the defaults, please modify for your samples
+#   Parameters that are specified in Common_Config
 DO_MAF=2
 DO_MAJORMINOR=1
 DO_GENO=32
 DO_POST=1
 N_CORES=8
+GT_LIKELIHOOD=2
+
+##############################################################################################
+
+#   Principal Component Analysis Parameters
+#       Listed below are the defaults, please modify for your samples
 NORM=0
 CALL=0
-GT_LIKELIHOOD=1
 N_SITES=100000
