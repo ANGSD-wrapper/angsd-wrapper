@@ -55,7 +55,6 @@ PEST=
 #   Thetas Parameters
 #       Listed below are the defaults, please modify for your samples
 DO_SAF=2
-DO_THETAS=1
 OVERRIDE=false
 SLIDING_WINDOW=false
 WIN=50000

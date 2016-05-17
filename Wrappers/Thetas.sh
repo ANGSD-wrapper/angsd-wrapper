@@ -50,7 +50,7 @@ else
             -out "${OUT}"/"${PROJECT}"_Diversity \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
-            -doThetas "${DO_THETAS}" \
+            -doThetas 1 \
             -uniqueOnly "${UNIQUE_ONLY}" \
             -anc "${ANC_SEQ}" \
             -minMapQ "${MIN_MAPQ}" \
@@ -73,7 +73,7 @@ else
             -out "${OUT}"/"${PROJECT}"_Diversity \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
-            -doThetas "${DO_THETAS}" \
+            -doThetas 1 \
             -uniqueOnly "${UNIQUE_ONLY}" \
             -anc "${ANC_SEQ}" \
             -minMapQ "${MIN_MAPQ}" \
@@ -94,7 +94,7 @@ else
         -out "${OUT}"/"${PROJECT}"_Diversity \
         -indF "${SAMPLE_INBREEDING}" \
         -doSaf "${DO_SAF}" \
-        -doThetas "${DO_THETAS}" \
+        -doThetas 1 \
         -uniqueOnly "${UNIQUE_ONLY}" \
         -anc "${ANC_SEQ}" \
         -minMapQ "${MIN_MAPQ}" \
