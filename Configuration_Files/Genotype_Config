@@ -35,7 +35,6 @@ UNIQUE_ONLY=0
 MIN_BASEQUAL=20
 MIN_IND=1
 GT_LIKELIHOOD=2
-DO_GLF=2
 MIN_MAPQ=30
 N_CORES=32
 DO_MAJORMINOR=1
@@ -49,3 +48,4 @@ DO_POST=1
 #       Listed below are the defaults, please modify for your samples
 POST_CUTOFF=0.95
 SNP_PVAL=1e-6
+DO_GLF=2
