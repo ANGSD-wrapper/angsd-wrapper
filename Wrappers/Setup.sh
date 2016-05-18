@@ -98,7 +98,7 @@ case "${setup_routine}" in
         if [[ ${SOURCE} == '.' ]]; then SOURCE=$(pwd -P); fi
         cd "${SOURCE}"
         if [[ -d "Example_Data" ]]; then rm -rf Example_Data/; fi # Remove any old example datasets
-        wget --no-check-certificate --output-document=Example_Data.tar.bz2 https://ndownloader.figshare.com/files/3667101
+        wget --no-check-certificate --output-document=Example_Data.tar.bz2 https://ndownloader.figshare.com/files/5282197
         tar -xvjf Example_Data.tar.bz2
         rm Example_Data.tar.bz2
         EXAMPLE_DIR="${SOURCE}/Example_Data"
