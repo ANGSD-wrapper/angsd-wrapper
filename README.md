@@ -10,7 +10,7 @@ ANGSD-wrapper is a utility developed to aid in the analysis of next generation s
 - Calculate per-individual inbreeding coefficient
 - Find admixture proportions
 
-Likelihood based approaches are used in ANGSD to calculate summary statistics from next generation sequencing data. The wrapper scripts and documentation are designed to make ANGSD user friendly.
+Likelihood based approaches are used in ANGSD to calculate summary statistics from next generation sequencing data. The wrapper scripts and documentation are designed to make ANGSD user-friendly.
 
 ## Installing ANGSD-wrapper
 
@@ -98,6 +98,8 @@ angsd-wrapper
 There is a configuration (config) file for each method available through `angsd-wrapper.` The configuration files hold variables used by the wrappers. This is where you need to modify and save the variables (i.e., specify filepaths of indexed BAM files/CRAM files,  FASTA files, sample lists, etc.) to suit your samples before running angsd-wrapper with a specified method.
 
 The default config files can be found in the `Configuration_Files` directory. You will need to modify them to suit your samples. Please refer to the config files or the [wiki](https://github.com/mojaveazure/angsd-wrapper/wiki) to see what each variable is used for and how they should be specified. If you run `angsd-wrapper` without any arguments, it will return a usage message.
+
+Example config files can be found in `Example_Data/Configuration_Files` upon running `angsd-wrapper setup data`.
 
 ## Futher Information
 
