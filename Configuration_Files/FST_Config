@@ -28,14 +28,25 @@ SCRATCH=
 REGIONS=
 
 #   Parameters that are specified in Common_Config
+#       Use only uniquely-mapped reads
 UNIQUE_ONLY=0
+#       Set the minimum base quality
 MIN_BASEQUAL=20
+#       Calculate base alignment quality
 BAQ=1
+#       Calculate genotype likelihoods
 GT_LIKELIHOOD=2
+#       Set the minimum mapping quality for a base to be used
 MIN_MAPQ=30
+#       Set the minimum mapping quality for a base to be used
 N_CORES=32
+#       Determine major and minor alleles
 DO_MAJORMINOR=1
+#       Call genotypes from genotype likelihoods
+DO_GENO=32
+#       Calculate allele frequencies
 DO_MAF=1
+#       Calculate the posterior probability
 DO_POST=1
 
 ##############################################################################################
@@ -60,10 +71,17 @@ G2_INBREEDING=
 
 #   FST Parameters
 #       Listed below are the defaults, please modify for your samples
+#       Generate site allele frequencies
 DO_SAF=2
+#       Set the minimum number of individuals required for group 1
 MIN_IND1=4
+#       Set the minimum number of individuals required for group 2
 MIN_IND2=4
+#       Overwrite any previously generated results
 OVERRIDE=true
+#       Calculate global Fst values
 GLOBAL=true
+#       Set the sliding window size
 WIN=1000
+#       Set the step size for sliding window analysis
 STEP=500

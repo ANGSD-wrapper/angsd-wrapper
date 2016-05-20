@@ -27,17 +27,26 @@ SCRATCH=
 REGIONS=
 
 #   Parameters that are specified in Common_Config
-DO_MAF=2
-DO_MAJORMINOR=1
-DO_GENO=32
-DO_POST=1
-N_CORES=8
+#       Calculate genotype likelihoods
 GT_LIKELIHOOD=2
+#       Set the minimum mapping quality for a base to be used
+N_CORES=32
+#       Determine major and minor alleles
+DO_MAJORMINOR=1
+#       Call genotypes from genotype likelihoods
+DO_GENO=32
+#       Calculate allele frequencies
+DO_MAF=1
+#       Calculate the posterior probability
+DO_POST=1
 
 ##############################################################################################
 
 #   Principal Component Analysis Parameters
 #       Listed below are the defaults, please modify for your samples
+#       Normalize by allele frequency
 NORM=0
+#       Perform genotype calling
 CALL=0
+#       Set the maximum number of sites to use for Principal Component Analysis
 N_SITES=100000

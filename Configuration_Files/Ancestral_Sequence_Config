@@ -24,7 +24,9 @@ OUT=${OUT_DIR}/${OUT_NAME}
 
 #   Ancestral Sequence Parameters
 #       Listed below are the defaults, please modify for your samples
+#       Extract FASTA sequence from BAM file
 DO_FASTA=1
+#       Count allele frequencies
 #       If DO_FASTA is 2, DO_COUNTS must be 1
 #       Otherwise, DO_COUNTS can be any other legal value
 DO_COUNTS=0

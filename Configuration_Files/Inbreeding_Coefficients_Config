@@ -32,20 +32,32 @@ SCRATCH=
 REGIONS=
 
 #   Parameters that are specified in Common_Config
+#       Set the minimum base quality
 MIN_BASEQUAL=20
 GT_LIKELIHOOD=1
+#       Calculate genotype likelihoods
+GT_LIKELIHOOD=2
+#       Set the minimum mapping quality for a base to be used
 MIN_MAPQ=30
+#       Set the minimum mapping quality for a base to be used
 N_CORES=32
+#       Determine major and minor alleles
 DO_MAJORMINOR=1
+#       Calculate allele frequencies
 DO_MAF=1
 
 ##############################################################################################
 
 #   ngsF Parameters
 #       Listed below are the defaults, please modify for your samples
+#       Set the maximum p-value for polymorphic sites
 SNP_PVAL=1e-6
+#       Overwrite any previously generated results
 OVERRIDE=false
+#       Set the minimum root-mean-square deviation between to assume convergence
 MIN_EPSILON=1e-9
+#       Output genotype likelihood frequency file
 DO_GLF=3
-    #   Use the random number generator built into BASH
+#       Set a seed value for creating approximate inbreeding coefficients
+#       Use the random number generator built into BASH
 SEED=$RANDOM

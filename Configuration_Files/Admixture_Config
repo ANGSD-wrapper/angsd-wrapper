@@ -21,6 +21,7 @@ PROJECT=
 SCRATCH=
 
 #   Parameters that are specified in Common_Config
+#       Set the minimum mapping quality for a base to be used
 N_CORES=32
 
 ##############################################################################################
@@ -31,5 +32,7 @@ LIKELIHOOD=
 
 #   ngsAdmix Parameters
 #       Listed below are the defaults, please modify for your samples
+#       Set the number of assumed populations to estimate Admixture under
 K=5
+#       Set the minimum minor allele frequency
 MIN_MAF=0.05
