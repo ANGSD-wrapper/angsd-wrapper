@@ -48,6 +48,7 @@ then
     FAI=$(ls $( dirname "${REF_SEQ}" )| grep -E "$( basename ${REF_SEQ} )\.fai|$( basename ${REF_SEQ} .fasta )\.fai")
     python "${SOURCE}"/Wrappers/sortRegions.py --fai $(dirname "${REF_SEQ}")/"${FAI}" --regions "${REGIONS}" --project "${PROJECT}"
     REGIONS=$(dirname "${REGIONS}")/"${PROJECT}"_SortedRegions.txt
+fi
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
 #       For 1st group
