@@ -40,6 +40,15 @@ then
     exit 1
 fi
 
+#   Sort our regions file, if provided
+if [[ -f ${REGIONS} ]]
+then
+    if ! $(command -v python > /dev/null 2> /dev/null); then echo "Please install Python and place in your PATH" >&2; exit 1; fi
+    echo "Sorting ${REGIONS} to match the order in ${REF_SEQ}" >&2
+    FAI=$(ls $( dirname "${REF_SEQ}" )| grep -E "$( basename ${REF_SEQ} )\.fai|$( basename ${REF_SEQ} .fasta )\.fai")
+    python "${SOURCE}"/Wrappers/sortRegions.py --fai $(dirname "${REF_SEQ}")/"${FAI}" --regions "${REGIONS}" --project "${PROJECT}"
+    REGIONS=$(dirname "${REGIONS}")/"${PROJECT}"_SortedRegions.txt
+
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
 #       For 1st group
 if [[ -f "${OUT}"/"${GROUP_1}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
