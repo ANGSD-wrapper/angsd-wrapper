@@ -37,30 +37,36 @@ case "${setup_routine}" in
         #   Check for SAMTools. If not found, install it
         if ! $(command -v samtools > /dev/null 2> /dev/null); then cd "${ROOT}"; installSAMTools; source ~/.bash_profile;cd "${ROOT}"; fi
         #   Install ngsF
-        if [[ $(uname) == "Linux" ]] # Are we on Linux?
-        then # If so, we can use the normal ngsF
-            cd "${ROOT}"
+        # if [[ $(uname) == "Linux" ]] # Are we on Linux?
+        # then # If so, we can use the normal ngsF
+        #     cd "${ROOT}"
+        #     git clone https://github.com/fgvieira/ngsF.git
+        #     cd ngsF
+        #     git reset --hard 807ca7216ab8c3fbd98e628ef1638177d5c752b9
+        #     make
+        #     cd "${ROOT}"
+        # elif [[ $(uname) == "Darwin" ]] # If we're on Mac OS X
+        # then # We need a version with a compalition routine that works for Mac OS X
+        #     cd "${ROOT}"
+        #     git clone https://github.com/mojaveazure/ngsF.git
+        #     cd ngsF
+        #     bash install.sh
+        #     cd "${ROOT}"
+        # else # I don't know how other BSDs works with ngsF, so yeah...
+        #     echo "Failed to determine operating system. If not using a Windows-based machine, please file an issue and let us know!"
+        #     exit 1
+        # fi
+        cd "${ROOT}"
             git clone https://github.com/fgvieira/ngsF.git
             cd ngsF
-            git reset --hard c39b6ad35c8512d29f09dc4ffd7b6c30afcebd16
+            git reset --hard 807ca7216ab8c3fbd98e628ef1638177d5c752b9
             make
             cd "${ROOT}"
-        elif [[ $(uname) == "Darwin" ]] # If we're on Mac OS X
-        then # We need a version with a compalition routine that works for Mac OS X
-            cd "${ROOT}"
-            git clone https://github.com/mojaveazure/ngsF.git
-            cd ngsF
-            bash install.sh
-            cd "${ROOT}"
-        else # I don't know how other BSDs works with ngsF, so yeah...
-            echo "Failed to determine operating system. If not using a Windows-based machine, please file an issue and let us know!"
-            exit 1
-        fi
         #   Install HTSLIB
         cd "${ROOT}"
         git clone https://github.com/samtools/htslib.git
         cd htslib
-        git reset --hard 306664a776435a1c86d7263f16deb43b30db55fd
+        git reset --hard bb03b0287bc587c3cbdc399f49f0498eef86b44a
         make
         make prefix=`pwd` install
         HTSLIB_DIR=`pwd`
@@ -69,7 +75,7 @@ case "${setup_routine}" in
         cd "${ROOT}"
         git clone https://github.com/ANGSD/angsd.git
         cd angsd
-        git reset --hard 8b89ba421e97c125f474b2217b710f178c27a51e
+        git reset --hard 1c0ebb672c25c6e6a53db66c61519e970e48c72e
         make HTSDIR="${HTSLIB_DIR}"
         cd "${ROOT}"
         #   Install ngsAdmix
@@ -83,7 +89,7 @@ case "${setup_routine}" in
         cd "${ROOT}"
         git clone https://github.com/mfumagalli/ngsPopGen.git
         cd ngsPopGen
-        git reset --hard abeabb73b547e067d32d620d6b58a54aad7c0070
+        git reset --hard d78556721e686be17ea0c5e647bee84051a61ffb
         make
         cd "${ROOT}"
         echo
