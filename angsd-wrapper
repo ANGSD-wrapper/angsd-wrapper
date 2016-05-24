@@ -10,12 +10,16 @@ SOURCE=$(dirname "$0")
 if [[ "${SOURCE}" == '.' ]]; then SOURCE=$(pwd -P); fi
 echo -e "$(basename $0) running from ${SOURCE}\n" >&2
 
+WRAPPER="$1"
+CONFIG="$2"
+
 #   Check to ensure that we have a valid version of OS X
-if [[ $(uname) == 'Darwin' ]]
+if [[ $(uname) == 'Darwin' && "${WRAPPER}" != 'shiny' ]]
 then
     if [[ $(sw_vers -productVersion) == '10.11.4' ]]
     then
         echo -e "Due to issues with Apple's compiler, $(basename $0) is unavailable for \nMac OS X Version $(sw_vers -productVersion)\n" >&2
+        echo -e "The Shiny graphing interface is still available\nTo start the Shiny graphing interface, please run\n     $(basename $0) shiny graphing\n"
         exit 1
     fi
 fi
@@ -48,7 +52,7 @@ To start the Shiny graphing interface, please run \n\
 }
 
 #   Run some checks
-if [[ ! -d "${SOURCE}"/dependencies ]] # Are we missing the dependencies directory?
+if [[ ! -d "${SOURCE}"/dependencies && "${WRAPPER}" != 'shiny' ]] # Are we missing the dependencies directory?
 then
     if [[ ! "$1" == 'setup' ]] # If we're not running the setup routine
     then
@@ -61,6 +65,10 @@ To download and install dependencies, please run \n\
 To download the example dataset, please run \n\
 \n\
     ./$(basename $0) setup data \n\
+\n\
+Shiny graphing works without setting up $(basename $0)\n\
+To use the Shiny graphing interface, please run \n\
+    $(basename $0) shiny graphing \n\
 " >&2
         exit 1
     fi
@@ -69,20 +77,22 @@ then
     usage # If so, display the usage message
 fi
 
-WRAPPER="$1"
-CONFIG="$2"
-
-case "${WRAPPER}" in
-    "setup" )
-        if [ "${CONFIG}" == "data" ]
-        then
-            bash Wrappers/Setup.sh data "${SOURCE}"
-        elif [ "${CONFIG}" == "dependencies" ]
-        then
-            bash Wrappers/Setup.sh dependencies "${SOURCE}"
-            exit 1
-        else
-            echo -e "\
+if [[ "${WRAPPER}" == 'shiny' ]]
+then
+    if ! $(command -v Rscript > /dev/null 2> /dev/null); then echo -e "Please install R and Rscript to run the Shiny graphing interface\n" >&2; exit 1; fi
+    Rscript "${SOURCE}"/Wrappers/startShiny.R "${SOURCE}"
+else
+    case "${WRAPPER}" in
+        "setup" )
+            if [ "${CONFIG}" == "data" ]
+            then
+                bash Wrappers/Setup.sh data "${SOURCE}"
+            elif [ "${CONFIG}" == "dependencies" ]
+            then
+                bash Wrappers/Setup.sh dependencies "${SOURCE}"
+                exit 1
+            else
+                echo -e "\
 Welcome to $(basename $0)! \n\
 To download and install dependencies, please run \n\
 \n\
@@ -91,104 +101,102 @@ To download and install dependencies, please run \n\
 To download the example dataset, please run \n\
 \n\
     ./$(basename $0) setup data \n\
-" >&2
-            exit 1
-        fi
-        ;;
-    "SFS" )
-        #   Run the site frequency spectrum wrapper script
-        if ! [[ -f "${CONFIG}" ]]
-        then
-            echo "Please specify a valid config file"
-            exit 1
-        fi
-        bash "${SOURCE}"/Wrappers/Site_Frequency_Spectrum.sh "${CONFIG}" "${SOURCE}"
-        ;;
-    "Fst" )
-        #   Run the 2D site frequency spectrum wrapper script
-        if ! [[ -f "${CONFIG}" ]]
-        then
-            echo "Please specify a valid config file"
-            exit 1
-        fi
-        bash "${SOURCE}"/Wrappers/FST.sh "${CONFIG}" "${SOURCE}"
-        ;;
-    "Abbababa" )
-        #   Run the ABBA-BABA wrapper script
-        if ! [[ -f "${CONFIG}" ]]
-        then
-            echo "Please specify a valid config file"
-            exit 1
-        fi
-        bash "${SOURCE}"/Wrappers/Abbababa.sh "${CONFIG}" "${SOURCE}"
-        ;;
-    "Ancestral" )
-        #   Run the ancestral sequence wrapper script
-        if ! [[ -f "${CONFIG}" ]]
-        then
-            echo "Please specify a valid config file"
-            exit 1
-        fi
-        bash "${SOURCE}"/Wrappers/Ancestral_Sequence.sh "${CONFIG}" "${SOURCE}"
-        ;;
-    "Genotypes" )
-        #   Run the genotypes wrapper script
-        if ! [[ -f "${CONFIG}" ]]
-        then
-            echo "Please specify a valid config file"
-            exit 1
-        fi
-        bash "${SOURCE}"/Wrappers/Genotypes.sh "${CONFIG}" "${SOURCE}"
-        ;;
-    "PCA" )
-        #   Run the PCA wrapper script
-        if ! [[ -f "${CONFIG}" ]]
-        then
-            echo "Please specify a valid config file"
-            exit 1
-        fi
-        bash "${SOURCE}"/Wrappers/Principal_Component_Analysis.sh "${CONFIG}" "${SOURCE}"
-        ;;
-    "Thetas" )
-        #   Run the Thetas wrapper script
-        if ! [[ -f "${CONFIG}" ]]
-        then
-            echo "Please specify a valid config file"
-            exit 1
-        fi
-        bash "${SOURCE}"/Wrappers/Thetas.sh "${CONFIG}" "${SOURCE}"
-        ;;
-    "Inbreeding" )
-        #   Run the Inbreeding wrapper script
-        if ! [[ -f "${CONFIG}" ]]
-        then
-            echo "Please specify a valid config file"
-            exit 1
-        fi
-        bash "${SOURCE}"/Wrappers/Inbreeding_Coefficients.sh "${CONFIG}" "${SOURCE}"
-        ;;
-    "Admixture" )
-        #   Run the Admixture wrapper script
-        if ! [[ -f "${CONFIG}" ]]
-        then
-            echo "Please specify a valid config file"
-            exit 1
-        fi
-        bash "${SOURCE}"/Wrappers/Admixture.sh "${CONFIG}" "${SOURCE}"
-        ;;
-    "help" )
-        bash "${SOURCE}"/Wrappers/Help.sh
-        ;;
-    "upgrade" )
-        bash "${SOURCE}"/Wrappers/Upgrade.sh "${SOURCE}"
-        ;;
-    "shiny" )
-        Rscript "${SOURCE}"/Wrappers/startShiny.R "${SOURCE}"
-        ;;
-    "test" )
-        bash "${SOURCE}"/Wrappers/Setup.sh test ${SOURCE}
-        ;;
-    * )
-        usage
-        ;;
-esac
+    " >&2
+                exit 1
+            fi
+            ;;
+        "SFS" )
+            #   Run the site frequency spectrum wrapper script
+            if ! [[ -f "${CONFIG}" ]]
+            then
+                echo "Please specify a valid config file"
+                exit 1
+            fi
+            bash "${SOURCE}"/Wrappers/Site_Frequency_Spectrum.sh "${CONFIG}" "${SOURCE}"
+            ;;
+        "Fst" )
+            #   Run the 2D site frequency spectrum wrapper script
+            if ! [[ -f "${CONFIG}" ]]
+            then
+                echo "Please specify a valid config file"
+                exit 1
+            fi
+            bash "${SOURCE}"/Wrappers/FST.sh "${CONFIG}" "${SOURCE}"
+            ;;
+        "Abbababa" )
+            #   Run the ABBA-BABA wrapper script
+            if ! [[ -f "${CONFIG}" ]]
+            then
+                echo "Please specify a valid config file"
+                exit 1
+            fi
+            bash "${SOURCE}"/Wrappers/Abbababa.sh "${CONFIG}" "${SOURCE}"
+            ;;
+        "Ancestral" )
+            #   Run the ancestral sequence wrapper script
+            if ! [[ -f "${CONFIG}" ]]
+            then
+                echo "Please specify a valid config file"
+                exit 1
+            fi
+            bash "${SOURCE}"/Wrappers/Ancestral_Sequence.sh "${CONFIG}" "${SOURCE}"
+            ;;
+        "Genotypes" )
+            #   Run the genotypes wrapper script
+            if ! [[ -f "${CONFIG}" ]]
+            then
+                echo "Please specify a valid config file"
+                exit 1
+            fi
+            bash "${SOURCE}"/Wrappers/Genotypes.sh "${CONFIG}" "${SOURCE}"
+            ;;
+        "PCA" )
+            #   Run the PCA wrapper script
+            if ! [[ -f "${CONFIG}" ]]
+            then
+                echo "Please specify a valid config file"
+                exit 1
+            fi
+            bash "${SOURCE}"/Wrappers/Principal_Component_Analysis.sh "${CONFIG}" "${SOURCE}"
+            ;;
+        "Thetas" )
+            #   Run the Thetas wrapper script
+            if ! [[ -f "${CONFIG}" ]]
+            then
+                echo "Please specify a valid config file"
+                exit 1
+            fi
+            bash "${SOURCE}"/Wrappers/Thetas.sh "${CONFIG}" "${SOURCE}"
+            ;;
+        "Inbreeding" )
+            #   Run the Inbreeding wrapper script
+            if ! [[ -f "${CONFIG}" ]]
+            then
+                echo "Please specify a valid config file"
+                exit 1
+            fi
+            bash "${SOURCE}"/Wrappers/Inbreeding_Coefficients.sh "${CONFIG}" "${SOURCE}"
+            ;;
+        "Admixture" )
+            #   Run the Admixture wrapper script
+            if ! [[ -f "${CONFIG}" ]]
+            then
+                echo "Please specify a valid config file"
+                exit 1
+            fi
+            bash "${SOURCE}"/Wrappers/Admixture.sh "${CONFIG}" "${SOURCE}"
+            ;;
+        "help" )
+            bash "${SOURCE}"/Wrappers/Help.sh
+            ;;
+        "upgrade" )
+            bash "${SOURCE}"/Wrappers/Upgrade.sh "${SOURCE}"
+            ;;
+        "test" )
+            bash "${SOURCE}"/Wrappers/Setup.sh test ${SOURCE}
+            ;;
+        * )
+            usage
+            ;;
+    esac
+fi
