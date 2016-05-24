@@ -41,7 +41,7 @@ fi
 #   Do we have a regions file?
 if [[ -f "${REGIONS}" ]]
 then
-    if ! `command -v python > /dev/null 2> /dev/null`; then echo "Please install Python and place in your PATH" >&2; exit 1; fi
+    if ! `command -v python3 > /dev/null 2> /dev/null`; then echo "Please install Python and place in your PATH" >&2; exit 1; fi
     echo "Sorting ${REGIONS} to match the order in ${OUTGROUP}" >&2
     FAI=$(ls $( dirname "${OUTGROUP}" )| grep -E "$( basename ${OUTGROUP} )\.fai|$( basename ${OUTGROUP} .fasta )\.fai")
     python "${SOURCE}"/Wrappers/sort_regions.py --fai $(dirname "${OUTGROUP}")/"${FAI}" --regions "${REGIONS}" --project "${PROJECT}"
