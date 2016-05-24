@@ -10,6 +10,16 @@ SOURCE=$(dirname "$0")
 if [[ "${SOURCE}" == '.' ]]; then SOURCE=$(pwd -P); fi
 echo -e "$(basename $0) running from ${SOURCE}\n" >&2
 
+#   Check to ensure that we have a valid version of OS X
+if [[ $(uname) == 'Darwin' ]]
+then
+    if [[ $(sw_vers -productVersion) == '10.11.4' ]]
+    then
+        echo -e "Due to issues with Apple's compiler, $(basename $0) is unavailable for \nMac OS X Version $(sw_vers -productVersion)\n" >&2
+        exit 1
+    fi
+fi
+
 #   Define a usage message
 function usage() {
     echo -e "\
