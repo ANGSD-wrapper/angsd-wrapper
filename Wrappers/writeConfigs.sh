@@ -109,8 +109,8 @@ function writeConfigs() {
     local exampleDirectory=$1 # Where are the example data stored?
     local configurationDirectory="${exampleDirectory}/Configuration_Files" # Where are we storing our example configuration files?
     mkdir -p ${configurationDirectory} # Make our configuration directory
-    local ancestralSequence="${exampleDirectory}/Sequences/" # Where is our ancestral sequence?
-    local referenceSequence="${exampleDirectory}/Sequences/" # Where is our reference sequence?
+    local ancestralSequence="${exampleDirectory}/Sequences/Tripsacum_TDD39103.fa" # Where is our ancestral sequence?
+    local referenceSequence="${exampleDirectory}/Sequences/Zea_mays.AGPv3.30.dna_sm.chromosome.10.fa" # Where is our reference sequence?
     local -a projectNames=(Maize Mexicana Teosinte) # An array with the three different example datasets
     #   Write the example configuration files
     for sample in ${projectNames[@]}; do configByProject "${exampleDirectory}" "${sample}" "${configurationDirectory}" "${ancestralSequence}" "${referenceSequence}"; done
