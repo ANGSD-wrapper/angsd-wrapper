@@ -16,7 +16,7 @@ shinyUI(fluidPage(
           headerPanel("Thetas Graphs", windowTitle = "Thetas Graphs"),
           # Choose input file
           fileInput('userThetas',
-                    label= "Choose '.thetas.graph.me' Thetas File"
+                    label= "Choose '_Thetas.graph.me' Thetas File"
           ),
 
           # Watterson's theta
@@ -133,7 +133,7 @@ shinyUI(fluidPage(
           headerPanel("Site Frequency Spectrum", 
                       windowTitle = "SFS Graph"),
           fileInput('userSFS',
-                    label= "Choose '_DerivedSFS' SFS File"
+                    label= "Choose '_DerivedSFS.graph.me' SFS File"
           )
         ),
         mainPanel(
@@ -150,7 +150,7 @@ shinyUI(fluidPage(
           headerPanel("ABBA BABA",
                       windowTitle = "ABBA BABA Graph"),
           fileInput('userABBABABA',
-                    label= "Choose 'abbababa.txt' ABBABABA File"
+                    label= "Choose '_Abbababa.graph.me' ABBABABA File"
           ),
           # Additional help text
           tags$h5(class = "header",
@@ -245,7 +245,7 @@ shinyUI(fluidPage(
           headerPanel("Principal Component Analysis",
                       windowTitle = "PCA Graph"),
           fileInput('userPCA',
-                    label= "Choose a '_PCA.covar' File"
+                    label= "Choose a '_PCA.graph.me' File"
           ),
           # Additional help text
           tags$h4(class = "header",
@@ -289,7 +289,7 @@ shinyUI(fluidPage(
           headerPanel('Admixture plots',
                       windowTitle = 'Admixture'),
           fileInput('userAdmix',
-                    label= "Choose '.qopt' admixture File",
+                    label= "Choose '.qopt.graph.me' admixture File",
                     multiple = TRUE)
         ),
         mainPanel(
