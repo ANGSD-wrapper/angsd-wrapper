@@ -13,16 +13,24 @@ echo -e "$(basename $0) running from ${SOURCE}\n" >&2
 WRAPPER="$1"
 CONFIG="$2"
 
-#   Check to ensure that we have a valid version of OS X
-if [[ $(uname) == 'Darwin' && "${WRAPPER}" != 'shiny' ]]
-then
-    if [[ $(sw_vers -productVersion) == '10.11.4' ]]
-    then
-        echo -e "Due to issues with Apple's compiler, $(basename $0) is unavailable for \nMac OS X Version $(sw_vers -productVersion)\n" >&2
-        echo -e "The Shiny graphing interface is still available\nTo start the Shiny graphing interface, please run\n     $(basename $0) shiny graphing\n"
-        exit 1
-    fi
-fi
+#   Define a message for when ANGSD-wrapper is not setup
+function notSetup() {
+    echo -e "\
+Welcome to $(basename $0)! \n\
+To download and install dependencies, please run \n\
+\n\
+    ./$(basename $0) setup dependencies \n\
+\n\
+To download the example dataset, please run \n\
+\n\
+    ./$(basename $0) setup data \n\
+\n\
+Shiny graphing works without setting up $(basename $0)\n\
+To use the Shiny graphing interface, please run \n\
+    $(basename $0) shiny graphing \n\
+" >&2
+    exit 1
+}
 
 #   Define a usage message
 function usage() {
@@ -52,35 +60,25 @@ To start the Shiny graphing interface, please run \n\
 }
 
 #   Run some checks
-if [[ ! -d "${SOURCE}"/dependencies && "${WRAPPER}" != 'shiny' ]] # Are we missing the dependencies directory?
+#   Check to ensure that we have a valid version of OS X
+if [[ ${WRAPPER} == 'shiny' ]]
+then
+    if ! $(command -v Rscript > /dev/null 2> /dev/null); then echo -e "Please install R and Rscript to run the Shiny graphing interface\n" >&2; exit 1; fi
+    Rscript "${SOURCE}"/Wrappers/startShiny.R "${SOURCE}"
+elif [[ $(uname) == 'Darwin' && $(sw_vers -productVersion) == '10.11.4' ]]
+then
+        echo -e "Due to issues with Apple's compiler, $(basename $0) is unavailable for \nMac OS X Version $(sw_vers -productVersion)\n" >&2
+        echo -e "The Shiny graphing interface is still available\nTo start the Shiny graphing interface, please run\n     $(basename $0) shiny graphing\n"
+        exit 1
+elif [[ ! -d "${SOURCE}"/dependencies ]] # Are we missing the dependencies directory?
 then
     if [[ ! "$1" == 'setup' ]] # If we're not running the setup routine
     then
-        echo -e "\
-Welcome to $(basename $0)! \n\
-To download and install dependencies, please run \n\
-\n\
-    ./$(basename $0) setup dependencies \n\
-\n\
-To download the example dataset, please run \n\
-\n\
-    ./$(basename $0) setup data \n\
-\n\
-Shiny graphing works without setting up $(basename $0)\n\
-To use the Shiny graphing interface, please run \n\
-    $(basename $0) shiny graphing \n\
-" >&2
-        exit 1
+        notSetup
     fi
 elif [[ "$#" -lt 2 ]] # Otherwise, are we missing our two arguments
 then
     usage # If so, display the usage message
-fi
-
-if [[ "${WRAPPER}" == 'shiny' ]]
-then
-    if ! $(command -v Rscript > /dev/null 2> /dev/null); then echo -e "Please install R and Rscript to run the Shiny graphing interface\n" >&2; exit 1; fi
-    Rscript "${SOURCE}"/Wrappers/startShiny.R "${SOURCE}"
 else
     case "${WRAPPER}" in
         "setup" )
@@ -92,17 +90,7 @@ else
                 bash Wrappers/Setup.sh dependencies "${SOURCE}"
                 exit 1
             else
-                echo -e "\
-Welcome to $(basename $0)! \n\
-To download and install dependencies, please run \n\
-\n\
-    ./$(basename $0) setup dependencies \n\
-\n\
-To download the example dataset, please run \n\
-\n\
-    ./$(basename $0) setup data \n\
-    " >&2
-                exit 1
+                notSetup
             fi
             ;;
         "SFS" )
