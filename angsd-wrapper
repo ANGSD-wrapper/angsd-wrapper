@@ -10,6 +10,7 @@ SOURCE=$(dirname "$0")
 if [[ "${SOURCE}" == '.' ]]; then SOURCE=$(pwd -P); fi
 echo -e "$(basename $0) running from ${SOURCE}\n" >&2
 
+#   Assign our arguments to names
 WRAPPER="$1"
 CONFIG="$2"
 
@@ -60,16 +61,32 @@ To start the Shiny graphing interface, please run \n\
 }
 
 #   Run some checks
-#   Check to ensure that we have a valid version of OS X
-if [[ ${WRAPPER} == 'shiny' ]]
+if [[ ${WRAPPER} == 'shiny' ]] # Are we running Shiny graphing?
 then
+    #   Check for Rscript
     if ! $(command -v Rscript > /dev/null 2> /dev/null); then echo -e "Please install R and Rscript to run the Shiny graphing interface\n" >&2; exit 1; fi
+    #   Start Shiny
     Rscript "${SOURCE}"/Wrappers/startShiny.R "${SOURCE}"
-elif [[ $(uname) == 'Darwin' && $(sw_vers -productVersion) == '10.11.4' ]]
+elif [[ $(uname) == 'Darwin' && $(sw_vers -productVersion) == '10.11.4' ]] # Check to ensure that we have a valid version of OS X, if not, exit with error
 then
         echo -e "Due to issues with Apple's compiler, $(basename $0) is unavailable for \nMac OS X Version $(sw_vers -productVersion)\n" >&2
         echo -e "The Shiny graphing interface is still available\nTo start the Shiny graphing interface, please run\n     $(basename $0) shiny graphing\n"
         exit 1
+elif [[ "${WRAPPER}" == 'setup' ]] # Are we setting up ANGSD-wrapper?
+then
+    #   Setting up data?
+    if [ "${CONFIG}" == "data" ]
+    then
+        bash Wrappers/Setup.sh data "${SOURCE}"
+    #   Setting up dependencies?
+    elif [ "${CONFIG}" == "dependencies" ]
+    then
+        bash Wrappers/Setup.sh dependencies "${SOURCE}"
+        exit 1
+    #   Incorrect command
+    else
+        notSetup
+    fi
 elif [[ ! -d "${SOURCE}"/dependencies ]] # Are we missing the dependencies directory?
 then
     if [[ ! "$1" == 'setup' ]] # If we're not running the setup routine
@@ -79,20 +96,8 @@ then
 elif [[ "$#" -lt 2 ]] # Otherwise, are we missing our two arguments
 then
     usage # If so, display the usage message
-else
+else # Everything else checks out, run the specified wrapper
     case "${WRAPPER}" in
-        "setup" )
-            if [ "${CONFIG}" == "data" ]
-            then
-                bash Wrappers/Setup.sh data "${SOURCE}"
-            elif [ "${CONFIG}" == "dependencies" ]
-            then
-                bash Wrappers/Setup.sh dependencies "${SOURCE}"
-                exit 1
-            else
-                notSetup
-            fi
-            ;;
         "SFS" )
             #   Run the site frequency spectrum wrapper script
             if ! [[ -f "${CONFIG}" ]]
