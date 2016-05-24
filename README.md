@@ -1,6 +1,9 @@
 # ANGSD-wrapper
 
-> **NOTE:** Due to changes to Apple's C/C++ compiler, ANGSD-wrapper is unavailable for Mac OS X Version 10.11.4 and later
+> **NOTE:** Due to changes to Apple's C/C++ compiler, ANGSD-wrapper is unavailable for Mac OS X Version 10.11.4
+> This affects setting up dependencies, creating a system-wide installation of ANGSD-wrapper, downloading example data, and performing any computational analyses with ANGSD-wrapper
+> The Shiny graphing interface is still available through `./angsd-wrapper shiny graphing`
+> Please use an older version of Mac OS X or another POSIX-compliant system to regain full capabilities of ANGSD-wrapper
 
 ANGSD-wrapper is a utility developed to aid in the analysis of next generation sequencing data. Users can do the following with this suite:
 - Calculate a site frequency spectrum
