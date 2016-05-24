@@ -37,31 +37,12 @@ case "${setup_routine}" in
         #   Check for SAMTools. If not found, install it
         if ! $(command -v samtools > /dev/null 2> /dev/null); then cd "${ROOT}"; installSAMTools; source ~/.bash_profile;cd "${ROOT}"; fi
         #   Install ngsF
-        # if [[ $(uname) == "Linux" ]] # Are we on Linux?
-        # then # If so, we can use the normal ngsF
-        #     cd "${ROOT}"
-        #     git clone https://github.com/fgvieira/ngsF.git
-        #     cd ngsF
-        #     git reset --hard 807ca7216ab8c3fbd98e628ef1638177d5c752b9
-        #     make
-        #     cd "${ROOT}"
-        # elif [[ $(uname) == "Darwin" ]] # If we're on Mac OS X
-        # then # We need a version with a compalition routine that works for Mac OS X
-        #     cd "${ROOT}"
-        #     git clone https://github.com/mojaveazure/ngsF.git
-        #     cd ngsF
-        #     bash install.sh
-        #     cd "${ROOT}"
-        # else # I don't know how other BSDs works with ngsF, so yeah...
-        #     echo "Failed to determine operating system. If not using a Windows-based machine, please file an issue and let us know!"
-        #     exit 1
-        # fi
         cd "${ROOT}"
-            git clone https://github.com/fgvieira/ngsF.git
-            cd ngsF
-            git reset --hard 807ca7216ab8c3fbd98e628ef1638177d5c752b9
-            make
-            cd "${ROOT}"
+        git clone https://github.com/fgvieira/ngsF.git
+        cd ngsF
+        git reset --hard 807ca7216ab8c3fbd98e628ef1638177d5c752b9
+        make
+        cd "${ROOT}"
         #   Install HTSLIB
         cd "${ROOT}"
         git clone https://github.com/samtools/htslib.git
@@ -89,7 +70,7 @@ case "${setup_routine}" in
         cd "${ROOT}"
         git clone https://github.com/mfumagalli/ngsPopGen.git
         cd ngsPopGen
-        git reset --hard d78556721e686be17ea0c5e647bee84051a61ffb
+        git reset --hard abeabb73b547e067d32d620d6b58a54aad7c0070
         make
         cd "${ROOT}"
         echo
