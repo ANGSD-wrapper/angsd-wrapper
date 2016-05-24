@@ -68,9 +68,10 @@ case "${setup_routine}" in
         cd "${ROOT}"
         #   Install ngsPopGen
         cd "${ROOT}"
-        git clone https://github.com/mfumagalli/ngsPopGen.git
+        # git clone https://github.com/mfumagalli/ngsPopGen.git
+        git clone https://github.com/mojaveazure/ngsPopGen.git
         cd ngsPopGen
-        git reset --hard d78556721e686be17ea0c5e647bee84051a61ffb
+        # git reset --hard d78556721e686be17ea0c5e647bee84051a61ffb
         make
         cd "${ROOT}"
         echo
