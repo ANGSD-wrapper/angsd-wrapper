@@ -46,7 +46,7 @@ then
     if ! $(command -v python > /dev/null 2> /dev/null); then echo "Please install Python and place in your PATH" >&2; exit 1; fi
     echo "Sorting ${REGIONS} to match the order in ${REF_SEQ}" >&2
     FAI=$(ls $( dirname "${REF_SEQ}" )| grep -E "$( basename ${REF_SEQ} )\.fai|$( basename ${REF_SEQ} .fasta )\.fai")
-    python "${SOURCE}"/Wrappers/sortRegions.py --fai $(dirname "${REF_SEQ}")/"${FAI}" --regions "${REGIONS}" --project "${PROJECT}"
+    python "${SOURCE}"/Wrappers/sort_regions.py --fai $(dirname "${REF_SEQ}")/"${FAI}" --regions "${REGIONS}" --project "${PROJECT}"
     REGIONS=$(dirname "${REGIONS}")/"${PROJECT}"_SortedRegions.txt
 fi
 
