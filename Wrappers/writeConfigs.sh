@@ -14,10 +14,10 @@ function createCommon(){
     local project=$6 # Name of project
     local scratch=$7 # Full path to scratch directory
     local regions=${8} # Name of regions file
-    local outdirectory=${9} # Where are we putting our 
+    local outdirectory=${9} # Where are we putting our
     local outname="${outdirectory}/${project}_Common_Config" # Create a name for the configuration file
     #   Write Common_Config
-    echo -e "#!/bin/bash\nset -e \nset -o pipefail \n\n#   A simple script to hold common variables for ANGSD-wrapper\n\n#   Define a list of samples\nGROUP_SAMPLES=${path}/${samples}\n\n#   Define a list of inbreeding coefficients\n#	This should end in '_.indF'\nGROUP_INBREEDING=${path}/${inbreeding}\n\n#   Ancestral sequence\nANC_SEQ=${ancestral}\n\n#   Reference sequence\nREF_SEQ=${reference}\n\n#   Name the project\nPROJECT=${project}\n\n#   Where do we put the outfiles?\n    #   Note, the final outdirectory will be\n    #   \${SCRATCH}/\${PROJECT}/<name_of_program/>\nSCRATCH=${scratch}\n\n#   Define the region being looked at\n#       Optional, but ANGSD is expensive to run without specifying regions to look at\nREGIONS=${path}/${regions}\n\n#   Set common parameters for all methods\nUNIQUE_ONLY=0\nMIN_BASEQUAL=20\nBAQ=1\nMIN_IND=1\nGT_LIKELIHOOD=2\nMIN_MAPQ=30\nN_CORES=32\nDO_MAJORMINOR=1\nDO_GENO=32\nDO_MAF=1\nDO_POST=1\n" > "${outname}"
+    echo -e "#!/bin/bash\nset -e \nset -o pipefail \n\n#   A simple script to hold common variables for ANGSD-wrapper\n\n#   Define a list of samples\nSAMPLE_LIST=${path}/${samples}\n\n#   Define a list of inbreeding coefficients\n#	This should end in '_.indF'\nSAMPLE_INBREEDING=${path}/${inbreeding}\n\n#   Ancestral sequence\nANC_SEQ=${ancestral}\n\n#   Reference sequence\nREF_SEQ=${reference}\n\n#   Name the project\nPROJECT=${project}\n\n#   Where do we put the outfiles?\n    #   Note, the final outdirectory will be\n    #   \${SCRATCH}/\${PROJECT}/<name_of_program/>\nSCRATCH=${scratch}\n\n#   Define the region being looked at\n#       Optional, but ANGSD is expensive to run without specifying regions to look at\nREGIONS=${path}/${regions}\n\n#   Set common parameters for all methods\nUNIQUE_ONLY=0\nMIN_BASEQUAL=20\nBAQ=1\nMIN_IND=1\nGT_LIKELIHOOD=2\nMIN_MAPQ=30\nN_CORES=32\nDO_MAJORMINOR=1\nDO_GENO=32\nDO_MAF=1\nDO_POST=1\n" > "${outname}"
     echo "${outname}" # Return the name of Common_Config
 }
 
