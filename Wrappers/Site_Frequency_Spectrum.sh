@@ -63,6 +63,7 @@ else
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -doGeno "${DO_GENO}" \
+            -doGlf "${DO_GLF}" \
             -rf "${REGIONS}" \
             -doPost "${DO_POST}"
     #   Are we missing a definiton for regions?
@@ -86,6 +87,7 @@ else
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -doGeno "${DO_GENO}" \
+            -doGlf "${DO_GLF}" \
             -doPost "${DO_POST}"
     #   Assuming a single reigon was defined in config file
     else
@@ -106,6 +108,9 @@ else
             -P "${N_CORES}" \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
+            -doGeno "${DO_GENO}" \
+            -doGlf "${DO_GLF}" \
+            -doPost "${DO_POST}" \
             -r "${REGIONS}"
     fi
 fi
