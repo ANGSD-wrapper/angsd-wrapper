@@ -51,20 +51,6 @@ function createThetas() {
 #   Export the function
 export -f createThetas
 
-#   A function to write a configuration file for Admixture Analysis
-function createAdmixture() {
-    local common=$1 # Where is Common_Config?
-    local likelihood=$2 # Where is the likelihood file
-    local project=$3 # What are we calling our configuration file?
-    local outdirectory=$4 # Where are we putting our configuration file?
-    local outname="${outdirectory}/${project}_Admixture_Config" # Create a name for the configuration file
-    #   Write out the configuration file for Admixture
-    echo -e "#!/bin/bash\n\nset -e\nset -u\nset -o pipefail\n\n#   A simple script to hold the varialbes for the NGS Admixture\n#   Are you using the Common_Config file?\n#       If so, where is it?\nCOMMON=${common}\n\n##############################################################################################\n#   If we aren't using the Common_Config file, specify these variables\n#   If Common_Config is specified, leave these blank\n#   Name the project\nPROJECT=\n\n#   Where do we put the outfiles?\n    #   Note, the final outdirectory will be\n    #   \${SCRATCH}/\${PROJECT}/Admixture\nSCRATCH=\n\n#   Parameters that are specified in Common_Config\nN_CORES=32\n\n##############################################################################################\n\n#   The Likelihood file\n#       This is the .beagle.gz file from the Site Frequency Spectrum\nLIKELIHOOD=${likelihood}\n\n#   ngsAdmix Parameters\n#       Listed below are the defaults, please modify for your samples\nK=5\nMIN_MAF=0.05\n" > "${outname}"
-}
-
-#   Export the function
-export -f createAdmixture
-
 #   A function to write a configuration file for Genotype Likelihoods
 function createGenotypes() {
     local common="$1" # Where is Common_Config?
@@ -76,6 +62,20 @@ function createGenotypes() {
 
 #   Export the function
 export -f createGenotypes
+
+#   A function to write a configuration file for Admixture Analysis
+function createAdmixture() {
+    local common=$1 # Where is Common_Config?
+    local likelihood=$2 # Where is the likelihood file
+    local project=$3 # What are we calling our configuration file?
+    local outdirectory=$4 # Where are we putting our configuration file?
+    local outname="${outdirectory}/${project}_Admixture_Config" # Create a name for the configuration file
+    #   Write out the configuration file for Admixture
+    echo -e "#!/bin/bash\n\nset -e\nset -u\nset -o pipefail\n\n#   A simple script to hold the varialbes for the NGS Admixture\n#   Are you using the Common_Config file?\n#       If so, where is it?\nCOMMON=${common}\n\n##############################################################################################\n#   If we aren't using the Common_Config file, specify these variables\n#   If Common_Config is specified, leave these blank\n#   Name the project\nPROJECT=\n\n#   Where do we put the outfiles?\n    #   Note, the final outdirectory will be\n    #   \${SCRATCH}/\${PROJECT}/Admixture\nSCRATCH=\n\n#   Parameters that are specified in Common_Config\nN_CORES=32\n\n##############################################################################################\n\n#   The Likelihood file\n#       This is the .beagle.gz file from the Site Frequency Spectrum\nLIKELIHOOD=${likelihood}\n\n#   ngsAdmix Parameters\n#       Listed below are the defaults, please modify for your samples\nK=5\nMIN_MAF=0.05\nTOLERANCE=0.01" > "${outname}"
+}
+
+#   Export the function
+export -f createAdmixture
 
 #   A function to write a configuration file for Principal Component Analysis
 function createPCA() {

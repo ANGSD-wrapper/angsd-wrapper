@@ -31,6 +31,7 @@ do
         -K "${k}" \
         -P "${N_CORES}" \
         -o "${OUT}"/"${PROJECT}"."${k}" \
+        -tol "${TOLERANCE}" \
         -minMaf "${MIN_MAF}"
 done
 
