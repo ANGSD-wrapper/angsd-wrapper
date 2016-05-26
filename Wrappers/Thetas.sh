@@ -20,7 +20,8 @@ ANGSD_DIR=${SOURCE}/dependencies/angsd
 
 #   Variables created from transforming other variables
 #       The number of individuals in the taxon we are analyzing
-N_IND=`wc -l < "${SAMPLE_LIST}"`
+N_IND=`wc -l < "${SAMPLE_LIST}" | tr -d '[[:space:]]'`
+
 #       How many inbreeding coefficients are supplied?
 N_F=`wc -l < "${SAMPLE_INBREEDING}"`
 #       For ANGSD, the actual sample size is twice the number of individuals, since each individual has two chromosomes.
