@@ -22,7 +22,7 @@ shinyServer(
     dataInputThetas = reactive({
       data <- input$userThetas
       path <- as.character(data$datapath)
-      thetas <- fread(input = path, sep = " ", header = T)
+      thetas <- fread(input = path, sep = " ", header = TRUE)
       #setnames(thetas, thetas.headers)
       return(thetas)
     })
@@ -41,10 +41,7 @@ shinyServer(
     dataInputFst = reactive({
       data <- input$userFst
       path <- as.character(data$datapath)
-      fst <- fread(file = path,
-                        sep = " ",
-                        header = T
-      )
+      fst <- fread(file = path, header = TRUE)
       return(fst)
     })
 
@@ -262,8 +259,7 @@ shinyServer(
              xlim = ranges$x, ylim = ranges$y
         )
         if(input$thetaLowess){lines(lowess(thetas.plot$WinCenter, 
-                                           data, f = 0.1), 
-                                    col = "red")}
+                                           data, f = 0.1), col = "red")}
       }
     })
 
@@ -324,8 +320,8 @@ shinyServer(
            ylab = input$selectionChoice,
            main = "Neutrality test statistics along chromosome"
       )
-      if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter, data, f=0.1), 
-                                      col="red")}
+      if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter, 
+                                             data, f=0.1), col="red")}
     })
     
     # selectionPlot2
@@ -334,14 +330,14 @@ shinyServer(
       thetas <- tryCatch({
         dataInputThetas()
       }, error = function(err) {
-        thetas <- read.table(file="BKN_Diversity.thetas.gz.pestPG",
-                             sep="\t",
-                             col.names=thetas.headers
+        thetas <- read.table(file = "BKN_Diversity.thetas.gz.pestPG",
+                             sep = "\t",
+                             col.names = thetas.headers
         )
       }
       )
   
-      thetas <- subset(thetas,Chr==input$thetaChrom)
+      thetas <- subset(thetas, Chr == input$thetaChrom)
       
       # What we are plotting
       thetas.plot <- thetas
@@ -359,15 +355,15 @@ shinyServer(
       
       # Output plot of thetas
       plot(thetas.plot$WinCenter,
-           data, t="p", pch=19,col=rgb(0,0,0,0.5),
-           xlab="Position (bp)",
-           ylab=input$selectionChoice,
+           data, t = "p", pch = 19, col = rgb(0,0,0,0.5),
+           xlab = "Position (bp)",
+           ylab = input$selectionChoice,
            main = "Neutrality test statistics along chromosome",
-           xlim = ranges2$x, ylim = ranges2$y
+           xlim = ranges2$x, 
+           ylim = ranges2$y
       )
       if(input$selectionLowess){lines(lowess(thetas.plot$WinCenter, 
-                                             data, f=0.1), 
-                                      col="red")}
+                                             data, f = 0.1), col = "red")}
     })
     
     # Creating hover function to output table of x and y values of selectionPlot1 and selectionPlot2
@@ -392,137 +388,6 @@ shinyServer(
     # Create zoomable PCA plots
     ranges3 <- reactiveValues(x = NULL, y = NULL)
     
-    # fstPlot1 output
-    output$fstPlot1 <- renderPlot({
-      fst <- tryCatch({
-        dataInputFst()
-      }, error = function(err) {
-        fst <- fread("Maize.Fst.graph.me", sep = " ", header = T)
-      })
-      
-      # ngsPopGen FST calculator returns negative FST values 
-      fst.intersect <- subset(fst, FST>=0 & FST <=1)  # keep values between 0 and 1
-      
-      if(input$annotations){
-        validate(need(input$userAnnotations, 
-                      'Need GFF file before clicking checkbox!'))
-        gff <- gffInput()
-        gff.gene <- subset(gff, type = "gene")
-        gff.df <- data.frame(gff.gene, annotation(gff))
-        gff.df.gene <- subset(gff.df, type == "gene")
-      }
-      
-      # What we are plotting
-        fst.plot <- fst.intersect
-      
-      if(input$annotations) {
-        plot(fst.plot$position, fst.plot$FST,
-             t = "p", pch = 19,
-             col = rgb(0, 0, 0, 0.5),
-             xlab = "Position (bp)",
-             ylab = "Fst",
-             main = paste("Fst along chromosome")
-             )
-        rug(rect(gff.df.gene$X1,
-                 -1e2, gff.df.gene$X2, 0,
-                 col = rgb(0.18, 0.55, 0.8, 0.75),
-                 border = NA))
-        if(input$fstLowess){
-          lines(lowess(fst.plot$f, fst.plot$FST,
-                       f = 0.1), col = "red")
-        }
-      }
-      else {
-        plot(fst.plot$position, fst.plot$FST,
-             t = "p", pch = 19,
-             col = rgb(0, 0, 0, 0.5),
-             xlab = "Position (bp)",
-             ylab = paste("Fst"),
-             main = paste("Fst along chromosome")
-             )
-        if(input$fstLowess) {
-          lines(lowess(fst.plot$f, fst.plot$FST, f = 0.1),
-                       col = "red")
-        }
-      }
-    })
-    
-    # fstPlot2 output
-    output$fstPlot2 <- renderPlot({
-      fst <- tryCatch({
-        dataInputFst()
-      }, error = function(err) {
-        fst <- fread("Maize.Fst.graph.me", sep = " ", header = T)
-      })
-      
-      # ngsPopGen FST calculator returns negative FST values 
-      fst.intersect <- subset(fst, FST>=0 & FST <=1)  # keep values between 0 and 1
-      
-      if(input$annotations){
-        validate(need(input$userAnnotations, 
-                      'Need GFF file before clicking checkbox!'))
-        gff <- gffInput()
-        gff.gene <- subset(gff, type = "gene")
-        gff.df <- data.frame(gff.gene, annotation(gff))
-        gff.df.gene <- subset(gff.df, type=="gene")
-      }
-      
-      # What we are plotting
-      fst.plot <- fst.intersect
-      
-      if(input$annotations) {
-        plot(fst.plot$position, fst.plot$FST,
-             t = "p", pch = 19,
-             col = rgb(0, 0, 0, 0.5),
-             xlab = "Position (bp)",
-             ylab = "Fst",
-             main = paste("Fst along chromosome"),
-             xlim = ranges3$x,
-             ylim = ranges3$y
-        )
-        rug(rect(gff.df.gene$X1,
-                 -1e2, gff.df.gene$X2, 0,
-                 col = rgb(0.18, 0.55, 0.8, 0.75),
-                 border = NA))
-        if(input$fstLowess){
-          lines(lowess(fst.plot$f, fst.plot$FST,
-                       f = 0.1), col = "red")
-        }
-      }
-      else {
-        plot(fst.plot$position, fst.plot$FST,
-             t = "p", pch = 19,
-             col = rgb(0, 0, 0, 0.5),
-             xlab = "Position (bp)",
-             ylab = paste("Fst"),
-             main = paste("Fst along chromosome"),
-             xlim = ranges3$x,
-             ylim = ranges3$y
-        )
-        if(input$fstLowess) {
-          lines(lowess(fst.plot$f, fst.plot$FST, f = 0.1),
-                       col ="red")
-        }
-      }
-    })
-    
-    # Creating hover function to output table of x and y values of fstPlot1 and fstPlot2
-    output$fstPlot2_hoverinfo <- renderPrint({
-      cat("Fst Plot Hover Function")
-      str(input$fstPlot2_hover)
-    })
-    
-    # Making fst plot interactive
-    observe({
-      brush <- input$fstPlot1_brush
-      if(!is.null(brush)) {
-        ranges3$x <- c(brush$xmin, brush$xmax)
-        ranges3$y <- c(brush$ymin, brush$ymax)
-      } else {
-        ranges3$x <- NULL
-        ranges3$y <- NULL
-      }
-    })
 
     # SFS Plot output
     output$SFSPlot <- renderPlot({
