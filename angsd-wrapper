@@ -37,8 +37,12 @@ To use the Shiny graphing interface, please run \n\
 function usage() {
     echo -e "\
 Usage:  $(basename $0) <wrapper> <config> \n\
-where:  <wrapper> is one of SFS, 2DSFS, Abbababa, Ancestral, Genotypes, Thetas, Inbreeding, Admixture
+where:  <wrapper> is one of SFS, Fst, Abbababa, Ancestral, Genotypes, Thetas, Inbreeding, Admixture
 and:    <config> is the corresponding configuration file \n\
+\n\
+This version of $(basename $0) uses ANGSD to calculate Fst\n\
+To use the Shiny graphing interface to visualize Fst calculated with ngsPopGen, run the following command:\n\
+        git checkout ngsPopGen_Fst\n\
 \n\
 The following is a list of calls and what they do: \n\
     SFS         Site frequency spectrum \n\
