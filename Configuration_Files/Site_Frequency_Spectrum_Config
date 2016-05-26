@@ -64,7 +64,5 @@ DO_POST=1
 #       Listed below are the defaults, please modify for your samples
 #       Generate site allele frequencies
 DO_SAF=2
-#       Output genotype likelihood frequency file
-DO_GLF=2
 #       Overwrite any previously generated results
 OVERRIDE=true

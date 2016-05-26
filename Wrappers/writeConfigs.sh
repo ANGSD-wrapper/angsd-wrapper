@@ -31,7 +31,7 @@ function createSFS() {
     local outdirectory=$3 # Where are we putting our configuration file?
     local outname="${outdirectory}/${project}_Site_Frequency_Spectrum_Config" # Create a name for the configuration file
     #   Write the configuration file for SFS
-    echo -e "#!/bin/bash\n\nset -e\nset -u\nset -o pipefail\n\n#   A simple script to hold variables for the Site Frequency Spectrum\n#   Are you using the Common_Config file?\n#       If so, where is it?\nCOMMON=${common}\n\n##############################################################################################\n#   If we aren't using the Common_Config file, specify these variables\n#   If Common_Config is specified, leave these blank\n#   Define a list of samples\nSAMPLE_LIST=\n\n#   Define a list of inbreeding coefficients\nSAMPLE_INBREEDING=\n\n#   Ancestral and Reference sequences\nANC_SEQ=\nREF_SEQ=\n\n#   Name the project\nPROJECT=\n\n#   Where do we put the outfiles?\n    #   Note, the final outdirectory will be\n    #   \${SCRATCH}/\${PROJECT}/SFS\nSCRATCH=\n\n#   Define the region being looked at\n#       Optional, but ANGSD is expensive to run without specifying regions to look at\nREGIONS=\n\n#   Parameters that are specified in Common_Config\nUNIQUE_ONLY=0\nMIN_BASEQUAL=20\nBAQ=1\nMIN_IND=1\nGT_LIKELIHOOD=2\nMIN_MAPQ=30\nN_CORES=32\nDO_MAJORMINOR=1\nDO_GENO=32\nDO_MAF=1\nDO_POST=1\n\n##############################################################################################\n\n#   Site Frequency Spectrum Parameters\n#       Listed below are the defaults, please modify for your samples\n#       Generate site allele frequencies\nDO_SAF=2\n#       Output genotype likelihood frequency file\nDO_GLF=2\n#       Overwrite any previously generated results\nOVERRIDE=true\n" > "${outname}"
+    echo -e "#!/bin/bash\n\nset -e\nset -u\nset -o pipefail\n\n#   A simple script to hold variables for the Site Frequency Spectrum\n#   Are you using the Common_Config file?\n#       If so, where is it?\nCOMMON=${common}\n\n##############################################################################################\n#   If we aren't using the Common_Config file, specify these variables\n#   If Common_Config is specified, leave these blank\n#   Define a list of samples\nSAMPLE_LIST=\n\n#   Define a list of inbreeding coefficients\nSAMPLE_INBREEDING=\n\n#   Ancestral and Reference sequences\nANC_SEQ=\nREF_SEQ=\n\n#   Name the project\nPROJECT=\n\n#   Where do we put the outfiles?\n    #   Note, the final outdirectory will be\n    #   \${SCRATCH}/\${PROJECT}/SFS\nSCRATCH=\n\n#   Define the region being looked at\n#       Optional, but ANGSD is expensive to run without specifying regions to look at\nREGIONS=\n\n#   Parameters that are specified in Common_Config\nUNIQUE_ONLY=0\nMIN_BASEQUAL=20\nBAQ=1\nMIN_IND=1\nGT_LIKELIHOOD=2\nMIN_MAPQ=30\nN_CORES=32\nDO_MAJORMINOR=1\nDO_GENO=32\nDO_MAF=1\nDO_POST=1\n\n##############################################################################################\n\n#   Site Frequency Spectrum Parameters\n#       Listed below are the defaults, please modify for your samples\n#       Generate site allele frequencies\nDO_SAF=2\n#       Overwrite any previously generated results\nOVERRIDE=true\n" > "${outname}"
 }
 
 #   Export the function
@@ -65,6 +65,18 @@ function createAdmixture() {
 #   Export the function
 export -f createAdmixture
 
+#   A function to write a configuration file for Genotype Likelihoods
+function createGenotypes() {
+    local common="$1" # Where is Common_Config?
+    local project="$2" # What are we calling our configuration file?
+    local outdirectory="$3" # Where are we putting our configuration file?
+    local outname="${outdirectory}/${project}_Genotypes_Config" # Create a name for the configuration file
+    echo -e "#!/bin/bash\n\nset -e\nset -u\nset -o pipefail\n\n#   A simple script to hold variables for the Site Frequency Spectrum\n#   Are you using the Common_Config file?\n#       If so, where is it?\nCOMMON=${common}\n\n##############################################################################################\n#   If we aren't using the Common_Config file, specify these variables\n#   If Common_Config is specified, leave these blank\n#   Define a list of samples\nSAMPLE_LIST=\n\n#   Define a list of inbreeding coefficients\nSAMPLE_INBREEDING=\n\n#   Name the project\nPROJECT=\n\n#   Where do we put the outfiles?\n    #   Note, the final outdirectory will be\n    #   \${SCRATCH}/\${PROJECT}/GenotypeLikelihoods\nSCRATCH=\n\n#   Define the region being looked at\n#       Optional, but ANGSD is expensive to run without specifying regions to look at\nREGIONS=\n\n#   Set common parameters for all methods\n#       Use only uniquely-mapped reads\nUNIQUE_ONLY=0\n#       Set the minimum base quality\nMIN_BASEQUAL=20\n#       Calculate base alignment quality\nBAQ=1\n#       Set the minimum number of individuals required\nMIN_IND=1\n#       Calculate genotype likelihoods\nGT_LIKELIHOOD=2\n#       Set the minimum mapping quality for a base to be used\nMIN_MAPQ=30\n#       Set the minimum mapping quality for a base to be used\nN_CORES=32\n#       Determine major and minor alleles\nDO_MAJORMINOR=1\n#       Call genotypes from genotype likelihoods\nDO_GENO=32\n#       Calculate allele frequencies\nDO_MAF=1\n#       Calculate the posterior probability\nDO_POST=1\n\n##############################################################################################\n\n#   Genotypes Parameters\n#       Listed below are the defaults, please modify for your samples\n#       Set the minimum posterior value for calling genotypes\nPOST_CUTOFF=0.95\n#       Set the maximum p-value for polymorphic sites\nSNP_PVAL=1e-6\n#       Output genotype likelihood frequency file\nDO_GLF=2\n" > "${outname}"
+}
+
+#   Export the function
+export -f createGenotypes
+
 #   A function to write a configuration file for Principal Component Analysis
 function createPCA() {
     local common=$1 # Where is Common_Config?
@@ -92,9 +104,11 @@ function configByProject() {
     #   Write the configuration file for SFS
     createSFS "${commonPath}" "${project}_Example" "${configurationDirectory}"
     local pestPath="${scratch}/${project}_Example/SFS/${project}_Example_DerivedSFS.graph.me" # Where is our pest file stored?
-    local likelihoodPath="${scratch}/${project}_Example/SFS/${project}_Example.beagle.gz" # Where is our likelihood file stored?
     #   Write the configuration file for Thetas
     createThetas "${commonPath}" "${pestPath}" "${project}_Example" "${configurationDirectory}"
+    #   Write the configuration file for Genotypes
+    createGenotypes "${commonPath}" "${project}_Example" "${configurationDirectory}"
+    local likelihoodPath="${scratch}/${project}_Example/GenotypeLikelihoods/${project}_Example.beagle.gz" # Where is our likelihood file stored?
     #   Write the configuration file for Admixture
     createAdmixture "${commonPath}" "${likelihoodPath}" "${project}_Example" "${configurationDirectory}"
     #   Write the configuration file for PCA
