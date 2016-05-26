@@ -108,7 +108,7 @@ function configByProject() {
     createThetas "${commonPath}" "${pestPath}" "${project}_Example" "${configurationDirectory}"
     #   Write the configuration file for Genotypes
     createGenotypes "${commonPath}" "${project}_Example" "${configurationDirectory}"
-    local likelihoodPath="${scratch}/${project}_Example/GenotypeLikelihoods/${project}_Example.beagle.gz" # Where is our likelihood file stored?
+    local likelihoodPath="${scratch}/${project}_Example/GenotypeLikelihoods/${project}_Example_snps.beagle.gz" # Where is our likelihood file stored?
     #   Write the configuration file for Admixture
     createAdmixture "${commonPath}" "${likelihoodPath}" "${project}_Example" "${configurationDirectory}"
     #   Write the configuration file for PCA
