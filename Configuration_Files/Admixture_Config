@@ -27,7 +27,7 @@ N_CORES=32
 ##############################################################################################
 
 #   The Likelihood file
-#       This is the .beagle.gz file from the Site Frequency Spectrum
+#       This is the .beagle.gz file from the Genotype Likelihoods
 LIKELIHOOD=
 
 #   ngsAdmix Parameters
