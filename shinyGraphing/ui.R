@@ -18,6 +18,8 @@ shinyUI(fluidPage(
           fileInput('userThetas',
                     label= "Choose '_Thetas.graph.me' Thetas File"
           ),
+          # Custom naming option
+          textInput("thetasText", label = h5("Insert Custom Thetas Graph Name"), value = ""),
 
           # Watterson's theta
           selectInput("thetaChoice",
@@ -135,6 +137,7 @@ shinyUI(fluidPage(
           fileInput('userSFS',
                     label= "Choose '_DerivedSFS.graph.me' SFS File"
           ),
+          # Custom naming option
           textInput("sfsText", label = h5("Insert Custom SFS Graph Name"), value = "")
         ),
         mainPanel(
