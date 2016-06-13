@@ -134,7 +134,8 @@ shinyUI(fluidPage(
                       windowTitle = "SFS Graph"),
           fileInput('userSFS',
                     label= "Choose '_DerivedSFS.graph.me' SFS File"
-          )
+          ),
+          textInput("sfsText", label = h5("Insert Custom SFS Graph Name"), value = "")
         ),
         mainPanel(
           plotOutput("SFSPlot")

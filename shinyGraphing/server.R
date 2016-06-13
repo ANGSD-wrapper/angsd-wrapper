@@ -411,7 +411,7 @@ shinyServer(
               xaxt = "n",
               xlab = "Derived Allele Frequency",
               ylab = "Proportion of SNPs",
-              main = "Site Frequency Spectrum",
+              main = paste(input$sfsText, "Site Frequency Spectrum", sep = " "),
               offset = 0,
               xlim = NULL,
               ylim = NULL,
