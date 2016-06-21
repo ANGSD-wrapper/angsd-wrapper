@@ -41,15 +41,18 @@ then
 fi
 
 #   Sorting not working right now...
-# #   Sort our regions file, if provided
-# if [[ -f ${REGIONS} ]]
-# then
-#     if ! $(command -v python3 > /dev/null 2> /dev/null); then echo "Please install Python and place in your PATH" >&2; exit 1; fi
-#     echo "Sorting ${REGIONS} to match the order in ${REF_SEQ}" >&2
-#     FAI=$(ls $( dirname "${REF_SEQ}" )| grep -E "$( basename ${REF_SEQ} )\.fai|$( basename ${REF_SEQ} .fasta )\.fai")
-#     python "${SOURCE}"/Wrappers/sort_regions.py --fai $(dirname "${REF_SEQ}")/"${FAI}" --regions "${REGIONS}" --project "${PROJECT}"
-#     REGIONS=$(dirname "${REGIONS}")/"${PROJECT}"_SortedRegions.txt
-# fi
+#   Sort our regions file, if provided
+if [[ -f ${REGIONS} ]]
+then
+    if ! $(command -v Rscript > /dev/null 2> /dev/null); then echo "Please install R and Rscript and place in your PATH" >&2; exit 1; fi
+    echo "Sorting ${REGIONS} to match the order in ${REF_SEQ}" >&2
+    FAI=$(ls $( dirname "${REF_SEQ}" )| grep -E "$( basename ${REF_SEQ} )\.fai|$( basename ${REF_SEQ} .fasta )\.fai")
+    Rscript "${SOURCE}"/Wrappers/sortRegions.R "${REGIONS}" "${FAI}"
+    REGIONS="$(find $(dirname ${REGIONS}) -name "*_sorted.txt")"
+fi
+
+echo "${REGIONS}"
+exit 8
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
 #       For 1st group
