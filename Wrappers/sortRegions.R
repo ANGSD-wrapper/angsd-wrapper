@@ -4,6 +4,7 @@ args <- commandArgs(trailingOnly = TRUE)
 
 #   A function to read in the regions of the reference file
 readFai <- function(infile){
+    print(x = paste('Reading in fai file', infile))
     #   A vector containing the column names for Fai files
     fai.names <- c('SeqID', 'Length', 'Offset', 'Linebases', 'Linewidth')
     #   Read in the reference file, must be tab-delimited
@@ -26,6 +27,7 @@ splitString <- function(input, delim = ' ', position = 1){
 
 #   A function to read in a provided regions file for ANGSD and SAMtools
 readRegions <- function(infile){
+    print(x = paste('Reading in regions file', infile))
     #   Read in the regions file, spilt by colon
     regions <- read.table(file = infile, header = FALSE, sep = ':', as.is = TRUE)
     #   If we only have contig names, no subregion
@@ -65,7 +67,7 @@ sortContig <- function(contig, regions){
 #   A function to collapse regions data into one column
 collapseRegion <- function(region){
     #   Paste the values from the row together
-    collapsed <- paste0(region$Contig, ':', region$Start, '-', region$End, collapse = '')
+    collapsed <- paste0(region['Contig'], ':', region['Start'], '-', region['End'], collapse = '')
     #   Return the collapsed string
     return(collapsed)
 }
@@ -90,6 +92,7 @@ writeRegions <- function(regions, input.name){
     no.extension <- reverseString(string = unlist(x = strsplit(x = input.base, split = '.'))[2])
     output.name <- paste0(input.dir, '/', no.extension, '_sorted.txt')
     #   Write out the table
+    print(x = paste('Writing sorted regions to', output.name))
     write.table(x = regions, file = output.name, quote = FALSE, row.names = FALSE, col.names = FALSE)
 }
 
@@ -107,6 +110,7 @@ main <- function(){
     #   Write the sorted regions data to an output file
     if(ncol(x = regions) == 3){ # Collapse the regions file down to one column if necessary
         collapsed <- apply(X = regions, MARGIN = 1, FUN = collapseRegion)
+        print(x = 'Collapsing regions')
         regions <- collapsed
     }
     writeRegions(regions = regions, input.name = regions.file)
