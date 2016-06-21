@@ -79,17 +79,30 @@ reverseString <- function(string){
     #   Reverse the split string
     reversed <- rev(x = split)
     #   Collapse the reversed string
-    collapsed <- paste(rev, collapse = '')
+    collapsed <- paste(reversed, collapse = '')
     return(collapsed)
+}
+
+#   A function to get the basename of a string without any extension
+baseName <- function(string){
+    #   Get the base name
+    base <- basename(path = string)
+    #   Reverse the string and get the extension of the file
+    base.reversed <- reverseString(string = base)
+    base.extension <- paste0('.', reverseString(string = splitString(input = base.reversed, delim = '\\.', position = 1)))
+    extension.position <- regexec(pattern = base.extension, text = base)[[1]][1]
+    #   Split the base name for subsetting
+    base.split <- strsplit(x = base, split = '')[[1]]
+    #   Subset the base name to remove the extension and collapse into single character string
+    base.extensionless <- paste0(base.split[1:extension.position - 1], collapse = '')
+    return(base.extensionless)
 }
 
 #   A function to write out a regions file
 writeRegions <- function(regions, input.name){
     #   Create an output name based off the input name
     input.dir <- dirname(path = input.name)
-    input.base <- basename(path = input.name)
-    input.reversed <- reverseString(string = input.base)
-    no.extension <- reverseString(string = unlist(x = strsplit(x = input.base, split = '.'))[2])
+    input.base <- baseName(string = input)
     output.name <- paste0(input.dir, '/', no.extension, '_sorted.txt')
     #   Write out the table
     print(x = paste('Writing sorted regions to', output.name))
@@ -105,6 +118,7 @@ main <- function(){
     regions <- readRegions(infile = regions.file)
     fai <- readFai(infile = fai.file)
     #   Sort the data
+    cat()
     ordered.positions <- unlist(x = lapply(X = fai$SeqID, FUN = sortContig, regions = regions))
     ordered.regions <- regions[ordered.positions, ]
     #   Write the sorted regions data to an output file
