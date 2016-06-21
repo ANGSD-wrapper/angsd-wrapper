@@ -123,8 +123,8 @@ main <- function(){
     ordered.regions <- regions[ordered.positions, ]
     #   Write the sorted regions data to an output file
     if(ncol(x = regions) == 3){ # Collapse the regions file down to one column if necessary
-        collapsed <- apply(X = regions, MARGIN = 1, FUN = collapseRegion)
         cat('Collapsing regions', '\n', sep = ' ')
+        collapsed <- apply(X = regions, MARGIN = 1, FUN = collapseRegion)
         regions <- collapsed
     }
     writeRegions(regions = regions, input.name = regions.file)
