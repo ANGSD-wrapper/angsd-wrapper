@@ -118,7 +118,7 @@ main <- function(){
     regions <- readRegions(infile = regions.file)
     fai <- readFai(infile = fai.file)
     #   Sort the data
-    cat()
+    cat('Sorting the regions file', '\n', sep = ' ')
     ordered.positions <- unlist(x = lapply(X = fai$SeqID, FUN = sortContig, regions = regions))
     ordered.regions <- regions[ordered.positions, ]
     #   Write the sorted regions data to an output file
