@@ -48,8 +48,6 @@ then
     echo "Sorting ${REGIONS} to match the order in ${REF_SEQ}" >&2
     REF_EXT=$(echo "${REF_SEQ}" | rev | cut -f 1 -d '.' | rev)
     FAI=$(find $(dirname "${REF_SEQ}") -name "$(basename "$REF_SEQ" ".${REF_EXT}")*.fai")
-    echo $FAI
-    exit 8
     Rscript "${SOURCE}"/Wrappers/sortRegions.R "${REGIONS}" "${FAI}"
     REGIONS="$(find $(dirname ${REGIONS}) -name "*_sorted.txt")"
 fi
