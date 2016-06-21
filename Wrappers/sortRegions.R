@@ -4,7 +4,7 @@ args <- commandArgs(trailingOnly = TRUE)
 
 #   A function to read in the regions of the reference file
 readFai <- function(infile){
-    print(x = paste('Reading in fai file', infile))
+    cat('Reading in fai file', infile, '\n', sep = ' ')
     #   A vector containing the column names for Fai files
     fai.names <- c('SeqID', 'Length', 'Offset', 'Linebases', 'Linewidth')
     #   Read in the reference file, must be tab-delimited
@@ -27,7 +27,7 @@ splitString <- function(input, delim = ' ', position = 1){
 
 #   A function to read in a provided regions file for ANGSD and SAMtools
 readRegions <- function(infile){
-    print(x = paste('Reading in regions file', infile))
+    cat('Reading in regions file', infile, '\n', sep = ' ')
     #   Read in the regions file, spilt by colon
     regions <- read.table(file = infile, header = FALSE, sep = ':', as.is = TRUE)
     #   If we only have contig names, no subregion
@@ -105,7 +105,7 @@ writeRegions <- function(regions, input.name){
     input.base <- baseName(string = input)
     output.name <- paste0(input.dir, '/', no.extension, '_sorted.txt')
     #   Write out the table
-    print(x = paste('Writing sorted regions to', output.name))
+    cat('Writing sorted regions to', output.name, '\n', sep = ' ')
     write.table(x = regions, file = output.name, quote = FALSE, row.names = FALSE, col.names = FALSE)
 }
 
@@ -124,7 +124,7 @@ main <- function(){
     #   Write the sorted regions data to an output file
     if(ncol(x = regions) == 3){ # Collapse the regions file down to one column if necessary
         collapsed <- apply(X = regions, MARGIN = 1, FUN = collapseRegion)
-        print(x = 'Collapsing regions')
+        cat('Collapsing regions', '\n', sep = ' ')
         regions <- collapsed
     }
     writeRegions(regions = regions, input.name = regions.file)
