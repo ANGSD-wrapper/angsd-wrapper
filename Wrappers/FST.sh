@@ -46,7 +46,10 @@ if [[ -f ${REGIONS} ]]
 then
     if ! $(command -v Rscript > /dev/null 2> /dev/null); then echo "Please install R and Rscript and place in your PATH" >&2; exit 1; fi
     echo "Sorting ${REGIONS} to match the order in ${REF_SEQ}" >&2
-    FAI=$(ls $( dirname "${REF_SEQ}" )| grep -E "$( basename ${REF_SEQ} )\.fai|$( basename ${REF_SEQ} .fasta )\.fai")
+    REF_EXT=$(echo "${REF_SEQ}" | rev | cut -f 1 -d '.' | rev)
+    FAI=$(find $(dirname "${REF_SEQ}") -name "$(basename "$REF_SEQ" ".${REF_EXT}")*.fai")
+    echo $FAI
+    exit 8
     Rscript "${SOURCE}"/Wrappers/sortRegions.R "${REGIONS}" "${FAI}"
     REGIONS="$(find $(dirname ${REGIONS}) -name "*_sorted.txt")"
 fi
