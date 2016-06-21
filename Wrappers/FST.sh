@@ -40,7 +40,6 @@ then
     exit 1
 fi
 
-#   Sorting not working right now...
 #   Sort our regions file, if provided
 if [[ -f ${REGIONS} ]]
 then
@@ -51,9 +50,6 @@ then
     Rscript "${SOURCE}"/Wrappers/sortRegions.R "${REGIONS}" "${FAI}"
     REGIONS="$(find $(dirname ${REGIONS}) -name "*_sorted.txt")"
 fi
-
-echo "${REGIONS}"
-exit 8
 
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
 #       For 1st group

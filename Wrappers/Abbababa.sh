@@ -41,8 +41,9 @@ fi
 #   Do we have a regions file?
 if [[ -f "${REGIONS}" ]]
 then
-    echo "Sorting ${REGIONS} to match the order in ${OUTGROUP}" >&2
-    FAI=$(ls $( dirname "${OUTGROUP}" )| grep -E "$( basename ${OUTGROUP} )\.fai|$( basename ${OUTGROUP} .fasta )\.fai")
+    echo "Sorting ${REGIONS} to match the order in ${REF_SEQ}" >&2
+    REF_EXT=$(echo "${REF_SEQ}" | rev | cut -f 1 -d '.' | rev)
+    FAI=$(find $(dirname "${REF_SEQ}") -name "$(basename "$REF_SEQ" ".${REF_EXT}")*.fai")
     Rscript "${SOURCE}"/Wrappers/sortRegions.R "${REGIONS}" "${FAI}"
     REGIONS="$(find $(dirname ${REGIONS}) -name "*_sorted.txt")"
     echo "Running Abbababa" >&2
