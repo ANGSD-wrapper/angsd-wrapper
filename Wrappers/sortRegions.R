@@ -102,7 +102,7 @@ baseName <- function(string){
 writeRegions <- function(regions, input.name){
     #   Create an output name based off the input name
     input.dir <- dirname(path = input.name)
-    input.base <- baseName(string = input)
+    input.base <- baseName(string = input.name)
     output.name <- paste0(input.dir, '/', no.extension, '_sorted.txt')
     #   Write out the table
     cat('Writing sorted regions to', output.name, '\n', sep = ' ')
