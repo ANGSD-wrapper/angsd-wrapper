@@ -2,6 +2,42 @@
 
 args <- commandArgs(trailingOnly = TRUE)
 
+#   A function to split a string by a delimeter and
+splitString <- function(input, delim = ' ', position = 1){
+    #   Split the input string by the delimeter
+    split <- strsplit(x = as.character(x = input), split = as.character(x = delim))
+    #   Collect which part of the split string is being asked for
+    string <- unlist(x = split)[position]
+    #   Return the string of interest
+    return(string)
+}
+
+#   A function to reverse a string
+reverseString <- function(string){
+    #   Split the string into individual characters
+    split <- strsplit(x = string, split = '')[[1]]
+    #   Reverse the split string
+    reversed <- rev(x = split)
+    #   Collapse the reversed string
+    collapsed <- paste(reversed, collapse = '')
+    return(collapsed)
+}
+
+#   A function to get the basename of a string without any extension
+baseName <- function(string){
+    #   Get the base name
+    base <- basename(path = string)
+    #   Reverse the string and get the extension of the file
+    base.reversed <- reverseString(string = base)
+    base.extension <- paste0('.', reverseString(string = splitString(input = base.reversed, delim = '\\.', position = 1)))
+    extension.position <- regexec(pattern = base.extension, text = base)[[1]][1]
+    #   Split the base name for subsetting
+    base.split <- strsplit(x = base, split = '')[[1]]
+    #   Subset the base name to remove the extension and collapse into single character string
+    base.extensionless <- paste0(base.split[1:extension.position - 1], collapse = '')
+    return(base.extensionless)
+}
+
 #   A function to read in the regions of the reference file
 readFai <- function(infile){
     cat('Reading in fai file', infile, '\n', sep = ' ')
@@ -13,16 +49,6 @@ readFai <- function(infile){
     names(x = reference) <- fai.names
     #   Return the reference regions file
     return(reference)
-}
-
-#   A function to split a string by a delimeter and
-splitString <- function(input, delim = ' ', position = 1){
-    #   Split the input string by the delimeter
-    split <- strsplit(x = as.character(x = input), split = as.character(x = delim))
-    #   Collect which part of the split string is being asked for
-    string <- unlist(x = split)[position]
-    #   Return the string of interest
-    return(string)
 }
 
 #   A function to read in a provided regions file for ANGSD and SAMtools
@@ -72,32 +98,6 @@ collapseRegion <- function(region){
     return(collapsed)
 }
 
-#   A function to reverse a string
-reverseString <- function(string){
-    #   Split the string into individual characters
-    split <- strsplit(x = string, split = '')[[1]]
-    #   Reverse the split string
-    reversed <- rev(x = split)
-    #   Collapse the reversed string
-    collapsed <- paste(reversed, collapse = '')
-    return(collapsed)
-}
-
-#   A function to get the basename of a string without any extension
-baseName <- function(string){
-    #   Get the base name
-    base <- basename(path = string)
-    #   Reverse the string and get the extension of the file
-    base.reversed <- reverseString(string = base)
-    base.extension <- paste0('.', reverseString(string = splitString(input = base.reversed, delim = '\\.', position = 1)))
-    extension.position <- regexec(pattern = base.extension, text = base)[[1]][1]
-    #   Split the base name for subsetting
-    base.split <- strsplit(x = base, split = '')[[1]]
-    #   Subset the base name to remove the extension and collapse into single character string
-    base.extensionless <- paste0(base.split[1:extension.position - 1], collapse = '')
-    return(base.extensionless)
-}
-
 #   A function to write out a regions file
 writeRegions <- function(regions, input.name){
     #   Create an output name based off the input name
@@ -119,7 +119,7 @@ main <- function(){
     fai <- readFai(infile = fai.file)
     #   Sort the data
     cat('Sorting the regions file', '\n', sep = ' ')
-    ordered.positions <- unlist(x = lapply(X = fai$SeqID, FUN = sortContig, regions = regions))
+    ordered.positions <- unlist(x = lapply(X = unique(x = fai$SeqID), FUN = sortContig, regions = regions))
     ordered.regions <- regions[ordered.positions, ]
     #   Write the sorted regions data to an output file
     if(ncol(x = regions) == 3){ # Collapse the regions file down to one column if necessary
