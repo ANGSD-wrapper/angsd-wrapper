@@ -85,15 +85,21 @@ sortContig <- function(contig, regions){
     #   Find the positions where this contig occurs
     contig.positions <- which(x = as.character(x = regions$Contig) %in% contig)
     #   Order these positions by start
-    ordered.positions <- contig.positions[order(regions[contig.positions, ]$Start)]
+    if(ncol(x = regions) == 3){
+        ordered.positions <- contig.positions[order(regions[contig.positions, ]$Start)]
+    }
     #   Return the ordered positions
     return(ordered.positions)
 }
 
 #   A function to collapse regions data into one column
 collapseRegion <- function(region){
+    #   Remove any whitespace from each entry
+    contig <- gsub(pattern = "[[:space:]]", replacement = '', x = as.character(x = region[['Contig']]))
+    start <- gsub(pattern = "[[:space:]]", replacement = '', x = as.character(x = region[['Start']]))
+    end <- gsub(pattern = "[[:space:]]", replacement = '', x = as.character(x = region[['End']]))
     #   Paste the values from the row together
-    collapsed <- paste0(region['Contig'], ':', region['Start'], '-', region['End'], collapse = '')
+    collapsed <- paste0(contig, ':', start, '-', end, collapse = '')
     #   Return the collapsed string
     return(collapsed)
 }
@@ -121,13 +127,14 @@ main <- function(){
     cat('Sorting the regions file', '\n', sep = ' ')
     ordered.positions <- unlist(x = lapply(X = unique(x = fai$SeqID), FUN = sortContig, regions = regions))
     ordered.regions <- regions[ordered.positions, ]
+    row.names(x = ordered.regions) <- NULL
     #   Write the sorted regions data to an output file
-    if(ncol(x = regions) == 3){ # Collapse the regions file down to one column if necessary
+    if(ncol(x = ordered.regions) == 3){ # Collapse the regions file down to one column if necessary
         cat('Collapsing regions', '\n', sep = ' ')
-        collapsed <- apply(X = regions, MARGIN = 1, FUN = collapseRegion)
-        regions <- collapsed
+        collapsed <- data.frame(Contig = apply(X = ordered.regions, MARGIN = 1, FUN = collapseRegion))
+        ordered.regions <- collapsed
     }
-    writeRegions(regions = regions, input.name = regions.file)
+    writeRegions(regions = ordered.regions, input.name = regions.file)
 }
 
 main()
