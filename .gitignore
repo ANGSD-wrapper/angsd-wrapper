@@ -10,6 +10,10 @@ Example_Data/
 ###################################
 .vscode/
 
+# Ignore the '.RLibs' directory #
+#################################
+.RLibs/
+
 # Ignore ZIP files #
 ####################
 *.zip
