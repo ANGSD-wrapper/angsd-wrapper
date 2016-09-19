@@ -38,7 +38,7 @@ done
 #   Rename all ".qopt" files to ".qopt.graph.me"
 for qoptFile in $(find ${OUT} -name "*.qopt")
 do
-    mv ${qoptFile} ${qoptFile}.graph.me
+    mv "${qoptFile}" "${qoptFile}.graph.me"
 done
 
 # for kvalue in $(eval echo {"$k"..2})
