@@ -138,3 +138,21 @@ There are a few other dependencies that are **not** automatically downloaded dur
  - [Inbreeding coefficients calculations](https://github.com/mojaveazure/angsd-wrapper/wiki/Inbreeding-Coefficients)
  - [Principal component analysis](https://github.com/arundurvasula/angsd-wrapper/wiki/Principle-Components-Analysis)
  - [Admixture analysis](https://github.com/mojaveazure/angsd-wrapper/wiki/Admixture-Analysis)
+ 
+## Citing ANGSD-wrapper
+ 
+ANGSD-wrapper was published in [Molecular Ecology Resources](http://onlinelibrary.wiley.com/doi/10.1111/1755-0998.12578/abstract); if you use this in your work please cite the paper. For BibTeX users, the citation is as follows:
+
+```tex
+@article {MEN:MEN12578,
+author = {Durvasula, Arun and Hoffman, Paul J. and Kent, Tyler V. and Liu, Chaochih and Kono, Thomas J. Y. and Morrell, Peter L. and Ross-Ibarra, Jeffrey},
+title = {angsd-wrapper: utilities for analysing next-generation sequencing data},
+journal = {Molecular Ecology Resources},
+issn = {1755-0998},
+url = {http://dx.doi.org/10.1111/1755-0998.12578},
+doi = {10.1111/1755-0998.12578},
+pages = {n/a--n/a},
+keywords = {domestication, population genetics, software, visualization, Zea},
+year = {2016},
+}
+```
