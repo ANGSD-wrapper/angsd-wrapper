@@ -143,7 +143,7 @@ There are a few other dependencies that are **not** automatically downloaded dur
  
 ANGSD-wrapper was published in [Molecular Ecology Resources](http://onlinelibrary.wiley.com/doi/10.1111/1755-0998.12578/abstract); if you use this in your work please cite the paper. For BibTeX users, the citation is as follows:
 
-```tex
+```latex
 @article {MEN:MEN12578,
 author = {Durvasula, Arun and Hoffman, Paul J. and Kent, Tyler V. and Liu, Chaochih and Kono, Thomas J. Y. and Morrell, Peter L. and Ross-Ibarra, Jeffrey},
 title = {angsd-wrapper: utilities for analysing next-generation sequencing data},
