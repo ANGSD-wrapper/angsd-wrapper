@@ -63,7 +63,7 @@ case "${setup_routine}" in
         cd "${ROOT}"
         mkdir ngsAdmix
         cd ngsAdmix
-        wget http://popgen.dk/software/NGSadmix/ngsadmix32.cpp
+        wget http://popgen.dk/software/download/NGSadmix/ngsadmix32.cpp
         g++ ngsadmix32.cpp -O3 -lpthread -lz -o NGSadmix
         cd "${ROOT}"
         #   Install ngsPopGen
