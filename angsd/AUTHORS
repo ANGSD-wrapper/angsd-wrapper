@@ -1,0 +1,50 @@
+
+thorfinn Sand 12/12/12 thorfinn@binf.ku
+anders albrechtsen 12/12/12 albrecht@binf.ku.dk
+
+Angsd is the process of the merging of different programs, below is a short description.
+
+
+1) A simple program to estimate the MAF based on files containing the counts of allleles (-doPhat). Used in (yu li 2009)
+
+2) An implementation of (suyeon kim 2011). GL/error estimation based on counts of alleles along with proper GL MAF estimators and case/control association
+
+3) To perform genomewide analysis a .soap file was reader was made and this was merged with 1) and 2). At this time the program was called 'dirtySoap'. Name was choosen, since it was a hack that used soap files.
+
+4) A program called realSFS (nielsen 2012) to estimate the SFS was implemented and used text representation of glfv3. This was extended to read glfv2 and binary glv3.
+
+5) The glfv3 reader from 4) was used to implement the score statistic of (skotte 2012).
+
+6) The programs from 3) 4) 5) was merged. Program was still called dirtySoap
+
+7) We extended the dirtySoap with the mpileup reading from samtools 1.17 and called the program angsd. This was implemented with the samtool beeing invoked from inside angsd.
+
+8) We made a native bam reader (inspired and based on the samtools program (heng li)) along with the GATK,soapSNP GL model.
+
+9) The theta estimator along with the tajima was then implemented (almost submitted).
+
+
+------------
+The website 'http://www.popgen.dk/angsd' is the main resource for this program
+------------
+Some source files in this program hasn't been written by us bare have been taken from other opensource/public domain projects.
+
+
+1)
+k*.* files are from the klib which is written by heng li
+
+2)
+the files fet,razip,bgzf,faidx are full unmodified copies, copyright etc can be found in the header of those files.
+
+3)
+soap_likes.*, contains snippets of code from the SNPsoap package
+bams.*,baq_adjustMapQ  contains snippets of code from the 'SAMtools' project.
+
+
+Don't hesitate to contact us if you believe there are problems with copyright or somebody should be credited
+
+Thorfinn Sand Korneliussen
+thorfinn@binf.ku.dk
+29 june 2014
+
+
