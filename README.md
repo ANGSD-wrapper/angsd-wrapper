@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # angsd-wrapper
 Utilities for analyzing next generation sequencing data.
 =======
@@ -26,24 +27,14 @@ make
 cd ../ngsF
 make
 ```
+=======
+### NOTE: The latest version of ANGSD-wrapper is at [mojaveazure/angsd-wrapper](https://github.com/mojaveazure/angsd-wrapper)
+>>>>>>> angsd-wrapper/master
 
-Then you need to install the requisite R packages for using the R graphing application:
+The version in this repository is out of date, please go to the version linked above.
 
-```
-R
-install.packages("shiny")
-install.packages("ape")
-install.packages("Hmisc")
-install.packages("lattice")
-source("http://bioconductor.org/biocLite.R")
-biocLite("genomeIntervals")
-install.packages("data.table")
-```
-
-### Documentation available on the [wiki](https://github.com/arundurvasula/angsd-wrapper/wiki).
-
-
-### Contributing
-Contributions are very welcome! You can help by submitting [issues](https://github.com/arundurvasula/angsd-wrapper/issues) on Github or by forking the repository and making changes yourself.
-
+<<<<<<< HEAD
+>>>>>>> angsd-wrapper/master
+=======
+=============
 >>>>>>> angsd-wrapper/master
