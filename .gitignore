@@ -1,4 +1,23 @@
-*.o
-*.d
-*~
-data/*.fa
+# Ignore the 'dependencies' directory' #
+########################################
+dependencies/
+
+# Ignore the 'Example_Data' test data directory #
+###########################################
+Example_Data/
+
+# Ignore the '.vscode/' directory #
+###################################
+.vscode/
+
+# Ignore the '.RLibs' directory #
+#################################
+.RLibs/
+
+# Ignore ZIP files #
+####################
+*.zip
+
+# Ignore .DS_Store #
+####################
+*.DS_Store

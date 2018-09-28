@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+set -u
+set -o pipefail
+
+#   A simple script to hold variables for generating an ancestral fasta file
+
+#   This script does NOT utilize the Common_Config file
+
+#   Where is the ancestral BAM file?
+ANC_BAM=
+
+#   What should we call the output file?
+#       Defaults to the same name as the ancestal BAM file
+OUT_NAME=`basename "${ANC_BAM}" .bam`
+
+#   Where should we put the output file?
+#       Defaults to the same directory as the ancestral BAM file.
+OUT_DIR=`dirname "${ANC_BAM}"`
+
+#   Full path to the output file
+OUT=${OUT_DIR}/${OUT_NAME}
+
+#   Ancestral Sequence Parameters
+#       Listed below are the defaults, please modify for your samples
+#       Extract FASTA sequence from BAM file
+DO_FASTA=1
+#       Count allele frequencies
+#       If DO_FASTA is 2, DO_COUNTS must be 1
+#       Otherwise, DO_COUNTS can be any other legal value
+DO_COUNTS=0

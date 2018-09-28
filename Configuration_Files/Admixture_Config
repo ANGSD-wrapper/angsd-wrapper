@@ -1,0 +1,40 @@
+#!/bin/bash
+
+set -e
+set -u
+set -o pipefail
+
+#   A simple script to hold the varialbes for the NGS Admixture
+#   Are you using the Common_Config file?
+#       If so, where is it?
+COMMON=
+
+##############################################################################################
+#   If we aren't using the Common_Config file, specify these variables
+#   If Common_Config is specified, leave these blank
+#   Name the project
+PROJECT=
+
+#   Where do we put the outfiles?
+    #   Note, the final outdirectory will be
+    #   ${SCRATCH}/${PROJECT}/Admixture
+SCRATCH=
+
+#   Parameters that are specified in Common_Config
+#       Set the minimum mapping quality for a base to be used
+N_CORES=32
+
+##############################################################################################
+
+#   The Likelihood file
+#       This is the .beagle.gz file from the Genotype Likelihoods
+LIKELIHOOD=
+
+#   ngsAdmix Parameters
+#       Listed below are the defaults, please modify for your samples
+#       Set the number of assumed populations to estimate Admixture under
+K=5
+#       Set the minimum minor allele frequency
+MIN_MAF=0.05
+#       Set the tolerance for convergence
+TOLERANCE=0.01
