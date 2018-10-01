@@ -13,19 +13,17 @@ BASESOURCE="${args[2]}"
 case "${setup_routine}" in
     "dependencies" )
         if [[ -x $(command -v singularity) ]]; then
-                cd "${SOURCE}"/Wrappers
-                if [[ ! -f carte731-angsd-wrapper-update-master-latest.simg ]]; then
-                    echo -e "Installing CentOS-7 image for stable installation."
-                    singularity pull shub://carte731/angsd-wrapper-update
-                fi
-                # ./angsd_singularity.simg "${SOURCE}" "${BASESOURCE}"
+                mkdir "${SOURCE}"/dependencies
+                cd "${SOURCE}"/dependencies
+                echo -e "\nInstalling CentOS-7 image for installation.\n"
+                singularity pull shub://carte731/angsd-wrapper-update
                 ./carte731-angsd-wrapper-update-master-latest.simg "${SOURCE}" "${BASESOURCE}"
-                echo -e "Angsd-Wrapper has been installed.\n"
+                echo -e "\nAngsd-Wrapper has been installed.\n"
         else
                 echo -e "Please install or module load Singularity.\n"
                 exit 1
         fi
-        echo "Please run 'source ~/.bash_profile' to complete installation"
+        echo -e "Please run 'source ~/.bash_profile' to complete installation.\n"
         ;;
     "data" )
         #   Check for depenent programs

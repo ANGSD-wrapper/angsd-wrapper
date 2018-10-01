@@ -16,7 +16,7 @@ Include: yum
         fi
 
         cd ${SOURCE}
-        mkdir dependencies
+        
         cd dependencies
         ROOT=$(pwd)
 
