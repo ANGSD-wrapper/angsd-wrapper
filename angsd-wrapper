@@ -7,7 +7,11 @@ set -o pipefail
 
 #   Where is angsd-wrapper located?
 SOURCE=$(dirname "$0")
-if [[ "${SOURCE}" == '.' ]]; then SOURCE=$(pwd -P); fi
+BASESOURCE="$( cd "$( dirname "${BASH_SOURCE[0]%/*}" )" && pwd )" # Grabs the parent directory of the file (grabs file location)
+
+if [[ "${SOURCE}" == '.' ]]; then 
+    SOURCE=$(pwd -P); 
+fi
 echo -e "$(basename $0) running from ${SOURCE}\n" >&2
 
 #   Assign our arguments to names
@@ -81,11 +85,11 @@ then
     #   Setting up data?
     if [ "${CONFIG}" == "data" ]
     then
-        bash Wrappers/Setup.sh data "${SOURCE}"
+        bash Wrappers/Setup.sh data "${SOURCE}" "${BASESOURCE}"
     #   Setting up dependencies?
     elif [ "${CONFIG}" == "dependencies" ]
     then
-        bash Wrappers/Setup.sh dependencies "${SOURCE}"
+        bash Wrappers/Setup.sh dependencies "${SOURCE}" "${BASESOURCE}"
         exit 1
     #   Incorrect command
     else

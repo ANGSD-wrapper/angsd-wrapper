@@ -4,77 +4,27 @@ set -e
 set -u
 
 #   Arguments
-setup_routine=$1 # Which routine are we running
-SOURCE=$2 # Where is ANGSD-wrapper?
+declare -a args=("$@")
 
-#	Download and install SAMTools 1.3
-function installSAMTools() {
-	wget https://github.com/samtools/samtools/releases/download/1.3/samtools-1.3.tar.bz2 # Download SAMTools
-	tar -xvjf samtools-1.3.tar.bz2 # Extract the tarball
-	rm -f samtools-1.3.tar.bz2 # Get rid of the tarball
-	cd samtools-1.3 # Change into the SAMTools directory
-	./configure --prefix=$(pwd) # Configure the installation process, setting the install directory to be here
-	make # Compile the code
-	make install # Install SAMTools
-	echo "export PATH=$(pwd):"'${PATH}' >> ~/.bash_profile # Add the path to bash_profile
-}
-
-#   Export the function
-export -f installSAMTools
+setup_routine="${args[0]}" # Which routine are we running
+SOURCE="${args[1]}" # Where is ANGSD-wrapper?
+BASESOURCE="${args[2]}"
 
 case "${setup_routine}" in
     "dependencies" )
-        #   Check to see if Git and Wget are installed
-        if ! $(command -v git > /dev/null 2> /dev/null); then echo "Please install Git and place in your PATH" >&2 ; exit 1; fi
-        if ! $(command -v wget > /dev/null 2> /dev/null); then echo "Please install Wget and place in your PATH" >&2 ; exit 1; fi
-        #   Let angsd-wrapper be run from anywhere
-        echo alias "angsd-wrapper='`pwd -P`/angsd-wrapper'" >> ~/.bash_profile
-        #   Make the 'dependencies' directory
-        cd "${SOURCE}"
-        mkdir dependencies
-        cd dependencies
-        ROOT=$(pwd)
-        #   Check for SAMTools. If not found, install it
-        if ! $(command -v samtools > /dev/null 2> /dev/null); then cd "${ROOT}"; installSAMTools; source ~/.bash_profile;cd "${ROOT}"; fi
-        #   Install ngsF
-        cd "${ROOT}"
-        git clone https://github.com/fgvieira/ngsF.git
-        cd ngsF
-        git reset --hard 807ca7216ab8c3fbd98e628ef1638177d5c752b9
-        make
-        cd "${ROOT}"
-        #   Install HTSLIB
-        cd "${ROOT}"
-        git clone https://github.com/samtools/htslib.git
-        cd htslib
-        git reset --hard bb03b0287bc587c3cbdc399f49f0498eef86b44a
-        make
-        make prefix=`pwd` install
-        HTSLIB_DIR=`pwd`
-        cd "${ROOT}"
-        #   Install ANGSD
-        cd "${ROOT}"
-        git clone https://github.com/ANGSD/angsd.git
-        cd angsd
-        git reset --hard 1c0ebb672c25c6e6a53db66c61519e970e48c72e
-        make HTSSRC="${HTSLIB_DIR}"
-        cd "${ROOT}"
-        #   Install ngsAdmix
-        cd "${ROOT}"
-        mkdir ngsAdmix
-        cd ngsAdmix
-        wget http://popgen.dk/software/download/NGSadmix/ngsadmix32.cpp
-        g++ ngsadmix32.cpp -O3 -lpthread -lz -o NGSadmix
-        cd "${ROOT}"
-        #   Install ngsPopGen
-        cd "${ROOT}"
-        git clone https://github.com/mfumagalli/ngsPopGen.git
-        cd ngsPopGen
-        git reset --hard bbd73d5caa660f28111c69eefca3230ded4a97ac
-        make
-        cd "${ROOT}"
-        echo
-        #   Display final setup message
+        if [[ -x $(command -v singularity) ]]; then
+                cd "${SOURCE}"/Wrappers
+                if [[ ! -f carte731-angsd-wrapper-update-master-latest.simg ]]; then
+                    echo -e "Installing CentOS-7 image for stable installation."
+                    singularity pull shub://carte731/angsd-wrapper-update
+                fi
+                # ./angsd_singularity.simg "${SOURCE}" "${BASESOURCE}"
+                ./carte731-angsd-wrapper-update-master-latest.simg "${SOURCE}" "${BASESOURCE}"
+                echo -e "Angsd-Wrapper has been installed.\n"
+        else
+                echo -e "Please install or module load Singularity.\n"
+                exit 1
+        fi
         echo "Please run 'source ~/.bash_profile' to complete installation"
         ;;
     "data" )
