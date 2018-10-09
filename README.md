@@ -24,7 +24,7 @@ Likelihood based approaches are used in ANGSD to calculate summary statistics fr
 To install ANGSD-wrapper, download from GitHub
 
 ```shell
-git clone https://github.com/mojaveazure/angsd-wrapper.git
+git clone https://github.com/ANGSD-wrapper/angsd-wrapper.git
 ```
 
 Go into the ANGSD-wrapper directory
