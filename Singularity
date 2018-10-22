@@ -25,6 +25,7 @@ Include: yum
         rm samtools-1.8.tar.bz2
         cd samtools-1.8
         samPath=$(pwd)
+        echo "export PATH=$(pwd):"'${PATH}' >> ~/.bash_profile # Add the path to bash_profile
         HTSLIB_DIR=$(pwd -P)/htslib-1.8
 
         cd "${HTSLIB_DIR}"
