@@ -48,6 +48,7 @@ else
             -doMaf "${DO_MAF}" \
             -SNP_pval "${SNP_PVAL}" \
             -doMajorMinor "${DO_MAJORMINOR}" \
+            -uniqueOnly "${UNIQUE_ONLY}" \
             -minMapQ "${MIN_MAPQ}" \
             -minQ "${MIN_BASEQUAL}" \
             -nThreads "${N_CORES}"
@@ -64,6 +65,7 @@ else
             -doMaf "${DO_MAF}" \
             -SNP_pval "${SNP_PVAL}" \
             -doMajorMinor "${DO_MAJORMINOR}" \
+            -uniqueOnly "${UNIQUE_ONLY}" \
             -minMapQ "${MIN_MAPQ}" \
             -minQ "${MIN_BASEQUAL}" \
             -nThreads "${N_CORES}"
@@ -80,6 +82,7 @@ else
             -doMaf "${DO_MAF}" \
             -SNP_pval "${SNP_PVAL}" \
             -doMajorMinor "${DO_MAJORMINOR}" \
+            -uniqueOnly "${UNIQUE_ONLY}" \
             -minMapQ "${MIN_MAPQ}" \
             -minQ "${MIN_BASEQUAL}" \
             -nThreads "${N_CORES}"

@@ -31,6 +31,10 @@ SCRATCH=
 #       Optional, but ANGSD is expensive to run without specifying regions to look at
 REGIONS=
 
+#   Set common parameters for all methods
+#       Use only uniquely-mapped reads
+UNIQUE_ONLY=0
+
 #   Parameters that are specified in Common_Config
 #       Set the minimum base quality
 MIN_BASEQUAL=20
