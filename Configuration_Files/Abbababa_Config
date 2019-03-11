@@ -36,7 +36,7 @@ MIN_BASEQUAL=20
 MIN_IND=1
 #       Set the minimum mapping quality for a base to be used
 MIN_MAPQ=30
-#       Set the minimum mapping quality for a base to be used
+#       Set the number of threads to be used
 N_CORES=32
 ##############################################################################################
 
