@@ -16,8 +16,10 @@ case "${setup_routine}" in
                 mkdir "${SOURCE}"/dependencies
                 cd "${SOURCE}"/dependencies
                 echo -e "\nInstalling CentOS-7 image for installation.\n"
-                singularity pull shub://carte731/angsd-wrapper-update
-                ./carte731-angsd-wrapper-update-master-latest.simg "${SOURCE}" "${BASESOURCE}"
+                # singularity pull shub://carte731/angsd-wrapper-update
+                singularity pull library://carte731/default/angsd-wrapper
+                # ./carte731-angsd-wrapper-update-master-latest.simg "${SOURCE}" "${BASESOURCE}"
+                ./angsd-wrapper_latest.sif "${SOURCE}" "${BASESOURCE}"
                 echo -e "\nAngsd-Wrapper has been installed.\n"
         else
                 echo -e "Please install or module load Singularity.\n"
