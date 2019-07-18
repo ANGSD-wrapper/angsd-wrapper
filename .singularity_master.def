@@ -20,13 +20,13 @@ Include: yum
         cd dependencies
         ROOT=$(pwd)
 
-        wget  https://github.com/samtools/samtools/releases/download/1.8/samtools-1.8.tar.bz2
-        tar -jxvf samtools-1.8.tar.bz2
-        rm samtools-1.8.tar.bz2
-        cd samtools-1.8
+        wget  https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
+        tar -jxvf samtools-1.9.tar.bz2
+        rm samtools-1.9.tar.bz2
+        cd samtools-1.9
         samPath=$(pwd)
         echo "export PATH=$(pwd)/bin:"'${PATH}' >> ~/.bash_profile # Add the path to bash_profile
-        HTSLIB_DIR=$(pwd -P)/htslib-1.8
+        HTSLIB_DIR=$(pwd -P)/htslib-1.9
 
         cd "${HTSLIB_DIR}"
         ./configure --prefix=$(pwd)
@@ -50,8 +50,12 @@ Include: yum
         wget http://popgen.dk/software/download/angsd/angsd0.928.tar.gz
         tar -xvf angsd0.928.tar.gz
         rm angsd0.928.tar.gz
-        cd angsd
-        make HTSSRC="${HTSLIB_DIR}"
+        cd "${ROOT}"/htslib
+        make
+
+        cd "${ROOT}"/angsd
+        #make HTSSRC="${HTSLIB_DIR}"
+        make HTSSRC="${ROOT}"/htslib
 
         cd "${ROOT}"
 
@@ -86,6 +90,8 @@ Include: yum
 	#yum groupinstall -y "Development Tools"
 	yum install -y xz 
 	yum install -y curl-devel
+        yum install -y openssl-devel
+        yum install -y epel-release
 	yum -y update	
 
 	yum clean all
