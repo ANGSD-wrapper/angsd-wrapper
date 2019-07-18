@@ -17,7 +17,7 @@ case "${setup_routine}" in
                 cd "${SOURCE}"/dependencies
                 echo -e "\nInstalling CentOS-7 image for installation.\n"
                 # singularity pull shub://carte731/angsd-wrapper-update
-                singularity pull library://carte731/default/angsd-wrapper
+                singularity pull library://carte731/default/angsd-wrapper:lastest
                 # ./carte731-angsd-wrapper-update-master-latest.simg "${SOURCE}" "${BASESOURCE}"
                 ./angsd-wrapper_latest.sif "${SOURCE}" "${BASESOURCE}"
                 echo -e "\nAngsd-Wrapper has been installed.\n"
