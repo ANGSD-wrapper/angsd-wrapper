@@ -48,8 +48,8 @@ Include: yum
         cd "${ROOT}"
 
         wget http://popgen.dk/software/download/angsd/angsd0.928.tar.gz
-        tar -xvf angsd0.920.tar.gz
-        rm angsd0.920.tar.gz
+        tar -xvf angsd0.928.tar.gz
+        rm angsd0.928.tar.gz
         cd angsd
         make HTSSRC="${HTSLIB_DIR}"
 
