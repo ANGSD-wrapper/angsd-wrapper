@@ -20,12 +20,14 @@ case "${setup_routine}" in
                 singularity pull library://carte731/default/angsd-wrapper:latest
                 # ./carte731-angsd-wrapper-update-master-latest.simg "${SOURCE}" "${BASESOURCE}"
                 ./angsd-wrapper_latest.sif "${SOURCE}" "${BASESOURCE}"
-                echo -e "\nAngsd-Wrapper has been installed.\n"
+                source ~/.bash_profile
+                echo -e "Bash Profile has been sourced."
+                echo -e "Angsd-Wrapper has been installed.\n"
         else
                 echo -e "Please install or module load Singularity.\n"
                 exit 1
         fi
-        echo -e "Please run 'source ~/.bash_profile' to complete installation.\n"
+        # echo -e "Please run 'source ~/.bash_profile' to complete installation.\n"
         ;;
     "data" )
         #   Check for depenent programs
