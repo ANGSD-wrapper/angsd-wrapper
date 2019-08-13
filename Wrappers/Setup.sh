@@ -18,8 +18,8 @@ case "${setup_routine}" in
                 echo -e "\nInstalling CentOS-7 image for installation.\n"
                 # singularity pull shub://carte731/angsd-wrapper-update
                 singularity pull library://carte731/default/angsd-wrapper:latest
-                # ./carte731-angsd-wrapper-update-master-latest.simg "${SOURCE}" "${BASESOURCE}"
-                ./angsd-wrapper_latest.sif "${SOURCE}" "${BASESOURCE}" > dev/null
+                ./carte731-angsd-wrapper-update-master-latest.simg "${SOURCE}" "${BASESOURCE}"
+                # ./angsd-wrapper_latest.sif "${SOURCE}" "${BASESOURCE}" > dev/null
                 echo -e "Now installing"
                 source ~/.bash_profile
                 echo -e "Bash Profile has been sourced."
