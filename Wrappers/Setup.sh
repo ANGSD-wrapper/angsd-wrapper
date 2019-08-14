@@ -16,11 +16,18 @@ case "${setup_routine}" in
                 mkdir "${SOURCE}"/dependencies
                 cd "${SOURCE}"/dependencies
                 echo -e "\nInstalling CentOS-7 image for installation.\n"
-                # singularity pull shub://carte731/angsd-wrapper-update
-                singularity pull library://carte731/default/angsd-wrapper:latest
-                # ./carte731-angsd-wrapper-update-master-latest.simg "${SOURCE}" "${BASESOURCE}"
-                # ./angsd-wrapper_latest.sif "${SOURCE}" "${BASESOURCE}" > dev/null
-                ./angsd-wrapper_latest.sif "${SOURCE}" "${BASESOURCE}"
+                # if [[ $(singularity --vesrion) =~ "2.6.0-dist" ]]; then
+                if [[ $(singularity --vesrion) =~ "3.2.1" ]]; then
+                    echo -e "\n\nBranch Test.\n\n"
+                    singularity pull shub://carte731/Angsd_Singularity_Install ## Temp until I fix the webhooks on the main "dev_containers" branch
+                    ./Angsd_Singularity_Install_latest.sif "${SOURCE}" "${BASESOURCE}" ## Temp until I fix the webhooks on the main "dev_containers" branch
+                else
+                    # singularity pull shub://carte731/angsd-wrapper-update
+                    singularity pull library://carte731/default/angsd-wrapper:latest
+                    # ./carte731-angsd-wrapper-update-master-latest.simg "${SOURCE}" "${BASESOURCE}"
+                    # ./angsd-wrapper_latest.sif "${SOURCE}" "${BASESOURCE}" > dev/null
+                    ./angsd-wrapper_latest.sif "${SOURCE}" "${BASESOURCE}"
+                fi
                 echo -e "Now installing"
                 source ~/.bash_profile
                 echo -e "Bash Profile has been sourced."
