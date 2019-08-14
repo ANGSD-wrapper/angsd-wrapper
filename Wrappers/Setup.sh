@@ -18,7 +18,7 @@ case "${setup_routine}" in
                 echo -e "\nInstalling CentOS-7 image for installation.\n"
                 if [[ $(singularity --version) =~ "2.6.0-dist" ]]; then
                     singularity pull shub://carte731/Angsd_Singularity_Install ## Temp until I fix the webhooks on the main "dev_containers" branch
-                    ./Angsd_Singularity_Install_latest.sif "${SOURCE}" "${BASESOURCE}" ## Temp until I fix the webhooks on the main "dev_containers" branch
+                    ./carte731-Angsd_Singularity_Install-master-latest.simg "${SOURCE}" "${BASESOURCE}" ## Temp until I fix the webhooks on the main "dev_containers" branch
                 else
                     # singularity pull shub://carte731/angsd-wrapper-update
                     singularity pull library://carte731/default/angsd-wrapper:latest
