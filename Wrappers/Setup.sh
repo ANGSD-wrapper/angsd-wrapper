@@ -16,7 +16,7 @@ case "${setup_routine}" in
                 mkdir "${SOURCE}"/dependencies
                 cd "${SOURCE}"/dependencies
                 echo -e "\nInstalling CentOS-7 image for installation.\n"
-                # if [[ $(singularity --vesrion) =~ "2.6.0-dist" ]]; then
+                # if [[ $(singularity --version) =~ "2.6.0-dist" ]]; then
                 if [[ $(singularity --version) =~ "3.2.1" ]]; then
                     echo -e "\n\nBranch Test.\n\n"
                     singularity pull shub://carte731/Angsd_Singularity_Install ## Temp until I fix the webhooks on the main "dev_containers" branch
