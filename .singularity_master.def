@@ -44,6 +44,7 @@ Include: yum
         git clone https://github.com/fgvieira/ngsF.git
         cd ngsF
         git reset --hard d980b85c0746c297285e2e415193914aa0d0412a
+        make
 
         cd "${ROOT}"
 
