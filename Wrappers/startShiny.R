@@ -23,13 +23,18 @@ batchInstall <- function(pkgList) {
 }
 
 #   Install packages from BioConductor
+# biocLite is depricated in Bioconductor 3.10 and R 3.5 or greater. Need ot use BiocManager to install Bioconductor packages
 bioInstall <- function() {
-    if("biocLite" %in% rownames(installed.packages()) == FALSE) {
-        source("http://bioconductor.org/biocLite.R")
-    }
-    library(BiocInstaller)
+    #if("biocLite" %in% rownames(installed.packages()) == FALSE) {
+        #source("http://bioconductor.org/biocLite.R")
+    #}
+    if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+   # BiocManager::install("BiocInstaller")
+    #library(BiocInstaller)
     if("genomeIntervals" %in% rownames(installed.packages()) == FALSE) {
-        biocLite("genomeIntervals")
+        #biocLite("genomeIntervals")
+        BiocManager::install("genomeIntervals")
     }
     library(genomeIntervals)
 }
