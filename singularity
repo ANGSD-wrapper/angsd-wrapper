@@ -37,7 +37,6 @@ Include: yum
         ./configure --with-htslib=${HTSLIB_DIR} --prefix=$(pwd)
         make
         make install
-        make clean
 
         cd "${ROOT}"
 
@@ -48,14 +47,16 @@ Include: yum
 
         cd "${ROOT}"
 
-        wget http://popgen.dk/software/download/angsd/angsd0.928.tar.gz
-        tar -xvf angsd0.928.tar.gz
-        rm angsd0.928.tar.gz
+	# Reset to release 1.10.2
+	git clone https://github.com/samtools/htslib/
         cd "${ROOT}"/htslib
+	git reset --hard fd0f89554459b78c07303e2c8a42acacd6851b46
         make
 
+	# Reset to most recent commit as of 2020.02.28
+	git clone https://github.com/ANGSD/angsd
         cd "${ROOT}"/angsd
-        #make HTSSRC="${HTSLIB_DIR}"
+	git reset --hard 37be4d5c6bdff54c1f593a1a3831a707010b3557
         make HTSSRC="${ROOT}"/htslib
 
         cd "${ROOT}"
