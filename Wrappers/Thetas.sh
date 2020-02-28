@@ -114,25 +114,28 @@ else
 fi
 
 
-"${ANGSD_DIR}"/misc/thetaStat make_bed \
-    "${OUT}"/"${PROJECT}"_Diversity.thetas.gz
-
+# Either whole chromosome stats, or create many windowed stats
 if [ "${SLIDING_WINDOW}" = "false" ]
 then
     "${ANGSD_DIR}"/misc/thetaStat do_stat \
-        "${OUT}"/"${PROJECT}"_Diversity.thetas.gz \
+        "${OUT}"/"${PROJECT}"_Diversity.thetas.idx \
         -nChr "${N_CHROM}"
 else
     "${ANGSD_DIR}"/misc/thetaStat do_stat \
-        "${OUT}"/"${PROJECT}"_Diversity.thetas.gz \
+        "${OUT}"/"${PROJECT}"_Diversity.thetas.idx \
         -nChr "${N_CHROM}" \
         -win "${WIN}" \
         -step "${STEP}"
 fi
 
+# Decoding the thetas.idx file, storing output into a text file
+${SOURCE}/dependencies/angsd/misc/thetaStat print \
+ 	 ${OUT}/${PROJECT}_Diversity.thetas.idx > \
+	 ${OUT}/${PROJECT}_Diversity.thetas.txt
+
 # Filter pestPG file for invariant sites
 echo "WRAPPER: Creating files for Shiny graphing..." >&2
 Rscript ${SOURCE}/Wrappers/thetas_filtering.R \
     ${SOURCE} \
-    ${OUT}/${PROJECT}_Diversity.thetas.gz.pestPG \
+    ${OUT}/${PROJECT}_Diversity.thetas.idx.pestPG \
     ${OUT}/"${PROJECT}"_Thetas.graph.me
