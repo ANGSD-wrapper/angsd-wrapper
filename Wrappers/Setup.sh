@@ -14,6 +14,12 @@ case "${setup_routine}" in
     "dependencies" )
         if [[ -x $(command -v singularity) ]]; then
                 mkdir "${SOURCE}"/dependencies
+	        if [[ ! -f ./angsd-wrapper_latest.sif ]]; then
+		    # singularity build "${SOURCE}"/angsd-wrapper_latest.sif "{SOURCE}"/singularity
+		    echo -e "Please build the given singularity recipe file: If no root access is available, then use --remote with a sylabs login, or --fakeroot. "
+		else
+		    cp "{SOURCE}"/angsd-wrapper_latest.sif "{SOURCE}"/dependencies
+		fi
                 cd "${SOURCE}"/dependencies
                 echo -e "\nInstalling CentOS-7 image for installation.\n"
                 if [[ $(singularity --version) =~ "2.6.1-dist" ]]; then
@@ -21,7 +27,7 @@ case "${setup_routine}" in
                     ./carte731-Angsd_Singularity_Install-master-latest.simg "${SOURCE}" "${BASESOURCE}" ## Temp until I fix the webhooks on the main "dev_containers" branch
                 else
                     # singularity pull shub://carte731/angsd-wrapper-update
-                    singularity pull library://carte731/default/angsd-wrapper:latest
+                    # singularity pull library://carte731/default/angsd-wrapper:latest
                     # ./carte731-angsd-wrapper-update-master-latest.simg "${SOURCE}" "${BASESOURCE}"
                     # ./angsd-wrapper_latest.sif "${SOURCE}" "${BASESOURCE}" > dev/null
                     ./angsd-wrapper_latest.sif "${SOURCE}" "${BASESOURCE}"
