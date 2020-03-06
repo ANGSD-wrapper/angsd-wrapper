@@ -45,8 +45,7 @@ else
     #   Do we have a regions file?
     if [[ -f "${REGIONS}" ]]
     then
-        "${ANGSD_DIR}"/angsd \
-            -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -out "${OUT}"/"${PROJECT}"_SFSOut \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
@@ -64,12 +63,11 @@ else
             -doMaf "${DO_MAF}" \
             -doGeno "${DO_GENO}" \
             -rf "${REGIONS}" \
-            -doPost "${DO_POST}"
+            -doPost "${DO_POST}")
     #   Are we missing a definiton for regions?
     elif [[ -z "${REGIONS}" ]]
     then
-        "${ANGSD_DIR}"/angsd \
-            -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -out "${OUT}"/"${PROJECT}"_SFSOut \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
@@ -86,11 +84,10 @@ else
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -doGeno "${DO_GENO}" \
-            -doPost "${DO_POST}"
-    #   Assuming a single reigon was defined in config file
+            -doPost "${DO_POST}")
+    #   Assuming a single region was defined in config file
     else
-        "${ANGSD_DIR}"/angsd \
-            -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -out "${OUT}"/"${PROJECT}"_SFSOut \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
@@ -108,9 +105,13 @@ else
             -doMaf "${DO_MAF}" \
             -doGeno "${DO_GENO}" \
             -doPost "${DO_POST}" \
-            -r "${REGIONS}"
+            -r "${REGIONS}")
     fi
 fi
+# Check for advanced arguments, and overwrite any overlapping definitions
+FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+# echo "Final arguments: ${FINAL_ARGS}" 1<&2
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
 
 "${ANGSD_DIR}"/misc/realSFS \
     "${OUT}"/"${PROJECT}"_SFSOut.saf.idx \

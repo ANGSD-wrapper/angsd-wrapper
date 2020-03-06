@@ -20,6 +20,7 @@ ANGSD_DIR=${SOURCE}/dependencies/angsd
 
 #   Variables created from transforming other variables
 #       The number of individuals in the taxon we are analyzing
+echo "${SAMPLE_LIST}" 1<&2
 N_IND=$(wc -l < "${SAMPLE_LIST}" | tr -d '[[:space:]]')
 
 #       How many inbreeding coefficients are supplied?
@@ -46,8 +47,7 @@ else
     #   Do we have a regions file?
     if [[ -f "${REGIONS}" ]]
     then
-        "${ANGSD_DIR}"/angsd \
-            -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -out "${OUT}"/"${PROJECT}"_Diversity \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
@@ -65,12 +65,11 @@ else
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
             -pest "${PEST}" \
-            -rf "${REGIONS}"
+            -rf "${REGIONS}")
     #   Are we missing a definiton for regions?
     elif [[ -z "${REGIONS}" ]]
     then
-        "${ANGSD_DIR}"/angsd \
-            -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -out "${OUT}"/"${PROJECT}"_Diversity \
             -indF "${SAMPLE_INBREEDING}" \
             -doSaf "${DO_SAF}" \
@@ -87,11 +86,10 @@ else
             -P "${N_CORES}" \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
-            -pest "${PEST}"
-    #   Assuming a single reigon was defined in config file
+            -pest "${PEST}")
+    #   Assuming a single region was defined in config file
     else
-        "${ANGSD_DIR}"/angsd \
-        -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
         -out "${OUT}"/"${PROJECT}"_Diversity \
         -indF "${SAMPLE_INBREEDING}" \
         -doSaf "${DO_SAF}" \
@@ -109,9 +107,13 @@ else
         -doMajorMinor "${DO_MAJORMINOR}" \
         -doMaf "${DO_MAF}" \
         -pest "${PEST}" \
-        -r "${REGIONS}"
+        -r "${REGIONS}")
     fi
 fi
+# Check for advanced arguments, and overwrite any overlapping definitions
+FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+# echo "Final arguments: ${FINAL_ARGS}" 1<&2
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
 
 
 "${ANGSD_DIR}"/misc/thetaStat make_bed \

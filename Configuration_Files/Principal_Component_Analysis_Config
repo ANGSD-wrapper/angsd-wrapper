@@ -50,3 +50,8 @@ NORM=0
 CALL=0
 #       Set the maximum number of sites to use for Principal Component Analysis
 N_SITES=100000
+
+#   For advanced users who want to change arguments used by ANGSD (i.e. which SAF method is used)
+#       Expected format is the same as how the flags and arguments are written on the command line:
+#       '-flag1 arg1 -flag2 arg2 ...' 
+ADVANCED_ARGS=''

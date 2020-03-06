@@ -57,8 +57,7 @@ else
     if [[ -f "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_1 sfs starting..." >&2
-        "${ANGSD_DIR}"/angsd \
-            -bam "${G1_SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -out "${OUT}"/"${GROUP_1}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -75,12 +74,11 @@ else
             -GL "${GT_LIKELIHOOD}" \
             -P "${N_CORES}" \
             -rf "${REGIONS}" \
-            -doPost "${DO_POST}"
+            -doPost "${DO_POST}")
     elif [[ -z "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_1 sfs starting" >&2
-        "${ANGSD_DIR}"/angsd \
-            -bam "${G1_SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -out "${OUT}"/"${GROUP_1}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -96,11 +94,10 @@ else
             -ref "${REF_SEQ}" \
             -GL "${GT_LIKELIHOOD}" \
             -P "${N_CORES}" \
-            -doPost "${DO_POST}"
+            -doPost "${DO_POST}")
     else
         echo "WRAPPER: $GROUP_1 sfs starting" >&2
-        "${ANGSD_DIR}"/angsd \
-            -bam "${G1_SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -out "${OUT}"/"${GROUP_1}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -116,9 +113,14 @@ else
             -ref "${REF_SEQ}" \
             -GL "${GT_LIKELIHOOD}" \
             -P "${N_CORES}" \
-            -r "${REGIONS}"
+            -r "${REGIONS}")
     fi
 fi
+# Check for advanced arguments, and overwrite any overlapping definitions
+FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+# echo "Final arguments: ${FINAL_ARGS}" 1<&2
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
+
 
 #   For 2nd group:
 if [[ -f "${OUT}"/"${GROUP_2}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
@@ -129,8 +131,7 @@ else
     if [[ -f "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
-        "${ANGSD_DIR}"/angsd \
-            -bam "${G2_SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -out "${OUT}"/"${GROUP_2}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -147,13 +148,12 @@ else
             -GL "${GT_LIKELIHOOD}" \
             -P "${N_CORES}" \
             -rf "${REGIONS}" \
-            -doPost "${DO_POST}"
+            -doPost "${DO_POST}")
     #   Are we missing a definiton for regions?
     elif [[ -z "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
-        "${ANGSD_DIR}"/angsd \
-            -bam "${G2_SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -out "${OUT}"/"${GROUP_2}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -169,12 +169,11 @@ else
             -ref "${REF_SEQ}" \
             -GL "${GT_LIKELIHOOD}" \
             -P "${N_CORES}" \
-            -doPost "${DO_POST}"
+            -doPost "${DO_POST}")
     #   Assuming a single reigon was defined in config file
     else
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
-        "${ANGSD_DIR}"/angsd \
-            -bam "${G2_SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -out "${OUT}"/"${GROUP_2}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -190,9 +189,13 @@ else
             -ref "${REF_SEQ}" \
             -GL "${GT_LIKELIHOOD}" \
             -P "${N_CORES}" \
-            -r "${REGIONS}"
+            -r "${REGIONS}")
     fi
 fi
+# Check for advanced arguments, and overwrite any overlapping definitions
+FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+echo "Final arguments: ${FINAL_ARGS}" 1<&2
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
 
 #   Estimate joint SFS using realSFS
 echo "WRAPPER: realSFS 2dsfs..." >&2

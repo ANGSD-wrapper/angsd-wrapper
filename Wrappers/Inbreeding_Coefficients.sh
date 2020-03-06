@@ -37,8 +37,7 @@ else
 #   Do we have a regions file?
     if [[ -f "${REGIONS}" ]]
     then
-        "${ANGSD_DIR}"/angsd \
-            -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -rf "${REGIONS}" \
             -doGLF "${DO_GLF}" \
             -GL "${GT_LIKELIHOOD}" \
@@ -51,13 +50,12 @@ else
             -uniqueOnly "${UNIQUE_ONLY}" \
             -minMapQ "${MIN_MAPQ}" \
             -minQ "${MIN_BASEQUAL}" \
-            -nThreads "${N_CORES}"
+            -nThreads "${N_CORES}")
     #   Are we missing a definiton for regions?
     elif [[ -z "${REGIONS}" ]]
     then
-        "${ANGSD_DIR}"/angsd \
-            -bam "${SAMPLE_LIST}" \
-            -doGLF "${DO_GLF}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
+            -doGlf "${DO_GLF}" \
             -GL "${GT_LIKELIHOOD}" \
             -out "${OUT}"/"${PROJECT}" \
             -ref "${REF_SEQ}" \
@@ -68,11 +66,10 @@ else
             -uniqueOnly "${UNIQUE_ONLY}" \
             -minMapQ "${MIN_MAPQ}" \
             -minQ "${MIN_BASEQUAL}" \
-            -nThreads "${N_CORES}"
+            -nThreads "${N_CORES}")
     #   Assuming a single reigon was defined in config file
     else
-        "${ANGSD_DIR}"/angsd \
-            -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
             -r "${REGIONS}" \
             -doGLF "${DO_GLF}" \
             -GL "${GT_LIKELIHOOD}" \
@@ -85,13 +82,19 @@ else
             -uniqueOnly "${UNIQUE_ONLY}" \
             -minMapQ "${MIN_MAPQ}" \
             -minQ "${MIN_BASEQUAL}" \
-            -nThreads "${N_CORES}"
+            -nThreads "${N_CORES}")
     fi
 fi
+# Check for advanced arguments, and overwrite any overlapping definitions
+FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+# echo "Final arguments: ${FINAL_ARGS}" 1<&2
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
 
 N_SITES="`expr $(zcat "${OUT}"/${PROJECT}.mafs.gz | wc -l) - 1`"
 
 
+echo "${OUT}/${PROJECT}.glf.gz" 1<&2
+# "${NGSF_DIR}"/ngsF \
 zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
     -glf - \
     -out "${OUT}"/"${PROJECT}".approx_indF \

@@ -29,8 +29,7 @@ N_IND=$(wc -l < "${SAMPLE_LIST}")
 #   Do we have a regions file?
 if [[ -f "${REGIONS}" ]]
 then
-    "${ANGSD_DIR}"/angsd \
-        -bam "${SAMPLE_LIST}" \
+    WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
         -GL "${GT_LIKELIHOOD}" \
         -out "${OUT}"/"${PROJECT}"_PCA \
         -doMajorMinor "${DO_MAJORMINOR}" \
@@ -39,12 +38,11 @@ then
         -doPost "${DO_POST}" \
         -nInd "${N_IND}" \
         -P "${N_CORES}" \
-        -rf "${REGIONS}"
+        -rf "${REGIONS}")
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
-    "${ANGSD_DIR}"/angsd \
-        -bam "${SAMPLE_LIST}" \
+    WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
         -GL "${GT_LIKELIHOOD}" \
         -out "${OUT}"/"${PROJECT}"_PCA \
         -doMajorMinor "${DO_MAJORMINOR}" \
@@ -52,11 +50,10 @@ then
         -doGeno "${DO_GENO}"\
         -doPost "${DO_POST}" \
         -nInd "${N_IND}" \
-        -P "${N_CORES}"
-#   Assuming a single reigon was defined in config file
+        -P "${N_CORES}")
+#   Assuming a single region was defined in config file
 else
-    "${ANGSD_DIR}"/angsd \
-        -bam "${SAMPLE_LIST}" \
+    WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
         -GL "${GT_LIKELIHOOD}" \
         -out "${OUT}"/"${PROJECT}"_PCA \
         -doMajorMinor "${DO_MAJORMINOR}" \
@@ -65,8 +62,13 @@ else
         -doPost "${DO_POST}" \
         -nInd "${N_IND}" \
         -P "${N_CORES}" \
-        -r "${REGIONS}"
+        -r "${REGIONS}")
 fi
+
+# Check for advanced arguments, and overwrite any overlapping definitions
+FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+# echo "Final arguments: ${FINAL_ARGS}" 1<&2
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
 
 gunzip ${OUT}/${PROJECT}_PCA.geno.gz
 

@@ -16,17 +16,19 @@ ANGSD_DIR=${SOURCE}/dependencies/angsd
 #       Check to see if we're using -doCounts
 if [[ -z "${DO_COUNTS}" ]]
 then
-    "${ANGSD_DIR}"/angsd \
-        -doFasta "${DO_FASTA}" \
+    WRAPPER_ARGS=$(echo -doFasta "${DO_FASTA}" \
         -i "${ANC_BAM}"\
         -out "${OUT}"
 else
-    "${ANGSD_DIR}"/angsd \
-        -doFasta "${DO_FASTA}" \
+    WRAPPER_ARGS=$(echo -doFasta "${DO_FASTA}" \
         -doCounts "${DO_COUNTS}" \
         -i "${ANC_BAM}"\
         -out "${OUT}"
 fi
+# Check for advanced arguments, and overwrite any overlapping definitions
+FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+# echo "Final arguments: ${FINAL_ARGS}" 1<&2
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
 
 #   If we have SAMTools, might as well index
 if `command -v samtools > /dev/null 2> /dev/null`

@@ -39,8 +39,7 @@ ANGSD_DIR="${SOURCE}"/dependencies/angsd
 #   Do we have a regions file?
 if [[ -f "${REGIONS}" ]]
 then
-    "${ANGSD_DIR}"/angsd \
-        -bam "${SAMPLE_LIST}" \
+    WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
         -out "${OUT}"/"${PROJECT}"_snps \
         -indF "${SAMPLE_INBREEDING}" \
         -doMajorMinor "${DO_MAJORMINOR}" \
@@ -57,12 +56,11 @@ then
         -SNP_pval "${SNP_PVAL}" \
         -nInd "${N_IND}" \
         -minInd "${MIN_IND}" \
-        -P "${N_CORES}"
+        -P "${N_CORES}")
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
-    "${ANGSD_DIR}"/angsd \
-        -bam "${SAMPLE_LIST}" \
+    WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
         -out "${OUT}"/"${PROJECT}"_snps \
         -indF "${SAMPLE_INBREEDING}" \
         -doMajorMinor "${DO_MAJORMINOR}" \
@@ -78,11 +76,10 @@ then
         -SNP_pval "${SNP_PVAL}" \
         -nInd "${N_IND}" \
         -minInd "${MIN_IND}" \
-        -P "${N_CORES}"
-#   Assuming a single reigon was defined in config file
+        -P "${N_CORES}")
+#   Assuming a single region was defined in config file
 else
-    "${ANGSD_DIR}"/angsd \
-        -bam "${SAMPLE_LIST}" \
+    WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
         -out "${OUT}"/"${PROJECT}"_snps \
         -indF "${SAMPLE_INBREEDING}" \
         -doMajorMinor "${DO_MAJORMINOR}" \
@@ -99,5 +96,9 @@ else
         -SNP_pval "${SNP_PVAL}" \
         -nInd "${N_IND}" \
         -minInd "${MIN_IND}" \
-        -P "${N_CORES}"
+        -P "${N_CORES}")
 fi
+# Check for advanced arguments, and overwrite any overlapping definitions
+FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+# echo "Final arguments: ${FINAL_ARGS}" 1<&2
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
