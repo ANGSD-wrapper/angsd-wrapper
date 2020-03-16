@@ -20,57 +20,66 @@ Include: yum
         cd dependencies
         ROOT=$(pwd)
 
-        wget  https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
-        tar -jxvf samtools-1.9.tar.bz2
-        rm samtools-1.9.tar.bz2
-        cd samtools-1.9
+	# Grab release 1.10 for samtools
+	wget https://github.com/samtools/samtools/releases/download/1.10/samtools-1.10.tar.bz2
+	tar -jxvf samtools-1.10.tar.bz2
+        rm samtools-1.10.tar.bz2
+        cd samtools-1.10
         samPath=$(pwd)
-        echo "export PATH=$(pwd)/bin:"'${PATH}' >> ~/.bash_profile # Add the path to bash_profile
-        HTSLIB_DIR=$(pwd -P)/htslib-1.9
+        echo "export PATH=$(pwd)/bin:"'${PATH}' >> ~/.bash_profile # Add the path to bash_profile: Check for redundancy?
+        HTSLIB_DIR=$(pwd -P)/htslib-1.10
 
+	# Compile samtools' underlying htslib dependency
         cd "${HTSLIB_DIR}"
         ./configure --prefix=$(pwd)
         make
         make install
-        cd "${samPath}"
 
+	# Compile samtools using its compiled htslib code
+        cd "${samPath}"
         ./configure --with-htslib=${HTSLIB_DIR} --prefix=$(pwd)
         make
         make install
 
+	# Grab ngsF package with commit from 2019.10.29
         cd "${ROOT}"
-
-        git clone https://github.com/fgvieira/ngsF.git
-        cd ngsF
-        git reset --hard d980b85c0746c297285e2e415193914aa0d0412a
+	wget https://github.com/fgvieira/ngsF/archive/b84acdeaed65122daa2712b4124bbd2e709e9c58.zip
+	unzip b84acdeaed65122daa2712b4124bbd2e709e9c58.zip
+	rm b84acdeaed65122daa2712b4124bbd2e709e9c58.zip
+	mv ngsF-b84acdeaed65122daa2712b4124bbd2e709e9c58 ngsF
+	cd ngsF
         make
 
+	# Grab htslib commit 1.10.2
         cd "${ROOT}"
-
-	# Reset to release 1.10.2
-	git clone https://github.com/samtools/htslib/
-        cd "${ROOT}"/htslib
-	git reset --hard fd0f89554459b78c07303e2c8a42acacd6851b46
+	wget https://github.com/samtools/htslib/releases/download/1.10.2/htslib-1.10.2.tar.bz2
+	tar -xjvf htslib-1.10.2.tar.bz2
+	rm htslib-1.10.2.tar.bz2
+	cd htslib-1.10.2
         make
 
-	# Reset to most recent commit as of 2020.02.28
-	git clone https://github.com/ANGSD/angsd
-        cd "${ROOT}"/angsd
-	git reset --hard 37be4d5c6bdff54c1f593a1a3831a707010b3557
-        make HTSSRC="${ROOT}"/htslib
+	# Grab most recent commit of ANGSD as of 2020.02.28
+	cd "${ROOT}"
+	wget https://github.com/ANGSD/angsd/archive/37be4d5c6bdff54c1f593a1a3831a707010b3557.zip
+	unzip 37be4d5c6bdff54c1f593a1a3831a707010b3557.zip
+	mv angsd-37be4d5c6bdff54c1f593a1a3831a707010b3557 angsd
+	rm 37be4d5c6bdff54c1f593a1a3831a707010b3557.zip
+	cd "${ROOT}"/angsd
+        make HTSSRC="${ROOT}"/htslib-1.10.2
 
+	# Grab and compile code for NGS Admixture calculations
         cd "${ROOT}"
-
         mkdir ngsAdmix
         cd ngsAdmix
         wget http://popgen.dk/software/download/NGSadmix/ngsadmix32.cpp
         g++ ngsadmix32.cpp -O3 -lpthread -lz -o NGSadmix
 
+	# Grab code for calculating stats using NGS data, current as of 2020.03.16
         cd "${ROOT}"
-
-        git clone https://github.com/mfumagalli/ngsPopGen.git
+	wget https://github.com/mfumagalli/ngsPopGen/archive/9ee3a6d5e733c1e248e81bfc21514b0527da967b.zip
+	unzip 9ee3a6d5e733c1e248e81bfc21514b0527da967b.zip
+	mv 9ee3a6d5e733c1e248e81bfc21514b0527da967b ngsPopGen
         cd ngsPopGen
-        git reset --hard 8ead2d469f42942f413f6c93664b568d2eb8a124
         make
 
         cd "${ROOT}"
@@ -82,7 +91,6 @@ Include: yum
         yum group install -y "Development Tools"
     	yum -y install wget
     	yum install -y tar.x86_64	
-	yum install -y git
 	yum install -y bzip2
 	yum install -y gcc
 	yum install -y ncurses-devel

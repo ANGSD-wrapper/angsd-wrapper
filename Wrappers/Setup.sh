@@ -18,7 +18,7 @@ case "${setup_routine}" in
 		    # singularity build "${SOURCE}"/angsd-wrapper_latest.sif "{SOURCE}"/singularity
 		    echo -e "Please build the given singularity recipe file: If no root access is available, then use --remote with a sylabs login, or --fakeroot. "
 		else
-		    cp "{SOURCE}"/angsd-wrapper_latest.sif "{SOURCE}"/dependencies
+		    cp "${SOURCE}"/angsd-wrapper_latest.sif "${SOURCE}"/dependencies
 		fi
                 cd "${SOURCE}"/dependencies
                 echo -e "\nInstalling CentOS-7 image for installation.\n"
