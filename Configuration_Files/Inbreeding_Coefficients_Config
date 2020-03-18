@@ -31,6 +31,10 @@ SCRATCH=
 #       Optional, but ANGSD is expensive to run without specifying regions to look at
 REGIONS=
 
+#   Set common parameters for all methods
+#       Use only uniquely-mapped reads
+UNIQUE_ONLY=0
+
 #   Parameters that are specified in Common_Config
 #       Set the minimum base quality
 MIN_BASEQUAL=20
@@ -38,7 +42,7 @@ MIN_BASEQUAL=20
 GT_LIKELIHOOD=1
 #       Set the minimum mapping quality for a base to be used
 MIN_MAPQ=30
-#       Set the minimum mapping quality for a base to be used
+#       Set the number of threads to be used
 N_CORES=32
 #       Determine major and minor alleles
 DO_MAJORMINOR=1
@@ -60,3 +64,8 @@ DO_GLF=3
 #       Set a seed value for creating approximate inbreeding coefficients
 #       Use the random number generator built into BASH
 SEED=$RANDOM
+
+#   For advanced users who want to change arguments used by ANGSD (i.e. which SAF method is used)
+#       Expected format is the same as how the flags and arguments are written on the command line:
+#       '-flag1 arg1 -flag2 arg2 ...' 
+ADVANCED_ARGS=''

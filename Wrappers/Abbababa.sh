@@ -47,8 +47,7 @@ then
     Rscript "${SOURCE}"/Wrappers/sortRegions.R "${REGIONS}" "${FAI}"
     REGIONS="$(find $(dirname ${REGIONS}) -name "*_sorted.txt")"
     echo "Running Abbababa" >&2
-    "${ANGSD_DIR}"/angsd \
-        -doAbbababa "${DO_ABBABABA}" \
+    WRAPPER_ARGS=$(echo -doAbbababa "${DO_ABBABABA}" \
         -rmTrans "${REMOVE_TRANS}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
@@ -60,13 +59,12 @@ then
         -minInd "${MIN_IND}" \
         -nThreads "${N_CORES}" \
         -rf "${REGIONS}" \
-        -out "${OUT}"/"${PROJECT}".D
+        -out "${OUT}"/"${PROJECT}".D)
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
     echo "Running Abbababa" >&2
-    "${ANGSD_DIR}"/angsd \
-        -doAbbababa "${DO_ABBABABA}" \
+    WRAPPER_ARGS=$(echo -doAbbababa "${DO_ABBABABA}" \
         -rmTrans "${REMOVE_TRANS}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
@@ -77,12 +75,11 @@ then
         -minQ "${MIN_BASEQUAL}" \
         -minInd "${MIN_IND}" \
         -nThreads "${N_CORES}" \
-        -out "${OUT}"/"${PROJECT}".D
+        -out "${OUT}"/"${PROJECT}".D)
 #   Assuming a single reigon was defined in config file
 else
     echo "Running Abbababa" >&2
-    "${ANGSD_DIR}"/angsd \
-        -doAbbababa "${DO_ABBABABA}" \
+    WRAPPER_ARGS=$(echo -doAbbababa "${DO_ABBABABA}" \
         -rmTrans "${REMOVE_TRANS}" \
         -blockSize "${BLOCKSIZE}" \
         -doCounts "${DO_COUNTS}" \
@@ -94,8 +91,12 @@ else
         -minInd "${MIN_IND}" \
         -nThreads "${N_CORES}" \
         -r "${REGIONS}" \
-        -out "${OUT}"/"${PROJECT}".D
+        -out "${OUT}"/"${PROJECT}".D)
 fi
+# Check for advanced arguments, and overwrite any overlapping definitions
+FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+# echo "Final arguments: ${FINAL_ARGS}" 1<&2
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
 
 #   jackKnife.R is provided with angsd.
 echo "Using jackKnife.R to finish Abbababa" >&2

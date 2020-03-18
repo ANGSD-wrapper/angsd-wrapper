@@ -21,7 +21,7 @@ PROJECT=
 SCRATCH=
 
 #   Parameters that are specified in Common_Config
-#       Set the minimum mapping quality for a base to be used
+#       Set the number of threads to be used
 N_CORES=32
 
 ##############################################################################################

@@ -47,7 +47,7 @@ MIN_IND=1
 GT_LIKELIHOOD=2
 #       Set the minimum mapping quality for a base to be used
 MIN_MAPQ=30
-#       Set the minimum mapping quality for a base to be used
+#       Set the number of threads to be used
 N_CORES=32
 #       Determine major and minor alleles
 DO_MAJORMINOR=1
@@ -66,3 +66,8 @@ DO_POST=1
 DO_SAF=2
 #       Overwrite any previously generated results
 OVERRIDE=true
+
+#   For advanced users who want to change arguments used by ANGSD (i.e. which SAF method is used)
+#       Expected format is the same as how the flags and arguments are written on the command line:
+#       '-flag1 arg1 -flag2 arg2 ...' 
+ADVANCED_ARGS=''
