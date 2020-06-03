@@ -24,7 +24,7 @@ shinyUI(fluidPage(
           # Watterson's theta
           selectInput("thetaChoice",
                       # Need to specify file to choose
-                      label = "Choose estimator of theta to graph", 
+                      label = "Choose estimator of theta to graph",
                       choices = c("Watterson's Theta",
                                   "Pairwise Theta",
                                   "Fu and Li's Theta",
@@ -32,10 +32,10 @@ shinyUI(fluidPage(
                                   "Maximum likelihood (L) Theta"),
                       selected = "Watterson's Theta"
           ),
-          
+
           # Tajima's D
           selectInput("selectionChoice",
-                      label = "Choose a neutrality test statistic to graph", 
+                      label = "Choose a neutrality test statistic to graph",
                       choices = c("Tajima's D",
                                   "Fi and Li's D",
                                   "Fu and Li's F",
@@ -50,10 +50,10 @@ shinyUI(fluidPage(
                   tags$h5("You can also type parts of a sample name to search for it.")),
           hr(),
           checkboxInput("thetaLowess",
-                        "Theta Lowess", 
+                        "Theta Lowess",
                         value=FALSE),
           checkboxInput("selectionLowess",
-                        "Neutrality Test Statistic Lowess", 
+                        "Neutrality Test Statistic Lowess",
                         value=FALSE),
           hr(),
           tags$h4(class = "header",
@@ -103,7 +103,7 @@ shinyUI(fluidPage(
             ),
             column(
               width = 12, height = 300,
-              h5("Click and drag to select area to zoom on this plot"), 
+              h5("Click and drag to select area to zoom on this plot"),
               plotOutput("selectionPlot1",
                        dblclick = "selectionPlot1_dblclick",
                        brush = brushOpts(id = "selectionPlot1_brush",
@@ -126,13 +126,13 @@ shinyUI(fluidPage(
       )
     )
     ),
-    
+
     # Tab 2 - SFS
     tabPanel(
       "SFS",
       sidebarLayout(
         sidebarPanel(
-          headerPanel("Site Frequency Spectrum", 
+          headerPanel("Site Frequency Spectrum",
                       windowTitle = "SFS Graph"),
           fileInput('userSFS',
                     label= "Choose '_DerivedSFS.graph.me' SFS File"
@@ -143,7 +143,7 @@ shinyUI(fluidPage(
         mainPanel(
           plotOutput("SFSPlot")
         )
-      ) 
+      )
     ),
 
     # Tab 3 - ABBA BABA
@@ -175,12 +175,12 @@ shinyUI(fluidPage(
           plotOutput("ABBABABATree"),
           plotOutput("ABBABABAPlot"),
           dataTableOutput("ABBABABATable"),
-          helpText(a("https://youtu.be/unfzfe8f9NI", 
+          helpText(a("https://youtu.be/unfzfe8f9NI",
                      href="https://youtu.be/unfzfe8f9NI"))
         )
       )
     ),
-    
+
     # Tab 4 - Fst
     tabPanel(
       "Fst",
@@ -205,7 +205,7 @@ shinyUI(fluidPage(
           hr(),
           uiOutput('fstMin'),
           uiOutput('fstMax'),
-          
+
           hr(),
           fileInput('userAnnotations',
                     label= "Choose '.gff' GFF File"
@@ -220,7 +220,7 @@ shinyUI(fluidPage(
         )
       )
     ),
-    
+
     # Tab 5 - PCA
     tabPanel(
       "PCA",
@@ -236,7 +236,10 @@ shinyUI(fluidPage(
                   tags$h4("Interactive Zoom and Hover:"),
                   hr(),
                   tags$h5("Click and drag on the upper graph to select an area to zoom in on."),
-                  tags$h5("Lower graph will show zoomed area selected. If you hover over a point on the lower graph, a table of the 'x' and 'y' values will be shown."))
+                  tags$h5("Lower graph will show zoomed area selected. If you hover over a point on the lower graph, a table of the 'x' and 'y' values will be shown.")),
+          fileInput('userClst',
+                    label= "Choose '.clst' clusters file"
+          )
         ),
         mainPanel(
           fluidRow(
@@ -264,7 +267,7 @@ shinyUI(fluidPage(
         )
       )
     ),
-    
+
     # Tab 6 - Admixture
     tabPanel(
       "Admixture",
