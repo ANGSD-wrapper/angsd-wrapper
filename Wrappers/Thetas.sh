@@ -116,17 +116,18 @@ FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANC
 "${ANGSD_DIR}"/angsd ${FINAL_ARGS}
 
 
-"${ANGSD_DIR}"/misc/thetaStat make_bed \
-    "${OUT}"/"${PROJECT}"_Diversity.thetas.gz
+# Deprecated within ANGSD
+# "${ANGSD_DIR}"/misc/thetaStat make_bed \
+#     "${OUT}"/"${PROJECT}"_Diversity.thetas.gz
 
 if [ "${SLIDING_WINDOW}" = "false" ]
 then
     "${ANGSD_DIR}"/misc/thetaStat do_stat \
-        "${OUT}"/"${PROJECT}"_Diversity.thetas.gz \
+        "${OUT}"/"${PROJECT}"_Diversity.thetas.idx \
         -nChr "${N_CHROM}"
 else
     "${ANGSD_DIR}"/misc/thetaStat do_stat \
-        "${OUT}"/"${PROJECT}"_Diversity.thetas.gz \
+        "${OUT}"/"${PROJECT}"_Diversity.thetas.idx \
         -nChr "${N_CHROM}" \
         -win "${WIN}" \
         -step "${STEP}"
