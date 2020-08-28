@@ -18,12 +18,12 @@ if [[ -z "${DO_COUNTS}" ]]
 then
     WRAPPER_ARGS=$(echo -doFasta "${DO_FASTA}" \
         -i "${ANC_BAM}"\
-        -out "${OUT}"
+        -out "${OUT}")
 else
     WRAPPER_ARGS=$(echo -doFasta "${DO_FASTA}" \
         -doCounts "${DO_COUNTS}" \
         -i "${ANC_BAM}"\
-        -out "${OUT}"
+        -out "${OUT}")
 fi
 # Check for advanced arguments, and overwrite any overlapping definitions
 FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
