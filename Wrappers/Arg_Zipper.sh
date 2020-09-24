@@ -30,14 +30,16 @@ FINAL_ARGS=""
 # Add the initial wrapper arguments to the lists
 k=1
 NUM_ARGS=$(echo "${wrapper_args}" | wc -w)
-while (( k < NUM_ARGS ))
+while (( k <= NUM_ARGS ))
 do
     flag=$(echo "${wrapper_args}" | cut -d " " -f $(( k )))
     val=$(echo "${wrapper_args}" | cut -d " " -f $(( k+1 )))
+    # DEBUGGING: echo "Flag and value pair: $flag '$val' $k" >&2
+
 
     # Validate each pair (avoid whitespace errors or missing arguments).
     # If the pair is invalid, discard the only first item and proceed normally.
-    if [[ $val = -* ]]
+    if [[ $val = -* || $val = '' ]]
     then
         echo "Found a flag '${flag}' with no associated value, discarding." 1>&2
         let k=k+1
@@ -58,15 +60,15 @@ done
 # Proceed through each of the advanced or user-defined arguments
 k=1
 NUM_ARGS=$(echo "${adv_args}" | wc -w)
-while (( k < NUM_ARGS ))
+while (( k <= NUM_ARGS ))
 do
     flag=$(echo "${adv_args}" | cut -d " " -f $(( k )))
     val=$(echo "${adv_args}" | cut -d " " -f $(( k+1 )))
-    # DEBUGGING: echo "Flag and value pair: $flag $val"
+    # DEBUGGING: echo "Flag and value pair: $flag $val $k" >&2
 
     # Validate each pair (avoid whitespace errors or missing arguments).
     # If the pair is invalid, discard the only first item and proceed normally.
-    if [[ $val = -* ]]
+    if [[ $val = -* || $val = '' ]]
     then
         echo "Found a flag '${flag}' with no associated value, discarding." 1>&2
         let k=k+1
