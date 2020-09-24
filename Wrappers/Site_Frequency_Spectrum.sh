@@ -33,6 +33,25 @@ then
     exit 1
 fi
 
+#   Check to see if ancestral state is supplied: If not, polarize samples using
+#   the reference sequence and generate folded saf.
+if [ ! -f "${ANC_SEQ}" ]
+then
+    echo "Ancestral state data not found, using reference sequence to polarize alignment data. BAQ will likewise not be calculated."
+    if [ ! -f "${REF_SEQ}" ]
+    then
+        echo "No reference sequence supplied, unable to perform calculations."
+        exit 2
+    else
+        ANC_SEQ=$REF_SEQ
+        REF_SEQ=
+        BAQ=0
+        FOLD=1
+    fi
+else
+    FOLD=0
+fi
+
 #   Create outdirectory
 OUT="${SCRATCH}"/"${PROJECT}"/SFS
 mkdir -p "${OUT}"
@@ -40,7 +59,7 @@ mkdir -p "${OUT}"
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
 if [[ -f "${OUT}"/"${PROJECT}"_SFSOut.mafs.gz ]] && [ "$OVERRIDE" = "false" ]
 then
-    echo "maf already exists and OVERRIDE=false, skipping angsd -bam..."
+    echo "WRAPPER:maf already exists and OVERRIDE=false, skipping angsd -bam..."
 else
     #   Do we have a regions file?
     if [[ -f "${REGIONS}" ]]
@@ -93,6 +112,7 @@ else
             -doSaf "${DO_SAF}" \
             -uniqueOnly "${UNIQUE_ONLY}" \
             -anc "${ANC_SEQ}" \
+            -folded "${FOLD}" \
             -minMapQ "${MIN_MAPQ}" \
             -minQ "${MIN_BASEQUAL}" \
             -nInd "${N_IND}" \
@@ -109,11 +129,15 @@ else
     fi
 fi
 # Check for advanced arguments, and overwrite any overlapping definitions
-FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
-# echo "Final arguments: ${FINAL_ARGS}" 1<&2
-"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
+FINAL_ARGS=($(source "${SOURCE}/Wrappers/Arg_Zipper.sh" "${WRAPPER_ARGS}" "${ADVANCED_ARGS}"))
+# DEBUGGING
+# echo "Wrapper arguments: ${WRAPPER_ARGS}" 1<&2
+# echo -e "Final arguments:" ${FINAL_ARGS} 1<&2
+
+"${ANGSD_DIR}"/angsd "${FINAL_ARGS[@]}"
 
 "${ANGSD_DIR}"/misc/realSFS \
     "${OUT}"/"${PROJECT}"_SFSOut.saf.idx \
     -P "${N_CORES}" \
+    -fold "${FOLD}" \
     > "${OUT}"/"${PROJECT}"_DerivedSFS.graph.me
