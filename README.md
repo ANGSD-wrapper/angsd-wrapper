@@ -7,6 +7,13 @@
 > Please use an older version of Mac OS X or another POSIX-compliant system to regain full capabilities of ANGSD-wrapper
 -->
 
+## Active Development
+
+As of October 2020, ANGSD-wrapper will be undergoing active development by [Samuel Hamann](https://github.com/shamanpi) to improve the project. Some areas of improvement include:
+- Updating underlying dependencies to work with the newest stable ANGSD version (currently 0.933 based upon the Github repo)
+- Environment and dependency management via [bioconda](https://bioconda.github.io/)
+- Improving performance via parallelization
+
 ANGSD-wrapper is a utility developed to aid in the analysis of next generation sequencing data. Users can do the following with this suite:
 - Calculate a site frequency spectrum
 - Calculate a 2D site frequency spectrum with corresponding *F*<sub>ST</sub> estimations
