@@ -1,0 +1,9 @@
+name: angsd-wrapper
+channels:
+    - defaults
+    - conda-forge
+    - bioconda
+dependencies:
+    - python=3.*
+    - angsd=0.933
+    

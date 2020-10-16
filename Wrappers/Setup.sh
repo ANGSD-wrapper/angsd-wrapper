@@ -27,6 +27,8 @@ case "${setup_routine}" in
         #   Check to see if Git and Wget are installed
         if ! $(command -v git > /dev/null 2> /dev/null); then echo "Please install Git and place in your PATH" >&2 ; exit 1; fi
         if ! $(command -v wget > /dev/null 2> /dev/null); then echo "Please install Wget and place in your PATH" >&2 ; exit 1; fi
+	if ! $(command -v conda > /dev/null 2> /dev/null); then echo "Please install conda and place in your PATH" >&2 ; exit 1; fi
+	
         #   Let angsd-wrapper be run from anywhere
         echo alias "angsd-wrapper='`pwd -P`/angsd-wrapper'" >> ~/.bash_profile
         #   Make the 'dependencies' directory
@@ -34,8 +36,10 @@ case "${setup_routine}" in
         mkdir dependencies
         cd dependencies
         ROOT=$(pwd)
+
         #   Check for SAMTools. If not found, install it
         if ! $(command -v samtools > /dev/null 2> /dev/null); then cd "${ROOT}"; installSAMTools; source ~/.bash_profile;cd "${ROOT}"; fi
+
         #   Install ngsF
         cd "${ROOT}"
         git clone https://github.com/fgvieira/ngsF.git
@@ -43,22 +47,7 @@ case "${setup_routine}" in
         git reset --hard 807ca7216ab8c3fbd98e628ef1638177d5c752b9
         make
         cd "${ROOT}"
-        #   Install HTSLIB
-        cd "${ROOT}"
-        git clone https://github.com/samtools/htslib.git
-        cd htslib
-        git reset --hard bb03b0287bc587c3cbdc399f49f0498eef86b44a
-        make
-        make prefix=`pwd` install
-        HTSLIB_DIR=`pwd`
-        cd "${ROOT}"
-        #   Install ANGSD
-        cd "${ROOT}"
-        git clone https://github.com/ANGSD/angsd.git
-        cd angsd
-        git reset --hard 1c0ebb672c25c6e6a53db66c61519e970e48c72e
-        make HTSSRC="${HTSLIB_DIR}"
-        cd "${ROOT}"
+
         #   Install ngsAdmix
         cd "${ROOT}"
         mkdir ngsAdmix
@@ -66,6 +55,7 @@ case "${setup_routine}" in
         wget http://popgen.dk/software/download/NGSadmix/ngsadmix32.cpp
         g++ ngsadmix32.cpp -O3 -lpthread -lz -o NGSadmix
         cd "${ROOT}"
+
         #   Install ngsPopGen
         cd "${ROOT}"
         git clone https://github.com/mfumagalli/ngsPopGen.git
@@ -74,6 +64,10 @@ case "${setup_routine}" in
         make
         cd "${ROOT}"
         echo
+
+	#   Installing ANGSD and its dependencies
+	conda env create -f /path/to/angsd-wrapper/Wrappers/angsd-wrapper.yml
+	
         #   Display final setup message
         echo "Please run 'source ~/.bash_profile' to complete installation"
         ;;
