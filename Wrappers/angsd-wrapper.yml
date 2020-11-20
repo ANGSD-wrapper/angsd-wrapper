@@ -6,4 +6,18 @@ channels:
 dependencies:
     - python=3.*
     - angsd=0.933
-    
+    - samtools=1.11
+    - htslib=1.11
+    - R=3.6.3
+    - r-ape=5.4
+    - r-biocmanager=1.30.10
+    - r-data.table=1.12.2
+    - r-dt=0.1
+    - bioconductor-genomeIntervals=1.36.0
+    - r-ggplot2=3.1.0
+    - r-hmisc=4.2_0
+    - r-intervals=0.15.2
+    - r-lattice=0.20_41
+    - r-shiny=1.2.0
+    - r-shinythemes=1.1.1
+    - r-survival=3.2_7
