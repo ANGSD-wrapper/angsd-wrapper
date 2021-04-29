@@ -13,10 +13,10 @@ function installSAMTools() {
 	tar -xvjf samtools-1.3.tar.bz2 # Extract the tarball
 	rm -f samtools-1.3.tar.bz2 # Get rid of the tarball
 	cd samtools-1.3 # Change into the SAMTools directory
-	./configure --prefix=$(pwd) # Configure the installation process, setting the install directory to be here
+	./configure --prefix="$(pwd)" # Configure the installation process, setting the install directory to be here
 	make # Compile the code
 	make install # Install SAMTools
-	echo "export PATH=$(pwd):"'${PATH}' >> ~/.bash_profile # Add the path to bash_profile
+	echo "export PATH=$(pwd):${PATH}" >> ~/.bash_profile # Add the path to bash_profile
 }
 
 #   Export the function
@@ -25,17 +25,17 @@ export -f installSAMTools
 case "${setup_routine}" in
     "dependencies" )
         #   Check to see if Git and Wget are installed
-        if ! $(command -v git > /dev/null 2> /dev/null); then echo "Please install Git and place in your PATH" >&2 ; exit 1; fi
-        if ! $(command -v wget > /dev/null 2> /dev/null); then echo "Please install Wget and place in your PATH" >&2 ; exit 1; fi
+        if ! command -v git > /dev/null 2> /dev/null; then echo "Please install Git and place in your PATH" >&2 ; exit 1; fi
+        if ! command -v wget > /dev/null 2> /dev/null; then echo "Please install Wget and place in your PATH" >&2 ; exit 1; fi
         #   Let angsd-wrapper be run from anywhere
-        echo alias "angsd-wrapper='`pwd -P`/angsd-wrapper'" >> ~/.bash_profile
+        echo alias "angsd-wrapper='$(pwd -P)/angsd-wrapper'" >> ~/.bash_profile
         #   Make the 'dependencies' directory
         cd "${SOURCE}"
         mkdir dependencies
         cd dependencies
         ROOT=$(pwd)
         #   Check for SAMTools. If not found, install it
-        if ! $(command -v samtools > /dev/null 2> /dev/null); then cd "${ROOT}"; installSAMTools; source ~/.bash_profile;cd "${ROOT}"; fi
+        if ! command -v samtools > /dev/null 2> /dev/null; then cd "${ROOT}"; installSAMTools; source ~/.bash_profile;cd "${ROOT}"; fi
         #   Install ngsF
         cd "${ROOT}"
         git clone https://github.com/fgvieira/ngsF.git
@@ -45,18 +45,20 @@ case "${setup_routine}" in
         cd "${ROOT}"
         #   Install HTSLIB
         cd "${ROOT}"
-        git clone https://github.com/samtools/htslib.git
+        git clone https://github.com/samtools/htslib.git --recursive
         cd htslib
-        git reset --hard bb03b0287bc587c3cbdc399f49f0498eef86b44a
+        # git reset --hard bb03b0287bc587c3cbdc399f49f0498eef86b44a
         make
-        make prefix=`pwd` install
-        HTSLIB_DIR=`pwd`
+        make install prefix="$(pwd)"  # Installs htslib.so locally
+        HTSLIB_DIR="$(pwd)"
         cd "${ROOT}"
         #   Install ANGSD
         cd "${ROOT}"
         git clone https://github.com/ANGSD/angsd.git
         cd angsd
-        git reset --hard 1c0ebb672c25c6e6a53db66c61519e970e48c72e
+	# Resets to "Preparing new 0.935 version" commit on ANGSD
+        git reset --hard fe3546fd4a8cb1f7462799b38b0aac620ca40fe0
+
         make HTSSRC="${HTSLIB_DIR}"
         cd "${ROOT}"
         #   Install ngsAdmix
@@ -79,8 +81,8 @@ case "${setup_routine}" in
         ;;
     "data" )
         #   Check for depenent programs
-        if ! $(command -v wget > /dev/null 2> /dev/null); then echo "Please install Wget and place in your PATH" >&2 ; exit 1; fi
-        if ! $(command -v samtools > /dev/null 2> /dev/null); then echo "Please install SAMTools and place in your PATH" >&2; exit 1; fi
+        if ! command -v wget > /dev/null 2> /dev/null; then echo "Please install Wget and place in your PATH" >&2 ; exit 1; fi
+        if ! command -v samtools > /dev/null 2> /dev/null; then echo "Please install SAMTools and place in your PATH" >&2; exit 1; fi
         #   Download and set up the test data
         if [[ ${SOURCE} == '.' ]]; then SOURCE=$(pwd -P); fi
         cd "${SOURCE}"
@@ -97,12 +99,13 @@ case "${setup_routine}" in
         find "${EXAMPLE_DIR}"/Mexicana -name "*.bam" | sort > Mexicana/Mexicana_Samples.txt
         find "${EXAMPLE_DIR}"/Teosinte -name "*.bam" | sort > Teosinte/Teosinte_Samples.txt
         #   Make sure all inbreeding files are named "*.indF"
-        for inbreeding in $(find ${EXAMPLE_DIR} -name "*Inbreeding.txt")
+		# for inbreeding in $(find ${EXAMPLE_DIR} -name "*Inbreeding.txt")
+		while IFS= read -r -d '' inbreeding
         do
-            BASE=$(basename ${inbreeding} | cut -f 1 -d '.')
-            DIR=$(dirname ${inbreeding})
-            mv ${inbreeding} ${DIR}/${BASE}.indF
-        done
+            BASE=$(basename "${inbreeding}" | cut -f 1 -d '.')
+            DIR=$(dirname "${inbreeding}")
+            mv "${inbreeding}" "${DIR}/${BASE}.indF"
+        done < <(find "${EXAMPLE_DIR}" -name '*' -print0)
         #       Index the reference and ancestral sequences
         echo "Indexing reference and ancestral sequences..." >&2
         cd Sequences
@@ -110,7 +113,11 @@ case "${setup_routine}" in
         #   Index the BAM files
         echo "Indexing the BAM files..." >&2
         cd "${EXAMPLE_DIR}"/Maize # Maize samples
-        for i in $(cat Maize_Samples.txt); do samtools index "$i"; done
+        # for i in $(cat Maize_Samples.txt); do samtools index "$i"; done
+		cat Maize_Samples.txt | while IFS= read -r i;
+		do
+			samtools index "$i";
+		done
         cd "${EXAMPLE_DIR}"/Mexicana # Mexicana samples
         for i in $(cat Mexicana_Samples.txt); do samtools index "$i"; done
         cd "${EXAMPLE_DIR}"/Teosinte # Teosinte samples

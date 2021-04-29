@@ -23,7 +23,7 @@ OUT=${SCRATCH}/${PROJECT}/Abbababa
 mkdir -p "${OUT}"
 
 #   Check for local R installation
-if $(command -v Rscript > /dev/null 2> /dev/null)
+if command -v Rscript > /dev/null 2> /dev/null
 then
     echo "R is installed"
 else
@@ -43,10 +43,10 @@ if [[ -f "${REGIONS}" ]]
 then
     echo "Sorting ${REGIONS} to match the order in ${REF_SEQ}" >&2
     REF_EXT=$(echo "${REF_SEQ}" | rev | cut -f 1 -d '.' | rev)
-    FAI=$(find $(dirname "${REF_SEQ}") -name "$(basename "$REF_SEQ" ".${REF_EXT}")*.fai")
+    FAI=$(find "$(dirname "${REF_SEQ}")" -name "$(basename "$REF_SEQ" ".${REF_EXT}")*.fai")
     Rscript "${SOURCE}"/Wrappers/sortRegions.R "${REGIONS}" "${FAI}"
-    REGIONS="$(find $(dirname ${REGIONS}) -name "*_sorted.txt")"
-    echo "Running Abbababa" >&2
+    REGIONS="$(find "$(dirname "$REGIONS")" -name '*_sorted.txt')"
+        echo "Running Abbababa" >&2
     WRAPPER_ARGS=$(echo -doAbbababa "${DO_ABBABABA}" \
         -rmTrans "${REMOVE_TRANS}" \
         -blockSize "${BLOCKSIZE}" \
@@ -59,7 +59,9 @@ then
         -minInd "${MIN_IND}" \
         -nThreads "${N_CORES}" \
         -rf "${REGIONS}" \
-        -out "${OUT}"/"${PROJECT}".D)
+        -out "${OUT}"/"${PROJECT}".D \
+        -useLast "${USE_LAST}" \
+        -enhance "${ENHANCE}")
 #   Are we missing a definiton for regions?
 elif [[ -z "${REGIONS}" ]]
 then
@@ -75,7 +77,9 @@ then
         -minQ "${MIN_BASEQUAL}" \
         -minInd "${MIN_IND}" \
         -nThreads "${N_CORES}" \
-        -out "${OUT}"/"${PROJECT}".D)
+        -out "${OUT}"/"${PROJECT}".D \
+        -useLast "${USE_LAST}" \
+        -enhance "${ENHANCE}")
 #   Assuming a single reigon was defined in config file
 else
     echo "Running Abbababa" >&2
@@ -91,11 +95,13 @@ else
         -minInd "${MIN_IND}" \
         -nThreads "${N_CORES}" \
         -r "${REGIONS}" \
-        -out "${OUT}"/"${PROJECT}".D)
+        -out "${OUT}"/"${PROJECT}".D \
+        -useLast "${USE_LAST}" \
+        -enhance "${ENHANCE}")
 fi
 # Check for advanced arguments, and overwrite any overlapping definitions
-FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
-# echo "Final arguments: ${FINAL_ARGS}" 1<&2
+FINAL_ARGS=$(source "${SOURCE}"/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+echo "Final arguments: ${FINAL_ARGS}" 1<&2
 "${ANGSD_DIR}"/angsd ${FINAL_ARGS}
 
 #   jackKnife.R is provided with angsd.
