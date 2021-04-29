@@ -26,20 +26,26 @@ mkdir -p "${OUT}"
 for k in $(seq 2 "${K}")
 do
     echo "Calculating for K=$k"
-    "${ADMIX_DIR}"/NGSadmix \
-        -likes "${LIKELIHOOD}" \
+    WRAPPER_ARGS=$(echo -likes "${LIKELIHOOD}" \
         -K "${k}" \
         -P "${N_CORES}" \
         -o "${OUT}"/"${PROJECT}"."${k}" \
         -tol "${TOLERANCE}" \
-        -minMaf "${MIN_MAF}"
+        -minMaf "${MIN_MAF}")
+
+    # Check for advanced arguments, and overwrite any overlapping definitions
+    # Creates a single argument array from both inputs
+    FINAL_ARGS=( "$(source "${SOURCE}/Wrappers/Arg_Zipper.sh" "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")" )
+
+    "${ADMIX_DIR}"/NGSadmix "${FINAL_ARGS[@]}"
+
 done
 
 #   Rename all ".qopt" files to ".qopt.graph.me"
-for qoptFile in $(find ${OUT} -name "*.qopt")
+while IFS= read -r -d '' qoptFile
 do
     mv "${qoptFile}" "${qoptFile}.graph.me"
-done
+done < <(find "${OUT}" -name "*.qopt" -print0)
 
 # for kvalue in $(eval echo {"$k"..2})
 # do
