@@ -26,17 +26,15 @@ else
         -out "${OUT}")
 fi
 # Check for advanced arguments, and overwrite any overlapping definitions
-FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
-# echo "Final arguments: ${FINAL_ARGS}" 1<&2
-"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
+FINAL_ARGS=( "$(source "${SOURCE}"/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")" )
+"${ANGSD_DIR}"/angsd "${FINAL_ARGS[@]}"
 
 #   If we have SAMTools, might as well index
-if `command -v samtools > /dev/null 2> /dev/null`
+if command -v samtools > /dev/null 2> /dev/null
 then
     echo "Indexing fasta file..."
     #   Do we need to unzip the fasta file?
-    find "${OUT_DIR}" -name "${OUT_NAME}.fa*" | grep .gz > /dev/null 2> /dev/null
-    if [[ "$?" -eq 0 ]]
+    if find "${OUT_DIR}" -name "${OUT_NAME}.fa*" | grep .gz &>/dev/null
     then
         gzip -d "${OUT}".fa.gz
     fi
