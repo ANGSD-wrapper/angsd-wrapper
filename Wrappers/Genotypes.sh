@@ -68,7 +68,7 @@ then
         -minMapQ "${MIN_MAPQ}" \
         -minQ "${MIN_BASEQUAL}" \
         -GL "${GT_LIKELIHOOD}" \
-	-doGlf "${DO_GLF}" \
+        -doGlf "${DO_GLF}" \
         -doGeno "${DO_GENO}" \
         -doPost "${DO_POST}"\
         -postCutoff "${POST_CUTOFF}" \
@@ -87,7 +87,7 @@ else
         -minMapQ "${MIN_MAPQ}" \
         -minQ "${MIN_BASEQUAL}" \
         -GL "${GT_LIKELIHOOD}" \
-	-doGlf "${DO_GLF}" \
+        -doGlf "${DO_GLF}" \
         -r "${REGIONS}" \
         -doGeno "${DO_GENO}" \
         -doPost "${DO_POST}"\
@@ -99,6 +99,6 @@ else
         -P "${N_CORES}")
 fi
 # Check for advanced arguments, and overwrite any overlapping definitions
-FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+FINAL_ARGS=( $(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}") )
 # echo "Final arguments: ${FINAL_ARGS}" 1<&2
-"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
+"${ANGSD_DIR}"/angsd "${FINAL_ARGS[@]}"
