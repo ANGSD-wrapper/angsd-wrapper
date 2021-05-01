@@ -66,15 +66,14 @@ else
 fi
 
 # Check for advanced arguments, and overwrite any overlapping definitions
-FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+FINAL_ARGS=( $(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}") )
 # echo "Final arguments: ${FINAL_ARGS}" 1<&2
-"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
+"${ANGSD_DIR}"/angsd "${FINAL_ARGS[@]}"
+#
+gunzip "${OUT}/${PROJECT}_PCA.geno.gz" -f
 
-gunzip ${OUT}/${PROJECT}_PCA.geno.gz
-
-${NGS_POPGEN_DIR}/ngsCovar \
-    -probfile ${OUT}/${PROJECT}_PCA.geno \
-    -outfile ${OUT}/${PROJECT}_PCA.graph.me \
+"${NGS_POPGEN_DIR}"/ngsCovar -probfile "${OUT}/${PROJECT}"_PCA.geno \
+    -outfile "${OUT}/${PROJECT}"_PCA.graph.me \
     -nind "${N_IND}" \
     -nsites "${N_SITES}" \
     -norm "${NORM}" \
