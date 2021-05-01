@@ -69,8 +69,22 @@ fi
 FINAL_ARGS=( $(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}") )
 # echo "Final arguments: ${FINAL_ARGS}" 1<&2
 "${ANGSD_DIR}"/angsd "${FINAL_ARGS[@]}"
-#
+
 gunzip "${OUT}/${PROJECT}_PCA.geno.gz" -f
+
+# Get number of valid sites, if undefined limit in config file
+if [ ! -f "${N_SITES}" ]
+then
+    N_SITES="$(( "$(zcat "${OUT}/${PROJECT}".mafs.gz | wc -l)" - 1 ))"
+fi
+
+# ngsPopGen doesn't like overwriting files, so make a backup if data already
+# exists using the time of execution
+if [ -f "${OUT}/${PROJECT}"_PCA.graph.me ]
+then
+    mv "${OUT}/${PROJECT}"_PCA.graph.me \
+    "${OUT}/${PROJECT}_PCA.backup.graph.me.$(date -Iseconds)"
+fi
 
 "${NGS_POPGEN_DIR}"/ngsCovar -probfile "${OUT}/${PROJECT}"_PCA.geno \
     -outfile "${OUT}/${PROJECT}"_PCA.graph.me \
