@@ -86,18 +86,16 @@ else
     fi
 fi
 # Check for advanced arguments, and overwrite any overlapping definitions
-FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+FINAL_ARGS=( "$(source "${SOURCE}"/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")" )
+
 # echo "Final arguments: ${FINAL_ARGS}" 1<&2
-"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS[@]}
 
-N_SITES="`expr $(zcat "${OUT}"/${PROJECT}.mafs.gz | wc -l) - 1`"
+N_SITES="$(( "$(zcat "${OUT}/${PROJECT}".mafs.gz | wc -l)" - 1 ))"
 
-
-echo "${OUT}/${PROJECT}.glf.gz" 1<&2
-# "${NGSF_DIR}"/ngsF \
-zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
+zcat "${OUT}/${PROJECT}.glf.gz" | "${NGSF_DIR}"/ngsF \
     -glf - \
-    -out "${OUT}"/"${PROJECT}".approx_indF \
+    --out "${OUT}"/"${PROJECT}".approx_indF \
     -n_ind "${N_IND}" \
     -n_sites "${N_SITES}" \
     -min_epsilon "${MIN_EPSILON}" \
@@ -108,7 +106,7 @@ zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
 
 zcat "${OUT}"/"${PROJECT}".glf.gz | "${NGSF_DIR}"/ngsF \
     -glf - \
-    -out "${OUT}"/"${PROJECT}".indF \
+    --out "${OUT}"/"${PROJECT}".indF \
     -n_ind "${N_IND}" \
     -n_sites "${N_SITES}" \
     -min_epsilon "${MIN_EPSILON}" \
