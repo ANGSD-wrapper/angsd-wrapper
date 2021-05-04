@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+# set -e
 set -o pipefail
 
 
@@ -347,7 +347,7 @@ LIKELIHOOD=${likelihood}\n \
 K=5\n \
 MIN_MAF=0.05\n \
 TOLERANCE=0.01\n \
-" > "${outname}\n \
+\n \
 \n \
 #   For advanced users who want to change arguments used by ANGSD (i.e. which SAF method is used)\n \
 #       Expected format is the same as how the flags and arguments are written on the command line:\n \
@@ -777,7 +777,10 @@ function writeConfigs() {
     local referenceSequence="${exampleDirectory}/Sequences/Zea_mays.AGPv3.30.dna_sm.chromosome.10.fa" # Where is our reference sequence?
     local -a projectNames=(Maize Mexicana Teosinte) # An array with the three different example datasets
     #   Write the example configuration files
-    for sample in ${projectNames[@]}; do configByProject "${exampleDirectory}" "${sample}" "${configurationDirectory}" "${ancestralSequence}" "${referenceSequence}"; done
+    for sample in ${projectNames[@]};
+    do
+        configByProject "${exampleDirectory}" "${sample}" "${configurationDirectory}" "${ancestralSequence}" "${referenceSequence}"
+    done
     #   Return the path for the configuration files
     echo "${configurationDirectory}"
 }

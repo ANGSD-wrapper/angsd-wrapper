@@ -42,19 +42,19 @@ do
     if [[ $val = -* || $val = '' ]]
     then
         echo "Found a flag '${flag}' with no associated value, discarding." 1>&2
-        let k=k+1
+        (( k++ ))
         continue
     fi
     if [[ $flag != -* ]]
     then
         echo "Found a value '${val}' with no associated flag, discarding flag '${flag}'." 1>&2
-        let k=k+1
+        (( k++ ))
         continue
     fi
 
     FINAL_FLAGS+=("${flag}")
     FINAL_VALS+=("${val}")
-    let k=k+2
+    (( k=k+2 ))
 done
 
 # Proceed through each of the advanced or user-defined arguments
@@ -71,13 +71,13 @@ do
     if [[ $val = -* || $val = '' ]]
     then
         echo "Found a flag '${flag}' with no associated value, discarding." 1>&2
-        let k=k+1
+        (( k++ ))
         continue
     fi
     if [[ $flag != -* ]]
     then
         echo "Found a value '${val}' with no associated flag, discarding flag '${flag}'." 1>&2
-        let k=k+1
+        (( k++ ))
         continue
     fi
 
@@ -103,7 +103,7 @@ do
     fi
 
     # Increment to grab the next flag-argument pair
-    let k=k+2
+    (( k=k+2 ))
 done
 
 # Merge the flags and associated values into the final string

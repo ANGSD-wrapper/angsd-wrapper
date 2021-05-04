@@ -100,12 +100,12 @@ case "${setup_routine}" in
         find "${EXAMPLE_DIR}"/Teosinte -name "*.bam" | sort > Teosinte/Teosinte_Samples.txt
         #   Make sure all inbreeding files are named "*.indF"
 		# for inbreeding in $(find ${EXAMPLE_DIR} -name "*Inbreeding.txt")
-		while IFS= read -r -d '' inbreeding
+	while IFS= read -r -d '' inbreeding
         do
             BASE=$(basename "${inbreeding}" | cut -f 1 -d '.')
             DIR=$(dirname "${inbreeding}")
             mv "${inbreeding}" "${DIR}/${BASE}.indF"
-        done < <(find "${EXAMPLE_DIR}" -name '*' -print0)
+        done < <(find "${EXAMPLE_DIR}" -name '*Inbreeding.txt' -print0)
         #       Index the reference and ancestral sequences
         echo "Indexing reference and ancestral sequences..." >&2
         cd Sequences
