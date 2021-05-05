@@ -45,7 +45,7 @@ then
     else
         ANC_SEQ=$REF_SEQ
         REF_SEQ=
-        BAQ=0
+        BAQ=0  # ANGSD can't calculate BAQ without a supplied reference
         FOLD=1
     fi
 else
@@ -129,15 +129,16 @@ else
     fi
 fi
 # Check for advanced arguments, and overwrite any overlapping definitions
-FINAL_ARGS=($(source "${SOURCE}/Wrappers/Arg_Zipper.sh" "${WRAPPER_ARGS}" "${ADVANCED_ARGS}"))
+# Creates a single argument array from both inputs
+FINAL_ARGS=( "$(bash "${SOURCE}/Wrappers/Arg_Zipper.sh" "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")" )
 # DEBUGGING
 # echo "Wrapper arguments: ${WRAPPER_ARGS}" 1<&2
 # echo -e "Final arguments:" ${FINAL_ARGS} 1<&2
 
-"${ANGSD_DIR}"/angsd "${FINAL_ARGS[@]}"
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS[@]}
 
 "${ANGSD_DIR}"/misc/realSFS \
-    "${OUT}"/"${PROJECT}"_SFSOut.saf.idx \
+    "${OUT}/${PROJECT}"_SFSOut.saf.idx \
     -P "${N_CORES}" \
     -fold "${FOLD}" \
-    > "${OUT}"/"${PROJECT}"_DerivedSFS.graph.me
+    > "${OUT}/${PROJECT}"_DerivedSFS.graph.me
