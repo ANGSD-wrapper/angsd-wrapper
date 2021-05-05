@@ -41,11 +41,6 @@ fi
 #   Do we have a regions file?
 if [[ -f "${REGIONS}" ]]
 then
-    echo "Sorting ${REGIONS} to match the order in ${REF_SEQ}" >&2
-    REF_EXT=$(echo "${REF_SEQ}" | rev | cut -f 1 -d '.' | rev)
-    FAI=$(find "$(dirname "${REF_SEQ}")" -name "$(basename "$REF_SEQ" ".${REF_EXT}")*.fai")
-    Rscript "${SOURCE}"/Wrappers/sortRegions.R "${REGIONS}" "${FAI}"
-    REGIONS="$(find "$(dirname "$REGIONS")" -name '*_sorted.txt')"
         echo "Running Abbababa" >&2
     WRAPPER_ARGS=$(echo -doAbbababa "${DO_ABBABABA}" \
         -rmTrans "${REMOVE_TRANS}" \
@@ -100,9 +95,9 @@ else
         -enhance "${ENHANCE}")
 fi
 # Check for advanced arguments, and overwrite any overlapping definitions
-FINAL_ARGS=$(source "${SOURCE}"/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
-echo "Final arguments: ${FINAL_ARGS}" 1<&2
-"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
+FINAL_ARGS=( $(bash "${SOURCE}"/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}") )
+# echo "Final arguments: ${FINAL_ARGS[@]}" 1<&2
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS[@]}
 
 #   jackKnife.R is provided with angsd.
 echo "Using jackKnife.R to finish Abbababa" >&2

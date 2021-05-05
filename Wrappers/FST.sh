@@ -37,27 +37,16 @@ then
     exit 1
 fi
 
-#   Sort our regions file, if provided
-if [[ -f ${REGIONS} ]]
-then
-    if ! $(command -v Rscript > /dev/null 2> /dev/null); then echo "Please install R and Rscript and place in your PATH" >&2; exit 1; fi
-    echo "Sorting ${REGIONS} to match the order in ${REF_SEQ}" >&2
-    REF_EXT=$(echo "${REF_SEQ}" | rev | cut -f 1 -d '.' | rev)
-    FAI=$(find $(dirname "${REF_SEQ}") -name "$(basename "$REF_SEQ" ".${REF_EXT}")*.fai")
-    Rscript "${SOURCE}"/Wrappers/sortRegions.R "${REGIONS}" "${FAI}"
-    REGIONS="$(find $(dirname ${REGIONS}) -name "*_sorted.txt")"
-fi
-
 #   Now we actually run the command, this creates a binary file that contains the prior SFS
 #       For 1st group
-if [[ -f "${OUT}"/"${GROUP_1}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
+if [[ -f "${OUT}/${GROUP_1}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
 then
     echo "WRAPPER: ${GROUP_1} saf already exists and OVERRIDE=false, skipping angsd -bam..." >&2
 else
     if [[ -f "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_1 sfs starting..." >&2
-	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${G1_SAMPLE_LIST}" \
             -out "${OUT}"/"${GROUP_1}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -78,7 +67,7 @@ else
     elif [[ -z "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_1 sfs starting" >&2
-	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${G1_SAMPLE_LIST}" \
             -out "${OUT}"/"${GROUP_1}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -97,7 +86,7 @@ else
             -doPost "${DO_POST}")
     else
         echo "WRAPPER: $GROUP_1 sfs starting" >&2
-	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${G1_SAMPLE_LIST}" \
             -out "${OUT}"/"${GROUP_1}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -117,13 +106,13 @@ else
     fi
 fi
 # Check for advanced arguments, and overwrite any overlapping definitions
-FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
+FINAL_ARGS=( $(bash "${SOURCE}"/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}") )
 # echo "Final arguments: ${FINAL_ARGS}" 1<&2
-"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS[@]}
 
 
 #   For 2nd group:
-if [[ -f "${OUT}"/"${GROUP_2}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
+if [[ -f "${OUT}/${GROUP_2}_Intergenic.saf" ]] && [ "$OVERRIDE" = "false" ]
 then
     echo "WRAPPER: ${GROUP_2} saf already exists and OVERRIDE=false, skipping angsd -bam..." >&2
 else
@@ -131,7 +120,7 @@ else
     if [[ -f "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
-	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${G2_SAMPLE_LIST}" \
             -out "${OUT}"/"${GROUP_2}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -153,7 +142,7 @@ else
     elif [[ -z "${REGIONS}" ]]
     then
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
-	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${G2_SAMPLE_LIST}" \
             -out "${OUT}"/"${GROUP_2}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -173,7 +162,7 @@ else
     #   Assuming a single reigon was defined in config file
     else
         echo "WRAPPER: $GROUP_2 sfs starting..." >&2
-	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
+	WRAPPER_ARGS=$(echo -bam "${G2_SAMPLE_LIST}" \
             -out "${OUT}"/"${GROUP_2}"_Intergenic \
             -doMajorMinor "${DO_MAJORMINOR}" \
             -doMaf "${DO_MAF}" \
@@ -193,9 +182,9 @@ else
     fi
 fi
 # Check for advanced arguments, and overwrite any overlapping definitions
-FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
-echo "Final arguments: ${FINAL_ARGS}" 1<&2
-"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
+FINAL_ARGS=( $(bash "${SOURCE}"/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}") )
+# echo "Final arguments: ${FINAL_ARGS[@]}" 1<&2
+"${ANGSD_DIR}"/angsd ${FINAL_ARGS[@]}
 
 #   Estimate joint SFS using realSFS
 echo "WRAPPER: realSFS 2dsfs..." >&2
@@ -211,7 +200,7 @@ echo "WRAPPER: realSFS fst prep..." >&2
     -fstout "${OUT}"/"${GROUP_1}"."${GROUP_2}"
 
 #check if user wants global Fst estimate
-if [ "${GLOBAL}"=="true" ]; then
+if [ "${GLOBAL}" == "true" ]; then
     echo "WRAPPER: estimating global fst..." >&2
     "${ANGSD_DIR}"/misc/realSFS \
         fst stats "${OUT}"/"${GROUP_1}"."${GROUP_2}".fst.idx \
