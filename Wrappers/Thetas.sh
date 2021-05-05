@@ -21,13 +21,13 @@ ANGSD_DIR=${SOURCE}/dependencies/angsd
 #   Variables created from transforming other variables
 #       The number of individuals in the taxon we are analyzing
 echo "${SAMPLE_LIST}" 1<&2
-N_IND=$(wc -l < "${SAMPLE_LIST}" | tr -d '[[:space:]]')
+N_IND=$(wc -l < "${SAMPLE_LIST}")
 
 #       How many inbreeding coefficients are supplied?
 N_F=$(wc -l < "${SAMPLE_INBREEDING}")
 #       For ANGSD, the actual sample size is twice the number of individuals, since each individual has two chromosomes.
 #       The individual inbreeding coefficents take care of the mismatch between these two numbers
-N_CHROM=$(expr 2 \* "${N_IND}")
+N_CHROM=$(( 2 * "${N_IND}" ))
 
 #   Perform a check to see if number of individuals matches number of inbreeding coefficients
 if [ "${N_IND}" -ne "${N_F}" ]
@@ -40,102 +40,50 @@ fi
 OUT=${SCRATCH}/${PROJECT}/Thetas
 mkdir -p "${OUT}"
 
-if [[  -f "${OUT}"_Diversity.mafs.gz ]] && [ "${OVERRIDE}" = "false" ]; then
-    echo "WRAPPER: maf already exists and OVERRIDE=false, skipping angsd -bam...";
+# If the user-defined filepaths point to existing files, skip SFS calculations
+if [[ -f "${SFS}" ]] && [[ -f "${SAF}" ]] ;
+then
+    echo "WRAPPER: Using user-selected SFS files."
+
+# If files exist and overriding isn't allowed, skip all calculations
+elif [[ -f "${OUT}"/../SFS/"${PROJECT}"_DerivedSFS.graph.me ]] && [[ -f "${OUT}"/../SFS/"${PROJECT}"_SFSOut.saf.idx ]] && [ "${OVERRIDE}" = "false" ] ;
+then
+    echo "WRAPPER: Required files already exist and override set to false, please assign SAF and SFS filepath values in the theta config file $1 or change the OVERRIDE value."
+
+    exit 1
+
+# If no valid paths are supplied and no conflicts exist, then calculate SFS
 else
     #   Now we actually run the command, this creates a binary file that contains the prior SFS
-    #   Do we have a regions file?
-    if [[ -f "${REGIONS}" ]]
-    then
-	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
-            -out "${OUT}"/"${PROJECT}"_Diversity \
-            -indF "${SAMPLE_INBREEDING}" \
-            -doSaf "${DO_SAF}" \
-            -doThetas 1 \
-            -uniqueOnly "${UNIQUE_ONLY}" \
-            -anc "${ANC_SEQ}" \
-            -minMapQ "${MIN_MAPQ}" \
-            -minQ "${MIN_BASEQUAL}" \
-            -nInd "${N_IND}" \
-            -minInd "${MIN_IND}" \
-            -baq "${BAQ}" \
-            -ref "${REF_SEQ}" \
-            -GL "${GT_LIKELIHOOD}" \
-            -P "${N_CORES}" \
-            -doMajorMinor "${DO_MAJORMINOR}" \
-            -doMaf "${DO_MAF}" \
-            -pest "${PEST}" \
-            -rf "${REGIONS}")
-    #   Are we missing a definiton for regions?
-    elif [[ -z "${REGIONS}" ]]
-    then
-	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
-            -out "${OUT}"/"${PROJECT}"_Diversity \
-            -indF "${SAMPLE_INBREEDING}" \
-            -doSaf "${DO_SAF}" \
-            -doThetas 1 \
-            -uniqueOnly "${UNIQUE_ONLY}" \
-            -anc "${ANC_SEQ}" \
-            -minMapQ "${MIN_MAPQ}" \
-            -minQ "${MIN_BASEQUAL}" \
-            -nInd "${N_IND}" \
-            -minInd "${MIN_IND}" \
-            -baq "${BAQ}" \
-            -ref "${REF_SEQ}" \
-            -GL "${GT_LIKELIHOOD}" \
-            -P "${N_CORES}" \
-            -doMajorMinor "${DO_MAJORMINOR}" \
-            -doMaf "${DO_MAF}" \
-            -pest "${PEST}")
-    #   Assuming a single region was defined in config file
-    else
-	WRAPPER_ARGS=$(echo -bam "${SAMPLE_LIST}" \
-        -out "${OUT}"/"${PROJECT}"_Diversity \
-        -indF "${SAMPLE_INBREEDING}" \
-        -doSaf "${DO_SAF}" \
-        -doThetas 1 \
-        -uniqueOnly "${UNIQUE_ONLY}" \
-        -anc "${ANC_SEQ}" \
-        -minMapQ "${MIN_MAPQ}" \
-        -minQ "${MIN_BASEQUAL}" \
-        -nInd "${N_IND}" \
-        -minInd "${MIN_IND}" \
-        -baq "${BAQ}" \
-        -ref "${REF_SEQ}" \
-        -GL "${GT_LIKELIHOOD}" \
-        -P "${N_CORES}" \
-        -doMajorMinor "${DO_MAJORMINOR}" \
-        -doMaf "${DO_MAF}" \
-        -pest "${PEST}" \
-        -r "${REGIONS}")
-    fi
+    echo "WRAPPER: Generating new SFS files to inform Theta estimates, with overwrite permissions."
+
+    # Generate new SFS calculations
+    bash "${SOURCE}"/Wrappers/Site_Frequency_Spectrum.sh "$1" "${SOURCE}"
+
+    SFS="${OUT}/../SFS/${PROJECT}"_DerivedSFS.graph.me
+    SAF="${OUT}/../SFS/${PROJECT}_SFSOut.saf.idx"
 fi
-# Check for advanced arguments, and overwrite any overlapping definitions
-FINAL_ARGS=$(source ${SOURCE}/Wrappers/Arg_Zipper.sh "${WRAPPER_ARGS}" "${ADVANCED_ARGS}")
-# echo "Final arguments: ${FINAL_ARGS}" 1<&2
-"${ANGSD_DIR}"/angsd ${FINAL_ARGS}
 
-
-# Deprecated within ANGSD
-# "${ANGSD_DIR}"/misc/thetaStat make_bed \
-#     "${OUT}"/"${PROJECT}"_Diversity.thetas.gz
+"${ANGSD_DIR}"/misc/realSFS saf2theta \
+    "${SAF}" \
+    -sfs "${SFS}" \
+    -outname "${OUT}/${PROJECT}"_Diversity
 
 if [ "${SLIDING_WINDOW}" = "false" ]
 then
     "${ANGSD_DIR}"/misc/thetaStat do_stat \
-        "${OUT}"/"${PROJECT}"_Diversity.thetas.idx \
-        -nChr "${N_CHROM}"
+        "${OUT}"/"${PROJECT}"_Diversity.thetas.idx
 else
     "${ANGSD_DIR}"/misc/thetaStat do_stat \
         "${OUT}"/"${PROJECT}"_Diversity.thetas.idx \
-        -nChr "${N_CHROM}" \
         -win "${WIN}" \
         -step "${STEP}"
+#         -outnames "${PROJECT}_Diversity.thetasWindow.gz"
 fi
 
 # Filter pestPG file for invariant sites
 echo "WRAPPER: Creating files for Shiny graphing..." >&2
-Rscript ${SOURCE}/Wrappers/thetas_filtering.R \
-    ${SOURCE} \
-    ${OUT}/${PROJECT}_Diversity.thetas.gz.pestPG \
-    ${OUT}/"${PROJECT}"_Thetas.graph.me
+Rscript "${SOURCE}"/Wrappers/thetas_filtering.R \
+    "${SOURCE}" \
+    "${OUT}"/"${PROJECT}"_Diversity.thetas.idx.pestPG \
+    "${OUT}"/"${PROJECT}"_Thetas.graph.me
